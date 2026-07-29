@@ -36,3 +36,20 @@ def test_handles_fewer_samples_than_dimensions():
     points = project_2d(rng.normal(size=(3, 64)))
     assert len(points) == 3
     assert all(len(point) == 2 for point in points)
+
+
+def test_exactly_zero_variance_input_does_not_crash_or_warn():
+    """Bit-identical embeddings are the real collapse case, not near-collapse.
+
+    One of the four conditions is built to collapse, so this path runs at every
+    checkpoint of a long run. It must neither raise nor emit warnings.
+    """
+    import warnings
+
+    embeddings = np.ones((200, 16))
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        points = np.array(project_2d(embeddings))
+    assert points.shape == (200, 2)
+    assert not np.isnan(points).any()
+    assert points.std() == 0.0

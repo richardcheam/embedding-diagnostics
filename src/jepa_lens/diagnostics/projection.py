@@ -7,6 +7,8 @@ collapses. Kept deliberately small so the JSONL stays git-trackable.
 
 from __future__ import annotations
 
+import warnings
+
 import numpy as np
 from sklearn.decomposition import PCA
 
@@ -36,7 +38,14 @@ def project_2d(
         matrix = matrix[indices]
 
     n_components = min(2, matrix.shape[0], matrix.shape[1])
-    projected = PCA(n_components=n_components).fit_transform(matrix)
+    with warnings.catch_warnings():
+        # Exactly-collapsed embeddings make sklearn divide by a zero variance
+        # while computing explained_variance_ratio_, which this function never
+        # reads. The projection itself is still correct. Suppressed because the
+        # collapsed condition would otherwise emit this at every checkpoint of
+        # a 32k-step run.
+        warnings.simplefilter("ignore", RuntimeWarning)
+        projected = PCA(n_components=n_components).fit_transform(matrix)
     if projected.shape[1] < 2:
         padding = np.zeros((len(projected), 2 - projected.shape[1]))
         projected = np.hstack([projected, padding])

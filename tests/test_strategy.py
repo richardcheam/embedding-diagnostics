@@ -104,7 +104,7 @@ def test_ema_update_moves_target_toward_context():
         target.weight.fill_(0.0)
 
     strategy.post_step_update(context, target)
-    assert 0.0 < float(target.weight.mean()) < 1.0
+    assert 0.0 < float(target.weight.detach().mean()) < 1.0
 
 
 def test_non_ema_strategy_update_is_a_noop():

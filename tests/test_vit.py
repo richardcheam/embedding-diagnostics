@@ -52,3 +52,33 @@ def test_gradients_flow_to_parameters():
     _, pooled = encoder(images)
     pooled.sum().backward()
     assert encoder.patch_embed.weight.grad is not None
+
+
+def test_mask_gathers_each_sample_its_own_patches():
+    """Per-sample masks must select per-sample patches.
+
+    The other mask tests use the SAME kept-index pattern for every row, so an
+    implementation that gathered sample 0's indices for the whole batch would
+    pass them. This uses disjoint, non-contiguous patterns per sample so that
+    bug would surface.
+    """
+    encoder = make_encoder()
+    torch.manual_seed(0)
+    images = torch.randn(2, 3, 32, 32)
+
+    keep_mask = torch.zeros(2, 64, dtype=torch.bool)
+    first_kept = [1, 3, 5]
+    second_kept = [0, 4, 7]
+    keep_mask[0, first_kept] = True
+    keep_mask[1, second_kept] = True
+
+    tokens, _ = encoder(images, keep_mask)
+    assert tokens.shape == (2, 3, 32)
+
+    # Encode each sample alone with its own mask; results must match the row
+    # that sample occupied in the batched call.
+    for row, kept in enumerate((first_kept, second_kept)):
+        single_mask = torch.zeros(1, 64, dtype=torch.bool)
+        single_mask[0, kept] = True
+        single_tokens, _ = encoder(images[row : row + 1], single_mask)
+        assert torch.allclose(tokens[row], single_tokens[0], atol=1e-5)

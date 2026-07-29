@@ -1,0 +1,17 @@
+\section{Related Work}
+
+\paragraph{Joint-embedding predictive architectures.} I-JEPA
+\citep{assran2023ijepa} predicts representations of masked image blocks from a visible
+context block, with an EMA target encoder and stop-gradient on the target branch. V-JEPA 2
+\citep{vjepa2_2025} extends the approach to video and action-conditioned prediction, and
+reports limitations at longer prediction horizons.
+
+\paragraph{Collapse prevention.} BYOL \citep{grill2020byol} showed that a predictor plus an
+EMA target can avoid collapse without negatives. SimSiam \citep{chen2021simsiam} showed
+stop-gradient alone is sufficient in that setting. Both are empirical findings about
+optimization dynamics rather than guarantees.
+
+\paragraph{Distributional regularization.} LeJEPA \citep{lejepa2025} introduces Sketched
+Isotropic Gaussian Regularization, which constrains embeddings toward an isotropic Gaussian
+by matching random one-dimensional projections against a standard normal, and reports that
+this removes the need for the heuristics above.

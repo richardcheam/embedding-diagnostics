@@ -1,0 +1,49 @@
+\section{Method}
+
+\subsection{Conditions}
+
+Four conditions vary only the collapse-prevention mechanism.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{l c c l}
+\toprule
+\textbf{Condition} & \textbf{EMA target} & \textbf{Stop-gradient} & \textbf{Role} \\
+\midrule
+\texttt{ema\_stopgrad} & yes & yes & Classic JEPA baseline \\
+\texttt{sigreg\_stopgrad} & no & yes & Both mechanisms \\
+\texttt{sigreg\_nostopgrad} & no & no & LeJEPA's recipe; the condition under test \\
+\texttt{none\_nostopgrad} & no & no & Sanity control; expected to collapse \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The \texttt{none\_nostopgrad} control removes every collapse-prevention mechanism at once:
+one shared encoder, no detachment, no regularizer. Nothing prevents the constant solution,
+so it must collapse. Its purpose is to demonstrate that the apparatus detects collapse when
+collapse is present. If it fails to collapse, results from the other three conditions
+cannot be trusted and the study is inconclusive.
+
+An earlier version of this design paired an EMA target encoder with no stop-gradient as the
+control. That combination is inert: with the EMA target's parameters held outside autograd,
+the target branch reaches no trainable parameter, so disabling stop-gradient changes nothing
+and the condition silently duplicates \texttt{ema\_stopgrad}. Removing collapse prevention
+requires removing the teacher--student split as well.
+
+\subsection{Shared training loop}
+
+All four conditions execute the same training loop. The only swappable component is a
+strategy object exposing three things: whether a separate EMA target encoder is
+constructed, whether the target branch is detached, and how the total loss is assembled.
+
+This is a correctness requirement rather than a code-organization preference. Had each
+condition carried its own loop, a difference in outcomes could originate in an incidental
+difference between loops rather than in the mechanism under study.
+
+\subsection{Where the regularizer is applied}
+
+SIGReg is applied to the pooled context-encoder embeddings, which always carry gradient.
+Applying it to the target branch would make it a no-op in the stop-gradient conditions,
+since a detached tensor propagates nothing. This choice is ours and is a deviation to note
+when comparing against LeJEPA.

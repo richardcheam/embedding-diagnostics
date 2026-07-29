@@ -1,0 +1,22 @@
+\section{Experimental Setup}
+
+\paragraph{Data.} CIFAR-10. The self-supervised pretraining stream is disjoint from the
+labelled split used by the linear probe. Probe splits are fixed once and reused at every
+checkpoint so accuracy is comparable across steps.
+
+\paragraph{Architecture.} A small ViT encoder (patch size 4, 6 blocks, embedding dimension
+192) and a position-conditioned MLP predictor. Context and target regions are drawn with
+I-JEPA-style multi-block masking on the patch grid.
+
+\paragraph{Budget.} 32{,}000 optimizer steps per condition, one run each, with diagnostics
+recorded every 500 steps. ``Scale'' throughout means training duration in steps; model size
+and dataset size are held fixed so duration is the only varying axis.
+
+\paragraph{Measurement.} At each checkpoint, on a frozen encoder: mean and minimum
+per-dimension feature standard deviation; effective rank of the embedding covariance, in the
+participation-ratio form $(\sum_i \lambda_i)^2 / \sum_i \lambda_i^2$; the pairwise cosine
+similarity distribution; linear-probe accuracy; and a 2D PCA projection retained for the
+interactive report.
+
+Training loss is recorded but is not treated as a collapse signal. Regularized objectives
+plateau at non-zero values whether or not the encoder has collapsed.

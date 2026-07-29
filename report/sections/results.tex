@@ -1,0 +1,43 @@
+\section{Results}
+
+\textbf{This section is a placeholder until runs complete. Figures below are generated
+directly from run logs by \texttt{scripts/make\_figures.py}; they are not hand-placed and
+cannot drift from the runs that produced them.}
+
+\subsection{Sanity control}
+
+Before reading any comparison, \texttt{none\_nostopgrad} must show collapse. If it does not,
+the apparatus cannot detect the phenomenon under study and nothing further should be
+concluded.
+
+\subsection{Part 1: does the gap widen with training duration?}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{probe_accuracy.pdf}
+\caption{Linear-probe accuracy against training duration. \replication{} Whether
+\texttt{sigreg\_nostopgrad} separates from \texttt{sigreg\_stopgrad} as steps increase is
+the replication target; the underlying result was encountered secondhand and is
+unverified.}
+\end{figure}
+
+\subsection{Part 2: do cheap diagnostics lead the probe?}
+
+Measured only if Part 1 shows a gap. Absent a gap, there is no degradation for a diagnostic
+to anticipate.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{departure_comparison.pdf}
+\caption{Step at which each series departs its own early-training baseline. \ours{} A
+consistent lead of the cheap diagnostics over probe accuracy would make them usable as an
+early-warning signal. This is the only potentially new claim in the report and it is
+conditional on Part 1.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{effective_rank.pdf}
+\caption{Embedding effective rank against training duration. \established{} Effective rank
+as a collapse diagnostic is standard practice.}
+\end{figure}

@@ -1,0 +1,21 @@
+\section{Limitations}
+
+\paragraph{Single seed.} One run per condition. An observed gap could be seed noise rather
+than a property of the mechanism. Multi-seed replication is the first thing to add.
+
+\paragraph{Single scale.} One dataset, one model size, one 32{,}000-step budget. A null
+result does not disprove the effect at larger scale; it bounds where we looked. The
+secondhand result being replicated was reported around 20{,}000 steps at an unknown model
+scale, so our budget may sit near or below the threshold where the effect appears.
+
+\paragraph{Unvalidated SIGReg implementation.} \interp{} Written from a summary-level
+understanding of \citet{lejepa2025}, not validated against the reference implementation. A
+negative result could reflect an implementation discrepancy rather than a property of
+SIGReg.
+
+\paragraph{Simplified predictor.} An MLP conditioned on target position, rather than the
+narrow transformer used by \citet{assran2023ijepa}.
+
+\paragraph{Departure detection is crude.} The departure step uses a fixed threshold against
+an early-training baseline. It is applied identically to every series, which is what the
+comparison requires, but it is not a calibrated changepoint test.

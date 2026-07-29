@@ -1,0 +1,20 @@
+\section{Introduction}
+
+Joint-embedding predictive architectures (JEPAs) learn by predicting the representation of
+a masked target region from the representation of a visible context region
+\citep{assran2023ijepa}. Because both sides of the objective are produced by trainable
+networks, a constant encoder satisfies the objective perfectly while carrying no
+information about the input. Preventing this degenerate solution is a design requirement
+rather than an incidental concern.
+
+Published JEPAs prevent collapse through a collection of empirical mechanisms:
+stop-gradient on the target branch, an exponential-moving-average (EMA) target encoder,
+masking design, and normalization choices \citep{grill2020byol,chen2021simsiam}. These work
+in practice but come with no guarantee. LeJEPA \citep{lejepa2025} proposes SIGReg, a
+distributional regularizer intended to replace them.
+
+This report asks a narrow question about that claim. If SIGReg removes the need for
+stop-gradient, the two should remain interchangeable no matter how long training runs. We
+test whether that holds as training duration grows, and, separately, whether the cheap
+diagnostics normally used to detect collapse give any warning before downstream probe
+accuracy degrades.

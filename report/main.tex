@@ -1,0 +1,44 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{caption}
+
+\input{macros}
+
+\graphicspath{{figures/}}
+
+\title{Does Stop-Gradient Still Matter Under SIGReg?\\
+\large A Small-Scale Ablation of JEPA Collapse Prevention}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Joint-embedding predictive architectures avoid representation collapse through a
+collection of heuristics: stop-gradient, exponential-moving-average target encoders, and
+masking design. LeJEPA introduces SIGReg and reports that it removes the need for these
+heuristics. We test, at small scale on CIFAR-10, whether that holds as training duration
+grows, and whether cheap collapse diagnostics detect degradation earlier than a linear
+probe does. \textbf{Results section to be completed once runs finish.}
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/contributions}
+\input{sections/related_work}
+\input{sections/method}
+\input{sections/experiments}
+\input{sections/results}
+\input{sections/limitations}
+\input{sections/conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}

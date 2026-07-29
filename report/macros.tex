@@ -1,0 +1,9 @@
+% Claim labels. Every result-bearing sentence carries one, so a claim cannot
+% travel without its epistemic status attached.
+\usepackage{xcolor}
+
+\newcommand{\claimlabel}[2]{{\small\textsf{\textcolor{#1}{[#2]}}}}
+\newcommand{\established}{\claimlabel{gray}{established}}
+\newcommand{\replication}{\claimlabel{blue}{replication}}
+\newcommand{\ours}{\claimlabel{red}{ours}}
+\newcommand{\interp}{\claimlabel{orange}{interpretation}}

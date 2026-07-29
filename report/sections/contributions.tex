@@ -1,0 +1,35 @@
+\section{Contributions and Provenance}
+
+This project is largely assembly of existing work. The table below states what is
+established, what is being replicated, and what would be new, so that no part of this
+report implies more novelty than it has.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{5.2cm} p{2.6cm} p{6.2cm}}
+\toprule
+\textbf{Component} & \textbf{Status} & \textbf{Source} \\
+\midrule
+JEPA architecture & Established & \citet{assran2023ijepa} \\
+SIGReg loss & Established, not ours & \citet{lejepa2025} \\
+EMA target + stop-gradient & Established & \citet{grill2020byol,chen2021simsiam} \\
+Collapse diagnostics & Established practice & Standard in the SSL literature \\
+Linear-probe protocol & Established practice & Standard SSL evaluation \\
+Four-condition ablation grid & Standard methodology & Conventional design \\
+Scale-dependence of stop-gradient under SIGReg & \textbf{Replication attempt} & Encountered secondhand; primary source not read end-to-end \\
+Cheap diagnostics as early warning & \textbf{Potentially new, conditional} & Only a contribution if the timing gap is observed \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two caveats are load-bearing and are repeated wherever the corresponding results appear.
+
+First, the scale-dependence result this report attempts to replicate \replication{} was
+encountered through a secondhand summary rather than a full reading of its source. It
+should be treated as unverified.
+
+Second, our SIGReg implementation \interp{} was written from a summary-level understanding
+of \citet{lejepa2025} and has not been validated against the reference implementation. Until
+that validation is done, results produced with it are not a faithful reproduction of
+LeJEPA, and any discrepancy found later must be reported here.

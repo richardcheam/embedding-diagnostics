@@ -51,23 +51,23 @@ def sigreg_loss(
     if embeddings.ndim != 2:
         raise ValueError(f"expected (batch, embed_dim), got shape {tuple(embeddings.shape)}")
 
-    batch, embed_dim = embeddings.shape
+    embed_dim = embeddings.shape[1]
     device = embeddings.device
 
     directions = torch.randn(embed_dim, num_slices, generator=generator, device=device)
     directions = directions / directions.norm(dim=0, keepdim=True).clamp_min(1e-12)
 
-    projections = embeddings @ directions
-
-    # Standardize each slice so the test measures distributional shape. Without
-    # this the loss would be dominated by scale, which weight decay already
-    # constrains.
-    mean = projections.mean(dim=0, keepdim=True)
-    std = projections.std(dim=0, keepdim=True).clamp_min(1e-6)
-    standardized = (projections - mean) / std
+    # Center only. Do NOT standardize each slice: the variance of a projection
+    # varies by direction exactly when the distribution is anisotropic, so
+    # rescaling each slice to unit variance destroys the signal isotropy is
+    # defined by. With per-slice standardization this loss measures only
+    # Gaussian *shape*, and a heavily anisotropic batch scores better than an
+    # isotropic one — the opposite of the intent.
+    centered = embeddings - embeddings.mean(dim=0, keepdim=True)
+    projections = centered @ directions
 
     frequencies = torch.linspace(freq_max / num_freqs, freq_max, num_freqs, device=device)
-    angles = standardized.unsqueeze(-1) * frequencies.view(1, 1, -1)
+    angles = projections.unsqueeze(-1) * frequencies.view(1, 1, -1)
 
     empirical_real = torch.cos(angles).mean(dim=0)
     empirical_imag = torch.sin(angles).mean(dim=0)
@@ -80,6 +80,8 @@ def sigreg_loss(
     weights = torch.exp(-0.5 * frequencies**2).view(1, -1)
     weighted = (squared_error * weights).sum(dim=1) / weights.sum()
 
-    # Scaling by batch size follows the Epps-Pulley statistic and keeps the
-    # penalty comparable across batch sizes.
-    return weighted.mean() * batch
+    # No batch-size scaling. The Epps-Pulley test statistic carries a factor of
+    # n for its asymptotic null distribution, but as a training loss that only
+    # makes the magnitude — and therefore the meaning of `sigreg_weight` —
+    # depend on batch size.
+    return weighted.mean()

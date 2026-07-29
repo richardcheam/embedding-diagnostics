@@ -44,3 +44,18 @@ def test_deterministic_under_same_generator_seed():
     first = sigreg_loss(embeddings, generator=torch.Generator().manual_seed(3))
     second = sigreg_loss(embeddings, generator=torch.Generator().manual_seed(3))
     assert torch.allclose(first, second)
+
+
+def test_wrong_scale_is_penalized():
+    """The target is the STANDARD isotropic Gaussian, so scale must matter.
+
+    An earlier version standardized each projection before comparison, which
+    made the loss blind to scale and to anisotropy — the property it exists to
+    enforce. This pins that the blindness is gone.
+    """
+    torch.manual_seed(0)
+    unit = torch.randn(512, 16)
+    inflated = unit * 3.0
+    shrunk = unit * 0.2
+    assert sigreg_loss(unit).item() < sigreg_loss(inflated).item()
+    assert sigreg_loss(unit).item() < sigreg_loss(shrunk).item()

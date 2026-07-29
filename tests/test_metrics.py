@@ -8,6 +8,7 @@ def test_constant_embeddings_have_effective_rank_near_one():
     embeddings = np.ones((128, 16), dtype=np.float64)
     metrics = collapse_metrics(embeddings)
     assert metrics["mean_feature_std"] < 1e-8
+    assert metrics["effective_rank"] >= 1.0
     assert metrics["effective_rank"] < 1.5
 
 
@@ -22,6 +23,12 @@ def test_effective_rank_of_single_dominant_direction_is_near_one():
     """One eigenvalue dominating means effective rank near 1."""
     eigenvalues = np.array([100.0, 0.01, 0.01, 0.01])
     assert effective_rank(eigenvalues) < 1.1
+
+
+def test_effective_rank_of_all_zero_spectrum_is_one():
+    """All-zero spectrum represents maximal collapse; should be at floor of [1, n]."""
+    eigenvalues = np.array([0.0, 0.0, 0.0, 0.0])
+    assert effective_rank(eigenvalues) == 1.0
 
 
 def test_effective_rank_of_equal_eigenvalues_equals_count():

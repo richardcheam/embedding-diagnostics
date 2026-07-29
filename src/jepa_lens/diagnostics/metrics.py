@@ -25,7 +25,12 @@ def effective_rank(eigenvalues: np.ndarray) -> float:
     total = values.sum()
     squared_total = np.square(values).sum()
     if squared_total <= 0.0:
-        return 0.0
+        # A spectrum with no variance at all is maximal collapse. The ratio is
+        # 0/0 here, so take the limit of the dominant-direction case rather
+        # than returning 0.0 — otherwise the metric jumps discontinuously
+        # below its own documented floor exactly when a run collapses hardest,
+        # which is the case this study most needs to plot correctly.
+        return 1.0
     return float(total**2 / squared_total)
 
 

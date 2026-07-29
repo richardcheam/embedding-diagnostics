@@ -145,12 +145,20 @@ class SIGRegStrategy(CollapsePreventionStrategy):
             num_freqs=self.num_freqs,
             freq_max=self.freq_max,
         )
-        total = prediction_term + self.weight * regularizer
+        weighted = self.weight * regularizer
+        total = prediction_term + weighted
+        # Two keys on purpose. `sigreg` is the raw isotropy penalty — a
+        # diagnostic worth reading on its own, independent of how hard it is
+        # being weighted. `sigreg_weighted` is its actual contribution to
+        # `total`, so that prediction + sigreg_weighted == total holds for any
+        # weight. Reporting only the raw value would misattribute the loss
+        # whenever sigreg_weight != 1.
         return LossOutput(
             total=total,
             components={
                 "prediction": float(prediction_term.detach()),
                 "sigreg": float(regularizer.detach()),
+                "sigreg_weighted": float(weighted.detach()),
             },
         )
 

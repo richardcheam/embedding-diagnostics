@@ -64,6 +64,25 @@ def test_ema_conditions_have_no_regularizer_component():
     assert "sigreg" not in output.components
 
 
+def test_sigreg_components_reconcile_with_total_at_non_unit_weight():
+    """Components must break down the total they claim to describe.
+
+    Weights of 0.0 and 1.0 hide weighting bugs because weighted and unweighted
+    values coincide there, so this uses 3.0 deliberately.
+    """
+    config = make_config("sigreg_stopgrad")
+    config["sigreg_weight"] = 3.0
+    strategy = build_strategy(config)
+    output = strategy.compute_loss(
+        torch.randn(32, 5, 16), torch.randn(32, 5, 16), torch.randn(32, 16)
+    )
+    reconstructed = output.components["prediction"] + output.components["sigreg_weighted"]
+    assert abs(reconstructed - float(output.total)) < 1e-5
+    # The raw penalty is retained as its own diagnostic and differs from the
+    # weighted contribution at this weight.
+    assert output.components["sigreg"] != output.components["sigreg_weighted"]
+
+
 def test_sigreg_gradient_reaches_context_embedding():
     """SIGReg must regularize a branch that carries gradient, or it is a no-op."""
     strategy = build_strategy(make_config("sigreg_stopgrad"))

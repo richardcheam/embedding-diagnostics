@@ -1,0 +1,5 @@
+strategy:
+  name: ema_stopgrad
+  uses_ema_target: true
+  detaches_target: true
+  sigreg_weight: 0.0

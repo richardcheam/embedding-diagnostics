@@ -7,6 +7,7 @@ chance of the demo drifting from the tool.
 
 from __future__ import annotations
 
+import html
 import json
 
 from .runs import CONDITION_COLORS
@@ -238,10 +239,28 @@ redraw();
 """
 
 
+def _embed_json(value: object) -> str:
+    """Serialize for interpolation inside a <script> block.
+
+    `json.dumps` does not escape `</script>`, `<!--`, or the JS-invalid line
+    separators U+2028/U+2029. A run tag or condition name containing any of
+    them would close the script tag early and silently break the page, so
+    escape the characters that can start such a sequence.
+    """
+    return (
+        json.dumps(value)
+        .replace("<", "\\u003c")
+        .replace(">", "\\u003e")
+        .replace(" ", "\\u2028")
+        .replace(" ", "\\u2029")
+    )
+
+
 def build_html(runs: dict[str, list[dict]], title: str = "jepa-lens") -> str:
     """Render the self-contained interactive page with run data embedded."""
+    safe_title = html.escape(title, quote=True)
     return (
-        TEMPLATE.replace("__TITLE__", title)
-        .replace("__RUNS__", json.dumps(runs))
-        .replace("__COLORS__", json.dumps(CONDITION_COLORS))
+        TEMPLATE.replace("__TITLE__", safe_title)
+        .replace("__RUNS__", _embed_json(runs))
+        .replace("__COLORS__", _embed_json(CONDITION_COLORS))
     )

@@ -36,3 +36,20 @@ def test_claim_labels_are_rendered():
 def test_handles_empty_runs():
     html = build_html({}, title="empty")
     assert "<!doctype html>" in html
+
+
+def test_embedded_data_cannot_close_the_script_tag():
+    """A condition name containing </script> must not break the page.
+
+    json.dumps does not escape it, so interpolating raw output into a
+    <script> block would end the script early and silently corrupt the report.
+    """
+    hostile = {"</script><b>x</b>": [{"step": 0, "probe_accuracy": 0.1}]}
+    page = build_html(hostile, title="t")
+    assert "</script><b>" not in page
+    assert page.count("</script>") == 1
+
+
+def test_title_is_html_escaped():
+    page = build_html({}, title="<img src=x onerror=alert(1)>")
+    assert "<img src=x" not in page

@@ -4,9 +4,9 @@
 labelled split used by the linear probe. Probe splits are fixed once and reused at every
 checkpoint so accuracy is comparable across steps.
 
-\paragraph{Architecture.} A small ViT encoder (patch size 4, 6 blocks, embedding dimension
-192) and a position-conditioned MLP predictor. Context and target regions are drawn with
-I-JEPA-style multi-block masking on the patch grid.
+\paragraph{Architecture.} A small ViT encoder \citep{dosovitskiy2021vit} (patch size 4, 6
+blocks, embedding dimension 192) and a position-conditioned MLP predictor. Context and
+target regions are drawn with I-JEPA-style multi-block masking on the patch grid.
 
 \paragraph{Budget.} 32{,}000 optimizer steps per condition, one run each, with diagnostics
 recorded every 500 steps. ``Scale'' throughout means training duration in steps; model size

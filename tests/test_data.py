@@ -71,3 +71,29 @@ def test_deterministic_under_same_seed():
     second_context, second_targets = draw()
     assert torch.equal(first_context, second_context)
     assert torch.equal(first_targets, second_targets)
+
+
+def test_truncation_does_not_bias_toward_low_patch_indices():
+    """Trimming to the batch minimum must drop a random subset, not a prefix.
+
+    `nonzero` returns ascending indices, so a naive `[:min_context]` keeps the
+    lowest-indexed patches every call — the top-left corner would be context
+    almost always and the bottom-right almost never. Both corners are
+    geometrically symmetric under uniformly placed blocks, so their retention
+    rates should be comparable.
+    """
+    generator = torch.Generator().manual_seed(11)
+    num_patches = 64
+    first_corner = 0
+    last_corner = num_patches - 1
+    first_count = 0
+    last_count = 0
+
+    for _ in range(200):
+        context, _ = sample_block_masks(8, 8, 4, (0.15, 0.2), (0.75, 1.5), generator)
+        first_count += int(context[:, first_corner].sum())
+        last_count += int(context[:, last_corner].sum())
+
+    assert first_count > 0 and last_count > 0
+    ratio = max(first_count, last_count) / min(first_count, last_count)
+    assert ratio < 2.0, f"corner retention badly skewed: {first_count} vs {last_count}"

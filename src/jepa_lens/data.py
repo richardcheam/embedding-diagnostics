@@ -82,12 +82,24 @@ def sample_block_masks(
     min_context = int(context_stack.sum(dim=1).min())
     min_targets = int(min(len(indices) for indices in target_lists))
 
+    # Truncation must drop a RANDOM subset, not a prefix. `nonzero` returns
+    # ascending flat indices, so slicing `[:min_context]` would keep the
+    # lowest-indexed patches every single call — measured at 88% retention for
+    # the top-left corner versus 2.8% for the bottom-right. That is a fixed
+    # spatial bias in what counts as context, which would confound every
+    # comparison this study makes.
     trimmed_context = torch.zeros_like(context_stack)
     for row in range(batch_size):
-        kept = context_stack[row].nonzero(as_tuple=True)[0][:min_context]
-        trimmed_context[row, kept] = True
+        candidates = context_stack[row].nonzero(as_tuple=True)[0]
+        order = torch.randperm(len(candidates), generator=generator)
+        trimmed_context[row, candidates[order][:min_context]] = True
 
-    trimmed_targets = torch.stack([indices[:min_targets] for indices in target_lists])
+    trimmed_targets = torch.stack(
+        [
+            indices[torch.randperm(len(indices), generator=generator)][:min_targets]
+            for indices in target_lists
+        ]
+    )
     return trimmed_context, trimmed_targets
 
 

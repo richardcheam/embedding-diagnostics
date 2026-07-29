@@ -114,7 +114,7 @@ def test_non_ema_strategy_update_is_a_noop():
     with torch.no_grad():
         target.weight.fill_(0.0)
     strategy.post_step_update(context, target)
-    assert float(target.weight.abs().sum()) == 0.0
+    assert float(target.weight.detach().abs().sum()) == 0.0
 
 
 def test_unknown_strategy_name_raises():

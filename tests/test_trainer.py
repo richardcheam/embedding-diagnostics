@@ -127,3 +127,24 @@ def test_evaluate_returns_all_diagnostic_keys():
     for key in ["effective_rank", "mean_feature_std", "probe_accuracy", "projection"]:
         assert key in record
     assert len(record["projection"]) == 10
+
+
+def test_logged_lr_matches_the_rate_actually_applied():
+    """The logged rate must be the one this step used, not the next step's.
+
+    `_learning_rate()` reads `self.step`, so recomputing it after the
+    increment silently reports a rate one schedule step ahead of the loss it
+    is logged beside. Compared against an independently computed expected
+    rate per step (rather than the previous step's logged value) because
+    with this config's `warmup_steps=2`, the last warmup step and the first
+    cosine step happen to land on the same rate (0.001) by construction of
+    a continuous schedule, so a consecutive-steps-differ assumption is not
+    reliably true here.
+    """
+    trainer = Trainer(tiny_config("ema_stopgrad"))
+    for _ in range(4):
+        expected_rate = trainer._learning_rate()
+        metrics = trainer.train_step(torch.randn(4, 3, 32, 32))
+        applied_during = trainer.optimizer.param_groups[0]["lr"]
+        assert metrics["lr"] == pytest.approx(expected_rate)
+        assert applied_during == pytest.approx(expected_rate)

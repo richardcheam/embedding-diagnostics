@@ -129,8 +129,12 @@ class Trainer:
         self.context_encoder.train()
         self.predictor.train()
 
+        # Capture once. `_learning_rate()` reads `self.step`, which is
+        # incremented below, so recomputing it after the step would report the
+        # NEXT step's rate alongside this step's loss.
+        learning_rate = self._learning_rate()
         for group in self.optimizer.param_groups:
-            group["lr"] = self._learning_rate()
+            group["lr"] = learning_rate
 
         self.optimizer.zero_grad(set_to_none=True)
         output = self.forward_pass(images)
@@ -141,7 +145,7 @@ class Trainer:
 
         metrics = dict(output.loss_output.components)
         metrics["total"] = float(output.loss_output.total.detach())
-        metrics["lr"] = self._learning_rate()
+        metrics["lr"] = learning_rate
         return metrics
 
     @torch.no_grad()

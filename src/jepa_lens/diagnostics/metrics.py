@@ -49,7 +49,11 @@ def collapse_metrics(embeddings: np.ndarray) -> dict[str, float]:
     if matrix.ndim != 2:
         raise ValueError(f"expected (samples, dimensions), got shape {matrix.shape}")
 
-    feature_std = matrix.std(axis=0)
+    # ddof=1 to match the sample covariance below. Mixing population std with
+    # sample covariance would report the spread of the same embeddings under two
+    # different conventions, which is confusing when the two are read side by
+    # side on the same plot.
+    feature_std = matrix.std(axis=0, ddof=1) if len(matrix) > 1 else np.zeros(matrix.shape[1])
     centered = matrix - matrix.mean(axis=0, keepdims=True)
     covariance = centered.T @ centered / max(len(matrix) - 1, 1)
     eigenvalues = np.linalg.eigvalsh(covariance)

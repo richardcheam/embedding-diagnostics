@@ -54,3 +54,23 @@ def test_all_expected_keys_present():
     }
     assert set(metrics) == expected
     assert all(isinstance(value, float) for value in metrics.values())
+
+
+def test_feature_std_uses_the_same_ddof_as_the_covariance():
+    """Both spread measures must follow one convention.
+
+    They are read side by side on the same plot, so reporting one as a
+    population statistic and the other as a sample statistic invites
+    misreading. The covariance uses n-1, so the per-feature std must too.
+    """
+    rng = np.random.default_rng(0)
+    embeddings = rng.normal(size=(9, 3))
+    metrics = collapse_metrics(embeddings)
+    expected = float(embeddings.std(axis=0, ddof=1).mean())
+    assert abs(metrics["mean_feature_std"] - expected) < 1e-12
+
+
+def test_single_sample_does_not_produce_nan():
+    """One sample has no sample-variance; it must not leak NaN into the log."""
+    metrics = collapse_metrics(np.ones((1, 4)))
+    assert all(v == v for v in metrics.values())

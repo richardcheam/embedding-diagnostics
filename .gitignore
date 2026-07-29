@@ -17,3 +17,5 @@ report/*.synctex.gz
 viz/dist/
 .DS_Store
 .superpowers/
+report/main.pdf
+experiments/smoke/

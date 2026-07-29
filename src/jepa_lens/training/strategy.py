@@ -125,12 +125,21 @@ class SIGRegStrategy(CollapsePreventionStrategy):
         num_slices: int,
         num_freqs: int,
         freq_max: float,
+        seed: int = 0,
     ) -> None:
         super().__init__(uses_ema_target, detaches_target)
         self.weight = weight
         self.num_slices = num_slices
         self.num_freqs = num_freqs
         self.freq_max = freq_max
+        # A dedicated generator, NOT the global RNG. Drawing slice directions
+        # from the global RNG would consume it once per step in the SIGReg
+        # conditions only, and the DataLoader reseeds its shuffle and worker
+        # augmentation from that same global RNG each epoch — so the SIGReg and
+        # non-SIGReg conditions would diverge in data order and augmentation.
+        # That is a plumbing-induced difference between conditions, which is
+        # precisely what the shared-loop design exists to rule out.
+        self.generator = torch.Generator().manual_seed(seed)
 
     def compute_loss(
         self,
@@ -144,6 +153,7 @@ class SIGRegStrategy(CollapsePreventionStrategy):
             num_slices=self.num_slices,
             num_freqs=self.num_freqs,
             freq_max=self.freq_max,
+            generator=self.generator,
         )
         weighted = self.weight * regularizer
         total = prediction_term + weighted
@@ -176,8 +186,17 @@ class NoPreventionStrategy(CollapsePreventionStrategy):
         return LossOutput(total=loss, components={"prediction": float(loss.detach())})
 
 
-def build_strategy(strategy_config: dict[str, Any]) -> CollapsePreventionStrategy:
-    """Construct the strategy named by `strategy_config['name']`."""
+def build_strategy(
+    strategy_config: dict[str, Any],
+    seed: int = 0,
+) -> CollapsePreventionStrategy:
+    """Construct the strategy named by `strategy_config['name']`.
+
+    `seed` is the run seed, threaded in so SIGReg's slice-direction generator
+    tracks the run rather than being pinned to a constant. It is passed
+    separately because `strategy_config` is only the `strategy:` block and does
+    not carry the top-level seed.
+    """
     name = strategy_config["name"]
     uses_ema = bool(strategy_config["uses_ema_target"])
     detaches = bool(strategy_config["detaches_target"])
@@ -194,5 +213,6 @@ def build_strategy(strategy_config: dict[str, Any]) -> CollapsePreventionStrateg
             num_slices=int(strategy_config["sigreg_num_slices"]),
             num_freqs=int(strategy_config["sigreg_num_freqs"]),
             freq_max=float(strategy_config["sigreg_freq_max"]),
+            seed=seed,
         )
     raise ValueError(f"unknown strategy {name!r}")

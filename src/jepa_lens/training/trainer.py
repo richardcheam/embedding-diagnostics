@@ -54,7 +54,7 @@ class Trainer:
             mlp_ratio=model_config["mlp_ratio"],
         ).to(self.device)
 
-        self.strategy = build_strategy(config["strategy"])
+        self.strategy = build_strategy(config["strategy"], seed=config["seed"])
 
         if self.strategy.uses_ema_target:
             # A separate encoder updated only by EMA, never by the optimizer.

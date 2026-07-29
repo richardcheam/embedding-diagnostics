@@ -128,6 +128,12 @@ def build_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tuple]
     ssl_dataset = datasets.CIFAR10(
         root=data_config["root"], train=True, download=True, transform=ssl_transform
     )
+    # Explicit generator, not the global RNG. Without one, RandomSampler draws a
+    # fresh shuffle seed — and the worker augmentation base_seed — from the
+    # global RNG at every epoch. Any condition whose loss also consumes the
+    # global RNG would then get a different data order and different
+    # augmentations, making data order a confound between conditions.
+    loader_generator = torch.Generator().manual_seed(config["seed"])
     ssl_loader = DataLoader(
         ssl_dataset,
         batch_size=data_config["batch_size"],
@@ -135,6 +141,7 @@ def build_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tuple]
         num_workers=data_config["num_workers"],
         drop_last=True,
         persistent_workers=data_config["num_workers"] > 0,
+        generator=loader_generator,
     )
 
     probe_train_set = datasets.CIFAR10(

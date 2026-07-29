@@ -120,3 +120,47 @@ def test_non_ema_strategy_update_is_a_noop():
 def test_unknown_strategy_name_raises():
     with pytest.raises(ValueError, match="unknown strategy"):
         build_strategy({"name": "nonsense", "uses_ema_target": False, "detaches_target": True})
+
+
+def test_sigreg_does_not_consume_the_global_rng():
+    """Slice directions must come from a dedicated generator.
+
+    Consuming the global RNG here would advance it once per step in the SIGReg
+    conditions only. The DataLoader reseeds its shuffle and worker augmentation
+    from the global RNG each epoch, so data order would diverge between
+    conditions -- a plumbing difference masquerading as a mechanism difference.
+
+    Inputs are built BEFORE seeding so only `compute_loss` runs between the
+    seed and the probe draw; otherwise the test's own tensor construction would
+    consume the global RNG and mask the effect.
+    """
+    strategy = build_strategy(make_config("sigreg_stopgrad"))
+    prediction = torch.randn(8, 5, 16)
+    target = torch.randn(8, 5, 16)
+    context = torch.randn(8, 16)
+
+    torch.manual_seed(1234)
+    baseline = torch.randn(3).tolist()
+
+    torch.manual_seed(1234)
+    strategy.compute_loss(prediction, target, context)
+    after_loss = torch.randn(3).tolist()
+
+    assert baseline == after_loss
+
+
+def test_sigreg_slice_directions_advance_between_calls():
+    """Successive steps must not reuse identical slice directions.
+
+    The dedicated generator is stateful, so reusing it across calls advances
+    it. If it did not, every training step would probe the embedding
+    distribution along the same fixed directions.
+    """
+    strategy = build_strategy(make_config("sigreg_stopgrad"))
+    prediction = torch.randn(8, 5, 16)
+    target = torch.randn(8, 5, 16)
+    context = torch.randn(8, 16)
+
+    first = strategy.compute_loss(prediction, target, context).components["sigreg"]
+    second = strategy.compute_loss(prediction, target, context).components["sigreg"]
+    assert first != second

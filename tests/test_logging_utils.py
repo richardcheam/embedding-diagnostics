@@ -41,3 +41,31 @@ def test_write_config_snapshot(tmp_path):
 
     saved = json.loads((tmp_path / "config.json").read_text())
     assert saved["strategy"]["name"] == "ema_stopgrad"
+
+
+def test_refuses_to_append_to_an_existing_run(tmp_path):
+    """Two runs merged into one file would silently corrupt the figures.
+
+    The figure builders sort records by step and do not deduplicate, so a
+    re-run into the same directory would plot two runs as one.
+    """
+    import pytest
+
+    first = RunLogger(tmp_path)
+    first.log({"step": 0})
+    first.close()
+
+    with pytest.raises(FileExistsError, match="already contains records"):
+        RunLogger(tmp_path)
+
+
+def test_resume_flag_allows_intentional_append(tmp_path):
+    first = RunLogger(tmp_path)
+    first.log({"step": 0})
+    first.close()
+
+    second = RunLogger(tmp_path, resume=True)
+    second.log({"step": 1})
+    second.close()
+
+    assert len(read_jsonl(tmp_path / "metrics.jsonl")) == 2

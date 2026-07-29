@@ -15,10 +15,18 @@ from typing import Any
 class RunLogger:
     """Write one JSON object per line to `<run_dir>/metrics.jsonl`."""
 
-    def __init__(self, run_dir: Path) -> None:
+    def __init__(self, run_dir: Path, resume: bool = False) -> None:
         self.run_dir = Path(run_dir)
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.metrics_path = self.run_dir / "metrics.jsonl"
+        if not resume and self.metrics_path.exists() and self.metrics_path.stat().st_size > 0:
+            raise FileExistsError(
+                f"{self.metrics_path} already contains records. Appending a second run "
+                "here would interleave two runs into one file, and the figure builders "
+                "sort by step without deduplicating — the plot would silently mix them. "
+                "Delete the run directory, choose a different --tag, or pass resume=True "
+                "if you genuinely intend to continue this run."
+            )
         self._handle = self.metrics_path.open("a", encoding="utf-8")
 
     def log(self, record: dict[str, Any]) -> None:

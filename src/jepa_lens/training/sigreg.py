@@ -54,7 +54,15 @@ def sigreg_loss(
     embed_dim = embeddings.shape[1]
     device = embeddings.device
 
-    directions = torch.randn(embed_dim, num_slices, generator=generator, device=device)
+    # Draw on the generator's own device, then move. torch.randn rejects a
+    # generator whose device differs from the target ("Expected a 'cuda' device
+    # type for generator but found 'cpu'"), and the strategy holds a CPU
+    # generator so that slice directions stay reproducible across machines —
+    # this project is developed on CPU and trained on GPU, and a run should not
+    # depend on which one produced it.
+    draw_device = generator.device if generator is not None else device
+    directions = torch.randn(embed_dim, num_slices, generator=generator, device=draw_device)
+    directions = directions.to(device=device, dtype=embeddings.dtype)
     directions = directions / directions.norm(dim=0, keepdim=True).clamp_min(1e-12)
 
     # Center only. Do NOT standardize each slice: the variance of a projection

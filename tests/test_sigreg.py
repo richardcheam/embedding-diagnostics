@@ -1,3 +1,4 @@
+import pytest
 import torch
 
 from jepa_lens.training.sigreg import sigreg_loss
@@ -59,3 +60,26 @@ def test_wrong_scale_is_penalized():
     shrunk = unit * 0.2
     assert sigreg_loss(unit).item() < sigreg_loss(inflated).item()
     assert sigreg_loss(unit).item() < sigreg_loss(shrunk).item()
+
+
+@pytest.mark.skipif(
+    not torch.backends.mps.is_available() and not torch.cuda.is_available(),
+    reason="needs a non-CPU device to exercise the cross-device path",
+)
+def test_cpu_generator_works_with_accelerator_embeddings():
+    """A CPU generator must not break training on GPU.
+
+    `torch.randn` rejects a generator whose device differs from the target
+    device. The strategy deliberately holds a CPU generator so slice directions
+    stay reproducible across machines, so the draw has to happen on the
+    generator's device and then move. Without that, every SIGReg condition
+    would crash on the first step of a GPU run while passing every CPU test.
+    """
+    device = "mps" if torch.backends.mps.is_available() else "cuda"
+    embeddings = torch.randn(64, 16, device=device)
+    generator = torch.Generator().manual_seed(0)
+
+    loss = sigreg_loss(embeddings, num_slices=8, num_freqs=4, generator=generator)
+
+    assert loss.device.type == torch.device(device).type
+    assert torch.isfinite(loss)

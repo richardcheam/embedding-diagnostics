@@ -18,6 +18,7 @@ transcription of it. All were caught by review or by a failing test, not by insp
 | `training/strategy.py` | `components["sigreg"]` reported the raw penalty while `total` used the weighted one | Logged loss components did not reconcile with the total they claimed to break down, at any weight other than 1 |
 | `training/trainer.py` | Logged learning rate was computed after the step increment | Every `lr` value in every run log was one schedule step ahead of the loss beside it |
 | `training/strategy.py` + `data.py` | `sigreg_loss` drew slice directions from the *global* torch RNG, and the DataLoader reseeded its shuffle and worker augmentation from that same global RNG each epoch | After epoch 1, SIGReg and non-SIGReg conditions saw different data orderings and augmentations — a plumbing-induced difference between conditions, exactly what the shared training loop exists to rule out |
+| `training/sigreg.py` | The fix above gave the strategy a CPU generator, but `torch.randn` rejects a generator whose device differs from the target — so a CPU generator plus CUDA embeddings raised at the first step | Introduced by the previous row's fix and invisible to the entire CPU test suite. Both SIGReg conditions would have crashed on the first GPU run |
 
 Two notes on the SIGReg one, which was the most serious:
 

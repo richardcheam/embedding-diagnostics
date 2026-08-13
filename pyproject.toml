@@ -16,6 +16,21 @@ dependencies = [
 [dependency-groups]
 dev = ["pytest>=8.0", "ruff>=0.6"]
 
+# Linux training machines pull torch from PyTorch's CUDA 12.8 index rather than
+# PyPI. The default PyPI wheel tracks the newest CUDA major version, which a
+# 12.x driver cannot run at all — CUDA is only minor-version compatible, so a
+# cu130 build fails outright on a 12.8 driver regardless of the GPU. The marker
+# keeps macOS on ordinary PyPI wheels, since no cu128 build exists for it.
+# If you move to a machine with a CUDA 13 driver, change 'cu128' below.
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux'" }]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

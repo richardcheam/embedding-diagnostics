@@ -13,6 +13,7 @@ import torch
 
 from jepa_lens.config import load_config
 from jepa_lens.data import build_dataloaders
+from jepa_lens.hardware import require_device
 from jepa_lens.logging_utils import RunLogger
 from jepa_lens.training.trainer import Trainer, count_parameters
 
@@ -31,6 +32,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    # Before the CIFAR-10 download and model construction: a mismatched CUDA
+    # build otherwise surfaces minutes in, as a message about driver versions.
+    require_device(args.device)
     config = load_config(args.condition, ROOT / "configs")
     if args.total_steps is not None:
         config["optim"]["total_steps"] = args.total_steps

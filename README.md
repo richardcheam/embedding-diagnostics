@@ -22,6 +22,35 @@ uv run pytest          # CPU-only, seconds
 uv run ruff check .
 ```
 
+## GPU machines
+
+Check the environment before training. It exits non-zero and explains itself if the
+requested device cannot actually be used:
+
+```bash
+uv run python scripts/check_environment.py --device cuda
+```
+
+`train.py` runs the same check at startup, so a mismatched build costs seconds instead
+of surfacing partway through a run.
+
+Torch is pinned to PyTorch's CUDA 12.8 index on Linux (see `[tool.uv.sources]` in
+`pyproject.toml`); macOS stays on ordinary PyPI wheels. The default PyPI wheel tracks
+the newest CUDA major version, and CUDA is only minor-version compatible — a `cu130`
+build cannot run on a 12.x driver at all, whatever the GPU. If your driver supports
+CUDA 13, change `cu128` there.
+
+Do not fix a broken environment with `uv pip install`. `uv run` re-syncs the venv to
+`uv.lock` on every invocation and will undo it, potentially leaving a mix of CUDA
+versions whose symptom is an `undefined symbol` ImportError from `libtorch_cuda.so`.
+Change the pin in `pyproject.toml` and re-lock instead. To recover from a mixed venv:
+
+```bash
+rm -rf .venv && uv sync
+```
+
+The model is small — around 5M parameters on 32x32 inputs — so one GPU is plenty.
+
 ## Running
 
 ```bash

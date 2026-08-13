@@ -172,3 +172,48 @@ between the two SIGReg conditions was 0.008 -- only about four times this floor.
 
 This is an n=2 observation on CPU and needs proper quantification (repeat counts, and
 whether GPU kernels are better or worse). It is not currently controlled for anywhere.
+
+## Part 2's hypothesis is not supported on the 32k baseline (2026-08-14)
+
+The first full-length run, `ema_stopgrad` at 32{,}000 steps, is the first condition that
+both learns and then degrades, so it is the first data on which Part 2 can be asked at all.
+(The SIGReg conditions never learned, so their flat probes had nothing to lag behind.)
+
+Unscaled probe accuracy climbs 0.369 -> 0.603, peaking at **step 11,000**, then declines to
+0.582. Mean pairwise cosine falls to a minimum of 0.294 at **step 13,500**, then rises to
+0.530 -- the healthy baseline partially re-collapses in its second half.
+
+**The probe turns 2,500 steps BEFORE the cheap diagnostic.** That is the opposite of the
+hypothesis, which was that cheap diagnostics would give earlier warning.
+
+What the diagnostic does give is a much *louder* signal: cosine moves 0.236 from its
+trough, against a probe decline of 0.021 (four times the 0.005 noise floor). So the cheap
+metric is a clearer indicator of how bad things have become, but a later one.
+
+Caveats, and they are substantial: one condition, one seed, 500-step checkpoint resolution,
+so 2,500 steps is five checkpoints. The probe decline is real but small. This is suggestive,
+not settled, and multi-seed runs are what would settle it.
+
+### Two detector defects found along the way
+
+**`first_departure_step` assumes a flat baseline.** It takes the first quarter of the series
+as the reference window. On a 32k run that window is the rapid-learning phase, where the
+unscaled probe sweeps 0.369 to 0.582, giving a baseline std of 0.065 and a tolerance band of
+0.396 to 0.654. The final value 0.582 sits inside the band, so the function reports no
+departure at all despite a clear peak-and-decline. It is fine for series that start flat; it
+is useless for series that learn first.
+
+**A "decline from running best" detector needs a fixed good direction, and these metrics do
+not have one.** Total variance falls monotonically from 87.2 to 12.6 across the entire run,
+*including the phase where the probe is climbing*. Falling variance there is healthy
+concentration, not degradation. A decline detector duly reported a "turn" at step 1,500,
+which means nothing. Whether falling variance is good or bad depends on what the probe is
+doing at the same time -- it is a joint signal, not a univariate one.
+
+`monotone_fraction` now screens such series out (total variance 0.95, mean feature std 0.94,
+both excluded), and `turning_point` is used for the timing comparison instead, since it only
+asks where a series reversed and assumes nothing about direction.
+
+This is the third instrument defect found by running the experiment rather than by
+inspecting the code. The pattern is consistent: each assumption looked reasonable when
+written and failed on contact with the shape real data actually has.

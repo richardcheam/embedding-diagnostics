@@ -57,3 +57,85 @@ def test_figures_tolerate_logs_missing_a_newer_metric(tmp_path):
 
     assert written, "figure builder returned nothing"
     assert all(path.exists() for path in written)
+
+
+def test_sustained_decline_finds_the_turn_after_a_rise():
+    """The shape first_departure_step cannot handle: learn, plateau, degrade."""
+    from jepa_lens.runs import first_sustained_decline
+
+    steps = list(range(0, 1100, 100))
+    values = [0.3, 0.5, 0.6, 0.65, 0.66, 0.66, 0.60, 0.55, 0.50, 0.45, 0.40]
+    turn = first_sustained_decline(steps, values, higher_is_better=True, margin=0.02)
+    assert turn == 600
+
+
+def test_sustained_decline_handles_lower_is_better():
+    """Cosine similarity degrades by RISING, so direction must be respected."""
+    from jepa_lens.runs import first_sustained_decline
+
+    steps = list(range(0, 900, 100))
+    values = [0.9, 0.6, 0.4, 0.3, 0.29, 0.45, 0.60, 0.75]
+    turn = first_sustained_decline(steps, values, higher_is_better=False, margin=0.02)
+    assert turn == 500
+
+
+def test_a_single_noisy_point_does_not_trigger_a_detection():
+    """Persistence guards against one bad checkpoint being read as degradation."""
+    from jepa_lens.runs import first_sustained_decline
+
+    steps = list(range(0, 900, 100))
+    values = [0.3, 0.5, 0.6, 0.65, 0.40, 0.66, 0.67, 0.68]  # one dip at step 400
+    assert first_sustained_decline(steps, values, higher_is_better=True, margin=0.02) is None
+
+
+def test_monotone_improvement_never_declines():
+    from jepa_lens.runs import first_sustained_decline
+
+    steps = list(range(0, 800, 100))
+    values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+    assert first_sustained_decline(steps, values, higher_is_better=True, margin=0.01) is None
+
+
+def test_flat_series_never_declines():
+    from jepa_lens.runs import first_sustained_decline
+
+    steps = list(range(0, 800, 100))
+    assert first_sustained_decline(steps, [0.5] * 7, higher_is_better=True) is None
+
+
+def test_returns_the_start_of_the_streak_not_its_end():
+    """The step of interest is when degradation began."""
+    from jepa_lens.runs import first_sustained_decline
+
+    steps = [0, 100, 200, 300, 400, 500]
+    values = [0.5, 0.6, 0.61, 0.50, 0.45, 0.40]
+    turn = first_sustained_decline(
+        steps, values, higher_is_better=True, margin=0.02, persistence=3
+    )
+    assert turn == 300
+
+
+def test_monotone_fraction_flags_a_series_with_no_turn():
+    """Total variance falls throughout a healthy run; it has no turning point."""
+    from jepa_lens.runs import monotone_fraction
+
+    assert monotone_fraction([10.0, 8.0, 6.0, 4.0, 2.0]) == 1.0
+    assert monotone_fraction([1.0, 2.0, 3.0, 4.0]) == 1.0
+    assert monotone_fraction([1.0, 2.0, 3.0, 2.0, 1.0]) < 0.75
+
+
+def test_turning_point_finds_a_peak_and_a_trough():
+    from jepa_lens.runs import turning_point
+
+    steps = [0, 100, 200, 300, 400]
+    assert turning_point(steps, [0.3, 0.5, 0.6, 0.55, 0.5], mode="max") == 200
+    assert turning_point(steps, [0.9, 0.6, 0.3, 0.5, 0.8], mode="min") == 200
+
+
+def test_turning_point_returns_none_when_the_series_never_turns():
+    """An extremum at either end means the run ended before reversing."""
+    from jepa_lens.runs import turning_point
+
+    steps = [0, 100, 200, 300]
+    assert turning_point(steps, [0.1, 0.2, 0.3, 0.4], mode="max") is None
+    assert turning_point(steps, [0.4, 0.3, 0.2, 0.1], mode="max") is None

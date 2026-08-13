@@ -85,3 +85,10 @@ single-GPU baseline before any result is trusted.
 Use `scripts/run_all_conditions.py --parallel` instead: one condition per GPU, four
 independent processes, training code unchanged. Full reasoning in
 `docs/development-log.md`.
+
+## The probe is noisier than the loss
+
+Training is bit-deterministic, but probe accuracy varies by up to ~0.002 between identical
+runs of the same commit, because non-deterministic CPU kernels perturb the embeddings'
+last bits and a few test samples flip across the decision boundary. Do not treat
+between-condition probe differences below ~0.005 as real. See `docs/development-log.md`.

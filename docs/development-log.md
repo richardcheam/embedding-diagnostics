@@ -145,3 +145,30 @@ exact. Any loss that measures a property *of the batch distribution* -- isotropy
 regularizers, contrastive losses with in-batch negatives, batch-norm-dependent objectives
 -- changes meaning when the batch is split, and needs explicit cross-rank gathering to
 stay equivalent.
+
+## The probe has a run-to-run noise floor (found 2026-08-14)
+
+While checking whether an `ema_stopgrad` run predated the SIGReg fix, the same commit was
+run twice with the same seed on the same machine:
+
+| step | loss (run 1 vs run 2) | probe_std | probe_unscaled |
+| --- | --- | --- | --- |
+| 3 | 1.0093109608 vs 1.0093109608 | 0.3730 vs 0.3725 | 0.3725 vs 0.3705 |
+| 6 | 0.9995970726 vs 0.9995970726 | 0.3740 vs 0.3735 | 0.3710 vs 0.3730 |
+
+**Training is bit-deterministic** -- losses match to ten decimals. **The probe is not**,
+varying by up to 0.002 between identical runs.
+
+The probe itself is deterministic given identical features (verified: five repeats on a
+fixed matrix return the identical accuracy). So the embeddings must differ in their last
+bits, from non-deterministic multithreaded CPU kernels in torch. Scalar reductions like the
+loss average those differences away; the probe does not, because a handful of test samples
+sit near a decision boundary and flip.
+
+**Consequence for interpreting results:** the probe has a noise floor of roughly +/-0.002
+from non-determinism alone, before any seed-to-seed variance. Between-condition differences
+smaller than about 0.005 should not be treated as real. For reference, the pilot-2 gap
+between the two SIGReg conditions was 0.008 -- only about four times this floor.
+
+This is an n=2 observation on CPU and needs proper quantification (repeat counts, and
+whether GPU kernels are better or worse). It is not currently controlled for anywhere.

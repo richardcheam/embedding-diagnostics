@@ -1,43 +1,92 @@
 \section{Results}
+\label{sec:results}
 
-\textbf{This section is a placeholder until runs complete. Figures below are generated
-directly from run logs by \texttt{scripts/make\_figures.py}; they are not hand-placed and
-cannot drift from the runs that produced them.}
+All results below come from single-seed runs at one model scale. Section~\ref{sec:instrument}
+describes three defects in the measurement apparatus found and corrected before these were
+collected; results predating those corrections have been discarded.
 
-\subsection{Sanity control}
+\subsection{Part 1: does stop-gradient still matter under SIGReg?}
 
-Before reading any comparison, \texttt{none\_nostopgrad} must show collapse. If it does not,
-the apparatus cannot detect the phenomenon under study and nothing further should be
-concluded.
+We swept the SIGReg strength $\lambda$ across the range \citet{lejepa2025} itself uses,
+running both SIGReg conditions at each value for 2{,}000 steps. Mean pairwise cosine
+similarity near zero indicates a healthy, spread-out representation; near one indicates
+collapse.
 
-\subsection{Part 1: does the gap widen with training duration?}
-
-\begin{figure}[h]
+\begin{table}[h]
 \centering
-\includegraphics[width=.8\textwidth]{probe_accuracy.pdf}
-\caption{Linear-probe accuracy against training duration. \replication{} Whether
-\texttt{sigreg\_nostopgrad} separates from \texttt{sigreg\_stopgrad} as steps increase is
-the replication target; the underlying result was encountered secondhand and is
-unverified.}
-\end{figure}
+\small
+\begin{tabular}{r r r r r}
+\toprule
+& \multicolumn{2}{c}{\textbf{without stop-gradient}} & \multicolumn{2}{c}{\textbf{with stop-gradient}} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+$\lambda$ & cosine & total var. & cosine & total var. \\
+\midrule
+0.01 & \textbf{0.990} & 0.56  & 0.034 & 153.4 \\
+0.02 & \textbf{0.951} & 1.83  & 0.021 & 162.5 \\
+0.05 & \textbf{0.765} & 19.3  & 0.009 & 167.6 \\
+0.10 & 0.381          & 89.5  & 0.008 & 171.0 \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} Final collapse metrics after 2{,}000 steps. With stop-gradient, no
+configuration collapses at any strength. Without it, every configuration inside
+\citet{lejepa2025}'s swept range collapses, though increasing $\lambda$ helps monotonically.}
+\end{table}
 
-\subsection{Part 2: do cheap diagnostics lead the probe?}
+\ours{} Within the hyperparameter range used by \citet{lejepa2025}, SIGReg alone did not
+substitute for stop-gradient in our setup. The dose-response is clean and monotone --- cosine
+falls from 0.990 to 0.381 as $\lambda$ rises --- so a stronger setting may eventually suffice.
+$\lambda = 0.1$ is already borderline by our collapse criterion. That lies above the range the
+reference sweeps and we have not tested it.
 
-Measured only if Part 1 shows a gap. Absent a gap, there is no degradation for a diagnostic
-to anticipate.
+\interp{} The original framing of Part 1 asked whether a gap would \emph{widen with training
+duration}. It did not need 32{,}000 steps to appear: the separation is unambiguous by 2{,}000.
+We therefore report Part 1 on collapse metrics rather than on the duration-scaling question as
+originally posed, since the effect was not marginal enough to require it.
 
-\begin{figure}[h]
+\subsection{Part 2: do cheap diagnostics degrade before the probe?}
+
+This question requires a run that both learns and subsequently degrades. Only
+\texttt{ema\_stopgrad} did; the SIGReg conditions never exceeded their own random
+initialisation, so their flat probe curves had nothing to lag behind.
+
+\begin{table}[h]
 \centering
-\includegraphics[width=.8\textwidth]{departure_comparison.pdf}
-\caption{Step at which each series departs its own early-training baseline. \ours{} A
-consistent lead of the cheap diagnostics over probe accuracy would make them usable as an
-early-warning signal. This is the only potentially new claim in the report and it is
-conditional on Part 1.}
-\end{figure}
+\small
+\begin{tabular}{l r r}
+\toprule
+\textbf{signal} & \textbf{turns at step} & \textbf{magnitude of move} \\
+\midrule
+unscaled probe accuracy (peak)   & 11{,}000 & 0.021 decline \\
+mean pairwise cosine (trough)    & 13{,}500 & 0.236 rise \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} On the 32{,}000-step baseline the probe turns 2{,}500 steps \emph{before} the
+cheap diagnostic --- the opposite of the hypothesis. The cheap diagnostic's eventual signal is
+an order of magnitude larger, but arrives later.}
+\end{table}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=.8\textwidth]{effective_rank.pdf}
-\caption{Embedding effective rank against training duration. \established{} Effective rank
-as a collapse diagnostic is standard practice.}
-\end{figure}
+\ours{} The hypothesis is not supported by this run. The cheap diagnostic is a clearer
+indicator of \emph{how severe} degradation has become, but not an earlier one.
+
+\interp{} Confidence is low. This is one condition, one seed, and a 2{,}500-step lead is five
+checkpoints at our logging resolution; the probe's decline is four times its measured
+run-to-run noise floor of 0.005. A fair test of Part 2 needs several runs that genuinely learn
+and then degrade.
+
+\subsection{An incidental observation: the healthy baseline re-collapses}
+
+\ours{} \texttt{ema\_stopgrad} reaches its best representation at step 11{,}000 --- roughly a
+third of the budget --- and degrades slowly thereafter, with mean pairwise cosine rising from
+0.294 to 0.530 and total variance falling sevenfold across the run. The classic
+stop-gradient-plus-EMA recipe does not hold a representation indefinitely at this scale; it
+partially re-collapses given long enough.
+
+\subsection{What these results do not show}
+
+\interp{} In our setup no SIGReg configuration produced a useful representation: every run
+finished at or below its own random initialisation (approximately 0.369 probe accuracy), while
+the EMA baseline reached 0.603. This must not be read as evidence against \citet{lejepa2025}.
+We pair SIGReg with I-JEPA-style masked latent prediction; LeJEPA pairs it with multi-view
+invariance across eight augmented views, with no predictor and no teacher-student network.
+These are different systems sharing one component. The result is a statement about that
+combination, not about SIGReg or about LeJEPA's claim.

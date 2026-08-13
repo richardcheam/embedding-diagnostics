@@ -3,7 +3,11 @@
 Does stop-gradient still matter under SIGReg once training runs long enough? And do cheap
 collapse diagnostics notice before a linear probe does?
 
-**Status:** experiment harness complete, runs not yet performed.
+**Start here: [`docs/STATUS.md`](docs/STATUS.md)** — the plain-language story of what we set
+out to test, what actually happened, and what is still open.
+
+**Status:** harness complete, pilots and a lambda sweep done, one 32k baseline run done.
+Part 1 answered (stop-gradient still matters); Part 2 answered negatively so far.
 
 ## Honesty note
 
@@ -101,4 +105,14 @@ tracked in git, so results move back by `git pull` — no separate sync tooling.
 
 ## Results
 
-Not yet run.
+Summarised in [`docs/STATUS.md`](docs/STATUS.md); written up in `report/`.
+
+- **Part 1 — does stop-gradient still matter under SIGReg?** Yes. Across every SIGReg
+  strength in LeJEPA's own swept range, runs without stop-gradient collapsed and runs with it
+  did not.
+- **Part 2 — do cheap diagnostics warn before the probe?** No, on the evidence so far. On the
+  one run that both learned and degraded, the probe turned 2,500 steps *earlier* than the
+  cheap diagnostic.
+- **Caveat that governs both:** in this setup SIGReg never produced a useful representation
+  at any strength. We pair it with masked latent prediction; LeJEPA pairs it with multi-view
+  invariance. These results are about that combination, not about LeJEPA's claim.

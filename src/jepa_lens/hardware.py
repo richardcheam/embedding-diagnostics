@@ -36,6 +36,28 @@ class EnvironmentInfo:
     init_error: str | None = None
 
 
+def plan_gpu_waves(conditions: list[str], gpus: list[int]) -> list[list[tuple[str, int]]]:
+    """Schedule conditions onto GPUs, one condition per GPU at a time.
+
+    Returns a list of waves; each wave is a list of (condition, gpu) pairs that
+    run concurrently. With four conditions and four GPUs this is a single wave.
+    With fewer GPUs than conditions it splits into as many waves as needed.
+
+    Deliberately one condition per GPU rather than sharding a condition across
+    GPUs: SIGReg and the collapse diagnostics are batch-level statistics, so
+    splitting a batch across ranks changes what they measure. See
+    docs/development-log.md.
+    """
+    if not gpus:
+        raise ValueError("no GPUs to schedule onto")
+    return [
+        [(condition, gpus[offset]) for offset, condition in enumerate(chunk)]
+        for chunk in (
+            conditions[start : start + len(gpus)] for start in range(0, len(conditions), len(gpus))
+        )
+    ]
+
+
 def parse_driver_version(raw: int) -> tuple[int, int]:
     """Convert torch's packed driver version to (major, minor).
 

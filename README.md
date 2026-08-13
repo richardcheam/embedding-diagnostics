@@ -57,9 +57,18 @@ The model is small — around 5M parameters on 32x32 inputs — so one GPU is pl
 # One condition
 uv run python scripts/train.py --condition sigreg_nostopgrad --device cuda --tag main
 
-# All four
+# All four, one after another
 uv run python scripts/run_all_conditions.py --device cuda --tag main
+
+# All four at once, one per GPU (logs land in experiments/<tag>/<condition>/train.log)
+uv run python scripts/run_all_conditions.py --device cuda --tag main --parallel
 ```
+
+`--parallel` gives each condition its own GPU via `CUDA_VISIBLE_DEVICES`; add
+`--gpus 0,1,2,3` to choose specific ones. There is deliberately no data-parallel
+sharding of a single condition — SIGReg and the collapse diagnostics are batch-level
+statistics, so splitting a batch across ranks would change what they measure. See
+`docs/development-log.md`.
 
 Conditions: `ema_stopgrad`, `sigreg_stopgrad`, `sigreg_nostopgrad`, `none_nostopgrad`.
 

@@ -72,3 +72,16 @@ condition's number means anything.
 **Adding a diagnostic later is expected.** Run logs are kept in git for the life of the
 project, so anything consuming them must tolerate records written before a metric existed.
 `_plot_metric` skips records missing the key rather than raising.
+
+## Do not add DDP without reading this first
+
+SIGReg and every collapse diagnostic are **batch-level statistics** -- they measure a
+property of the distribution of embeddings in the batch, not a mean of per-sample terms.
+Splitting a batch across ranks changes what they measure, so naive DDP would silently
+alter the object under study. If DDP is ever genuinely needed, the embeddings require a
+gradient-aware all-gather before the loss, and the equivalence must be verified against a
+single-GPU baseline before any result is trusted.
+
+Use `scripts/run_all_conditions.py --parallel` instead: one condition per GPU, four
+independent processes, training code unchanged. Full reasoning in
+`docs/development-log.md`.

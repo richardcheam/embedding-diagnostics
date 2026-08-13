@@ -3,6 +3,7 @@ from jepa_lens.hardware import (
     diagnose,
     format_report,
     parse_driver_version,
+    plan_gpu_waves,
 )
 
 TURING = (7, 5)
@@ -116,3 +117,48 @@ def test_report_renders_without_a_gpu():
     assert "torch" in text
     assert "cpu-only build" in text
     assert "PROBLEM: something is wrong" in text
+
+
+def test_four_conditions_on_four_gpus_is_one_wave():
+    conditions = ["ema_stopgrad", "sigreg_stopgrad", "sigreg_nostopgrad", "none_nostopgrad"]
+    waves = plan_gpu_waves(conditions, [0, 1, 2, 3])
+    assert len(waves) == 1
+    assert waves[0] == [
+        ("ema_stopgrad", 0),
+        ("sigreg_stopgrad", 1),
+        ("sigreg_nostopgrad", 2),
+        ("none_nostopgrad", 3),
+    ]
+
+
+def test_fewer_gpus_than_conditions_splits_into_waves():
+    conditions = ["a", "b", "c", "d", "e"]
+    waves = plan_gpu_waves(conditions, [0, 1])
+    assert [len(w) for w in waves] == [2, 2, 1]
+    assert [c for wave in waves for c, _ in wave] == conditions
+
+
+def test_no_gpu_is_ever_double_booked_within_a_wave():
+    """Two conditions on one GPU at once would contend for memory and skew timing."""
+    waves = plan_gpu_waves([f"c{i}" for i in range(9)], [0, 1, 2, 3])
+    for wave in waves:
+        assigned = [gpu for _, gpu in wave]
+        assert len(assigned) == len(set(assigned))
+
+
+def test_every_condition_is_scheduled_exactly_once():
+    conditions = [f"c{i}" for i in range(7)]
+    scheduled = [c for wave in plan_gpu_waves(conditions, [0, 1, 2]) for c, _ in wave]
+    assert sorted(scheduled) == sorted(conditions)
+
+
+def test_single_gpu_runs_everything_sequentially():
+    waves = plan_gpu_waves(["a", "b", "c"], [0])
+    assert [len(w) for w in waves] == [1, 1, 1]
+
+
+def test_empty_gpu_list_is_rejected():
+    import pytest
+
+    with pytest.raises(ValueError, match="no GPUs"):
+        plan_gpu_waves(["a"], [])

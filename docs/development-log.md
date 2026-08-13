@@ -97,3 +97,51 @@ not degrade under collapse.
 
 Nothing about the between-condition orderings in this pilot should be treated as a result.
 They were measured with the instrument described above.
+
+## Why this study does not use data-parallel training (DDP)
+
+Four GPUs were available and only one was being used, so distributed data-parallel was
+the obvious next step. It is the wrong tool here, for a reason specific to what this
+study measures.
+
+**SIGReg is a batch-level statistic.** `sigreg_loss` estimates an empirical characteristic
+function with `.mean(dim=0)` over the batch: it asks whether *the distribution of
+embeddings in this batch* looks like an isotropic Gaussian. The collapse diagnostics
+(`total_variance`, `effective_rank`, `mean_pairwise_cosine`, per-feature std) are batch
+statistics for the same reason.
+
+Under standard DDP with `batch_size: 256` and four ranks, each rank sees 64 samples,
+computes SIGReg on its own shard, and DDP averages the resulting gradients. That is not
+the same quantity as SIGReg computed on all 256:
+
+- the empirical characteristic function is estimated from a quarter as many samples, so
+  each rank's estimate is substantially noisier;
+- averaging four gradients of four noisy estimates is not the gradient of one better
+  estimate, because the loss is not linear in the samples.
+
+The regularizer would therefore behave differently under DDP than under single-GPU
+training -- and the regularizer is the object under study. Any comparison between a
+DDP run and a single-GPU run would confound "does stop-gradient matter" with "how many
+samples did the isotropy test see".
+
+Making DDP correct here is possible but is real work: the embeddings would need a
+gradient-aware all-gather before `sigreg_loss` (a plain `all_gather` detaches, so
+gradients would not flow back to the other ranks' encoders), and the same treatment for
+the diagnostics. That equivalence would then have to be verified against a single-GPU
+baseline before trusting any result from it.
+
+**It would also probably be slower.** The encoder is ~5M parameters on 32x32 inputs. At
+that size the per-step NCCL communication plausibly costs more than the compute it saves.
+
+**What is used instead:** one condition per GPU. There are exactly four conditions and
+four cards, the four runs are completely independent, and `CUDA_VISIBLE_DEVICES` gives
+each training process a single visible device so the training code is unchanged --
+including the RNG determinism work, which DDP would have complicated further. See
+`scripts/run_all_conditions.py --parallel`.
+
+The general lesson: **data parallelism is only transparent when the loss decomposes over
+samples.** Ordinary supervised losses are a mean over per-sample terms, so sharding is
+exact. Any loss that measures a property *of the batch distribution* -- isotropy
+regularizers, contrastive losses with in-batch negatives, batch-norm-dependent objectives
+-- changes meaning when the batch is split, and needs explicit cross-rank gathering to
+stay equivalent.

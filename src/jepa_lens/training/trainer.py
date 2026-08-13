@@ -168,8 +168,20 @@ class Trainer:
         test_features = self.encode_all(test_images)
 
         record: dict[str, Any] = collapse_metrics(test_features)
+        # Both probes. The standardized one stays comparable across checkpoints;
+        # the unstandardized one is the only probe that registers scale collapse,
+        # because standardizing rescales a collapsed encoder's numerical noise
+        # back to unit variance. A widening gap between them is itself a signal.
         record["probe_accuracy"] = linear_probe_accuracy(
             train_features, train_labels, test_features, test_labels, seed=self.config["seed"]
+        )
+        record["probe_accuracy_unscaled"] = linear_probe_accuracy(
+            train_features,
+            train_labels,
+            test_features,
+            test_labels,
+            seed=self.config["seed"],
+            standardize=False,
         )
         record["projection"] = project_2d(
             test_features,

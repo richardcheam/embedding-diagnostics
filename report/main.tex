@@ -25,7 +25,15 @@ collection of heuristics: stop-gradient, exponential-moving-average target encod
 masking design. LeJEPA introduces SIGReg and reports that it removes the need for these
 heuristics. We test, at small scale on CIFAR-10, whether that holds as training duration
 grows, and whether cheap collapse diagnostics detect degradation earlier than a linear
-probe does. \textbf{Results section to be completed once runs finish.}
+probe does.
+
+A pilot run intended only to validate the measurement apparatus produced the first
+substantive finding: on a control condition with no collapse prevention at all, which
+collapsed completely (mean pairwise cosine 1.000), two of the four diagnostics --- effective
+rank and standardized linear-probe accuracy --- \emph{rose} rather than fell. Both are
+scale-invariant, and collapse here is a loss of scale. Section~\ref{sec:instrument} reports
+this and the instrument changes made in response. \textbf{The main results section is to be
+completed once the full-length runs finish.}
 \end{abstract}
 
 \input{sections/introduction}
@@ -33,6 +41,7 @@ probe does. \textbf{Results section to be completed once runs finish.}
 \input{sections/related_work}
 \input{sections/method}
 \input{sections/experiments}
+\input{sections/instrument_validation}
 \input{sections/results}
 \input{sections/limitations}
 \input{sections/conclusion}

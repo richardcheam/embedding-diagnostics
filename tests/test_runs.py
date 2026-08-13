@@ -42,3 +42,18 @@ def test_first_departure_returns_none_for_flat_series():
 
 def test_first_departure_handles_short_series():
     assert first_departure_step([0], [1.0]) is None
+
+
+def test_figures_tolerate_logs_missing_a_newer_metric(tmp_path):
+    """A metric added later must not make earlier run logs unplottable.
+
+    Run logs are kept in git for the life of the project, so the figure builder
+    has to cope with records written before a diagnostic existed.
+    """
+    from jepa_lens.figures import build_all_figures
+
+    old = [{"step": s, "probe_accuracy": 0.3, "effective_rank": 5.0} for s in (0, 100, 200, 300)]
+    written = build_all_figures({"ema_stopgrad": old}, tmp_path)
+
+    assert written, "figure builder returned nothing"
+    assert all(path.exists() for path in written)

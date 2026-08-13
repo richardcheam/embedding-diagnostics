@@ -48,3 +48,52 @@ Two notes on the SIGReg one, which was the most serious:
   it should be described as reproducing LeJEPA until that check is done.
 - **No experiments have been run.** Only 4-step CPU smoke tests, which exist to prove the
   pipeline executes end to end, not to say anything scientific.
+
+## Pilot findings (2026-08, 2000 steps, first real GPU run)
+
+The pilot was run only to check the apparatus, not to answer anything. It found a defect
+in the measurement itself, which is the reason the pilot exists.
+
+`none_nostopgrad`, the control with no collapse prevention, collapsed completely by step
+100 and stayed there: mean pairwise cosine 1.000, per-feature std 0.623 -> 0.0019,
+prediction loss 1e-5. Every input mapped to essentially the same vector.
+
+Two of the four diagnostics reported the opposite:
+
+| diagnostic | step 0 | step 2000 | verdict |
+| --- | --- | --- | --- |
+| mean feature std | 0.623 | 0.0019 | correctly detected collapse |
+| mean pairwise cosine | 0.333 | 1.000 | correctly detected collapse |
+| effective rank | 2.71 | 30.29 | **rose as the representation died** |
+| probe accuracy (standardized) | 0.375 | 0.409 | **rose as the representation died** |
+
+Both failures are the same bug in different clothing: **the metric is scale-invariant and
+the collapse is a loss of scale.** Effective rank is a ratio of eigenvalue sums, so once
+signal drops below the noise floor it measures the shape of isotropic float noise.
+StandardScaler divides features by their std, which multiplies a collapsed encoder's
+residue back up to unit variance -- and that residue is still a deterministic function of
+the input, so a linear model reads it. Verified synthetically: at cosine similarity
+1.0000, the standardized probe scored 1.000 and the unstandardized probe 0.592, against a
+0.100 chance floor.
+
+The standardization was added deliberately, so that probe accuracy would stay comparable
+across checkpoints as embedding scale drifts. That exact reasoning is what created the
+blind spot.
+
+This also threatened the research question, not just the control: `sigreg_nostopgrad` was
+visibly degrading (std 0.623 -> 0.295, cosine 0.333 -> 0.879) yet its standardized probe
+accuracy read *higher* than the healthier-looking `sigreg_stopgrad`. And Part 2 asks
+whether cheap diagnostics move before the probe degrades -- unanswerable if the probe does
+not degrade under collapse.
+
+### Decisions taken
+
+1. Log `total_variance` (trace of the covariance) as an explicit scale metric.
+2. Log `probe_accuracy_unscaled` alongside `probe_accuracy`, and plot them together.
+3. Document in `effective_rank`'s docstring, in AGENTS.md, and on every plot that
+   effective rank is a shape metric, not a magnitude metric.
+4. Do not start the 32k-step runs until the pilot is repeated and the control reads as
+   collapsed on every axis.
+
+Nothing about the between-condition orderings in this pilot should be treated as a result.
+They were measured with the instrument described above.

@@ -19,3 +19,14 @@ narrow transformer used by \citet{assran2023ijepa}.
 \paragraph{Departure detection is crude.} The departure step uses a fixed threshold against
 an early-training baseline. It is applied identically to every series, which is what the
 comparison requires, but it is not a calibrated changepoint test.
+
+\paragraph{The instrument finding rests on one pilot.} \interp{} The scale-invariance
+failure reported in Section~\ref{sec:instrument} was observed in a single 2{,}000-step
+run at one model scale, on one seed. The mechanism is straightforward and we reproduced
+the probe half of it synthetically, but the magnitude of the effect at other scales,
+architectures, and embedding dimensionalities is unmeasured. We also have not surveyed
+the literature systematically enough to claim the joint blind spot is unreported.
+
+\paragraph{Pilot orderings are not results.} No between-condition comparison from the
+pilot should be read as evidence about the research question. Those numbers were produced
+by the instrument that Section~\ref{sec:instrument} shows was defective.

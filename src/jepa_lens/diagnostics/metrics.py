@@ -20,6 +20,17 @@ def effective_rank(eigenvalues: np.ndarray) -> float:
 
     Returns a value in [1, len(eigenvalues)]. Near 1 means a single direction
     dominates; near the count means variance is spread evenly.
+
+    NOT A STANDALONE COLLAPSE DETECTOR. This is a ratio of eigenvalue sums, so
+    it is scale-invariant: it describes the *shape* of the spectrum and says
+    nothing about its magnitude. Once real variance falls below the numerical
+    noise floor, the spectrum is dominated by floating-point noise, which is
+    isotropic — so effective rank *rises* as a representation collapses.
+
+    Measured in this project's own pilot, on the condition with no collapse
+    prevention at all: over 2000 steps, mean pairwise cosine went to 1.000 and
+    per-feature std fell to 0.0019, while effective rank rose from 2.71 to
+    30.29. Always read this alongside `total_variance`.
     """
     values = np.clip(np.asarray(eigenvalues, dtype=np.float64), 0.0, None)
     total = values.sum()
@@ -66,6 +77,10 @@ def collapse_metrics(embeddings: np.ndarray) -> dict[str, float]:
     return {
         "mean_feature_std": float(feature_std.mean()),
         "min_feature_std": float(feature_std.min()),
+        # The scale companion to effective_rank, which is scale-invariant and
+        # therefore rises under collapse. Reading rank without this is how a
+        # fully collapsed run can look healthy.
+        "total_variance": float(np.clip(eigenvalues, 0.0, None).sum()),
         "effective_rank": effective_rank(eigenvalues),
         "mean_pairwise_cosine": float(upper.mean()) if upper.size else 0.0,
         "std_pairwise_cosine": float(upper.std()) if upper.size else 0.0,

@@ -1,0 +1,122 @@
+\section{Instrument Validation}
+\label{sec:instrument}
+
+Before running the full budget we ran a 2{,}000-step pilot whose only purpose was to
+check that the measurement apparatus can detect collapse when collapse is definitely
+present. The \texttt{none\_nostopgrad} condition exists for exactly this: it has no EMA
+split, no stop-gradient, and no regularizer, so nothing prevents the trivial constant
+solution. If it does not register as collapsed, no other condition's number can be
+trusted.
+
+It collapsed immediately and completely. Two of the four diagnostics reported the
+opposite.
+
+\subsection{The control collapsed}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{r r r r r r}
+\toprule
+\textbf{step} & \textbf{loss} & \textbf{feature std} & \textbf{cosine} &
+\textbf{eff.\ rank} & \textbf{probe} \\
+\midrule
+0    & ---      & 0.623 & 0.333 & 2.71  & 0.375 \\
+100  & 0.0021   & 0.024 & 0.999 & 9.06  & 0.412 \\
+500  & 0.00009  & 0.005 & 1.000 & 23.58 & 0.422 \\
+2000 & 0.00001  & 0.0019 & 1.000 & 30.29 & 0.409 \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} \texttt{none\_nostopgrad} over the pilot. Mean pairwise cosine reaches
+1.000 and the prediction loss reaches $10^{-5}$: every input maps to essentially the same
+vector. Effective rank and probe accuracy both \emph{rise}.}
+\end{table}
+
+By step 100 the mean pairwise cosine similarity is 0.999 and the per-feature standard
+deviation has fallen by a factor of 25. By step 2000 the loss is $10^{-5}$. This is
+textbook total collapse, and the condition was built to produce it.
+
+\subsection{Two diagnostics moved the wrong way}
+
+Effective rank rose from 2.71 to 30.29 and standardized probe accuracy rose from 0.375 to
+0.409, both monotonically, as the representation died. \ours{} Both failures share one
+cause: \textbf{scale invariance}.
+
+\paragraph{Effective rank.} The participation ratio
+$(\sum_i \lambda_i)^2 / \sum_i \lambda_i^2$ is a ratio of eigenvalue sums, so any overall
+rescaling cancels. It describes the \emph{shape} of the spectrum and says nothing about
+its magnitude. Once the signal variance falls below the numerical noise floor, the
+covariance spectrum is dominated by floating-point noise, which is close to isotropic and
+therefore has high participation ratio. The metric ends up measuring the shape of the
+residue rather than the presence of signal. \interp{} We read this as effective rank being
+a \emph{dimensional} collapse diagnostic that is being asked a question about
+\emph{complete} collapse, which it is not equipped to answer alone.
+
+\paragraph{The linear probe.} Following standard practice we standardized features before
+fitting, so that the regularization strength means the same thing at every checkpoint as
+embedding scale drifts. That choice is precisely what blinds the probe to scale collapse:
+dividing by a per-feature standard deviation of $0.0019$ rescales the collapsed
+representation's numerical residue back to unit variance, and that residue is still a
+deterministic function of the input. A linear classifier reads it without difficulty.
+
+We confirmed the mechanism directly on synthetic embeddings constructed as a large
+constant plus a small input-dependent residue, with mean pairwise cosine similarity
+$1.0000$:
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{l r}
+\toprule
+\textbf{probe variant} & \textbf{accuracy} \\
+\midrule
+with standardization & 1.000 \\
+without standardization & 0.592 \\
+chance (10 classes) & 0.100 \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} A totally collapsed representation is read perfectly by a standardized
+linear probe. Standardization removes exactly the signal that collapse destroys.}
+\end{table}
+
+\subsection{Why this threatened the study, not just the control}
+
+The condition under test, \texttt{sigreg\_nostopgrad}, was itself visibly degrading in the
+pilot --- per-feature standard deviation fell from 0.623 to 0.295 and mean pairwise cosine
+rose from 0.333 to 0.879 --- yet its standardized probe accuracy (0.379) read
+\emph{higher} than that of the healthier-looking \texttt{sigreg\_stopgrad} (0.309).
+
+More seriously, this report's Part 2 asks whether cheap diagnostics degrade \emph{before}
+the probe does. If the probe does not degrade under collapse at all, that question is not
+merely hard to answer, it is malformed as operationalised. \ours{}
+
+\subsection{Changes made}
+
+Three changes, made before any full-length run:
+
+\begin{enumerate}
+  \item \textbf{Log total variance} (the trace of the embedding covariance) as an explicit
+        scale metric. This is the quantity that actually falls under collapse, and it is
+        the necessary companion to effective rank.
+  \item \textbf{Log probe accuracy twice}, standardized and unstandardized. The
+        standardized variant remains comparable across checkpoints; the unstandardized
+        variant is the one that registers scale collapse. A widening gap between them is
+        itself a collapse signal.
+  \item \textbf{Document that effective rank is not a standalone collapse detector},
+        in its own docstring and wherever it is plotted. It is not wrong; it answers a
+        different question than the one it is easily mistaken for.
+\end{enumerate}
+
+\established{} Both effective rank and standardized linear probing are widely used
+collapse diagnostics, which is why this matters beyond one harness: the failure mode is a
+property of the metrics, not of this implementation. \ours{} We are not aware of these two
+being reported together as a joint blind spot, though we have not surveyed the literature
+systematically enough to claim novelty, and the observation rests on a single-seed pilot
+at one model scale.
+
+\subsection{What the pilot does not establish}
+
+\interp{} The pilot ran 2{,}000 steps on one seed. It is evidence that the apparatus was
+broken and is now less broken; it is not evidence about the research question. In
+particular, none of the between-condition orderings observed in the pilot should be read
+as results --- they were measured with the instrument this section is about.

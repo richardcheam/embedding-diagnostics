@@ -48,6 +48,7 @@ def test_all_expected_keys_present():
     expected = {
         "mean_feature_std",
         "min_feature_std",
+        "total_variance",
         "effective_rank",
         "mean_pairwise_cosine",
         "std_pairwise_cosine",
@@ -74,3 +75,38 @@ def test_single_sample_does_not_produce_nan():
     """One sample has no sample-variance; it must not leak NaN into the log."""
     metrics = collapse_metrics(np.ones((1, 4)))
     assert all(v == v for v in metrics.values())
+
+
+def test_total_variance_falls_as_a_representation_collapses():
+    """The scale signal effective_rank cannot provide.
+
+    effective_rank is a ratio of eigenvalue sums and so is scale-invariant;
+    total_variance is what distinguishes a healthy spread from a collapsed one.
+    """
+    rng = np.random.default_rng(0)
+    healthy = rng.normal(size=(256, 16))
+    collapsed = healthy * 1e-3
+
+    assert collapse_metrics(collapsed)["total_variance"] < collapse_metrics(healthy)[
+        "total_variance"
+    ]
+
+
+def test_effective_rank_rises_under_noise_dominated_collapse():
+    """Pins the failure mode the pilot exposed, so it cannot silently change.
+
+    A representation whose signal has collapsed into isotropic numerical noise
+    has HIGH effective rank, not low. This test documents that effective rank
+    must never be read as a standalone collapse detector — total_variance is
+    what actually falls.
+    """
+    rng = np.random.default_rng(0)
+    dominated = rng.normal(size=(512, 16)) @ np.diag([10.0] + [0.001] * 15)
+    noise_only = rng.normal(size=(512, 16)) * 1e-8
+
+    assert collapse_metrics(dominated)["effective_rank"] < 2.0
+    assert collapse_metrics(noise_only)["effective_rank"] > 10.0
+    # ...while the scale metric orders them the way a reader expects.
+    assert collapse_metrics(noise_only)["total_variance"] < collapse_metrics(dominated)[
+        "total_variance"
+    ]

@@ -72,6 +72,19 @@ statistics, so splitting a batch across ranks would change what they measure. Se
 
 Conditions: `ema_stopgrad`, `sigreg_stopgrad`, `sigreg_nostopgrad`, `none_nostopgrad`.
 
+## Sweeping the SIGReg weight
+
+```bash
+uv run python scripts/sweep_sigreg_weight.py --device cuda \
+  --lambdas 0.01,0.02,0.05,0.1 --total-steps 2000 --checkpoint-every 100 --tag sweep
+uv run python scripts/summarize_sweep.py --tag sweep
+```
+
+Lambdas use the reference LeJEPA parametrisation (`sigreg*lambda + other*(1-lambda)`);
+this project's additive `sigreg_weight` is `lambda/(1-lambda)`. Both SIGReg conditions run
+at every lambda, since the question is not only whether SIGReg helps but whether
+stop-gradient still matters at that setting.
+
 ## Building outputs
 
 ```bash

@@ -162,3 +162,36 @@ def test_empty_gpu_list_is_rejected():
 
     with pytest.raises(ValueError, match="no GPUs"):
         plan_gpu_waves(["a"], [])
+
+
+def test_lambda_to_weight_matches_the_reference_parametrisation():
+    """LeJEPA uses sigreg*lam + other*(1-lam); we use prediction + weight*sigreg.
+
+    Dividing the reference form through by (1-lam) gives weight = lam/(1-lam),
+    so quoting lambda keeps our numbers comparable with the reference's sweep.
+    """
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from sweep_sigreg_weight import lambda_to_weight
+
+    assert abs(lambda_to_weight(0.05) - 0.052631) < 1e-5
+    assert abs(lambda_to_weight(0.5) - 1.0) < 1e-12
+    # The reference's swept range maps to roughly 0.01 - 0.11.
+    assert 0.010 < lambda_to_weight(0.01) < 0.011
+    assert 0.111 < lambda_to_weight(0.1) < 0.112
+
+
+def test_lambda_outside_the_unit_interval_is_rejected():
+    import sys
+    from pathlib import Path
+
+    import pytest
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from sweep_sigreg_weight import lambda_to_weight
+
+    for bad in (0.0, 1.0, -0.1, 1.5):
+        with pytest.raises(ValueError, match="lambda must be in"):
+            lambda_to_weight(bad)

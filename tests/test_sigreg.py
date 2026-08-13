@@ -79,42 +79,90 @@ def test_cpu_generator_works_with_accelerator_embeddings():
     embeddings = torch.randn(64, 16, device=device)
     generator = torch.Generator().manual_seed(0)
 
-    loss = sigreg_loss(embeddings, num_slices=8, num_freqs=4, generator=generator)
+    loss = sigreg_loss(embeddings, num_slices=8, num_freqs=5, generator=generator)
 
     assert loss.device.type == torch.device(device).type
     assert torch.isfinite(loss)
 
 
-def test_gradient_vanishes_as_collapse_deepens():
-    """SIGReg's restoring force weakens in proportion to the collapse.
+def test_gradient_does_not_vanish_as_collapse_deepens():
+    """The restoring force must survive deep collapse.
 
-    Near zero, cos(f*p) ~ 1 - (f*p)^2/2, so the characteristic-function
-    deviation is O(p^2) and its derivative is O(p). The loss therefore
-    saturates at a constant while the gradient decays linearly: the objective
-    keeps reporting "this is very non-Gaussian" while supplying almost no force
-    to fix it. A fully collapsed representation is close to a stationary point.
+    An earlier version of this module centered the embeddings before
+    projecting. A collapsed encoder emits some constant vector c, and centering
+    maps that exactly onto the origin, where the characteristic function is flat
+    and its derivative is zero. The loss saturated while the gradient decayed to
+    nothing, so collapse became a stationary point of the objective meant to
+    prevent it. Measured then: gradient norm fell from 2.5e-4 to 2.5e-6 as the
+    residual noise shrank by 100x.
 
-    Pinned because it explains the pilot, where sigreg_nostopgrad slid into
-    collapse over the last quarter of training with the regularizer active and
-    nominally dominating the loss. NOTE this may be a property of this
-    from-summary implementation rather than of SIGReg as published -- see
-    docs/open-questions.md.
+    Without centering, a collapse to a non-zero constant still produces wildly
+    non-Gaussian projections and a strong gradient. This pins that.
     """
     torch.manual_seed(0)
-    base = torch.randn(256, 16)
+    constant = torch.randn(16) * 2.0
+    noise = torch.randn(256, 16)
 
-    def loss_and_grad(scale):
-        embeddings = (base * scale).clone().requires_grad_(True)
-        loss = sigreg_loss(
-            embeddings, num_slices=64, num_freqs=16, generator=torch.Generator().manual_seed(0)
+    def grad_norm(scale):
+        embeddings = (constant + noise * scale).clone().requires_grad_(True)
+        sigreg_loss(
+            embeddings, num_slices=64, num_freqs=17, freq_max=3.0,
+            generator=torch.Generator().manual_seed(0),
+        ).backward()
+        return embeddings.grad.norm().item()
+
+    shallow = grad_norm(1e-2)
+    deep = grad_norm(1e-4)
+
+    # The force is essentially unchanged 100x deeper into the collapse.
+    assert deep > shallow * 0.5, f"restoring force decayed: {shallow:.3e} -> {deep:.3e}"
+    assert deep > 1e-2, f"restoring force implausibly weak: {deep:.3e}"
+
+
+def test_matches_the_reference_implementation():
+    """Bit-for-bit against a port of rbalestr-lab/lejepa.
+
+    Guards the four things that differed when the from-summary version was
+    checked against the reference: no centering, trapezoid weights including
+    t=0 with half-weight endpoints, weights multiplied by phi and NOT
+    normalized, and the batch-size scaling.
+    """
+
+    def reference(x, num_slices, t_max, n_points, gen):
+        dim, count = x.size(-1), x.size(-2)
+        directions = torch.randn(dim, num_slices, generator=gen)
+        directions = directions / directions.norm(p=2, dim=0)
+        projections = x @ directions
+        t = torch.linspace(0, t_max, n_points)
+        step = t_max / (n_points - 1)
+        weights = torch.full((n_points,), 2 * step)
+        weights[0] = step
+        weights[-1] = step
+        phi = torch.exp(-0.5 * t**2)
+        weights = weights * phi
+        angles = projections.unsqueeze(-1) * t
+        err = (torch.cos(angles).mean(-3) - phi).square() + torch.sin(angles).mean(-3).square()
+        return (err @ weights).mean() * count
+
+    torch.manual_seed(0)
+    cases = {
+        "isotropic": torch.randn(256, 16),
+        "anisotropic": torch.randn(256, 16) * torch.tensor([5.0] + [0.05] * 15),
+        "collapsed": torch.randn(16).repeat(256, 1) + 1e-4 * torch.randn(256, 16),
+        "shifted": torch.randn(256, 16) + 3.0,
+    }
+    for name, x in cases.items():
+        expected = reference(x, 1024, 3.0, 17, torch.Generator().manual_seed(7))
+        actual = sigreg_loss(
+            x, num_slices=1024, num_freqs=17, freq_max=3.0,
+            generator=torch.Generator().manual_seed(7),
         )
-        loss.backward()
-        return loss.item(), embeddings.grad.norm().item()
+        assert torch.allclose(expected, actual, rtol=1e-6), name
 
-    loss_big, grad_big = loss_and_grad(1e-2)
-    loss_small, grad_small = loss_and_grad(1e-4)
 
-    # The loss barely moves: it has saturated.
-    assert abs(loss_small - loss_big) < 1e-3
-    # The gradient falls by roughly the same factor as the scale, 100x here.
-    assert grad_small < grad_big / 50
+def test_even_num_freqs_is_rejected():
+    """The trapezoid rule needs an odd point count, as the reference asserts."""
+    import pytest
+
+    with pytest.raises(ValueError, match="must be odd"):
+        sigreg_loss(torch.randn(32, 8), num_freqs=16)

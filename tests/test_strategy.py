@@ -22,8 +22,8 @@ def make_config(name: str) -> dict:
         "ema_decay": 0.99,
         "sigreg_weight": weight,
         "sigreg_num_slices": 8,
-        "sigreg_num_freqs": 4,
-        "sigreg_freq_max": 5.0,
+        "sigreg_num_freqs": 5,
+        "sigreg_freq_max": 3.0,
     }
 
 

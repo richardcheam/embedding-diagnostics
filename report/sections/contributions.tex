@@ -12,7 +12,7 @@ report implies more novelty than it has.
 \textbf{Component} & \textbf{Status} & \textbf{Source} \\
 \midrule
 JEPA architecture & Established & \citet{assran2023ijepa} \\
-SIGReg loss & Established, not ours & \citet{lejepa2025} \\
+SIGReg loss & Established, not ours & \citet{lejepa2025}; verified line-by-line against the reference implementation, 2026-08-14 \\
 EMA target + stop-gradient & Established & \citet{grill2020byol,chen2021simsiam} \\
 Collapse diagnostics & Established practice & Standard in the SSL literature \\
 Linear-probe protocol & Established practice & Standard SSL evaluation \\
@@ -30,7 +30,13 @@ First, the scale-dependence result this report attempts to replicate \replicatio
 encountered through a secondhand summary rather than a full reading of its source. It
 should be treated as unverified.
 
-Second, our SIGReg implementation \interp{} was written from a summary-level understanding
-of \citet{lejepa2025} and has not been validated against the reference implementation. Until
-that validation is done, results produced with it are not a faithful reproduction of
-LeJEPA, and any discrepancy found later must be reported here.
+Second, our SIGReg implementation was written from a summary-level understanding of
+\citet{lejepa2025} and, when finally checked against the reference implementation, was
+found to be \emph{wrong} in a way that silently disabled the regularizer: we centered the
+embeddings before the normality test, which the reference does not, making a collapsed
+representation a stationary point of the objective meant to prevent collapse.
+Section~\ref{sec:instrument} reports this. It has been corrected and now matches the
+reference bit-for-bit on isotropic, anisotropic, collapsed and mean-shifted inputs. We note
+it prominently because it is the clearest possible vindication of labelling unvalidated
+work as unvalidated: the implementation passed every behavioural test we had thought to
+write, and was still wrong. \interp{}

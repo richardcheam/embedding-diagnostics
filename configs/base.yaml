@@ -38,7 +38,11 @@ strategy:
   uses_ema_target: true
   detaches_target: true
   ema_decay: 0.996
+  # Reference LeJEPA forms a convex combination, sigreg*lambda + other*(1-lambda),
+  # and sweeps lambda over {0.01, 0.02, 0.05, 0.1}. This project uses the additive
+  # form prediction + weight*sigreg, so weight = lambda/(1-lambda), i.e. roughly
+  # 0.01 to 0.11. Condition files that enable SIGReg set it explicitly.
   sigreg_weight: 0.0
-  sigreg_num_slices: 64
-  sigreg_num_freqs: 16
-  sigreg_freq_max: 5.0
+  sigreg_num_slices: 1024
+  sigreg_num_freqs: 17
+  sigreg_freq_max: 3.0

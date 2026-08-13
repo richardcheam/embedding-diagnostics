@@ -120,3 +120,58 @@ at one model scale.
 broken and is now less broken; it is not evidence about the research question. In
 particular, none of the between-condition orderings observed in the pilot should be read
 as results --- they were measured with the instrument this section is about.
+
+\subsection{A second defect: the regularizer was not regularizing}
+
+The corrected instrument was then used for a second pilot, which produced a further
+finding. Neither SIGReg condition exceeded random-initialisation probe accuracy (0.306 and
+0.315 against 0.369 at step zero), while the EMA baseline reached 0.497. More tellingly,
+\texttt{sigreg\_nostopgrad} slid into collapse over its final quarter --- mean pairwise
+cosine 0.564 to 0.879, total variance 76 to 21 --- \emph{while SIGReg was numerically
+dominant}, its weighted term running two to ten times the prediction loss.
+
+A regularizer being paid that much and still losing is implausible, so we measured its
+restoring force directly by scaling a batch toward a constant vector:
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{r r r}
+\toprule
+\textbf{residual noise} & \textbf{reference grad norm} & \textbf{our version} \\
+\midrule
+$10^{0}$  & 4.24 & $2.87\times10^{-4}$ \\
+$10^{-2}$ & 3.64 & $2.53\times10^{-4}$ \\
+$10^{-4}$ & 3.63 & $2.53\times10^{-6}$ \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} As collapse deepens, the reference implementation maintains its restoring
+force while ours decays to nothing.}
+\end{table}
+
+\paragraph{Cause.} We centered the embeddings before the normality test. The reference does
+not. A collapsed encoder emits some constant vector $c$; centering maps that exactly onto
+the origin, where the characteristic function is flat ($\cos(0)=1$, derivative zero). The
+loss saturated at a high value --- correctly reporting a severe problem --- while its
+gradient vanished. Collapse had become a stationary point of the objective built to prevent
+it, and the loss value and the loss gradient disagreed about how bad the situation was.
+
+Centering additionally made a mean-shifted distribution invisible, since it removes exactly
+the discrepancy a comparison against a \emph{standard} normal is meant to detect.
+
+\paragraph{Corrections.} The module now matches the reference bit-for-bit on isotropic,
+anisotropic, collapsed and mean-shifted inputs, verified by a test carrying a port of the
+reference. Four further deviations were found and corrected: the integration grid excluded
+$t=0$, the quadrature weights were normalized rather than trapezoidal, the batch-size
+scaling of the Epps-Pulley statistic had been removed, and the defaults differed. Separately,
+the loss weight was roughly twenty times the top of the reference's tuned range: LeJEPA
+forms a convex combination and sweeps $\lambda \in \{0.01, 0.02, 0.05, 0.1\}$, equivalent to
+$0.01$--$0.11$ in our additive parametrisation, where we had been using $1.0$.
+
+\paragraph{Consequence.} \interp{} All SIGReg results from both pilots were produced by a
+regularizer that was not regularizing, and none of them should be compared against anything.
+This is also the strongest available argument for the labelling discipline described in
+the Contributions section: the implementation passed every behavioural
+test we had thought to write --- including one specifically checking that anisotropic
+embeddings score worse than isotropic ones --- and was still wrong in a way that mattered
+more than the bug those tests caught.

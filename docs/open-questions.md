@@ -1,6 +1,12 @@
 # Open questions
 
-## SIGReg implementation fidelity
+## SIGReg implementation fidelity — RESOLVED 2026-08-14
+
+The check was done. The implementation was **wrong**, in a way that silently disabled the
+regularizer. Details in the two sections below; the original open question is kept for
+context.
+
+### Original open question
 
 `src/jepa_lens/training/sigreg.py` was written from a summary-level
 understanding of LeJEPA (arXiv 2511.08544), not an end-to-end reading.
@@ -94,7 +100,7 @@ https://github.com/rbalestr-lab/lejepa before any result produced with it is
 described as a reproduction of LeJEPA, faithful or otherwise. The module
 docstring's unvalidated-provenance warning stands unchanged.
 
-## SIGReg's gradient vanishes as collapse deepens (found in pilot 2, UNRESOLVED)
+## SIGReg's gradient vanishes as collapse deepens (found in pilot 2, RESOLVED)
 
 The 2000-step pilot showed `sigreg_nostopgrad` sliding into collapse over its last
 quarter (mean pairwise cosine 0.564 -> 0.879, total variance 76 -> 21) *while SIGReg was
@@ -131,3 +137,62 @@ interpreted. Both sat below random-initialization probe accuracy (0.306 and 0.31
 0.369 at step 0) while the EMA baseline reached 0.497. Running the full 32000-step budget
 would spend GPU time comparing two configurations that are not in a healthy training
 regime.
+
+## Resolution: we were centering the embeddings, and the reference does not
+
+Checked line by line against `lejepa/univariate/epps_pulley.py::EppsPulley` and
+`lejepa/multivariate/slicing.py::SlicingUnivariateTest` at
+https://github.com/rbalestr-lab/lejepa. The reference applies the test to raw embeddings:
+`stats = self.univariate_test(x @ A)`, and the README's usage is `loss = loss_fn(embeddings)`.
+There is no centering, no standardization, and no normalization anywhere upstream.
+
+Our version subtracted the per-feature mean before projecting. That was our own invention,
+introduced while fixing an earlier bug, and it is what caused the vanishing gradient. A
+collapsed encoder emits some constant vector c; centering maps that exactly onto the
+origin, where the characteristic function is flat (`cos(0)=1`, derivative zero). Collapse
+became a stationary point of the objective built to prevent it.
+
+Measured on a batch collapsing to a constant, as the residual noise shrinks 1.0 -> 1e-4:
+
+| residual noise | reference grad norm | our centered version |
+| --- | --- | --- |
+| 1e+0 | 4.24 | 2.87e-04 |
+| 1e-2 | 3.64 | 2.53e-04 |
+| 1e-4 | 3.63 | 2.53e-06 |
+
+The reference keeps a strong restoring force throughout. Ours decayed to nothing.
+
+Centering also made a **shifted** distribution invisible: the uncentered statistic scores a
+mean-shifted batch at 386, ours at essentially nothing, because centering removes exactly
+the discrepancy the standard-normal comparison is meant to catch.
+
+### Other differences found and corrected
+
+| item | ours (before) | reference | now |
+| --- | --- | --- | --- |
+| centering | subtract per-feature mean | none | none |
+| integration grid | `linspace(freq_max/n, freq_max, n)`, excludes t=0 | `linspace(0, t_max, n)`, includes t=0, n odd | reference |
+| weights | normalized to sum 1 | trapezoid `2*dt*phi`, half weight at endpoints, unnormalized | reference |
+| batch scaling | removed deliberately | `* N` | reference |
+| defaults | 64 slices, 16 points, t_max 5 | 1024 slices, 17 points, t_max 3 | reference |
+
+`tests/test_sigreg.py::test_matches_the_reference_implementation` now checks ours against a
+port of the reference bit-for-bit on isotropic, anisotropic, collapsed and shifted inputs.
+
+### The loss weight was also far too high
+
+The reference forms a convex combination, `sigreg*lambda + inv_loss*(1-lambda)`
+(`MINIMAL.md`), and its ImageNet-10 launcher sweeps `bstat_lambda=0.01,0.02,0.05,0.1`. In
+this project's additive form, `prediction + weight*sigreg`, that is
+`weight = lambda/(1-lambda)`, i.e. roughly **0.01 to 0.11**. We were running
+`sigreg_weight: 1.0` -- about 20x above the top of the reference's tuned range, while the
+regularizer was also producing almost no gradient. Both are now fixed; the conditions use
+0.0526, corresponding to lambda = 0.05.
+
+### What still needs doing
+
+- Re-run the pilot. Pilot-2 numbers for the SIGReg conditions were produced by the broken
+  implementation and should not be compared against anything.
+- The remaining deviations are deliberate and documented in the module docstring: no
+  distributed all-reduce (this project never shards a batch), an explicit `torch.Generator`
+  rather than a synchronized global-step counter, and no `clip_value`.

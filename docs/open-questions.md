@@ -93,3 +93,41 @@ function. If anything, this episode is a concrete demonstration of why
 https://github.com/rbalestr-lab/lejepa before any result produced with it is
 described as a reproduction of LeJEPA, faithful or otherwise. The module
 docstring's unvalidated-provenance warning stands unchanged.
+
+## SIGReg's gradient vanishes as collapse deepens (found in pilot 2, UNRESOLVED)
+
+The 2000-step pilot showed `sigreg_nostopgrad` sliding into collapse over its last
+quarter (mean pairwise cosine 0.564 -> 0.879, total variance 76 -> 21) *while SIGReg was
+active and numerically dominant* -- its weighted term was 2x to 10x the prediction loss.
+A regularizer that is being paid that much and still loses is suspicious, so we measured
+the restoring force directly.
+
+Scaling a fixed batch of embeddings toward a point:
+
+| scale | loss | grad norm |
+| --- | --- | --- |
+| 1e-2 | 0.186298 | 2.53e-04 |
+| 1e-3 | 0.186365 | 7.60e-05 |
+| 1e-4 | 0.186371 | 2.53e-06 |
+| 1e-5 | 0.186371 | 2.53e-07 |
+
+**The loss saturates at 0.186 while the gradient decays linearly with the scale.** Near
+zero, `cos(f*p) ~ 1 - (f*p)^2/2`, so the characteristic-function deviation is `O(p^2)` and
+its derivative is `O(p)`. A fully collapsed representation is therefore close to a
+stationary point of SIGReg: the objective keeps reporting "this is very non-Gaussian"
+while supplying essentially no force to escape.
+
+The loss value and the loss gradient disagree about how bad the collapse is. Monitoring
+the loss would not reveal this -- it looks like the regularizer is working hard.
+
+**Whether this is a property of SIGReg or of this implementation is unknown**, and that is
+now the most concrete reason to do the fidelity check above. Candidate differences worth
+checking against https://github.com/rbalestr-lab/lejepa: whether embeddings are normalized
+before the test, the frequency grid, the weighting function, and whether the reference
+uses a statistic whose gradient does not vanish at the degenerate point.
+
+**Consequence for the study:** until this is understood, the SIGReg conditions cannot be
+interpreted. Both sat below random-initialization probe accuracy (0.306 and 0.315 versus
+0.369 at step 0) while the EMA baseline reached 0.497. Running the full 32000-step budget
+would spend GPU time comparing two configurations that are not in a healthy training
+regime.

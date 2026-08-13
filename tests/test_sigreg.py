@@ -83,3 +83,38 @@ def test_cpu_generator_works_with_accelerator_embeddings():
 
     assert loss.device.type == torch.device(device).type
     assert torch.isfinite(loss)
+
+
+def test_gradient_vanishes_as_collapse_deepens():
+    """SIGReg's restoring force weakens in proportion to the collapse.
+
+    Near zero, cos(f*p) ~ 1 - (f*p)^2/2, so the characteristic-function
+    deviation is O(p^2) and its derivative is O(p). The loss therefore
+    saturates at a constant while the gradient decays linearly: the objective
+    keeps reporting "this is very non-Gaussian" while supplying almost no force
+    to fix it. A fully collapsed representation is close to a stationary point.
+
+    Pinned because it explains the pilot, where sigreg_nostopgrad slid into
+    collapse over the last quarter of training with the regularizer active and
+    nominally dominating the loss. NOTE this may be a property of this
+    from-summary implementation rather than of SIGReg as published -- see
+    docs/open-questions.md.
+    """
+    torch.manual_seed(0)
+    base = torch.randn(256, 16)
+
+    def loss_and_grad(scale):
+        embeddings = (base * scale).clone().requires_grad_(True)
+        loss = sigreg_loss(
+            embeddings, num_slices=64, num_freqs=16, generator=torch.Generator().manual_seed(0)
+        )
+        loss.backward()
+        return loss.item(), embeddings.grad.norm().item()
+
+    loss_big, grad_big = loss_and_grad(1e-2)
+    loss_small, grad_small = loss_and_grad(1e-4)
+
+    # The loss barely moves: it has saturated.
+    assert abs(loss_small - loss_big) < 1e-3
+    # The gradient falls by roughly the same factor as the scale, 100x here.
+    assert grad_small < grad_big / 50

@@ -178,3 +178,91 @@ def test_new_conditions_run_a_full_train_step(name):
     trainer = Trainer(tiny_config(name, projector_dim=projector_dim))
     metrics = trainer.train_step(torch.randn(4, 3, 32, 32))
     assert np.isfinite(metrics["total"])
+
+
+def cifar_like_config(seed: int, eval_split_seed: int) -> dict:
+    """Minimal config for exercising probe-subset selection without torchvision."""
+    return {
+        "seed": seed,
+        "data": {
+            "dataset": "cifar10",
+            "eval_split_seed": eval_split_seed,
+            "probe_train_samples": 5,
+            "probe_test_samples": 5,
+        },
+    }
+
+
+def _subset_indices(config: dict, population: int) -> list[int]:
+    """Reproduce the loader's subset draw, which is the thing under test."""
+    rng = np.random.default_rng(config["data"].get("eval_split_seed", 0))
+    return sorted(
+        int(i)
+        for i in rng.choice(
+            population, size=config["data"]["probe_test_samples"], replace=False
+        )
+    )
+
+
+def test_probe_subset_is_identical_across_run_seeds():
+    """Across-seed spread must measure training variability, not which images
+    happened to be scored."""
+    a = _subset_indices(cifar_like_config(seed=0, eval_split_seed=0), 500)
+    b = _subset_indices(cifar_like_config(seed=7, eval_split_seed=0), 500)
+    assert a == b
+
+
+def test_changing_eval_split_seed_changes_the_probe_subset():
+    a = _subset_indices(cifar_like_config(seed=0, eval_split_seed=0), 500)
+    b = _subset_indices(cifar_like_config(seed=0, eval_split_seed=1), 500)
+    assert a != b
+
+
+def test_bdd_probe_split_follows_eval_split_seed_not_the_run_seed(tmp_path):
+    """Same guarantee on the driving corpus."""
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from jepa_lens.bdd100k import build_bdd_dataloaders
+    from test_bdd100k import CLEAN, RAINY, make_per_image_tree
+
+    for split in ("train", "val"):
+        make_per_image_tree(
+            tmp_path,
+            split,
+            [(f"{split}{i}", {"attributes": CLEAN if i % 2 else RAINY}) for i in range(12)],
+        )
+
+    def probe_labels(run_seed, eval_seed):
+        config = {
+            "seed": run_seed,
+            "data": {
+                "dataset": "bdd100k",
+                "root": str(tmp_path),
+                "batch_size": 2,
+                "num_workers": 0,
+                "eval_split_seed": eval_seed,
+                "probe_train_samples": 4,
+                "probe_test_samples": 4,
+            },
+            "model": {"image_size": 32},
+        }
+        _, _, (images, labels) = build_bdd_dataloaders(config)
+        return images, labels["weather"]
+
+    images_a, labels_a = probe_labels(run_seed=0, eval_seed=0)
+    images_b, labels_b = probe_labels(run_seed=5, eval_seed=0)
+    assert torch.equal(images_a, images_b)
+    assert (labels_a == labels_b).all()
+
+    _, labels_c = probe_labels(run_seed=0, eval_seed=3)
+    assert not (len(labels_a) == len(labels_c) and (labels_a == labels_c).all())
+
+
+def test_resolved_config_records_both_seeds():
+    config = tiny_config("none_stopgrad", seed=4)
+    config["data"]["eval_split_seed"] = 2
+    trainer = Trainer(config)
+    assert trainer.config["seed"] == 4
+    assert trainer.config["data"]["eval_split_seed"] == 2

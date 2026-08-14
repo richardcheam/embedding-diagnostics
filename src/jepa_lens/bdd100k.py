@@ -256,10 +256,13 @@ def build_bdd_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tu
         generator=loader_generator,
     )
 
+    # eval_split_seed, not the run seed: the scored images must be identical
+    # across conditions and training seeds.
+    eval_seed = data_config.get("eval_split_seed", 0)
     probe_train = _probe_split(
-        train_index, data_config["probe_train_samples"], image_size, config["seed"]
+        train_index, data_config["probe_train_samples"], image_size, eval_seed
     )
     probe_test = _probe_split(
-        val_index, data_config["probe_test_samples"], image_size, config["seed"]
+        val_index, data_config["probe_test_samples"], image_size, eval_seed
     )
     return ssl_loader, probe_train, probe_test

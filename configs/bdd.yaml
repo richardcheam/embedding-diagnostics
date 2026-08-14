@@ -11,6 +11,11 @@ data:
   batch_size: 256
   # JPEG decode at 1280x720 is the bottleneck, not the GPU.
   num_workers: 8
+  # Chooses the probe train/test SUBSET, deliberately separate from the
+  # top-level run seed. The evaluation split must be identical across every
+  # condition and every training seed, so that across-seed spread measures
+  # training variability alone rather than training plus which-images-we-scored.
+  eval_split_seed: 0
   probe_train_samples: 5000
   # Nearly all 8801 fully-labelled val images. BDD's attributes are severely
   # skewed (val: foggy=13, gas stations=7, tunnel=27), and subsampling to 5000

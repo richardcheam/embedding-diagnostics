@@ -5,6 +5,11 @@ data:
   root: ./data
   batch_size: 256
   num_workers: 4
+  # Chooses the probe train/test SUBSET, deliberately separate from the
+  # top-level run seed. The evaluation split must be identical across every
+  # condition and every training seed, so that across-seed spread measures
+  # training variability alone rather than training plus which-images-we-scored.
+  eval_split_seed: 0
   probe_train_samples: 5000
   # 5000 rather than 2000: the probe's binomial standard error is
   # sqrt(p(1-p)/n), ~0.011 at n=2000 and ~0.007 at n=5000. Differences smaller

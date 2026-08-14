@@ -19,6 +19,7 @@ import sys
 from pathlib import Path
 
 from jepa_lens.hardware import plan_gpu_waves
+from jepa_lens.planning import build_jobs, parse_seeds, preflight
 
 ROOT = Path(__file__).resolve().parents[1]
 CONDITIONS = [
@@ -55,6 +56,11 @@ def parse_args() -> argparse.Namespace:
         "load_runs and the figures keep working unchanged per seed",
     )
     parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="discard existing results in the target directories (refused by default)",
+    )
+    parser.add_argument(
         "--gpus",
         default=None,
         help="comma-separated GPU ids for --parallel (default: every visible GPU)",
@@ -62,20 +68,18 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def build_command(
-    condition: str, seed: int, tag: str, args: argparse.Namespace
-) -> list[str]:
+def build_command(job, args: argparse.Namespace) -> list[str]:
     command = [
         sys.executable,
         str(ROOT / "scripts" / "train.py"),
         "--condition",
-        condition,
+        job.condition,
         "--device",
         args.device,
         "--tag",
-        tag,
+        job.tag,
         "--seed",
-        str(seed),
+        str(job.seed),
         "--base-config",
         args.base_config,
     ]
@@ -86,22 +90,16 @@ def build_command(
     return command
 
 
-def build_jobs(args: argparse.Namespace) -> list[tuple[str, int, str]]:
-    """(condition, seed, tag) triples for the whole grid.
-
-    A single seed keeps the flat `<tag>/<condition>/` layout every existing
-    tool reads. Multiple seeds write to `<tag>_s<seed>/<condition>/`, so
-    `load_runs` and the figures keep working unchanged per seed and
-    `aggregate_seeds.py` can glob the family.
-    """
-    seeds = [int(part) for part in str(args.seeds).split(",") if part.strip()]
-    if len(seeds) == 1:
-        return [(condition, seeds[0], args.tag) for condition in CONDITIONS]
-    return [
-        (condition, seed, f"{args.tag}_s{seed}")
-        for seed in seeds
-        for condition in CONDITIONS
-    ]
+def plan(args: argparse.Namespace):
+    """Build the job list and refuse to proceed if any target is occupied."""
+    jobs = build_jobs(CONDITIONS, parse_seeds(args.seeds), args.tag)
+    problems = preflight(jobs, ROOT / "experiments", overwrite=args.overwrite)
+    if problems:
+        print("refusing to start; nothing has been written:", file=sys.stderr)
+        for problem in problems:
+            print(f"  {problem}", file=sys.stderr)
+        raise SystemExit(2)
+    return jobs
 
 
 def resolve_gpus(raw: str | None) -> list[int]:
@@ -118,20 +116,19 @@ def resolve_gpus(raw: str | None) -> list[int]:
     return list(range(count))
 
 
-def run_sequential(args: argparse.Namespace) -> int:
-    for condition, seed, tag in build_jobs(args):
-        print(f"\n=== {condition} (seed {seed} -> {tag}) ===", flush=True)
-        result = subprocess.run(build_command(condition, seed, tag, args), check=False)
+def run_sequential(args: argparse.Namespace, jobs) -> int:
+    for job in jobs:
+        print(f"\n=== {job.condition} (seed {job.seed} -> {job.tag}) ===", flush=True)
+        result = subprocess.run(build_command(job, args), check=False)
         if result.returncode != 0:
-            print(f"condition {condition} failed with code {result.returncode}", file=sys.stderr)
+            print(f"{job.label} failed with code {result.returncode}", file=sys.stderr)
             return result.returncode
     return 0
 
 
-def run_parallel(args: argparse.Namespace) -> int:
+def run_parallel(args: argparse.Namespace, jobs) -> int:
     gpus = resolve_gpus(args.gpus)
-    jobs = build_jobs(args)
-    labels = [f"{condition}@s{seed}" for condition, seed, _ in jobs]
+    labels = [job.label for job in jobs]
     lookup = dict(zip(labels, jobs, strict=True))
     waves = plan_gpu_waves(labels, gpus)
     print(f"{len(jobs)} jobs across GPUs {gpus} in {len(waves)} wave(s)")
@@ -140,8 +137,8 @@ def run_parallel(args: argparse.Namespace) -> int:
     for index, wave in enumerate(waves, start=1):
         running = []
         for label, gpu in wave:
-            condition, seed, tag = lookup[label]
-            run_dir = ROOT / "experiments" / tag / condition
+            job = lookup[label]
+            run_dir = job.run_dir(ROOT / "experiments")
             run_dir.mkdir(parents=True, exist_ok=True)
             log_path = run_dir / "train.log"
 
@@ -152,15 +149,15 @@ def run_parallel(args: argparse.Namespace) -> int:
 
             handle = log_path.open("w", encoding="utf-8")
             process = subprocess.Popen(
-                build_command(condition, seed, tag, args),
+                build_command(job, args),
                 env=environment,
                 stdout=handle,
                 stderr=subprocess.STDOUT,
             )
-            running.append((label, tag, condition, gpu, process, handle))
+            running.append((label, gpu, process, handle))
             print(f"  wave {index}: {label} -> GPU {gpu}  (log: {log_path})", flush=True)
 
-        for label, tag, condition, gpu, process, handle in running:
+        for label, gpu, process, handle in running:
             code = process.wait()
             handle.close()
             status = "ok" if code == 0 else f"FAILED ({code})"
@@ -178,6 +175,7 @@ def run_parallel(args: argparse.Namespace) -> int:
 
 def main() -> int:
     args = parse_args()
+    jobs = plan(args)
     if args.parallel:
         if not str(args.device).startswith("cuda"):
             print(
@@ -186,8 +184,8 @@ def main() -> int:
                 file=sys.stderr,
             )
             return 2
-        return run_parallel(args)
-    return run_sequential(args)
+        return run_parallel(args, jobs)
+    return run_sequential(args, jobs)
 
 
 if __name__ == "__main__":

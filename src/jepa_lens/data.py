@@ -165,7 +165,8 @@ def build_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tuple]
     )
 
     def take(dataset, count: int) -> tuple[torch.Tensor, np.ndarray]:
-        rng = np.random.default_rng(config["seed"])
+        """Deterministic probe subset, keyed on eval_split_seed not the run seed."""
+        rng = np.random.default_rng(config["data"].get("eval_split_seed", 0))
         indices = rng.choice(len(dataset), size=min(count, len(dataset)), replace=False)
         images = torch.stack([dataset[int(index)][0] for index in indices])
         labels = np.array([dataset[int(index)][1] for index in indices])

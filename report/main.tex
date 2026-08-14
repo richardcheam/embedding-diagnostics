@@ -11,8 +11,8 @@
 
 \graphicspath{{figures/}}
 
-\title{Does Stop-Gradient Still Matter Under SIGReg?\\
-\large A Small-Scale Ablation of JEPA Collapse Prevention}
+\title{Can You Trust a Self-Supervised Scenario Embedding?\\
+\large Diagnosing Representation Degeneration in Masked JEPA Training}
 \author{}
 \date{\today}
 
@@ -20,20 +20,29 @@
 \maketitle
 
 \begin{abstract}
-Joint-embedding predictive architectures avoid representation collapse through a
-collection of heuristics: stop-gradient, exponential-moving-average target encoders, and
-masking design. LeJEPA introduces SIGReg and reports that it removes the need for these
-heuristics. We test, at small scale on CIFAR-10, whether that holds as training duration
-grows, and whether cheap collapse diagnostics detect degradation earlier than a linear
-probe does.
+Scenario mining for ADAS validation embeds millions of unlabeled driving situations and
+asks whether the embedding covers the operating domain. That question rests entirely on
+label-free diagnostics — and this project shows those diagnostics can fail in the worst
+possible direction. On a control condition with no collapse prevention, which collapsed
+completely (mean pairwise cosine 1.000), two standard diagnostics \emph{rose}: effective
+rank (the covariance participation ratio) and standardized linear-probe accuracy. Both are
+scale-invariant, and the collapse was a loss of scale.
 
-A pilot run intended only to validate the measurement apparatus produced the first
-substantive finding: on a control condition with no collapse prevention at all, which
-collapsed completely (mean pairwise cosine 1.000), two of the four diagnostics --- effective
-rank and standardized linear-probe accuracy --- \emph{rose} rather than fell. Both are
-scale-invariant, and collapse here is a loss of scale. Section~\ref{sec:instrument} reports
-this and the instrument changes made in response. \textbf{The main results section is to be
-completed once the full-length runs finish.}
+We therefore treat collapse-prevention mechanisms — stop-gradient, SIGReg
+\citep{lejepa2025}, and a disposable projector — as controlled interventions that
+manufacture known degeneration modes in negative-free masked JEPA training, and test which
+label-free diagnostics distinguish scale collapse, angular concentration, dimensional
+structure, and semantic loss. A calibration phase on CIFAR-10 (seven conditions, three
+paired seeds, pre-registered fixed-step endpoints) is followed by the same matrix on
+BDD100K driving images, where the semantic endpoint is scenario-attribute retrieval — the
+operation scenario mining actually performs.
+
+Supporting results so far, all single-seed and pending the pre-registered rerun: without a
+projector, SIGReg failed to substitute for stop-gradient at every strength in its
+reference range (final cosine 0.990--0.381 without stop-gradient versus 0.034--0.008 with
+it), and on the one run that both learned and degraded, the expensive probe turned
+\emph{before} the cheap diagnostics — the opposite of the monitoring folklore.
+\textbf{Phase-2 results sections are completed as runs finish.}
 \end{abstract}
 
 \input{sections/introduction}

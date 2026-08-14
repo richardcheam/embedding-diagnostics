@@ -3,7 +3,44 @@
 Read this first. It is the plain-language story of what we set out to test, what actually
 happened, and what is still open. Everything else is detail.
 
-Last updated: 2026-08-14, after the lambda sweep.
+Last updated: 2026-08-14, after the external audit and the Phase-2 reframe.
+
+---
+
+## 0. The reframe (read this before the history below)
+
+An external advisor audit found two design flaws that change how everything below must be
+read, and the project's goal (interview preparation for an ADAS-validation CIFRE, a
+credible portfolio piece) pointed at a sharper question. The project is now:
+
+> **Can you trust a self-supervised scenario embedding?** Which label-free diagnostics
+> reliably detect each mode of representation degeneration — and do they still work when
+> the embedding is used for driving-scenario retrieval?
+
+The four bugs and the collapse conditions stop being the contribution and become the
+**instrument**: controlled ways to manufacture known degeneration so diagnostics can be
+tested against ground truth. Phase A calibrates on CIFAR-10; Phase B runs the same matrix
+on BDD100K driving images with scenario-attribute retrieval as the semantic endpoint.
+
+The audit's two design findings, both now fixed in code:
+
+1. **SIGReg had no projector.** LeJEPA applies SIGReg to a disposable MLP head and probes
+   the encoder beneath it; we applied it directly to the probed representation. The
+   projector is worth ~20 points in comparable settings, so every "SIGReg didn't learn"
+   result below characterises the no-projector configuration — not SIGReg, not LeJEPA.
+   There are now `proj_sigreg_*` conditions with a 512-d projector.
+2. **The 2x2 had a hole.** `none_stopgrad` (stop-gradient alone, no regularizer) was
+   missing, so stop-gradient's effect could not be separated from SIGReg's. Added.
+
+Plus the statistics fixes: 3 paired seeds, fixed-step endpoints instead of
+best-over-checkpoints, a pre-registered claim rule (2x seed SD and the probe's binomial
+SE), and the rank metric renamed to what it actually is (participation ratio, with RankMe
+added as a genuinely different measure).
+
+Full pre-registration: `docs/superpowers/specs/2026-08-14-phase2-scenario-reframe.md` and
+the report's Section "Phase-2 pre-registration".
+
+**Status: harness ready, Phase-A runs pending; BDD100K download pending on the GPU box.**
 
 ---
 

@@ -19,6 +19,8 @@ Linear-probe protocol & Established practice & Standard SSL evaluation \\
 Four-condition ablation grid & Standard methodology & Conventional design \\
 Scale-dependence of stop-gradient under SIGReg & \textbf{Replication attempt} & Encountered secondhand; primary source not read end-to-end \\
 Cheap diagnostics as early warning & \textbf{Potentially new, conditional} & Only a contribution if the timing gap is observed \\
+Diagnostic reliability under manufactured degeneration, calibrated then applied to scenario retrieval & \textbf{Ours, in progress} & Phase-2 central question (Section~\ref{sec:prereg}) \\
+Projector as the variable governing where a distributional regularizer may act & \textbf{Ours, hypothesis} & Motivated by an audit finding; untested until Phase 2 \\
 Effective rank and standardized probing both failing on total collapse & \textbf{Ours, observed} & Section~\ref{sec:instrument}; single-seed pilot \\
 \bottomrule
 \end{tabular}
@@ -40,3 +42,12 @@ reference bit-for-bit on isotropic, anisotropic, collapsed and mean-shifted inpu
 it prominently because it is the clearest possible vindication of labelling unvalidated
 work as unvalidated: the implementation passed every behavioural test we had thought to
 write, and was still wrong. \interp{}
+
+A third load-bearing caveat was added after an external audit (2026-08-14): every SIGReg
+result collected before Phase 2 comes from a configuration with \emph{no projector}, i.e.
+the regularizer acted directly on the probed representation. The literature reports the
+projector is worth on the order of twenty accuracy points in comparable settings, so those
+results characterise the no-projector configuration only — not SIGReg, and not
+\citet{lejepa2025}. The audit also found the original condition grid could not isolate
+stop-gradient (no \texttt{none\_stopgrad} cell) and that no experiment had been repeated
+across seeds; both are corrected in the pre-registered Phase-2 design.

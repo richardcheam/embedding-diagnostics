@@ -92,3 +92,20 @@ Training is bit-deterministic, but probe accuracy varies by up to ~0.002 between
 runs of the same commit, because non-deterministic CPU kernels perturb the embeddings'
 last bits and a few test samples flip across the decision boundary. Do not treat
 between-condition probe differences below ~0.005 as real. See `docs/development-log.md`.
+
+## Phase-2 rules (post-audit)
+
+The central question is now diagnostic reliability, with the conditions as manufactured
+degeneration modes — see `docs/STATUS.md` section 0 and the Phase-2 spec. Non-negotiables
+added by the audit:
+
+- **Endpoints are pre-registered.** The primary number is the FINAL-checkpoint unscaled
+  probe (or retrieval P@10 on BDD). Never select best-over-checkpoints as a result; the
+  expected max of 21 noise checkpoints is already +0.005.
+- **No single-seed claims.** A difference is real only if it clears 2x the across-seed SD
+  and the probe's binomial SE (~0.007 at n=5000). `aggregate_seeds.py` prints the rule.
+- **The projector is part of the design.** SIGReg results without a projector describe the
+  no-projector configuration, not SIGReg. Keep `reg_embedding` distinct from
+  `context_embedding` — the rename exists so this cannot be missed silently.
+- **Naming discipline for rank measures.** "Participation ratio" and "RankMe" are
+  different quantities and both are logged; never write "effective rank" in new prose.

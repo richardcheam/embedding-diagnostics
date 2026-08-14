@@ -20,3 +20,43 @@ interactive report.
 
 Training loss is recorded but is not treated as a collapse signal. Regularized objectives
 plateau at non-zero values whether or not the encoder has collapsed.
+
+\subsection{Phase-2 pre-registration}
+\label{sec:prereg}
+
+Following an external audit (2026-08-14) that found the original design could not isolate
+its own factors — no \texttt{none\_stopgrad} cell, SIGReg applied directly to the probed
+representation with no projector, and every run at a single seed — the following design is
+fixed \emph{before} any Phase-2 run executes.
+
+\paragraph{Conditions (7).} \texttt{ema\_stopgrad}, \texttt{none\_stopgrad},
+\texttt{none\_nostopgrad}, \texttt{sigreg\_stopgrad}, \texttt{sigreg\_nostopgrad},
+\texttt{proj\_sigreg\_stopgrad}, \texttt{proj\_sigreg\_nostopgrad}. The projector is an
+MLP ($192 \to 512 \to 512$) matching LeJEPA's launcher; SIGReg acts on its output, while
+the probe, the diagnostics, and the prediction task read the encoder. Our prediction loss
+remains in encoder latent space — a documented deviation from LeJEPA, which pairs SIGReg
+with multi-view invariance and has no latent-prediction task.
+
+\paragraph{Seeds and pairing.} Three seeds (0, 1, 2). Within a seed, every condition
+receives identical initialisation, masks, and batch order, verified by test.
+
+\paragraph{Budget.} 4{,}000 steps, checkpoints every 200. Every observed separation to
+date was unambiguous by 2{,}000 steps, and the 32{,}000-step baseline peaked at 11{,}000
+and degraded thereafter.
+
+\paragraph{Endpoints.} Primary: unscaled linear-probe accuracy at the \emph{final}
+checkpoint (fixed a priori; the best-over-checkpoints value is reported but labelled
+selection-biased, since the expected maximum of 21 noise-only checkpoints is already
+$+0.005$). Secondary: total variance, mean pairwise cosine, participation ratio, RankMe,
+per-component losses, the standardized/unscaled probe gap, and retrieval P@10. On BDD100K
+the primary semantic endpoint is retrieval P@10 per scenario attribute.
+
+\paragraph{Claim rule.} A between-condition difference is claimed only if it clears twice
+the across-seed standard deviation \emph{and} the probe's binomial standard error
+($\approx 0.007$ at $n=5{,}000$ test samples).
+
+\paragraph{Falsification.} The projector hypothesis is falsified if
+\texttt{proj\_sigreg\_nostopgrad} collapses as badly as \texttt{sigreg\_nostopgrad} on all
+seeds. \texttt{none\_stopgrad} collapsing would show stop-gradient alone is insufficient
+here. A diagnostic that orders degeneration modes inconsistently across seeds is reported
+as unreliable — that is a result, not a failure.

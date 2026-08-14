@@ -1,7 +1,10 @@
 # jepa-lens
 
-Does stop-gradient still matter under SIGReg once training runs long enough? And do cheap
-collapse diagnostics notice before a linear probe does?
+Can you trust a self-supervised scenario embedding? This project manufactures known modes
+of representation degeneration in masked JEPA training — via stop-gradient, SIGReg, and a
+disposable projector as controlled interventions — and tests which label-free diagnostics
+actually detect each mode, first on a CIFAR-10 calibration bench and then on BDD100K
+driving scenarios, where the semantic endpoint is scenario-attribute retrieval.
 
 **Start here: [`docs/STATUS.md`](docs/STATUS.md)** — the plain-language story of what we set
 out to test, what actually happened, and what is still open.
@@ -74,7 +77,38 @@ sharding of a single condition — SIGReg and the collapse diagnostics are batch
 statistics, so splitting a batch across ranks would change what they measure. See
 `docs/development-log.md`.
 
-Conditions: `ema_stopgrad`, `sigreg_stopgrad`, `sigreg_nostopgrad`, `none_nostopgrad`.
+Conditions (7): `ema_stopgrad`, `none_stopgrad`, `sigreg_stopgrad`, `sigreg_nostopgrad`,
+`proj_sigreg_stopgrad`, `proj_sigreg_nostopgrad`, `none_nostopgrad`. The `proj_*` pair
+places a 512-d MLP projector between the encoder and SIGReg, as LeJEPA does; the probe
+always reads the encoder.
+
+## Phase A (calibration bench, pre-registered)
+
+```bash
+# 7 conditions x 3 paired seeds = 21 runs, one job per GPU
+uv run python scripts/run_all_conditions.py --device cuda --parallel \
+  --total-steps 4000 --checkpoint-every 200 --tag phaseA --seeds 0,1,2
+
+# Across-seed means at the fixed final-step endpoint
+uv run python scripts/aggregate_seeds.py --tag phaseA
+```
+
+## Phase B (BDD100K driving scenarios)
+
+Register at http://bdd-data.berkeley.edu and download **100K Images**
+(`bdd100k_images_100k.zip`) and **Labels** (`bdd100k_labels_release.zip`); unzip so that
+`data/bdd100k/images/100k/{train,val}/` and `data/bdd100k/labels/*.json` exist. Then:
+
+```bash
+# Pilot first — full budget is decided from the pilot curves, never assumed
+uv run python scripts/run_all_conditions.py --device cuda --parallel \
+  --base-config bdd.yaml --total-steps 4000 --checkpoint-every 200 \
+  --tag bddpilot --seeds 0,1,2
+uv run python scripts/aggregate_seeds.py --tag bddpilot
+```
+
+Each BDD run logs per-attribute probes and retrieval (`probe_accuracy_weather`,
+`retrieval_p10_scene`, ...) plus across-attribute means under the canonical keys.
 
 ## Sweeping the SIGReg weight
 

@@ -217,3 +217,38 @@ asks where a series reversed and assumes nothing about direction.
 This is the third instrument defect found by running the experiment rather than by
 inspecting the code. The pattern is consistent: each assumption looked reasonable when
 written and failed on contact with the shape real data actually has.
+
+## External audit and the Phase-2 reframe (2026-08-14)
+
+A senior-researcher audit (run by a second agent, read-only) confirmed all ten of its
+checked observations against the JSONL logs and returned REFRAME_BEFORE_MORE_EXPERIMENTS,
+with two blocking design findings the harness itself could never have surfaced:
+
+1. **The projector confound.** LeJEPA applies SIGReg to a disposable projector output and
+   probes the encoder beneath (`MINIMAL.md`: `emb, proj = net(vs); sigreg(proj);
+   probe(emb.detach())`, launcher `projector_dim=512`). We applied SIGReg directly to the
+   probed representation. Literature puts the projector at ~20 accuracy points in
+   comparable settings and reports that removing it damages VICReg outright — so "SIGReg
+   never learned anything here" was a statement about a known-bad configuration.
+2. **The missing cell.** Without `none_stopgrad`, the stop-gradient effect could not be
+   estimated independently of SIGReg, and there was no stop-grad-alone baseline in the
+   SimSiam lineage.
+
+Plus: every run was n=1 seed; sweep endpoints took max-over-checkpoints (expected max of
+21 noise checkpoints is +0.005, so the sweep's one "learned" verdict at +0.008 was not
+distinguishable from selection); the binary collapse thresholds misclassified the
+project's best run on BOTH halves (32k EMA: cosine 0.53 and 6.9x variance shrinkage while
+gaining +0.21 probe); and the logged "effective_rank" was the participation ratio, not
+RankMe.
+
+Decisions taken, with the owner's goals (ADAS-validation CIFRE preparation, portfolio
+credibility) steering: reframe around diagnostic reliability with the conditions as
+manufactured degeneration modes; add the projector arm and `none_stopgrad`; 3 paired
+seeds; fixed-step endpoints and a pre-registered claim rule; per-phenomenon reporting
+instead of binary verdicts; Phase B on BDD100K with scenario-attribute retrieval as the
+primary semantic endpoint. Full pre-registration in the Phase-2 spec and the report.
+
+The recurring lesson extends by one: the previous four bugs were caught by running the
+experiment; these two could only be caught by comparing the design against the reference
+setup and against what the question claims to isolate. Instrument validation and design
+validation are different activities, and passing one says nothing about the other.

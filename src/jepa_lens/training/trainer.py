@@ -1,4 +1,4 @@
-"""The single training loop shared by all four conditions.
+"""The single training loop shared by every condition.
 
 Only the `CollapsePreventionStrategy` differs between conditions. Everything
 else — architecture, data, optimizer, schedule, seeding, measurement — is
@@ -23,6 +23,7 @@ from ..diagnostics.probe import linear_probe_accuracy
 from ..diagnostics.projection import project_2d
 from ..logging_utils import RunLogger
 from ..models.predictor import MLPPredictor
+from ..models.projector import Projector
 from ..models.vit import ViTEncoder
 from .strategy import LossOutput, build_strategy
 
@@ -34,6 +35,7 @@ class ForwardOutput:
     loss_output: LossOutput
     target_latent: torch.Tensor
     context_embedding: torch.Tensor
+    reg_embedding: torch.Tensor
 
 
 class Trainer:
@@ -71,8 +73,28 @@ class Trainer:
             num_patches=self.context_encoder.num_patches,
         ).to(self.device)
 
+        # Disposable buffer between the encoder and the regularizer, matching
+        # LeJEPA's own setup (projector_dim=512). When present, SIGReg acts on
+        # its output and the probed representation is never regularized
+        # directly; when projector_dim is 0 the regularizer sees the pooled
+        # context embedding exactly as before. The probe and the diagnostics
+        # always read the encoder — never the projector.
+        projector_dim = int(model_config.get("projector_dim", 0))
+        self.projector = (
+            Projector(
+                embed_dim=model_config["embed_dim"],
+                hidden_dim=int(model_config.get("projector_hidden_dim", projector_dim)),
+                out_dim=projector_dim,
+            ).to(self.device)
+            if projector_dim > 0
+            else None
+        )
+
+        trainable = list(self.context_encoder.parameters()) + list(self.predictor.parameters())
+        if self.projector is not None:
+            trainable += list(self.projector.parameters())
         self.optimizer = torch.optim.AdamW(
-            list(self.context_encoder.parameters()) + list(self.predictor.parameters()),
+            trainable,
             lr=config["optim"]["lr"],
             weight_decay=config["optim"]["weight_decay"],
         )
@@ -121,13 +143,18 @@ class Trainer:
         target_latent = torch.gather(target_latent, 1, gather_index)
         assert target_latent.shape[0] == batch
 
-        loss_output = self.strategy.compute_loss(prediction, target_latent, context_embedding)
-        return ForwardOutput(loss_output, target_latent, context_embedding)
+        reg_embedding = (
+            self.projector(context_embedding) if self.projector is not None else context_embedding
+        )
+        loss_output = self.strategy.compute_loss(prediction, target_latent, reg_embedding)
+        return ForwardOutput(loss_output, target_latent, context_embedding, reg_embedding)
 
     def train_step(self, images: torch.Tensor) -> dict[str, float]:
         """One optimizer step, then the strategy's post-step hook."""
         self.context_encoder.train()
         self.predictor.train()
+        if self.projector is not None:
+            self.projector.train()
 
         # Capture once. `_learning_rate()` reads `self.step`, which is
         # incremented below, so recomputing it after the step would report the

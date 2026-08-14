@@ -28,6 +28,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--checkpoint-every", type=int, default=None, help="override config")
     parser.add_argument("--tag", default="default", help="experiment group directory name")
     parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="override the run seed; pair runs across conditions by using the same value",
+    )
+    parser.add_argument(
         "--sigreg-weight",
         type=float,
         default=None,
@@ -48,12 +54,14 @@ def main() -> int:
         config["logging"]["checkpoint_every"] = args.checkpoint_every
     if args.sigreg_weight is not None:
         config["strategy"]["sigreg_weight"] = args.sigreg_weight
+    if args.seed is not None:
+        config["seed"] = args.seed
 
     run_dir = ROOT / config["logging"]["output_root"] / args.tag / args.condition
     ssl_loader, probe_train, probe_test = build_dataloaders(config)
     trainer = Trainer(config, device=args.device)
 
-    print(f"condition={args.condition} device={args.device}")
+    print(f"condition={args.condition} device={args.device} seed={config['seed']}")
     print(f"sigreg_weight={config['strategy']['sigreg_weight']}")
     print(f"encoder params={count_parameters(trainer.context_encoder):,}")
     print(f"predictor params={count_parameters(trainer.predictor):,}")

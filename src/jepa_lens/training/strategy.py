@@ -8,13 +8,24 @@ stylistic preference.
 
 Condition table:
 
-    condition            uses_ema_target  detaches_target  regularizer
-    ema_stopgrad         yes              yes              none
-    sigreg_stopgrad      no               yes              SIGReg
-    sigreg_nostopgrad    no               no               SIGReg
-    none_nostopgrad      no               no               none
+    condition               uses_ema_target  detaches_target  regularizer  projector
+    ema_stopgrad            yes              yes              none         no
+    none_stopgrad           no               yes              none         no
+    none_nostopgrad         no               no               none         no
+    sigreg_stopgrad         no               yes              SIGReg       no
+    sigreg_nostopgrad       no               no               SIGReg       no
+    proj_sigreg_stopgrad    no               yes              SIGReg       yes
+    proj_sigreg_nostopgrad  no               no               SIGReg       yes
 
-The fourth condition is the sanity control: one shared encoder, no detachment,
+`none_stopgrad` isolates stop-gradient with no regularizer at all — the cell
+that lets the stop-gradient effect be estimated independently of SIGReg (it was
+missing from the original 2x2, an audit finding). The projector conditions test
+whether SIGReg needs a disposable buffer between itself and the probed
+representation, as LeJEPA's own setup provides; the projector lives in the
+Trainer and this module only ever sees whatever embedding the regularizer is
+meant to act on.
+
+`none_nostopgrad` is the sanity control: one shared encoder, no detachment,
 no regularizer, so nothing at all prevents the constant solution. It must
 collapse. If it does not, the measurement apparatus cannot detect the
 phenomenon under study and no other condition's result can be trusted.
@@ -62,7 +73,7 @@ class CollapsePreventionStrategy(ABC):
         self,
         prediction: torch.Tensor,
         target_latent: torch.Tensor,
-        context_embedding: torch.Tensor,
+        reg_embedding: torch.Tensor,
     ) -> LossOutput:
         """Combine the prediction loss with any regularizer.
 
@@ -70,10 +81,13 @@ class CollapsePreventionStrategy(ABC):
             prediction: (batch, num_targets, embed_dim) predicted target embeddings.
             target_latent: (batch, num_targets, embed_dim) encoder targets, already
                 detached by the trainer if `detaches_target` is True.
-            context_embedding: (batch, embed_dim) pooled context representation.
-                Regularizers apply here because this branch always carries
-                gradient — regularizing a detached target would be a no-op in
-                the stop-gradient conditions.
+            reg_embedding: (batch, dim) embedding the regularizer acts on. This
+                branch always carries gradient — regularizing a detached target
+                would be a no-op in the stop-gradient conditions. WITHOUT a
+                projector this is the pooled context representation itself; WITH
+                one it is the projector's output, and the probed representation
+                is never regularized directly. The name exists to keep that
+                distinction impossible to miss.
         """
 
     def post_step_update(self, context_encoder: nn.Module, target_encoder: nn.Module) -> None:
@@ -96,7 +110,7 @@ class EMAStrategy(CollapsePreventionStrategy):
         self,
         prediction: torch.Tensor,
         target_latent: torch.Tensor,
-        context_embedding: torch.Tensor,
+        reg_embedding: torch.Tensor,
     ) -> LossOutput:
         loss = _prediction_loss(prediction, target_latent)
         return LossOutput(total=loss, components={"prediction": float(loss.detach())})
@@ -145,11 +159,11 @@ class SIGRegStrategy(CollapsePreventionStrategy):
         self,
         prediction: torch.Tensor,
         target_latent: torch.Tensor,
-        context_embedding: torch.Tensor,
+        reg_embedding: torch.Tensor,
     ) -> LossOutput:
         prediction_term = _prediction_loss(prediction, target_latent)
         regularizer = sigreg_loss(
-            context_embedding,
+            reg_embedding,
             num_slices=self.num_slices,
             num_freqs=self.num_freqs,
             freq_max=self.freq_max,
@@ -180,7 +194,7 @@ class NoPreventionStrategy(CollapsePreventionStrategy):
         self,
         prediction: torch.Tensor,
         target_latent: torch.Tensor,
-        context_embedding: torch.Tensor,
+        reg_embedding: torch.Tensor,
     ) -> LossOutput:
         loss = _prediction_loss(prediction, target_latent)
         return LossOutput(total=loss, components={"prediction": float(loss.detach())})
@@ -201,11 +215,16 @@ def build_strategy(
     uses_ema = bool(strategy_config["uses_ema_target"])
     detaches = bool(strategy_config["detaches_target"])
 
-    if name == "none_nostopgrad":
+    if name in {"none_nostopgrad", "none_stopgrad"}:
         return NoPreventionStrategy(uses_ema, detaches)
     if name == "ema_stopgrad":
         return EMAStrategy(uses_ema, detaches, float(strategy_config["ema_decay"]))
-    if name in {"sigreg_stopgrad", "sigreg_nostopgrad"}:
+    if name in {
+        "sigreg_stopgrad",
+        "sigreg_nostopgrad",
+        "proj_sigreg_stopgrad",
+        "proj_sigreg_nostopgrad",
+    }:
         return SIGRegStrategy(
             uses_ema,
             detaches,

@@ -1,4 +1,4 @@
-"""Run all four conditions, sequentially or one per GPU.
+"""Run every condition, sequentially or one job per GPU, across one or more seeds.
 
     python scripts/run_all_conditions.py --device cuda --tag main
     python scripts/run_all_conditions.py --device cuda --tag main --parallel
@@ -21,7 +21,15 @@ from pathlib import Path
 from jepa_lens.hardware import plan_gpu_waves
 
 ROOT = Path(__file__).resolve().parents[1]
-CONDITIONS = ["ema_stopgrad", "sigreg_stopgrad", "sigreg_nostopgrad", "none_nostopgrad"]
+CONDITIONS = [
+    "ema_stopgrad",
+    "none_stopgrad",
+    "sigreg_stopgrad",
+    "sigreg_nostopgrad",
+    "proj_sigreg_stopgrad",
+    "proj_sigreg_nostopgrad",
+    "none_nostopgrad",
+]
 
 
 def parse_args() -> argparse.Namespace:
@@ -36,6 +44,12 @@ def parse_args() -> argparse.Namespace:
         help="run conditions concurrently, one per GPU, instead of one after another",
     )
     parser.add_argument(
+        "--seeds",
+        default="0",
+        help="comma-separated run seeds; each seed writes to <tag>_s<seed> so "
+        "load_runs and the figures keep working unchanged per seed",
+    )
+    parser.add_argument(
         "--gpus",
         default=None,
         help="comma-separated GPU ids for --parallel (default: every visible GPU)",
@@ -43,7 +57,9 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def build_command(condition: str, args: argparse.Namespace) -> list[str]:
+def build_command(
+    condition: str, seed: int, tag: str, args: argparse.Namespace
+) -> list[str]:
     command = [
         sys.executable,
         str(ROOT / "scripts" / "train.py"),
@@ -52,13 +68,33 @@ def build_command(condition: str, args: argparse.Namespace) -> list[str]:
         "--device",
         args.device,
         "--tag",
-        args.tag,
+        tag,
+        "--seed",
+        str(seed),
     ]
     if args.total_steps is not None:
         command += ["--total-steps", str(args.total_steps)]
     if args.checkpoint_every is not None:
         command += ["--checkpoint-every", str(args.checkpoint_every)]
     return command
+
+
+def build_jobs(args: argparse.Namespace) -> list[tuple[str, int, str]]:
+    """(condition, seed, tag) triples for the whole grid.
+
+    A single seed keeps the flat `<tag>/<condition>/` layout every existing
+    tool reads. Multiple seeds write to `<tag>_s<seed>/<condition>/`, so
+    `load_runs` and the figures keep working unchanged per seed and
+    `aggregate_seeds.py` can glob the family.
+    """
+    seeds = [int(part) for part in str(args.seeds).split(",") if part.strip()]
+    if len(seeds) == 1:
+        return [(condition, seeds[0], args.tag) for condition in CONDITIONS]
+    return [
+        (condition, seed, f"{args.tag}_s{seed}")
+        for seed in seeds
+        for condition in CONDITIONS
+    ]
 
 
 def resolve_gpus(raw: str | None) -> list[int]:
@@ -76,9 +112,9 @@ def resolve_gpus(raw: str | None) -> list[int]:
 
 
 def run_sequential(args: argparse.Namespace) -> int:
-    for condition in CONDITIONS:
-        print(f"\n=== {condition} ===", flush=True)
-        result = subprocess.run(build_command(condition, args), check=False)
+    for condition, seed, tag in build_jobs(args):
+        print(f"\n=== {condition} (seed {seed} -> {tag}) ===", flush=True)
+        result = subprocess.run(build_command(condition, seed, tag, args), check=False)
         if result.returncode != 0:
             print(f"condition {condition} failed with code {result.returncode}", file=sys.stderr)
             return result.returncode
@@ -87,14 +123,18 @@ def run_sequential(args: argparse.Namespace) -> int:
 
 def run_parallel(args: argparse.Namespace) -> int:
     gpus = resolve_gpus(args.gpus)
-    waves = plan_gpu_waves(CONDITIONS, gpus)
-    print(f"{len(CONDITIONS)} conditions across GPUs {gpus} in {len(waves)} wave(s)")
+    jobs = build_jobs(args)
+    labels = [f"{condition}@s{seed}" for condition, seed, _ in jobs]
+    lookup = dict(zip(labels, jobs, strict=True))
+    waves = plan_gpu_waves(labels, gpus)
+    print(f"{len(jobs)} jobs across GPUs {gpus} in {len(waves)} wave(s)")
 
     failures: list[tuple[str, int]] = []
     for index, wave in enumerate(waves, start=1):
         running = []
-        for condition, gpu in wave:
-            run_dir = ROOT / "experiments" / args.tag / condition
+        for label, gpu in wave:
+            condition, seed, tag = lookup[label]
+            run_dir = ROOT / "experiments" / tag / condition
             run_dir.mkdir(parents=True, exist_ok=True)
             log_path = run_dir / "train.log"
 
@@ -105,27 +145,26 @@ def run_parallel(args: argparse.Namespace) -> int:
 
             handle = log_path.open("w", encoding="utf-8")
             process = subprocess.Popen(
-                build_command(condition, args),
+                build_command(condition, seed, tag, args),
                 env=environment,
                 stdout=handle,
                 stderr=subprocess.STDOUT,
             )
-            running.append((condition, gpu, process, handle))
-            print(f"  wave {index}: {condition} -> GPU {gpu}  (log: {log_path})", flush=True)
+            running.append((label, tag, condition, gpu, process, handle))
+            print(f"  wave {index}: {label} -> GPU {gpu}  (log: {log_path})", flush=True)
 
-        for condition, gpu, process, handle in running:
+        for label, tag, condition, gpu, process, handle in running:
             code = process.wait()
             handle.close()
             status = "ok" if code == 0 else f"FAILED ({code})"
-            print(f"  wave {index}: {condition} on GPU {gpu} {status}", flush=True)
+            print(f"  wave {index}: {label} on GPU {gpu} {status}", flush=True)
             if code != 0:
-                failures.append((condition, code))
+                failures.append((label, code))
 
     if failures:
         print("", file=sys.stderr)
-        for condition, code in failures:
-            log_path = ROOT / "experiments" / args.tag / condition / "train.log"
-            print(f"{condition} failed with code {code} — see {log_path}", file=sys.stderr)
+        for label, code in failures:
+            print(f"{label} failed with code {code}", file=sys.stderr)
         return 1
     return 0
 

@@ -49,7 +49,9 @@ def test_all_expected_keys_present():
         "mean_feature_std",
         "min_feature_std",
         "total_variance",
+        "participation_ratio",
         "effective_rank",
+        "rankme",
         "mean_pairwise_cosine",
         "std_pairwise_cosine",
     }
@@ -110,3 +112,33 @@ def test_effective_rank_rises_under_noise_dominated_collapse():
     assert collapse_metrics(noise_only)["total_variance"] < collapse_metrics(dominated)[
         "total_variance"
     ]
+
+
+def test_rankme_and_participation_ratio_are_genuinely_different_measures():
+    """The audit found the two names being conflated; pin that they disagree.
+
+    RankMe operates on raw-matrix singular values (so a large mean vector
+    contributes a dominant component), while the participation ratio operates
+    on the centered covariance spectrum. A distribution that is isotropic
+    around a far-off mean therefore separates them decisively.
+    """
+    from jepa_lens.diagnostics.metrics import participation_ratio, rankme
+
+    rng = np.random.default_rng(0)
+    shifted = rng.normal(size=(512, 16)) + 50.0
+
+    centered = shifted - shifted.mean(axis=0, keepdims=True)
+    covariance = centered.T @ centered / (len(shifted) - 1)
+    eigenvalues = np.linalg.eigvalsh(covariance)
+
+    pr = participation_ratio(eigenvalues)
+    rm = rankme(shifted)
+    assert pr > 12.0, "covariance view: isotropic, so PR should be near dim"
+    assert rm < pr / 2, "raw-matrix view: the mean dominates, so RankMe collapses"
+
+
+def test_legacy_effective_rank_key_matches_participation_ratio():
+    """Old logs and new logs must stay comparable during the rename."""
+    rng = np.random.default_rng(1)
+    metrics = collapse_metrics(rng.normal(size=(128, 8)))
+    assert metrics["effective_rank"] == metrics["participation_ratio"]

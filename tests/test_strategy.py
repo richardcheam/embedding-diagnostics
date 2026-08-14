@@ -33,7 +33,7 @@ def test_all_conditions_produce_finite_loss(name):
     output = strategy.compute_loss(
         prediction=torch.randn(8, 5, 16),
         target_latent=torch.randn(8, 5, 16),
-        context_embedding=torch.randn(8, 16),
+        reg_embedding=torch.randn(8, 16),
     )
     assert torch.isfinite(output.total)
     assert "prediction" in output.components

@@ -13,11 +13,22 @@ import numpy as np
 
 from .logging_utils import read_jsonl
 
-CONDITION_ORDER = ["ema_stopgrad", "sigreg_stopgrad", "sigreg_nostopgrad", "none_nostopgrad"]
+CONDITION_ORDER = [
+    "ema_stopgrad",
+    "none_stopgrad",
+    "sigreg_stopgrad",
+    "sigreg_nostopgrad",
+    "proj_sigreg_stopgrad",
+    "proj_sigreg_nostopgrad",
+    "none_nostopgrad",
+]
 CONDITION_COLORS = {
     "ema_stopgrad": "#4C72B0",
+    "none_stopgrad": "#55A868",
     "sigreg_stopgrad": "#DD8452",
     "sigreg_nostopgrad": "#C44E52",
+    "proj_sigreg_stopgrad": "#937860",
+    "proj_sigreg_nostopgrad": "#DA8BC3",
     "none_nostopgrad": "#8172B3",
 }
 

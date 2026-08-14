@@ -1,0 +1,8 @@
+model:
+  projector_dim: 512
+strategy:
+  name: proj_sigreg_nostopgrad
+  uses_ema_target: false
+  detaches_target: false
+  # lambda = 0.05 in the reference's parametrisation -> 0.05/(1-0.05).
+  sigreg_weight: 0.0526

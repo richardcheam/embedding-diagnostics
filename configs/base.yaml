@@ -6,7 +6,10 @@ data:
   batch_size: 256
   num_workers: 4
   probe_train_samples: 5000
-  probe_test_samples: 2000
+  # 5000 rather than 2000: the probe's binomial standard error is
+  # sqrt(p(1-p)/n), ~0.011 at n=2000 and ~0.007 at n=5000. Differences smaller
+  # than that are unresolvable however many checkpoints are logged.
+  probe_test_samples: 5000
 
 model:
   image_size: 32
@@ -16,6 +19,12 @@ model:
   num_heads: 3
   mlp_ratio: 4.0
   predictor_hidden_dim: 384
+  # 0 disables the projector: the regularizer then acts directly on the pooled
+  # context embedding (the original, audit-flagged configuration). Projector
+  # conditions override this to 512, matching LeJEPA's launcher. The probe and
+  # all diagnostics read the encoder regardless.
+  projector_dim: 0
+  projector_hidden_dim: 512
 
 masking:
   num_target_blocks: 4

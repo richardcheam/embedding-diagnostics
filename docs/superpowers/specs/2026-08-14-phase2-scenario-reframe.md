@@ -58,17 +58,28 @@ here is purely the regularizer's buffer — which is exactly the variable under 
 
 ### Design parameters (pre-registered)
 
-- **Seeds: 3** (0, 1, 2), paired — same seed ⇒ identical init, masks, batch order across
-  conditions (already guaranteed by the seed-threading work; verified bit-identical).
+- **Seeds: 5** (0-4) for claim-grade Phase A, paired — same seed ⇒ identical init, masks,
+  batch order AND the same evaluation images (`eval_split_seed` is fixed independently).
+  **Three seeds may be reported only as an exploratory pilot**, never as claim-grade.
 - **Budget: 4,000 steps**, checkpoint every 200. Separation was unambiguous by 2,000 in
   every prior run; the 32k run peaked at 11k and degraded after. 21 runs ≈ 6 waves.
 - **Primary endpoint:** unscaled probe accuracy **at the final checkpoint** (fixed a
   priori — no max-over-checkpoints). Max is still reported, labelled selection-biased.
 - **Secondary endpoints:** total variance, mean pairwise cosine, participation ratio,
   RankMe, per-component loss trajectories, standardized-vs-unscaled probe gap.
-- **Noise accounting:** a difference is claimed only if it clears 2× the seed-level SD
-  *and* the probe's binomial SE (≈0.007 at n=5,000 test samples — `probe_test_samples`
-  raised from 2,000 for this reason).
+- **Analysis:** paired Student-t. For each pre-declared contrast, per-seed differences
+  d_i, mean, sample SD (ddof=1), SE = s_d/√n, and a two-sided 95% interval
+  d̄ ± t(0.975, n−1)·SE. Five contrasts, listed in `jepa_lens.stats.CONTRASTS`; EMA is a
+  reference baseline only, never a contrast arm, since it differs in two factors at once.
+  **No verdicts** — no result is labelled real, significant, learned or collapsed. The
+  earlier "2× seed SD and binomial SE" rule is withdrawn: it was not a paired analysis and
+  functioned as an arbitrary decision threshold.
+- **What the interval covers:** training-seed variability conditional on the fixed
+  evaluation split. Not split choice, dataset, or architecture.
+- **Power:** with n=5, t(0.975,4)=2.776, so the half-width is ≈1.24 seed SDs; effects below
+  roughly 1.3 seed SDs are unresolvable. A wide interval is not a null result.
+- **Multiplicity:** five contrasts × several endpoints, reported without correction, as
+  estimates rather than tests.
 
 ### Falsification criteria (pre-registered)
 

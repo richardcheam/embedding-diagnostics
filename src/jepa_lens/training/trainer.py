@@ -19,9 +19,12 @@ from torch import nn
 
 from ..data import sample_block_masks
 from ..diagnostics.metrics import collapse_metrics
-from ..diagnostics.probe import linear_probe_scores, retrieval_chance
+from ..diagnostics.probe import chance_adjusted, linear_probe_scores, retrieval_chance
 from ..diagnostics.projection import project_2d
-from ..diagnostics.retrieval import retrieval_precision_at_k
+from ..diagnostics.retrieval import (
+    retrieval_macro_precision_at_k,
+    retrieval_precision_at_k,
+)
 from ..logging_utils import RunLogger
 from ..models.predictor import MLPPredictor
 from ..models.projector import Projector
@@ -211,7 +214,7 @@ class Trainer:
             label_sets = {None: (train_labels, test_labels)}
 
         scaled, unscaled, retrieved = [], [], []
-        balanced, floors = [], []
+        balanced, floors, macro_f1s, adjusted = [], [], [], []
         for name, (fit_labels, eval_labels) in label_sets.items():
             suffix = f"_{name}" if name is not None else ""
             # Both probes. The standardized one stays comparable across
@@ -231,6 +234,7 @@ class Trainer:
                 standardize=False,
             )
             precision = retrieval_precision_at_k(test_features, eval_labels, k=10)
+            macro_precision, _ = retrieval_macro_precision_at_k(test_features, eval_labels, k=10)
             # Floors travel with every number. On BDD100K's `scene`, always
             # guessing "city street" scores 0.71 and random retrieval scores
             # about 0.60 — an accuracy reported without its floor is unreadable.
@@ -242,20 +246,33 @@ class Trainer:
                 record[f"probe_balanced{suffix}"] = probe["balanced_accuracy"]
                 record[f"probe_balanced_unscaled{suffix}"] = probe_raw["balanced_accuracy"]
                 record[f"probe_majority{suffix}"] = probe["majority"]
+                record[f"probe_macro_f1{suffix}"] = probe["macro_f1"]
                 record[f"retrieval_p10{suffix}"] = precision
+                record[f"retrieval_macro_p10{suffix}"] = macro_precision
                 record[f"retrieval_chance{suffix}"] = chance
+                # Normalized so 0 is chance and 1 is perfect. Raw P@10 is not
+                # comparable across attributes with different class priors, so
+                # only the adjusted form may be averaged.
+                record[f"retrieval_adjusted{suffix}"] = chance_adjusted(precision, chance)
                 record[f"scored_classes{suffix}"] = probe["scored_classes"]
                 record[f"dropped_classes{suffix}"] = probe["dropped_classes"]
             scaled.append(probe["accuracy"])
             unscaled.append(probe_raw["accuracy"])
             balanced.append(probe["balanced_accuracy"])
+            macro_f1s.append(probe["macro_f1"])
             retrieved.append(precision)
+            adjusted.append(chance_adjusted(precision, chance))
             floors.append((probe["majority"], chance))
 
         record["probe_accuracy"] = float(np.mean(scaled))
         record["probe_accuracy_unscaled"] = float(np.mean(unscaled))
         record["retrieval_p10"] = float(np.mean(retrieved))
         record["probe_balanced"] = float(np.mean(balanced))
+        record["probe_macro_f1"] = float(np.mean(macro_f1s))
+        # Across-attribute aggregate uses the CHANCE-ADJUSTED retrieval, since
+        # raw P@10 from attributes with different priors cannot be averaged
+        # meaningfully. Secondary summary; the per-attribute keys are primary.
+        record["retrieval_adjusted"] = float(np.mean(adjusted))
         record["probe_majority"] = float(np.mean([f[0] for f in floors]))
         record["retrieval_chance"] = float(np.mean([f[1] for f in floors]))
         # Headroom: how far above its own floor each family sits. On skewed

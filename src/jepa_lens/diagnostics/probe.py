@@ -131,10 +131,40 @@ def linear_probe_scores(
         for cls in scorable
     ]
 
+    # Macro-F1 over the same scorable classes: unlike balanced accuracy it
+    # also penalises over-predicting a class, which a probe that has latched
+    # onto the majority prior will do.
+    f1s = []
+    for cls in scorable:
+        true_positive = float(((predictions == cls) & (test_labels == cls)).sum())
+        predicted = float((predictions == cls).sum())
+        actual = float((test_labels == cls).sum())
+        precision = true_positive / predicted if predicted else 0.0
+        recall = true_positive / actual if actual else 0.0
+        f1s.append(
+            2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
+        )
+
     return {
         "accuracy": float((predictions == test_labels).mean()),
         "balanced_accuracy": float(np.mean(recalls)) if recalls else float("nan"),
+        "macro_f1": float(np.mean(f1s)) if f1s else float("nan"),
         "majority": majority_rate(test_labels),
         "scored_classes": float(len(scorable)),
         "dropped_classes": float(len(classes) - len(scorable)),
     }
+
+
+def chance_adjusted(score: float, chance: float) -> float:
+    """Rescale a score so 0 is chance and 1 is perfect.
+
+        (score - chance) / (1 - chance)
+
+    On BDD100K's `scene`, random retrieval already scores about 0.46, so a raw
+    P@10 of 0.50 is 0.07 adjusted rather than the "three times chance" a reader
+    would infer from 1/K. Returns NaN when chance is at or above 1, where the
+    rescaling is undefined (a single-class split).
+    """
+    if not np.isfinite(chance) or chance >= 1.0:
+        return float("nan")
+    return float((score - chance) / (1.0 - chance))

@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 import torch
 
 from jepa_lens.diagnostics.probe import linear_probe_accuracy
@@ -137,3 +138,83 @@ def test_evaluate_logs_a_floor_for_every_headline_number():
     assert abs(
         record["probe_over_majority"] - (record["probe_accuracy"] - record["probe_majority"])
     ) < 1e-12
+
+
+def test_chance_adjustment_rescales_so_zero_is_chance():
+    """On BDD's scene, chance retrieval is ~0.46; raw 0.50 is 0.07 adjusted,
+    not the '3x chance' a reader would infer from 1/K."""
+    from jepa_lens.diagnostics.probe import chance_adjusted
+
+    assert chance_adjusted(0.46, 0.46) == pytest.approx(0.0)
+    assert chance_adjusted(1.0, 0.46) == pytest.approx(1.0)
+    assert chance_adjusted(0.50, 0.46) == pytest.approx(0.074, abs=0.001)
+    assert chance_adjusted(0.30, 0.46) < 0  # below chance is negative, not clipped
+
+
+def test_chance_adjustment_handles_a_degenerate_denominator():
+    from jepa_lens.diagnostics.probe import chance_adjusted
+
+    assert np.isnan(chance_adjusted(1.0, 1.0))  # single-class split
+    assert np.isnan(chance_adjusted(0.5, float("nan")))
+
+
+def test_macro_f1_penalises_a_probe_that_over_predicts_the_majority():
+    """Balanced accuracy is recall-only; macro-F1 also charges for the
+    false positives a majority-latching probe generates."""
+    from jepa_lens.diagnostics.probe import linear_probe_scores
+
+    rng = np.random.default_rng(0)
+    features = rng.normal(size=(400, 6))  # carries no class information
+    labels = np.array([0] * 340 + [1] * 30 + [2] * 30)
+    scores = linear_probe_scores(features, labels, features, labels, min_support=10)
+    assert scores["macro_f1"] < scores["accuracy"]
+
+
+def test_macro_retrieval_weights_rare_classes_equally():
+    """Micro P@10 is dominated by the majority class; macro is not."""
+    from jepa_lens.diagnostics.retrieval import (
+        retrieval_macro_precision_at_k,
+        retrieval_precision_at_k,
+    )
+
+    rng = np.random.default_rng(0)
+    # A large, tight majority cluster and a small, scattered minority.
+    majority = rng.normal(scale=0.05, size=(180, 8)) + np.array([9.0] + [0.0] * 7)
+    minority = rng.normal(scale=4.0, size=(20, 8))
+    features = np.vstack([majority, minority])
+    labels = np.array([0] * 180 + [1] * 20)
+
+    micro = retrieval_precision_at_k(features, labels, k=10)
+    macro, per_class = retrieval_macro_precision_at_k(features, labels, k=10)
+    assert micro > macro, "micro is flattered by the easy majority class"
+    assert per_class[0] > per_class[1]
+
+
+def test_macro_retrieval_drops_classes_below_support():
+    from jepa_lens.diagnostics.retrieval import retrieval_macro_precision_at_k
+
+    rng = np.random.default_rng(0)
+    features = rng.normal(size=(60, 4))
+    labels = np.array([0] * 30 + [1] * 27 + [2] * 3)
+    _, per_class = retrieval_macro_precision_at_k(features, labels, k=5, min_support=10)
+    assert set(per_class) == {0, 1}
+
+
+def test_evaluate_logs_macro_f1_and_adjusted_retrieval_per_attribute():
+    from jepa_lens.training.trainer import Trainer
+    from test_phase2_conditions import tiny_config
+
+    trainer = Trainer(tiny_config("none_stopgrad"))
+    rng = np.random.default_rng(0)
+    labels_train = {"weather": rng.integers(0, 3, 12), "scene": rng.integers(0, 2, 12)}
+    labels_test = {"weather": rng.integers(0, 3, 10), "scene": rng.integers(0, 2, 10)}
+    record = trainer.evaluate(
+        (torch.randn(12, 3, 32, 32), labels_train),
+        (torch.randn(10, 3, 32, 32), labels_test),
+    )
+    for attribute in ("weather", "scene"):
+        for key in ("probe_macro_f1", "retrieval_macro_p10", "retrieval_adjusted"):
+            assert f"{key}_{attribute}" in record, f"{key}_{attribute}"
+    # The across-attribute aggregate uses the adjusted form, never raw P@10.
+    assert "retrieval_adjusted" in record
+    assert "probe_macro_f1" in record

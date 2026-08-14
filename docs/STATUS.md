@@ -40,7 +40,18 @@ added as a genuinely different measure).
 Full pre-registration: `docs/superpowers/specs/2026-08-14-phase2-scenario-reframe.md` and
 the report's Section "Phase-2 pre-registration".
 
-**Status: harness ready, Phase-A runs pending; BDD100K download pending on the GPU box.**
+**Status: harness ready, Phase-A runs pending. BDD100K confirmed present on the GPU box**
+(70k train / 10k val, per-image-JSON layout, 61,591 + 8,801 fully labelled).
+
+One measurement issue surfaced while verifying the data, and it is the ADAS point in
+miniature: BDD's scenario attributes are severely skewed (val weather 61% `clear`, `foggy`
+13 images; scene 61% `city street`, `gas stations` 7). So always guessing the majority
+class already scores 0.53-0.61, and *random* retrieval scores 0.41-0.46 — not the 0.17 you
+would assume from 1/6 classes. A P@10 of 0.50 would look like triple chance and be barely
+above it. Every number now carries its floor, balanced accuracy is logged alongside raw,
+and classes too rare to score are counted rather than quietly averaged away. **The rare
+scenario classes are the ones validation cares about, and they are exactly the ones the
+metrics cannot see** — which is a finding worth reporting, not a nuisance to hide.
 
 ---
 

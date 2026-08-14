@@ -81,9 +81,21 @@ here is purely the regularizer's buffer — which is exactly the variable under 
 
 ## Phase B — driving scenarios (BDD100K)
 
-- **Data:** BDD100K 100k still images (70k train / 10k val) + per-image attributes:
-  weather (6), scene (6), timeofday (3). Owner downloads (registration required) to
-  `data/bdd100k/`. Square resize to 128×128, patch 8 → 16×16 grid; masking fractions
+- **Data:** BDD100K 100k still images + per-image attributes: weather (6), scene (6),
+  timeofday (3). **Confirmed on the GPU box 2026-08-14:** 70,000 train / 10,000 val, in
+  the per-image-JSON layout (`<root>/<split>/*.jpg` with sibling `.json`); 61,591 train and
+  8,801 val carry all three attributes. Loader auto-detects this and the official layout;
+  `data.root` may sit outside the repo.
+
+  **Class skew is severe and governs the endpoints.** Val: weather is 61% `clear` with
+  `foggy`=13; scene is 61% `city street` with `gas stations`=7 and `tunnel`=27. Therefore
+  majority-class accuracy is 0.53-0.61 and retrieval chance (class self-match probability)
+  is 0.41-0.46 — not the naive 1/K of 0.17-0.33. Every logged number carries its floor
+  (`probe_majority`, `retrieval_chance`) and its headroom; balanced accuracy (macro recall
+  over classes with >=10 test samples) is the primary reading, and classes too rare to
+  score are counted in `dropped_classes` rather than averaged away. The rare classes are
+  the safety-relevant ones, so their unmeasurability at this sample size is reported as a
+  finding, not hidden. Square resize to 128×128, patch 8 → 16×16 grid; masking fractions
   unchanged. Aspect distortion accepted and documented (alternative — non-square encoder
   — rejected as an architectural change with no bearing on the question).
 - **Training:** identical harness, identical 7×3 matrix, same budget rules

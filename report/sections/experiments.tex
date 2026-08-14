@@ -60,3 +60,30 @@ the across-seed standard deviation \emph{and} the probe's binomial standard erro
 seeds. \texttt{none\_stopgrad} collapsing would show stop-gradient alone is insufficient
 here. A diagnostic that orders degeneration modes inconsistently across seeds is reported
 as unreliable — that is a result, not a failure.
+
+\subsection{Scenario-attribute skew and what it does to the endpoints}
+
+BDD100K's scenario attributes are severely imbalanced, and on a validation-oriented dataset
+that imbalance is not incidental: the rare categories are the safety-relevant ones. In the
+10{,}000-image validation split (8{,}801 carrying all three attributes), weather is 61\%
+\texttt{clear} against 13 \texttt{foggy} images, and scene is 61\% \texttt{city street}
+against 7 \texttt{gas stations} and 27 \texttt{tunnel}.
+
+Two consequences shape every reported number. \established{} Always predicting the majority
+class already scores 0.53--0.61 depending on attribute. And random retrieval scores the
+class self-match probability $\sum_c f_c^2$, which is 0.41--0.46 here --- not the $1/K$ of
+0.17--0.33 an unwary reader would assume. A retrieval P@10 of 0.50 would appear to be three
+times chance while being barely above it.
+
+Every headline number is therefore logged with its floor (\texttt{probe\_majority},
+\texttt{retrieval\_chance}) and its headroom above that floor. Balanced accuracy ---
+macro-averaged recall over classes with at least ten test samples --- is the primary
+reading, since it is the quantity that moves only when a skewed attribute is genuinely
+learned. Classes too rare to score are counted in \texttt{dropped\_classes} rather than
+averaged away.
+
+\ours{} That last point is worth stating rather than burying: at this sample size the
+rarest scenario categories cannot be evaluated at all. For ADAS validation, where coverage
+of rare conditions is the entire concern, a label-free embedding quality metric that is
+structurally blind to the rarest categories is a limitation of the evaluation protocol, not
+merely of this dataset split.

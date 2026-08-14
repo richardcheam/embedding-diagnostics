@@ -19,7 +19,7 @@ from torch import nn
 
 from ..data import sample_block_masks
 from ..diagnostics.metrics import collapse_metrics
-from ..diagnostics.probe import linear_probe_accuracy
+from ..diagnostics.probe import linear_probe_scores, retrieval_chance
 from ..diagnostics.projection import project_2d
 from ..diagnostics.retrieval import retrieval_precision_at_k
 from ..logging_utils import RunLogger
@@ -211,6 +211,7 @@ class Trainer:
             label_sets = {None: (train_labels, test_labels)}
 
         scaled, unscaled, retrieved = [], [], []
+        balanced, floors = [], []
         for name, (fit_labels, eval_labels) in label_sets.items():
             suffix = f"_{name}" if name is not None else ""
             # Both probes. The standardized one stays comparable across
@@ -218,10 +219,10 @@ class Trainer:
             # registers scale collapse, because standardizing rescales a
             # collapsed encoder's numerical noise back to unit variance. A
             # widening gap between them is itself a signal.
-            probe = linear_probe_accuracy(
+            probe = linear_probe_scores(
                 train_features, fit_labels, test_features, eval_labels, seed=self.config["seed"]
             )
-            probe_raw = linear_probe_accuracy(
+            probe_raw = linear_probe_scores(
                 train_features,
                 fit_labels,
                 test_features,
@@ -230,17 +231,37 @@ class Trainer:
                 standardize=False,
             )
             precision = retrieval_precision_at_k(test_features, eval_labels, k=10)
+            # Floors travel with every number. On BDD100K's `scene`, always
+            # guessing "city street" scores 0.71 and random retrieval scores
+            # about 0.60 — an accuracy reported without its floor is unreadable.
+            chance = retrieval_chance(eval_labels)
+
             if name is not None:
-                record[f"probe_accuracy{suffix}"] = probe
-                record[f"probe_accuracy_unscaled{suffix}"] = probe_raw
+                record[f"probe_accuracy{suffix}"] = probe["accuracy"]
+                record[f"probe_accuracy_unscaled{suffix}"] = probe_raw["accuracy"]
+                record[f"probe_balanced{suffix}"] = probe["balanced_accuracy"]
+                record[f"probe_balanced_unscaled{suffix}"] = probe_raw["balanced_accuracy"]
+                record[f"probe_majority{suffix}"] = probe["majority"]
                 record[f"retrieval_p10{suffix}"] = precision
-            scaled.append(probe)
-            unscaled.append(probe_raw)
+                record[f"retrieval_chance{suffix}"] = chance
+                record[f"scored_classes{suffix}"] = probe["scored_classes"]
+                record[f"dropped_classes{suffix}"] = probe["dropped_classes"]
+            scaled.append(probe["accuracy"])
+            unscaled.append(probe_raw["accuracy"])
+            balanced.append(probe["balanced_accuracy"])
             retrieved.append(precision)
+            floors.append((probe["majority"], chance))
 
         record["probe_accuracy"] = float(np.mean(scaled))
         record["probe_accuracy_unscaled"] = float(np.mean(unscaled))
         record["retrieval_p10"] = float(np.mean(retrieved))
+        record["probe_balanced"] = float(np.mean(balanced))
+        record["probe_majority"] = float(np.mean([f[0] for f in floors]))
+        record["retrieval_chance"] = float(np.mean([f[1] for f in floors]))
+        # Headroom: how far above its own floor each family sits. On skewed
+        # attributes this is the only interpretable version of the number.
+        record["probe_over_majority"] = float(np.mean(scaled)) - record["probe_majority"]
+        record["retrieval_over_chance"] = float(np.mean(retrieved)) - record["retrieval_chance"]
         record["projection"] = project_2d(
             test_features,
             max_samples=self.config["logging"]["projection_samples"],

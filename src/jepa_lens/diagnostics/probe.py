@@ -29,6 +29,8 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
+MIN_SUPPORT = 10  # per-class test samples needed before a class is scored
+
 
 def linear_probe_accuracy(
     train_features: np.ndarray,
@@ -57,3 +59,82 @@ def linear_probe_accuracy(
     classifier.fit(train_features, train_labels)
     predictions = classifier.predict(test_features)
     return float((predictions == test_labels).mean())
+
+
+def majority_rate(labels: np.ndarray) -> float:
+    """Accuracy of always predicting the most common class.
+
+    The only honest floor for raw accuracy on skewed data. BDD100K's `scene`
+    attribute is 71% "city street", so a probe scoring 0.71 has learned
+    nothing — without this number beside it, that reads as a result.
+    """
+    labels = np.asarray(labels)
+    if labels.size == 0:
+        return 0.0
+    _, counts = np.unique(labels, return_counts=True)
+    return float(counts.max() / counts.sum())
+
+
+def retrieval_chance(labels: np.ndarray) -> float:
+    """Expected P@k for a random neighbour: the class self-match probability.
+
+    Sum of squared class frequencies, NOT 1/num_classes. On BDD's `scene` this
+    is about 0.60 because two classes dominate, so a P@10 of 0.65 is nearly
+    indistinguishable from retrieving at random.
+    """
+    labels = np.asarray(labels)
+    if labels.size == 0:
+        return 0.0
+    _, counts = np.unique(labels, return_counts=True)
+    frequencies = counts / counts.sum()
+    return float(np.square(frequencies).sum())
+
+
+def linear_probe_scores(
+    train_features: np.ndarray,
+    train_labels: np.ndarray,
+    test_features: np.ndarray,
+    test_labels: np.ndarray,
+    seed: int = 0,
+    standardize: bool = True,
+    min_support: int = MIN_SUPPORT,
+) -> dict[str, float]:
+    """Probe accuracy, balanced accuracy, and the floors both must beat.
+
+    Returns:
+        accuracy          - raw, comparable to `majority` below
+        balanced_accuracy - macro-averaged recall over classes with at least
+                            `min_support` test samples; unaffected by class
+                            skew, which is what makes it the number to read on
+                            BDD100K
+        majority          - always-predict-the-largest-class accuracy
+        scored_classes    - how many classes cleared min_support
+        dropped_classes   - how many were too rare to score. On BDD's `scene`
+                            this is typically 2-3 of 6, and those are the
+                            safety-relevant ones (tunnel, gas station), so the
+                            number is reported rather than hidden.
+    """
+    if standardize:
+        scaler = StandardScaler().fit(train_features)
+        train_features = scaler.transform(train_features)
+        test_features = scaler.transform(test_features)
+
+    classifier = LogisticRegression(max_iter=1000, random_state=seed)
+    classifier.fit(train_features, train_labels)
+    predictions = classifier.predict(test_features)
+
+    test_labels = np.asarray(test_labels)
+    classes, counts = np.unique(test_labels, return_counts=True)
+    scorable = classes[counts >= min_support]
+    recalls = [
+        float((predictions[test_labels == cls] == cls).mean())
+        for cls in scorable
+    ]
+
+    return {
+        "accuracy": float((predictions == test_labels).mean()),
+        "balanced_accuracy": float(np.mean(recalls)) if recalls else float("nan"),
+        "majority": majority_rate(test_labels),
+        "scored_classes": float(len(scorable)),
+        "dropped_classes": float(len(classes) - len(scorable)),
+    }

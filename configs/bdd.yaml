@@ -12,7 +12,12 @@ data:
   # JPEG decode at 1280x720 is the bottleneck, not the GPU.
   num_workers: 8
   probe_train_samples: 5000
-  probe_test_samples: 5000
+  # Nearly all 8801 fully-labelled val images. BDD's attributes are severely
+  # skewed (val: foggy=13, gas stations=7, tunnel=27), and subsampling to 5000
+  # pushes more classes below the 10-sample floor at which they stop being
+  # scorable at all. The rare classes are the safety-relevant ones, so keep as
+  # many as the split allows.
+  probe_test_samples: 8000
 
 model:
   # Square resize of 1280x720 frames; aspect distortion accepted (Phase-2 spec).

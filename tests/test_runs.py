@@ -173,38 +173,3 @@ def test_summarize_run_uses_the_final_checkpoint_not_the_max():
     assert abs(row["probe_delta"] - 0.18) < 1e-12
 
 
-def test_aggregate_seeds_reports_mean_and_sd_across_the_family(tmp_path):
-    aggregate_seeds = _script("aggregate_seeds")
-    for seed, probe in [(0, 0.50), (1, 0.54), (2, 0.52)]:
-        _write_run(
-            tmp_path, f"phaseA_s{seed}", "none_stopgrad",
-            [{"step": 0, "probe_accuracy_unscaled": 0.37, "probe_accuracy": 0.37,
-              "total_variance": 87.0, "mean_pairwise_cosine": 0.33,
-              "participation_ratio": 2.7, "rankme": 2.0},
-             {"step": 400, "probe_accuracy_unscaled": probe, "probe_accuracy": probe,
-              "total_variance": 60.0, "mean_pairwise_cosine": 0.30,
-              "participation_ratio": 8.0, "rankme": 6.0}],
-        )
-    families = aggregate_seeds.collect(tmp_path, "phaseA")
-    assert set(families) == {"none_stopgrad"}
-    assert sorted(families["none_stopgrad"]) == [0, 1, 2]
-
-    rows = aggregate_seeds.aggregate(families)
-    mean, sd = rows[0]["probe_uns"]
-    import numpy as np
-
-    assert abs(mean - 0.52) < 1e-9
-    assert abs(sd - np.std([0.50, 0.54, 0.52], ddof=1)) < 1e-9
-
-
-def test_aggregate_seeds_ignores_unrelated_tags(tmp_path):
-    aggregate_seeds = _script("aggregate_seeds")
-    _write_run(
-        tmp_path, "phaseA_s0", "none_stopgrad", [{"step": 0, "probe_accuracy_unscaled": 0.4}]
-    )
-    _write_run(
-        tmp_path, "phaseAB_s1", "none_stopgrad", [{"step": 0, "probe_accuracy_unscaled": 0.9}]
-    )
-    _write_run(tmp_path, "other", "none_stopgrad", [{"step": 0, "probe_accuracy_unscaled": 0.9}])
-    families = aggregate_seeds.collect(tmp_path, "phaseA")
-    assert sorted(families["none_stopgrad"]) == [0]

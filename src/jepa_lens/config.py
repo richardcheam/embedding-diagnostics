@@ -24,9 +24,16 @@ def deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]
     return merged
 
 
-def load_config(condition: str, configs_dir: Path) -> dict[str, Any]:
-    """Load `base.yaml` and deep-merge `conditions/<condition>.yaml` onto it."""
-    base_path = Path(configs_dir) / "base.yaml"
+def load_config(
+    condition: str, configs_dir: Path, base: str = "base.yaml"
+) -> dict[str, Any]:
+    """Load a base config and deep-merge `conditions/<condition>.yaml` onto it.
+
+    `base` selects the dataset family (`base.yaml` for CIFAR-10, `bdd.yaml` for
+    BDD100K); condition files only override the strategy/model blocks, so the
+    same seven conditions run unchanged on either dataset.
+    """
+    base_path = Path(configs_dir) / base
     override_path = Path(configs_dir) / "conditions" / f"{condition}.yaml"
     if not override_path.exists():
         raise FileNotFoundError(f"no config for condition {condition!r}: {override_path}")

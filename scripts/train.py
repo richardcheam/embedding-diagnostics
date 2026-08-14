@@ -28,6 +28,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--checkpoint-every", type=int, default=None, help="override config")
     parser.add_argument("--tag", default="default", help="experiment group directory name")
     parser.add_argument(
+        "--base-config",
+        default="base.yaml",
+        help="base config file under configs/ (base.yaml = CIFAR-10, bdd.yaml = BDD100K)",
+    )
+    parser.add_argument(
         "--seed",
         type=int,
         default=None,
@@ -47,7 +52,7 @@ def main() -> int:
     # Before the CIFAR-10 download and model construction: a mismatched CUDA
     # build otherwise surfaces minutes in, as a message about driver versions.
     require_device(args.device)
-    config = load_config(args.condition, ROOT / "configs")
+    config = load_config(args.condition, ROOT / "configs", base=args.base_config)
     if args.total_steps is not None:
         config["optim"]["total_steps"] = args.total_steps
     if args.checkpoint_every is not None:

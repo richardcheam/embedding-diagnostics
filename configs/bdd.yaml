@@ -1,0 +1,54 @@
+# BDD100K base. The seven condition files under conditions/ overlay this
+# unchanged — the whole point is that the same interventions run on the
+# calibration bench (CIFAR-10, base.yaml) and on scenario data.
+seed: 0
+
+data:
+  dataset: bdd100k
+  root: ./data/bdd100k
+  batch_size: 256
+  # JPEG decode at 1280x720 is the bottleneck, not the GPU.
+  num_workers: 8
+  probe_train_samples: 5000
+  probe_test_samples: 5000
+
+model:
+  # Square resize of 1280x720 frames; aspect distortion accepted (Phase-2 spec).
+  # 128 / patch 8 = the same 16x16 mask grid family as the calibration bench.
+  image_size: 128
+  patch_size: 8
+  embed_dim: 192
+  depth: 6
+  num_heads: 3
+  mlp_ratio: 4.0
+  predictor_hidden_dim: 384
+  projector_dim: 0
+  projector_hidden_dim: 512
+
+masking:
+  # Fractions are relative to the patch grid, so identical to the bench.
+  num_target_blocks: 4
+  target_block_scale: [0.15, 0.2]
+  target_block_aspect: [0.75, 1.5]
+
+optim:
+  lr: 0.001
+  weight_decay: 0.05
+  warmup_steps: 500
+  # Pilot-first rule: full budget is decided from pilot curves, never assumed.
+  total_steps: 4000
+
+logging:
+  checkpoint_every: 200
+  projection_samples: 500
+  output_root: ./experiments
+
+strategy:
+  name: ema_stopgrad
+  uses_ema_target: true
+  detaches_target: true
+  ema_decay: 0.996
+  sigreg_weight: 0.0
+  sigreg_num_slices: 1024
+  sigreg_num_freqs: 17
+  sigreg_freq_max: 3.0

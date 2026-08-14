@@ -21,6 +21,7 @@ from ..data import sample_block_masks
 from ..diagnostics.metrics import collapse_metrics
 from ..diagnostics.probe import linear_probe_accuracy
 from ..diagnostics.projection import project_2d
+from ..diagnostics.retrieval import retrieval_precision_at_k
 from ..logging_utils import RunLogger
 from ..models.predictor import MLPPredictor
 from ..models.projector import Projector
@@ -187,7 +188,15 @@ class Trainer:
         return np.concatenate(chunks, axis=0)
 
     def evaluate(self, probe_train: tuple, probe_test: tuple) -> dict[str, Any]:
-        """Cheap diagnostics plus the expensive probe, on the frozen encoder."""
+        """Cheap diagnostics, probes, and retrieval, on the frozen encoder.
+
+        Labels may be a single array (CIFAR-10 classes) or a dict of named
+        attribute arrays (BDD100K weather/scene/timeofday). With a dict, each
+        attribute is probed and retrieved separately under suffixed keys, and
+        the across-attribute means are logged under the canonical keys so every
+        downstream tool — figures, summaries, seed aggregation — reads both
+        dataset families identically.
+        """
         train_images, train_labels = probe_train
         test_images, test_labels = probe_test
 
@@ -195,21 +204,43 @@ class Trainer:
         test_features = self.encode_all(test_images)
 
         record: dict[str, Any] = collapse_metrics(test_features)
-        # Both probes. The standardized one stays comparable across checkpoints;
-        # the unstandardized one is the only probe that registers scale collapse,
-        # because standardizing rescales a collapsed encoder's numerical noise
-        # back to unit variance. A widening gap between them is itself a signal.
-        record["probe_accuracy"] = linear_probe_accuracy(
-            train_features, train_labels, test_features, test_labels, seed=self.config["seed"]
-        )
-        record["probe_accuracy_unscaled"] = linear_probe_accuracy(
-            train_features,
-            train_labels,
-            test_features,
-            test_labels,
-            seed=self.config["seed"],
-            standardize=False,
-        )
+
+        if isinstance(train_labels, dict):
+            label_sets = {name: (train_labels[name], test_labels[name]) for name in train_labels}
+        else:
+            label_sets = {None: (train_labels, test_labels)}
+
+        scaled, unscaled, retrieved = [], [], []
+        for name, (fit_labels, eval_labels) in label_sets.items():
+            suffix = f"_{name}" if name is not None else ""
+            # Both probes. The standardized one stays comparable across
+            # checkpoints; the unstandardized one is the only probe that
+            # registers scale collapse, because standardizing rescales a
+            # collapsed encoder's numerical noise back to unit variance. A
+            # widening gap between them is itself a signal.
+            probe = linear_probe_accuracy(
+                train_features, fit_labels, test_features, eval_labels, seed=self.config["seed"]
+            )
+            probe_raw = linear_probe_accuracy(
+                train_features,
+                fit_labels,
+                test_features,
+                eval_labels,
+                seed=self.config["seed"],
+                standardize=False,
+            )
+            precision = retrieval_precision_at_k(test_features, eval_labels, k=10)
+            if name is not None:
+                record[f"probe_accuracy{suffix}"] = probe
+                record[f"probe_accuracy_unscaled{suffix}"] = probe_raw
+                record[f"retrieval_p10{suffix}"] = precision
+            scaled.append(probe)
+            unscaled.append(probe_raw)
+            retrieved.append(precision)
+
+        record["probe_accuracy"] = float(np.mean(scaled))
+        record["probe_accuracy_unscaled"] = float(np.mean(unscaled))
+        record["retrieval_p10"] = float(np.mean(retrieved))
         record["projection"] = project_2d(
             test_features,
             max_samples=self.config["logging"]["projection_samples"],

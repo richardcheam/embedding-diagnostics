@@ -44,6 +44,11 @@ def parse_args() -> argparse.Namespace:
         help="run conditions concurrently, one per GPU, instead of one after another",
     )
     parser.add_argument(
+        "--base-config",
+        default="base.yaml",
+        help="base config under configs/ (base.yaml = CIFAR-10, bdd.yaml = BDD100K)",
+    )
+    parser.add_argument(
         "--seeds",
         default="0",
         help="comma-separated run seeds; each seed writes to <tag>_s<seed> so "
@@ -71,6 +76,8 @@ def build_command(
         tag,
         "--seed",
         str(seed),
+        "--base-config",
+        args.base_config,
     ]
     if args.total_steps is not None:
         command += ["--total-steps", str(args.total_steps)]

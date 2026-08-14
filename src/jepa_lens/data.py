@@ -104,7 +104,12 @@ def sample_block_masks(
 
 
 def build_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tuple]:
-    """Build the SSL loader plus frozen probe splits.
+    """Build the SSL loader plus frozen probe splits for the configured dataset.
+
+    Dispatches on `data.dataset`: "cifar10" (this module) or "bdd100k"
+    (`jepa_lens.bdd100k`). Both return the same (ssl_loader, probe_train,
+    probe_test) contract; BDD's probe labels are a dict of scenario attributes
+    rather than a single class array.
 
     Returns:
         Tuple of (ssl_loader, probe_train, probe_test). Each probe split is a
@@ -112,6 +117,14 @@ def build_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tuple]
         construction and are reused unchanged at every checkpoint so probe
         accuracy is comparable across steps.
     """
+    dataset_name = config["data"].get("dataset", "cifar10")
+    if dataset_name == "bdd100k":
+        from .bdd100k import build_bdd_dataloaders
+
+        return build_bdd_dataloaders(config)
+    if dataset_name != "cifar10":
+        raise ValueError(f"unknown dataset {dataset_name!r}")
+
     data_config = config["data"]
     normalize = transforms.Normalize(CIFAR10_MEAN, CIFAR10_STD)
 

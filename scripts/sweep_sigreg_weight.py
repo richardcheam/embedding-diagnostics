@@ -43,6 +43,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--checkpoint-every", type=int, default=100)
     parser.add_argument("--tag", default="sweep")
     parser.add_argument("--gpus", default=None, help="comma-separated ids (default: all)")
+    parser.add_argument("--jobs-per-gpu", type=int, default=1)
     parser.add_argument(
         "--conditions",
         default=",".join(SIGREG_CONDITIONS),
@@ -73,7 +74,7 @@ def main() -> int:
 
     jobs = [(condition, lam) for lam in lambdas for condition in conditions]
     labels = [f"{condition}@lam{lam}" for condition, lam in jobs]
-    waves = plan_gpu_waves(labels, gpus)
+    waves = plan_gpu_waves(labels, gpus, jobs_per_gpu=args.jobs_per_gpu)
     lookup = dict(zip(labels, jobs, strict=True))
 
     print(f"{len(jobs)} runs over GPUs {gpus} in {len(waves)} wave(s)")

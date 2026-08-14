@@ -138,12 +138,43 @@ def test_fewer_gpus_than_conditions_splits_into_waves():
     assert [c for wave in waves for c, _ in wave] == conditions
 
 
-def test_no_gpu_is_ever_double_booked_within_a_wave():
-    """Two conditions on one GPU at once would contend for memory and skew timing."""
+def test_no_gpu_exceeds_its_capacity_within_a_wave():
+    """At the default of one job per GPU, no device is double-booked."""
     waves = plan_gpu_waves([f"c{i}" for i in range(9)], [0, 1, 2, 3])
     for wave in waves:
         assigned = [gpu for _, gpu in wave]
         assert len(assigned) == len(set(assigned))
+
+
+def test_jobs_per_gpu_packs_that_many_and_no_more():
+    """These models use ~1GB of 24GB, so packing is the point — but the
+    scheduler must still respect the stated capacity exactly."""
+    from collections import Counter
+
+    waves = plan_gpu_waves([f"c{i}" for i in range(24)], [0, 1, 2, 3], jobs_per_gpu=3)
+    assert len(waves) == 2  # 24 jobs / (4 GPUs x 3) = 2 waves
+    for wave in waves:
+        counts = Counter(gpu for _, gpu in wave)
+        assert max(counts.values()) <= 3
+
+
+def test_packing_reduces_the_wave_count_proportionally():
+    jobs = [f"c{i}" for i in range(35)]  # 7 conditions x 5 seeds
+    assert len(plan_gpu_waves(jobs, [0, 1, 2, 3], jobs_per_gpu=1)) == 9
+    assert len(plan_gpu_waves(jobs, [0, 1, 2, 3], jobs_per_gpu=3)) == 3
+
+
+def test_a_partial_final_wave_spreads_across_gpus():
+    """Interleaved slots, so leftovers do not all pile onto GPU 0."""
+    waves = plan_gpu_waves([f"c{i}" for i in range(6)], [0, 1, 2, 3], jobs_per_gpu=2)
+    assert {gpu for _, gpu in waves[0]} == {0, 1, 2, 3}
+
+
+def test_jobs_per_gpu_below_one_is_rejected():
+    import pytest
+
+    with pytest.raises(ValueError, match="at least 1"):
+        plan_gpu_waves(["a"], [0], jobs_per_gpu=0)
 
 
 def test_every_condition_is_scheduled_exactly_once():

@@ -86,9 +86,10 @@ always reads the encoder.
 ## Phase A (calibration bench, pre-registered)
 
 ```bash
-# 7 conditions x 3 paired seeds = 21 runs, one job per GPU
+# 7 conditions x 5 paired seeds = 35 runs
 uv run python scripts/run_all_conditions.py --device cuda --parallel \
-  --total-steps 4000 --checkpoint-every 200 --tag phaseA --seeds 0,1,2
+  --total-steps 4000 --checkpoint-every 200 --tag phaseA --seeds 0,1,2,3,4 \
+  --jobs-per-gpu 3
 
 # Across-seed means at the fixed final-step endpoint
 uv run python scripts/aggregate_seeds.py --tag phaseA
@@ -121,6 +122,13 @@ uv run python scripts/aggregate_seeds.py --tag bddpilot
 
 Each BDD run logs per-attribute probes and retrieval (`probe_accuracy_weather`,
 `retrieval_p10_scene`, ...) plus across-attribute means under the canonical keys.
+
+`--jobs-per-gpu` packs several runs onto each card: a CIFAR condition uses about 1 GB of a
+24 GB device, so one-job-per-GPU leaves it nearly idle. On 4 GPUs a 35-job matrix takes 9
+waves at 1/GPU and 3 waves at 3/GPU. **The CPU saturates before the GPU does** — every job
+runs dataloader workers *and* fits two sklearn linear probes at each checkpoint — so raise
+it until steps/sec stops improving, then stop. Check `nproc` before going high, and lower
+`num_workers` in the config if the workers start starving each other.
 
 ## Sweeping the SIGReg weight
 

@@ -36,24 +36,40 @@ class EnvironmentInfo:
     init_error: str | None = None
 
 
-def plan_gpu_waves(conditions: list[str], gpus: list[int]) -> list[list[tuple[str, int]]]:
-    """Schedule conditions onto GPUs, one condition per GPU at a time.
+def plan_gpu_waves(
+    conditions: list[str], gpus: list[int], jobs_per_gpu: int = 1
+) -> list[list[tuple[str, int]]]:
+    """Schedule conditions onto GPU slots, `jobs_per_gpu` concurrent jobs each.
 
     Returns a list of waves; each wave is a list of (condition, gpu) pairs that
-    run concurrently. With four conditions and four GPUs this is a single wave.
-    With fewer GPUs than conditions it splits into as many waves as needed.
+    run concurrently. Slots are interleaved across GPUs, so a partially filled
+    final wave spreads over the devices rather than piling onto the first.
 
-    Deliberately one condition per GPU rather than sharding a condition across
-    GPUs: SIGReg and the collapse diagnostics are batch-level statistics, so
-    splitting a batch across ranks changes what they measure. See
-    docs/development-log.md.
+    `jobs_per_gpu` exists because these models are small: a CIFAR-10 condition
+    occupies roughly 1 GB of a 24 GB card, so one-job-per-GPU leaves the device
+    almost idle. Packing several jobs per GPU shortens the wall clock of a
+    seeded matrix roughly linearly until something else saturates — and what
+    saturates is the CPU, not the GPU: each job runs dataloader workers AND
+    fits two sklearn linear probes at every checkpoint. Raise this until
+    steps/sec stops improving, then stop.
+
+    Still deliberately one condition per job rather than sharding a condition
+    across GPUs: SIGReg and the collapse diagnostics are batch-level
+    statistics, so splitting a batch across ranks changes what they measure.
+    See docs/development-log.md.
     """
     if not gpus:
         raise ValueError("no GPUs to schedule onto")
+    if jobs_per_gpu < 1:
+        raise ValueError(f"jobs_per_gpu must be at least 1, got {jobs_per_gpu}")
+
+    # Interleaved: [0, 1, 2, 3, 0, 1, 2, 3, ...] rather than [0, 0, 1, 1, ...].
+    slots = [gpus[index % len(gpus)] for index in range(len(gpus) * jobs_per_gpu)]
     return [
-        [(condition, gpus[offset]) for offset, condition in enumerate(chunk)]
+        [(condition, slots[offset]) for offset, condition in enumerate(chunk)]
         for chunk in (
-            conditions[start : start + len(gpus)] for start in range(0, len(conditions), len(gpus))
+            conditions[start : start + len(slots)]
+            for start in range(0, len(conditions), len(slots))
         )
     ]
 

@@ -56,6 +56,13 @@ def parse_args() -> argparse.Namespace:
         "load_runs and the figures keep working unchanged per seed",
     )
     parser.add_argument(
+        "--jobs-per-gpu",
+        type=int,
+        default=1,
+        help="concurrent jobs per GPU. These models use ~1GB of a 24GB card, so "
+        "raising this shortens a seeded matrix; the CPU saturates before the GPU does",
+    )
+    parser.add_argument(
         "--overwrite",
         action="store_true",
         help="discard existing results in the target directories (refused by default)",
@@ -130,8 +137,11 @@ def run_parallel(args: argparse.Namespace, jobs) -> int:
     gpus = resolve_gpus(args.gpus)
     labels = [job.label for job in jobs]
     lookup = dict(zip(labels, jobs, strict=True))
-    waves = plan_gpu_waves(labels, gpus)
-    print(f"{len(jobs)} jobs across GPUs {gpus} in {len(waves)} wave(s)")
+    waves = plan_gpu_waves(labels, gpus, jobs_per_gpu=args.jobs_per_gpu)
+    print(
+        f"{len(jobs)} jobs across GPUs {gpus} at {args.jobs_per_gpu}/GPU "
+        f"in {len(waves)} wave(s)"
+    )
 
     failures: list[tuple[str, int]] = []
     for index, wave in enumerate(waves, start=1):

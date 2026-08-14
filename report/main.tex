@@ -22,27 +22,36 @@
 \begin{abstract}
 Scenario mining for ADAS validation embeds millions of unlabeled driving situations and
 asks whether the embedding covers the operating domain. That question rests entirely on
-label-free diagnostics — and this project shows those diagnostics can fail in the worst
-possible direction. On a control condition with no collapse prevention, which collapsed
-completely (mean pairwise cosine 1.000), two standard diagnostics \emph{rose}: effective
-rank (the covariance participation ratio) and standardized linear-probe accuracy. Both are
-scale-invariant, and the collapse was a loss of scale.
+label-free diagnostics, so we ask which of them can be trusted. We treat
+collapse-prevention mechanisms --- stop-gradient, SIGReg \citep{lejepa2025}, and a
+disposable projector --- as controlled interventions that manufacture known degeneration
+modes in negative-free masked JEPA training, and measure which diagnostics distinguish
+scale collapse, angular concentration, dimensional structure, and semantic loss.
 
-We therefore treat collapse-prevention mechanisms — stop-gradient, SIGReg
-\citep{lejepa2025}, and a disposable projector — as controlled interventions that
-manufacture known degeneration modes in negative-free masked JEPA training, and test which
-label-free diagnostics distinguish scale collapse, angular concentration, dimensional
-structure, and semantic loss. A calibration phase on CIFAR-10 (seven conditions, three
-paired seeds, pre-registered fixed-step endpoints) is followed by the same matrix on
-BDD100K driving images, where the semantic endpoint is scenario-attribute retrieval — the
-operation scenario mining actually performs.
+Phase~A calibrates on CIFAR-10: seven conditions, five paired seeds, pre-registered
+fixed-step endpoints and a pre-registered claim rule. Two results survive it. First,
+geometry and semantics fail to resolve in opposite places --- across the SIGReg contrasts
+every geometric comparison is large and resolvable (up to 169 units of total variance,
+0.84 of mean pairwise cosine) while the probe moves by at most 0.035; and in the one
+contrast whose semantic difference is unambiguous ($+0.210$ probe accuracy), neither
+geometric endpoint clears the claim rule. Second, and more practically: the control
+condition with no collapse prevention collapses to a point --- total variance
+$2\times10^{-4}$, mean pairwise cosine $1.0000$, unscaled probe accuracy at the $0.100$
+chance floor --- yet scores $0.413$ on the \emph{standardized} linear probe and retrieves
+at $1.8\times$ chance. Both protocols normalize away scale by construction, and scale is
+what was lost. Since standardized probing is the default SSL evaluation and cosine
+similarity the default retrieval metric, a pipeline evaluated only that way cannot
+distinguish a working encoder from one that has collapsed by five orders of magnitude.
+We also find RankMe and the covariance participation ratio each blind to the collapse mode
+the other detects, so the two are not interchangeable despite both being called
+effective-rank measures.
 
-Supporting results so far, all single-seed and pending the pre-registered rerun: without a
-projector, SIGReg failed to substitute for stop-gradient at every strength in its
-reference range (final cosine 0.990--0.381 without stop-gradient versus 0.034--0.008 with
-it), and on the one run that both learned and degraded, the expensive probe turned
-\emph{before} the cheap diagnostics — the opposite of the monitoring folklore.
-\textbf{Phase-2 results sections are completed as runs finish.}
+No SIGReg configuration in our setup beat its own random initialisation; only the EMA
+stop-gradient baseline learned. That is a statement about this combination --- SIGReg
+paired with masked latent prediction rather than LeJEPA's multi-view invariance --- and not
+about \citet{lejepa2025}. Phase~B repeats the matrix on BDD100K driving images, where the
+semantic endpoint is scenario-attribute retrieval: the operation scenario mining actually
+performs, and the one Phase~A finds least able to detect this failure.
 \end{abstract}
 
 \input{sections/introduction}

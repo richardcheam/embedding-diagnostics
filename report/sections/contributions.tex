@@ -17,11 +17,15 @@ EMA target + stop-gradient & Established & \citet{grill2020byol,chen2021simsiam}
 Collapse diagnostics & Established practice & Standard in the SSL literature \\
 Linear-probe protocol & Established practice & Standard SSL evaluation \\
 Four-condition ablation grid & Standard methodology & Conventional design \\
+Scale-invariance of standardized probing and cosine retrieval & Established by definition & Property of the metrics; predicted a priori, not discovered here \\
+RankMe & Established, not ours & \citet{garrido2023rankme} \\
 Scale-dependence of stop-gradient under SIGReg & \textbf{Replication attempt} & Encountered secondhand; primary source not read end-to-end \\
-Cheap diagnostics as early warning & \textbf{Potentially new, conditional} & Only a contribution if the timing gap is observed \\
-Diagnostic reliability under manufactured degeneration, calibrated then applied to scenario retrieval & \textbf{Ours, in progress} & Phase-2 central question (Section~\ref{sec:prereg}) \\
-Projector as the variable governing where a distributional regularizer may act & \textbf{Ours, hypothesis} & Motivated by an audit finding; untested until Phase 2 \\
-Effective rank and standardized probing both failing on total collapse & \textbf{Ours, observed} & Section~\ref{sec:instrument}; single-seed pilot \\
+Cheap diagnostics as early warning & \textbf{Tested, not supported} & Phase-1 pilot: the probe turned first (Section~\ref{sec:results}) \\
+\emph{Magnitude} of the blindness: a collapsed encoder scoring 0.413 on the standardized probe and $1.8\times$ chance on retrieval & \textbf{Ours, claim-grade} & Phase~A, five paired seeds, pre-registered rule (Section~\ref{sec:results}) \\
+Geometry and semantics unresolvable in opposite places under a pre-registered claim rule & \textbf{Ours, claim-grade} & Phase~A, Table~\ref{tab:phasea} \\
+RankMe and participation ratio each blind to the mode the other detects & \textbf{Ours, observed} & Phase~A, Table~\ref{tab:rank}; mechanism is centered vs.\ raw spectrum \\
+Diagnostic reliability transferring to scenario retrieval & \textbf{Ours, in progress} & Phase~B; CIFAR-10 calibration complete \\
+Projector as the variable governing where a distributional regularizer may act & \textbf{Ours, tested} & Survives its registered geometric test, gains no semantic support \\
 \bottomrule
 \end{tabular}
 \end{table}

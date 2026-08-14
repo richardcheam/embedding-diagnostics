@@ -43,7 +43,10 @@ the probe, the diagnostics, and the prediction task read the encoder. Our predic
 remains in encoder latent space — a documented deviation from LeJEPA, which pairs SIGReg
 with multi-view invariance and has no latent-prediction task.
 
-\paragraph{Seeds and pairing.} Three seeds (0, 1, 2). Within a seed, every condition
+\paragraph{Seeds and pairing.} Three seeds (0, 1, 2).\footnote{Left as registered. Phase~A
+was in fact run with five seeds (0--4); the deviation and its direction are recorded in
+Section~\ref{sec:results}. This paragraph is a record of what was fixed in advance and is
+not edited to match what happened.} Within a seed, every condition
 receives identical initialisation, masks, and batch order, verified by test.
 
 \paragraph{Budget.} 4{,}000 steps, checkpoints every 200. Every observed separation to

@@ -3,7 +3,7 @@
 Read this first. It is the plain-language story of what we set out to test, what actually
 happened, and what is still open. Everything else is detail.
 
-Last updated: 2026-08-14, after the external audit and the Phase-2 reframe.
+Last updated: 2026-08-14, after Phase A completed (5 seeds, CIFAR-10).
 
 ---
 
@@ -32,7 +32,7 @@ The audit's two design findings, both now fixed in code:
 2. **The 2x2 had a hole.** `none_stopgrad` (stop-gradient alone, no regularizer) was
    missing, so stop-gradient's effect could not be separated from SIGReg's. Added.
 
-Plus the statistics fixes: 3 paired seeds, fixed-step endpoints instead of
+Plus the statistics fixes: paired seeds (registered at 3, run at 5), fixed-step endpoints instead of
 best-over-checkpoints, a pre-registered claim rule (2x seed SD and the probe's binomial
 SE), and the rank metric renamed to what it actually is (participation ratio, with RankMe
 added as a genuinely different measure).
@@ -60,8 +60,75 @@ So "cosine near 1" and "variance collapsed" are statements about geometry, not a
 whether the representation is still useful. Sections 3-5 below were written before this was
 known and should be read with it in mind.
 
-**Status: harness ready, Phase-A runs pending. BDD100K confirmed present on the GPU box**
-(70k train / 10k val, per-image-JSON layout, 61,591 + 8,801 fully labelled).
+### Phase A is done, and it answered the question
+
+**Status: Phase A complete** — 7 conditions × 5 paired seeds on CIFAR-10, endpoints read at
+the pre-registered final checkpoint, pre-registered claim rule applied as written. Phase B
+is next; BDD100K is confirmed present on the GPU box (70k train / 10k val,
+per-image-JSON layout, 61,591 + 8,801 fully labelled).
+
+**The finding that matters.** The control condition with no collapse prevention
+(`none_nostopgrad`) collapses to a point: total variance 0.0002 — four hundred thousand
+times below the baseline — and mean pairwise cosine exactly 1.0000. The unscaled probe
+correctly calls it dead, 0.1066 against a 0.100 chance floor. But:
+
+| metric on the fully-collapsed control | reading | verdict |
+| --- | --- | --- |
+| total variance | 0.0002 | correct |
+| mean pairwise cosine | 1.0000 | correct |
+| unscaled linear probe | 0.1066 (chance = 0.100) | correct |
+| RankMe | 1.12 | correct |
+| **standardized linear probe** | **0.413** | **blind** |
+| **cosine retrieval P@10** | **0.184 (1.8× chance)** | **blind** |
+| **participation ratio** | **34.98** (healthy baseline: 26.90) | **blind, and inverted** |
+
+A dead encoder scores 0.413 on the standardized linear probe — higher than three of the six
+conditions that are training normally. It retrieves at 1.8× chance, statistically
+indistinguishable from a partially-working encoder (paired difference +0.002).
+
+The mechanism is not a surprise and we predicted it a priori: standardization divides each
+feature by its standard deviation, cosine retrieval L2-normalizes each vector. **Both
+remove scale by construction, and scale is exactly what was lost.** The residual numerical
+noise is still a deterministic function of the input, so a linear model reads it happily.
+
+What makes this worth reporting is the *reach*, not the mechanism. Standardized probing is
+the default SSL evaluation and cosine similarity is the default in essentially every vector
+database. **A pipeline evaluated only that way cannot tell a working encoder from one that
+has collapsed by five orders of magnitude.** And for scenario mining specifically: retrieval
+is the operation the application actually performs, and it is the endpoint least able to
+detect this. The fix is cheap — log total variance and the unscaled probe alongside — but
+it has to be done on purpose.
+
+**Second finding: geometry and semantics fail to resolve in opposite places.** Across the
+four SIGReg contrasts, every geometric comparison clears the claim rule and is enormous
+(169 units of variance, 0.84 of cosine) while the probe moves at most 0.035 and clears the
+rule once. In the one contrast whose semantic difference is unambiguous — `none_stopgrad`
+vs the collapsed control, +0.210 probe accuracy — *neither* geometric endpoint clears the
+rule, because `none_stopgrad` is wildly seed-unstable (total variance across seeds: 17.1,
+7.5, 16.9, 50.9, 15.4). Where geometry is measured precisely it says nothing about
+semantics; where semantics differ hugely the geometry is too unstable to say so. This is
+the stress-test result (below) surviving in real training under a rule fixed in advance.
+
+Caveat that limits it: absolute detection still works. Nobody would look at cosine 1.0000
+and call it healthy. What fails is using these diagnostics to **rank or compare**
+configurations.
+
+**Third finding: RankMe and participation ratio are not interchangeable.** Each is blind to
+the mode the other catches — PR reads 34.98 on the collapsed-to-a-point control (RankMe:
+1.12, correct), while RankMe reads 39.60 on `sigreg_nostopgrad` whose variance is 127×
+below baseline (PR: 16.63, correct). PR uses the *centered* covariance spectrum so it
+cannot see collapse to a non-zero constant; RankMe uses raw singular values so it can, but
+SIGReg keeps its shrinking residual isotropic, which flattens the raw spectrum. Both are
+called "effective rank" in the literature. They should not be substituted for each other.
+
+**And: nothing except the EMA baseline learned.** Only `ema_stopgrad` finished above its own
+random initialisation (+0.161). Every SIGReg arm finished below it. That is a statement
+about SIGReg paired with masked latent prediction — not about LeJEPA, which pairs it with
+multi-view invariance and no predictor. See section 5.
+
+One deviation from the pre-registration, in the strengthening direction: it fixed 3 seeds,
+we ran 5. Nothing else changed. The 3-seed pilot is retained separately as `phaseApilot`
+and none of its numbers appear above.
 
 One measurement issue surfaced while verifying the data, and it is the ADAS point in
 miniature: BDD's scenario attributes are severely skewed (val weather 61% `clear`, `foggy`
@@ -144,12 +211,27 @@ the probed representation:
 Tier 2 constrains how these may be read: cosine near 1 is angular concentration, which is
 not by itself information loss.
 
+### Tier 2b — Phase-A results under a pre-registered claim rule (claim-grade)
+
+7 conditions x 5 paired seeds, CIFAR-10, endpoints fixed in advance. These are the
+strongest *training* results the project holds; only the stress test (Tier 2) is stronger,
+because there the transformation is known exactly rather than produced by an optimiser.
+
+- A fully collapsed encoder scores 0.413 on the standardized probe and 1.8x chance on
+  cosine retrieval, while the unscaled probe correctly reads chance. Both blind protocols
+  are the field defaults.
+- Geometric contrasts clear the claim rule in 8 of 10 cells; the primary semantic endpoint
+  in 2 of 5 — and the two axes fail in opposite places.
+- RankMe and the participation ratio are each blind to the collapse mode the other detects.
+- Only `ema_stopgrad` beat its own random initialisation.
+
+Detail and exact numbers: section 0 above, and the report's Results section.
+
 ### Tier 4 — pre-registered and not yet run
 
-Phase A (7 conditions x 5 paired seeds, CIFAR-10) and Phase B (same matrix on BDD100K with
-scenario-attribute retrieval). Endpoints, contrasts, and falsification criteria are fixed
-in advance; see the spec and the report's pre-registration section. **No Phase-A or Phase-B
-result exists yet.**
+Phase B: the same matrix on BDD100K with scenario-attribute retrieval as the primary
+semantic endpoint. Endpoints, contrasts, and falsification criteria are fixed in advance;
+see the spec and the report's pre-registration section. **No Phase-B result exists yet.**
 
 ---
 
@@ -258,14 +340,22 @@ They failed on contact with the shape real data actually has.
 
 ## 7. What is still open
 
+- **Does the blindness survive on driving data?** This is Phase B and the single most
+  important open question. Phase A's mechanism argument (both protocols remove scale by
+  construction) should transfer; the *magnitudes* need not. On BDD100K retrieval is the
+  primary endpoint, which is the one Phase A found least able to detect collapse.
 - **Does a stronger SIGReg eventually replace stop-gradient?** The trend says maybe, above
   LeJEPA's swept range. Testing lambda 0.2 / 0.3 / 0.5 would settle it and is cheap.
-- **Can SIGReg learn anything in this setup at all?** If not at any lambda, the honest
-  conclusion is that masked prediction is the wrong companion objective for it.
-- **Everything rests on one seed.** The probe alone has a run-to-run noise floor of ~0.005,
-  and no result here has been repeated across seeds. This is the single biggest weakness.
+- **Can SIGReg learn anything in this setup at all?** No configuration tried has beaten
+  random initialisation. If none does at any lambda, the honest conclusion is that masked
+  prediction is the wrong companion objective for it.
+- **Collapse here was induced, not spontaneous.** Every degeneration we measured came from
+  removing stop-gradient or applying a known transformation. Whether the same diagnostics
+  catch collapse that arises on its own, mid-training, is untested.
 - **Part 2 deserves a fair test.** It was asked on one condition. It needs several runs that
-  genuinely learn and then degrade.
+  genuinely learn and then degrade; only `ema_stopgrad` ever did.
+- **`none_stopgrad` is bimodal across seeds** (total variance 7.5 to 50.9). We report it as
+  instability; we have not investigated what distinguishes the seeds.
 
 ---
 

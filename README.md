@@ -9,9 +9,8 @@ driving scenarios, where the semantic endpoint is scenario-attribute retrieval.
 **Start here: [`docs/STATUS.md`](docs/STATUS.md)** — the plain-language story of what we set
 out to test, what actually happened, and what is still open.
 
-**Status:** harness hardened and pre-registered; **Phase A and Phase B have not produced
-results yet.** What exists is exploratory Phase-1 evidence (single seed, no projector) plus
-one ground-truth stress-test finding that needed no training.
+**Status:** **Phase A complete** — 7 conditions x 5 paired seeds on CIFAR-10, endpoints and
+claim rule fixed in advance. Phase B (BDD100K driving scenarios) is next.
 
 ## Honesty note
 
@@ -167,12 +166,47 @@ content**. Contracting embeddings 10,000x, or driving mean pairwise cosine to 1.
 retrieval P@10 at exactly 1.000. The transformations that *do* destroy retrieval move
 variance and rank in the opposite direction.
 
-**Exploratory Phase-1 observations** — single seed, no projector, not claim-grade:
+**Phase A, under a pre-registered claim rule (5 paired seeds, CIFAR-10):**
 
-- Without a projector, no SIGReg configuration in LeJEPA's swept lambda range prevented
-  angular concentration without stop-gradient, while every stop-gradient arm stayed spread.
-- On the one 32k run that learned then degraded, the probe turned before the cheap
-  diagnostics rather than after.
+The control condition with no collapse prevention collapses to a point — total variance
+0.0002, mean pairwise cosine 1.0000, unscaled probe accuracy 0.107 against a 0.100 chance
+floor. Here is what the diagnostics say about that encoder:
 
-Both await the pre-registered Phase-A design (7 conditions, 5 paired seeds, paired
-confidence intervals) before any claim is made.
+| metric | reading | verdict |
+| --- | --- | --- |
+| total variance | 0.0002 | correct |
+| mean pairwise cosine | 1.0000 | correct |
+| unscaled linear probe | 0.107 (chance 0.100) | correct |
+| RankMe | 1.12 | correct |
+| **standardized linear probe** | **0.413** | **blind** |
+| **cosine retrieval P@10** | **0.184 (1.8x chance)** | **blind** |
+| **participation ratio** | **34.98** (healthy baseline 26.90) | **blind, inverted** |
+
+**A dead encoder scores 0.413 on the standardized linear probe** — higher than three of the
+six conditions that are training normally — and retrieves at 1.8x chance, statistically
+indistinguishable from a partially-working encoder. The mechanism is not exotic and we
+predicted it in advance: standardization divides by per-feature standard deviation, cosine
+retrieval L2-normalizes. Both remove scale by construction, and scale is what was lost.
+
+That matters because both blind protocols are the defaults — standardized probing is the
+standard SSL evaluation, cosine similarity the default in essentially every vector database.
+A pipeline evaluated only that way cannot distinguish a working encoder from one that has
+collapsed by five orders of magnitude. Logging total variance and the unscaled probe
+alongside fixes it, but has to be done deliberately.
+
+Two further results:
+
+- **Geometry and semantics fail to resolve in opposite places.** Across the SIGReg
+  contrasts every geometric comparison clears the claim rule and is enormous (169 units of
+  variance, 0.84 of cosine) while the probe moves at most 0.035. In the one contrast whose
+  semantic difference is unambiguous (+0.210 probe accuracy), *neither* geometric endpoint
+  clears the rule. Absolute detection of total collapse still works; what fails is using
+  these diagnostics to rank or compare configurations.
+- **RankMe and the participation ratio are not interchangeable**, despite both being called
+  effective-rank measures. Each is blind to the collapse mode the other detects — PR uses
+  the centered covariance spectrum and cannot see collapse to a non-zero constant; RankMe
+  uses raw singular values and can, but reads high when a shrinking residual stays isotropic.
+
+Only `ema_stopgrad` beat its own random initialisation (+0.161); every SIGReg arm finished
+below it. That is a statement about SIGReg paired with masked latent prediction, **not**
+about LeJEPA, which pairs it with multi-view invariance and no predictor.

@@ -1,106 +1,202 @@
 \section{Results}
 \label{sec:results}
 
-\interp{} \textbf{Everything in this section is an exploratory Phase-1 finding}: single
-seed, one model scale, and --- for every SIGReg row --- a configuration with no projector,
-in which the regularizer acted directly on the representation being probed. None of it is
-claim-grade. The pre-registered Phase-A design (Section~\ref{sec:prereg}; seven
-conditions, five paired seeds, fixed-step endpoints, paired confidence intervals) has not
-yet produced results, and neither has Phase B.
+This section reports Phase~A: seven conditions, five paired seeds, CIFAR-10, 4{,}000 steps,
+endpoints read at the final checkpoint as pre-registered in Section~\ref{sec:prereg}.
 
-These results come from single-seed runs at one model scale. Section~\ref{sec:instrument}
-describes three defects in the measurement apparatus found and corrected before these were
-collected; results predating those corrections have been discarded.
+\paragraph{Deviations from the pre-registration.} One, and it is in the strengthening
+direction: the design fixed three seeds (0,~1,~2) and we ran five (0--4). Nothing else
+changed --- conditions, budget, checkpoint interval, endpoint definitions, and the claim
+rule are as registered. The three-seed pilot that preceded this is retained separately as
+\texttt{phaseApilot} and none of its numbers appear below.
 
-\subsection{Part 1: does stop-gradient still matter under SIGReg?}
+\paragraph{How to read the claim column.} The pre-registered claim rule is stricter than a
+confidence interval: a difference is claimed only if its magnitude exceeds twice the
+across-seed standard deviation of the paired differences, \emph{and}, for the probe, the
+binomial standard error of $0.007$. Several contrasts below have 95\% intervals excluding
+zero yet fail this rule. We report them as unclaimed. The rule was fixed in advance and we
+apply it as written.
 
-We swept the SIGReg strength $\lambda$ across the range \citet{lejepa2025} itself uses,
-running both SIGReg conditions at each value for 2{,}000 steps. Mean pairwise cosine
-similarity near zero indicates a healthy, spread-out representation; near one indicates
-collapse.
-
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{r r r r r}
-\toprule
-& \multicolumn{2}{c}{\textbf{without stop-gradient}} & \multicolumn{2}{c}{\textbf{with stop-gradient}} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5}
-$\lambda$ & cosine & total var. & cosine & total var. \\
-\midrule
-0.01 & \textbf{0.990} & 0.56  & 0.034 & 153.4 \\
-0.02 & \textbf{0.951} & 1.83  & 0.021 & 162.5 \\
-0.05 & \textbf{0.765} & 19.3  & 0.009 & 167.6 \\
-0.10 & 0.381          & 89.5$^{\dagger}$  & 0.008 & 171.0 \\
-\bottomrule
-\end{tabular}
-\caption{\ours{} Final collapse metrics after 2{,}000 steps, single seed, no projector.
-$^{\dagger}$At $\lambda = 0.1$ total variance \emph{ends above where it started}
-(89.5 versus 87.2 at initialisation), so that configuration shows angular concentration
-without contraction and should not be described as collapsed; $\lambda = 0.05$, at
-0.22 times its initial variance, does contract.}
-\end{table}
-
-\ours{} Within the hyperparameter range used by \citet{lejepa2025}, SIGReg alone did not
-substitute for stop-gradient in our setup. The dose-response is clean and monotone --- cosine
-falls from 0.990 to 0.381 as $\lambda$ rises --- so a stronger setting may eventually suffice.
-At $\lambda = 0.1$ the cosine is much reduced \emph{and} total variance is back to its
-initial value, so on the scale axis that configuration is not degenerate at all --- only
-the angular axis distinguishes it from the stop-gradient arms. Stronger settings lie above
-the range the reference sweeps and are untested.
-
-\interp{} The original framing of Part 1 asked whether a gap would \emph{widen with training
-duration}. It did not need 32{,}000 steps to appear: the separation is unambiguous by 2{,}000.
-We therefore report Part 1 on collapse metrics rather than on the duration-scaling question as
-originally posed, since the effect was not marginal enough to require it.
-
-\subsection{Part 2: do cheap diagnostics degrade before the probe?}
-
-This question requires a run that both learns and subsequently degrades. Only
-\texttt{ema\_stopgrad} did; the SIGReg conditions never exceeded their own random
-initialisation, so their flat probe curves had nothing to lag behind.
+\subsection{The headline: geometry and semantics are separately unresolvable}
 
 \begin{table}[h]
 \centering
 \small
-\begin{tabular}{l r r}
+\begin{tabular}{l r r r r}
 \toprule
-\textbf{signal} & \textbf{turns at step} & \textbf{magnitude of move} \\
+\textbf{contrast} & \textbf{probe (uns.)} & \textbf{total var.} & \textbf{cosine} & \textbf{retr.\ P@10} \\
 \midrule
-unscaled probe accuracy (peak)   & 11{,}000 & 0.021 decline \\
-mean pairwise cosine (trough)    & 13{,}500 & 0.236 rise \\
+\texttt{none\_sg} $-$ \texttt{none\_nosg}       & \textbf{+0.210}$^\star$ & +21.6  & $-$0.160 & +0.002 \\
+\texttt{sigreg\_sg} $-$ \texttt{sigreg\_nosg}   & +0.015  & \textbf{+169.5}$^\star$ & \textbf{$-$0.843}$^\star$ & +0.013 \\
+\texttt{proj\_sg} $-$ \texttt{proj\_nosg}       & \textbf{+0.035}$^\star$ & \textbf{+74.1}$^\star$  & \textbf{$-$0.551}$^\star$ & \textbf{+0.029}$^\star$ \\
+\texttt{proj\_sg} $-$ \texttt{sigreg\_sg}       & +0.004  & \textbf{$-$61.3}$^\star$  & \textbf{+0.137}$^\star$  & $-$0.018 \\
+\texttt{proj\_nosg} $-$ \texttt{sigreg\_nosg}   & $-$0.016 & \textbf{+34.0}$^\star$   & \textbf{$-$0.155}$^\star$ & \textbf{$-$0.035}$^\star$ \\
 \bottomrule
 \end{tabular}
-\caption{\ours{} On the 32{,}000-step baseline the probe turns 2{,}500 steps \emph{before} the
-cheap diagnostic --- the opposite of the hypothesis. The cheap diagnostic's eventual signal is
-an order of magnitude larger, but arrives later.}
+\caption{\ours{} Paired mean differences over five seeds. $^\star$ = clears the
+pre-registered claim rule. \texttt{sg} abbreviates \texttt{stopgrad}. Geometric endpoints
+clear the rule in 8 of 10 cells; the primary semantic endpoint clears it in 2 of 5.}
+\label{tab:phasea}
 \end{table}
 
-\ours{} The hypothesis is not supported by this run. The cheap diagnostic is a clearer
-indicator of \emph{how severe} degradation has become, but not an earlier one.
+\ours{} The two axes fail to resolve in \emph{opposite} places, and this is the central
+result of Phase~A. Among the four contrasts involving SIGReg, every geometric comparison is
+resolvable and enormous --- 169 units of variance, 0.84 of cosine --- while the probe moves
+by at most 0.035 and clears the rule once. In the one contrast where the semantic difference
+is unambiguous and large (\texttt{none\_stopgrad} versus the collapsed control, $+0.210$),
+neither geometric endpoint clears the rule, because \texttt{none\_stopgrad} is wildly
+seed-unstable: its total variance across seeds runs 17.1, 7.5, 16.9, 50.9, 15.4.
 
-\interp{} Confidence is low. This is one condition, one seed, and a 2{,}500-step lead is five
-checkpoints at our logging resolution; the probe's decline is four times its measured
-run-to-run noise floor of 0.005. A fair test of Part 2 needs several runs that genuinely learn
-and then degrade.
+\interp{} Read the two together. Where the geometry is measured precisely, it does not tell
+us about the semantics. Where the semantics differ enormously, the geometry is too unstable
+to say so. Section~\ref{sec:stress} showed this decoupling under controlled degradation of
+fixed feature matrices; Phase~A shows it surviving in real training, across seeds, under a
+claim rule fixed in advance.
 
-\subsection{An incidental observation: angular reconcentration in the baseline}
+\ours{} A caveat that limits the second half: the geometric \emph{contrast} fails, but
+absolute detection does not. The collapsed control sits at cosine $1.0000$ and total
+variance $2\times10^{-4}$, which no practitioner would mistake for health. What Phase~A
+shows is that these diagnostics are unreliable for \emph{ranking or comparing}
+configurations, not that they fail to flag total collapse.
 
-\ours{} \texttt{ema\_stopgrad} reaches its best representation at step 11{,}000 --- roughly a
-third of the budget --- and degrades slowly thereafter, with mean pairwise cosine rising from
-0.294 to 0.530 and total variance falling sevenfold across the run. The classic
-stop-gradient-plus-EMA recipe does not hold a representation's geometry indefinitely at
-this scale. \interp{} We describe this as angular reconcentration accompanied by a probe
-decline, not as semantic collapse: the probe fell by 0.021 while cosine rose by 0.236, and
-Section~\ref{sec:stress} shows those two axes can move independently. Establishing
-semantic collapse would need the unscaled probe and retrieval to fall together.
+\subsection{The standard evaluation protocol rates a dead encoder at 0.41}
+
+\established{} Standardizing features before a probe divides each dimension by its standard
+deviation, and cosine retrieval $L^2$-normalizes each vector. Both operations remove scale
+by construction, so both are scale-invariant by definition --- this is a property of the
+metrics, predicted a priori, not a discovery. What Phase~A contributes is the magnitude.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{l r r r r r}
+\toprule
+\textbf{condition} & \textbf{total var.} & \textbf{cosine} & \textbf{probe uns.} & \textbf{probe std.} & \textbf{retr.\ P@10} \\
+\midrule
+\texttt{ema\_stopgrad}      & 87.75   & 0.386 & 0.546 & 0.541 & 0.358 \\
+\texttt{none\_stopgrad}     & 21.57   & 0.840 & 0.316 & 0.347 & 0.186 \\
+\texttt{sigreg\_nostopgrad} & 0.693   & 0.850 & 0.338 & 0.388 & 0.216 \\
+\texttt{none\_nostopgrad}   & 0.0002  & 1.000 & \textbf{0.107} & \textbf{0.413} & \textbf{0.184} \\
+\midrule
+\emph{chance}               & ---     & ---   & 0.100 & 0.100 & 0.100 \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} Final-checkpoint means over five seeds. The bottom row is the
+no-collapse-prevention control: total variance $4\times10^5$ times below the baseline and
+mean pairwise cosine at unity. The unscaled probe correctly reports it dead. The
+standardized probe reports 0.413.}
+\label{tab:blindness}
+\end{table}
+
+\ours{} The control encoder is collapsed to a point. Its unscaled probe accuracy is
+$0.107$ against a chance floor of $0.100$ --- correctly dead. Its standardized probe
+accuracy is $0.413$, which is \emph{above} three of the six other conditions, including two
+that are training normally. Its retrieval P@10 is $0.184$, $1.8\times$ chance, and
+statistically indistinguishable from \texttt{none\_stopgrad}'s $0.186$ (paired difference
+$+0.002$, far inside the claim rule).
+
+\interp{} The mechanism is the one anticipated in the probe module's documentation:
+standardization rescales the collapsed representation's residual numerical noise back to
+unit variance, and that noise is still a deterministic function of the input, so a linear
+model reads it. $L^2$-normalization does the same for retrieval. Both protocols surgically
+remove the exact axis along which this failure occurred.
+
+\interp{} This is the finding with the most practical reach, because both blind protocols
+are the defaults. Standardized linear probing is the standard SSL evaluation, and cosine
+similarity is the default in essentially every vector database. An embedding pipeline
+evaluated only that way cannot distinguish a working encoder from one that has collapsed by
+five orders of magnitude in scale. The correction is cheap --- log total variance and the
+unscaled probe alongside --- but it has to be done deliberately.
+
+\ours{} For scenario mining specifically the implication is uncomfortable. Retrieval is the
+operation the application actually performs, and it is the endpoint least able to detect
+this failure. Whether the effect survives on driving data is Phase~B.
+
+\subsection{Neither rank measure is sufficient alone}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{l r r r}
+\toprule
+\textbf{condition} & \textbf{total var.} & \textbf{participation ratio} & \textbf{RankMe} \\
+\midrule
+\texttt{ema\_stopgrad}      & 87.75  & 26.90 & 85.72 \\
+\texttt{sigreg\_nostopgrad} & 0.693  & 16.63 & \textbf{39.60} \\
+\texttt{none\_nostopgrad}   & 0.0002 & \textbf{34.98} & 1.12 \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} Each rank measure is blind to one collapse mode. Bold entries are the
+misleading readings.}
+\label{tab:rank}
+\end{table}
+
+\ours{} On the collapsed-to-a-point control, RankMe correctly reports $1.12$ while the
+participation ratio reports $34.98$ --- higher than the healthy baseline's $26.90$. On
+\texttt{sigreg\_nostopgrad}, whose total variance is 127 times below baseline, the
+participation ratio correctly drops to $16.63$ while RankMe reports $39.60$.
+
+\interp{} The two disagree because they are computed differently: the participation ratio
+uses the \emph{centered} covariance spectrum, so it cannot see a collapse to a non-zero
+constant, while RankMe uses raw singular values and does. Conversely SIGReg keeps its
+residual variance isotropic even as it shrinks, which flattens the raw spectrum and keeps
+RankMe high. Each measure is blind to the mode the other catches. Total variance flags both.
+
+\ours{} If a single label-free number must be chosen, our results favour total variance over
+either rank measure --- but the honest reading of Table~\ref{tab:rank} is that no single
+number was sufficient here, and RankMe and the participation ratio should not be treated as
+interchangeable despite both being described as effective-rank measures.
+
+\subsection{Neither stop-gradient nor SIGReg produced a useful representation}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{l r r r}
+\toprule
+\textbf{condition} & \textbf{probe at init} & \textbf{probe at 4k} & \textbf{change} \\
+\midrule
+\texttt{ema\_stopgrad}           & 0.385 & 0.546 & \textbf{+0.161} \\
+\texttt{proj\_sigreg\_stopgrad}  & 0.385 & 0.356 & $-$0.029 \\
+\texttt{sigreg\_stopgrad}        & 0.385 & 0.353 & $-$0.033 \\
+\texttt{sigreg\_nostopgrad}      & 0.385 & 0.338 & $-$0.048 \\
+\texttt{proj\_sigreg\_nostopgrad}& 0.385 & 0.322 & $-$0.064 \\
+\texttt{none\_stopgrad}          & 0.385 & 0.316 & $-$0.069 \\
+\texttt{none\_nostopgrad}        & 0.385 & 0.107 & $-$0.279 \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} Unscaled probe accuracy against each run's own random initialisation,
+five-seed means. Only the EMA baseline improves on its starting point.}
+\end{table}
+
+\ours{} Only \texttt{ema\_stopgrad} learns. Every SIGReg arm finishes below its own random
+initialisation, and so does stop-gradient without SIGReg. The projector changes the geometry
+substantially --- without stop-gradient it raises total variance from $0.69$ to $34.65$, a
+50-fold difference that clears the claim rule --- but it does not convert that into probe
+accuracy, where its effect is $-0.016$ and unclaimed.
+
+\paragraph{Status of the pre-registered falsification.} The registered criterion was that
+the projector hypothesis is falsified if \texttt{proj\_sigreg\_nostopgrad} collapses as
+badly as \texttt{sigreg\_nostopgrad} on all seeds. It does not: the projector prevents the
+scale collapse decisively and on every seed. \ours{} The hypothesis therefore survives its
+registered test on the geometric axis and gains no support on the semantic axis, which is
+the same dissociation as Table~\ref{tab:phasea}. \interp{} We note that the criterion we
+registered was purely geometric, and Phase~A is the reason we now think that was the wrong
+thing to register.
 
 \subsection{What these results do not show}
 
-\interp{} In our setup no SIGReg configuration produced a useful representation: every run
-finished at or below its own random initialisation (approximately 0.369 probe accuracy), while
-the EMA baseline reached 0.603. This must not be read as evidence against \citet{lejepa2025}.
-We pair SIGReg with I-JEPA-style masked latent prediction; LeJEPA pairs it with multi-view
-invariance across eight augmented views, with no predictor and no teacher-student network.
-These are different systems sharing one component. The result is a statement about that
-combination, not about SIGReg or about LeJEPA's claim.
+\interp{} That no SIGReg configuration beat random initialisation here is \textbf{not}
+evidence against \citet{lejepa2025}. We pair SIGReg with I-JEPA-style masked latent
+prediction; LeJEPA pairs it with multi-view invariance across eight augmented views, with no
+predictor and no teacher-student network. These are different systems sharing one component,
+and our projector is a project-specific MLP buffer inspired by LeJEPA's, not a reproduction
+of it. The result is a statement about this combination at this scale, not about SIGReg and
+not about LeJEPA's claim.
+
+\interp{} Nor is the diagnostic finding established beyond this setting. It rests on one
+dataset, one architecture, one budget, and a collapse produced by removing stop-gradient
+rather than arising spontaneously. The scale-invariance argument that explains it is a
+property of the metrics and should generalise; the magnitudes need not. Phase~B tests
+whether the same blindness appears on driving data, where retrieval is the endpoint that
+matters.

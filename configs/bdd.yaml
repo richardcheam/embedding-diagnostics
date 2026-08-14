@@ -5,6 +5,8 @@ seed: 0
 
 data:
   dataset: bdd100k
+  # Any path; the loader auto-detects the official and per-image layouts.
+  # Verify with: uv run python scripts/inspect_dataset.py --root <path>
   root: ./data/bdd100k
   batch_size: 256
   # JPEG decode at 1280x720 is the bottleneck, not the GPU.

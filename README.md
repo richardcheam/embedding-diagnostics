@@ -95,9 +95,20 @@ uv run python scripts/aggregate_seeds.py --tag phaseA
 
 ## Phase B (BDD100K driving scenarios)
 
-Register at http://bdd-data.berkeley.edu and download **100K Images**
-(`bdd100k_images_100k.zip`) and **Labels** (`bdd100k_labels_release.zip`); unzip so that
-`data/bdd100k/images/100k/{train,val}/` and `data/bdd100k/labels/*.json` exist. Then:
+The data need not live inside the repository — `data.root` is just a path, and `data/` is
+already gitignored if you do put it there. Two layouts are auto-detected:
+
+    official:   <root>/images/100k/<split>/*.jpg  +  <root>/labels/bdd100k_labels_images_<split>.json
+    per_image:  <root>/<split>/*.jpg              +  a sibling <name>.json per image
+
+Verify before spending GPU time — this exits non-zero on a bad tree:
+
+```bash
+uv run python scripts/inspect_dataset.py --root ../100k
+```
+
+Then point the config at it (`data.root` in `configs/bdd.yaml`, or leave the default and
+symlink), and run:
 
 ```bash
 # Pilot first — full budget is decided from the pilot curves, never assumed

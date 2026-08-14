@@ -166,3 +166,108 @@ def test_evaluate_still_handles_plain_array_labels():
     assert "probe_accuracy" in record
     assert "retrieval_p10" in record
     assert "probe_accuracy_weather" not in record
+
+
+def make_per_image_tree(root, split, entries):
+    """The layout on the GPU box: <root>/<split>/name.jpg + name.json."""
+    split_dir = root / split
+    split_dir.mkdir(parents=True, exist_ok=True)
+    rng = np.random.default_rng(0)
+    for name, payload in entries:
+        pixels = rng.integers(0, 255, size=(24, 32, 3), dtype=np.uint8)
+        Image.fromarray(pixels).save(split_dir / f"{name}.jpg", format="JPEG")
+        if payload is not None:
+            (split_dir / f"{name}.json").write_text(json.dumps(payload))
+
+
+def test_per_image_layout_is_detected_and_parsed(tmp_path):
+    from jepa_lens.bdd100k import discover_split_dir
+
+    make_per_image_tree(
+        tmp_path,
+        "train",
+        [("a", {"name": "a.jpg", "attributes": CLEAN, "labels": []}),
+         ("b", {"name": "b.jpg", "attributes": RAINY, "labels": []})],
+    )
+    image_dir, layout = discover_split_dir(tmp_path, "train")
+    assert layout == "per_image"
+    assert image_dir == tmp_path / "train"
+
+    index = load_index(tmp_path, "train", use_cache=False)
+    assert len(index) == 2
+    codes = dict(index)[tmp_path / "train" / "a.jpg"]
+    assert codes["weather"] == ATTRIBUTE_VOCAB["weather"].index("clear")
+    assert codes["timeofday"] == ATTRIBUTE_VOCAB["timeofday"].index("daytime")
+
+
+def test_official_layout_still_wins_when_both_could_match(tmp_path):
+    from jepa_lens.bdd100k import discover_split_dir
+
+    make_bdd_tree(tmp_path, "train", [("a.jpg", CLEAN)])
+    (tmp_path / "train").mkdir(exist_ok=True)
+    _, layout = discover_split_dir(tmp_path, "train")
+    assert layout == "official"
+
+
+def test_attributes_nested_under_frames_are_found(tmp_path):
+    """Some releases put scene attributes inside frames[0]."""
+    make_per_image_tree(
+        tmp_path, "train", [("a", {"name": "a.jpg", "frames": [{"attributes": RAINY}]})]
+    )
+    codes = load_index(tmp_path, "train", use_cache=False)[0][1]
+    assert codes["weather"] == ATTRIBUTE_VOCAB["weather"].index("rainy")
+
+
+def test_list_wrapped_payload_is_found(tmp_path):
+    make_per_image_tree(tmp_path, "train", [("a", [{"name": "a.jpg", "attributes": CLEAN}])])
+    codes = load_index(tmp_path, "train", use_cache=False)[0][1]
+    assert codes["scene"] == ATTRIBUTE_VOCAB["scene"].index("highway")
+
+
+def test_image_without_a_sidecar_stays_in_the_index_uncoded(tmp_path):
+    """SSL must still see it; only probe splits filter on code >= 0."""
+    make_per_image_tree(tmp_path, "train", [("a", None)])
+    codes = load_index(tmp_path, "train", use_cache=False)[0][1]
+    assert all(value == -1 for value in codes.values())
+
+
+def test_corrupt_sidecar_does_not_kill_the_index(tmp_path):
+    split_dir = tmp_path / "train"
+    split_dir.mkdir(parents=True)
+    Image.fromarray(np.zeros((8, 8, 3), dtype=np.uint8)).save(split_dir / "a.jpg")
+    (split_dir / "a.json").write_text("{not json")
+    index = load_index(tmp_path, "train", use_cache=False)
+    assert len(index) == 1 and index[0][1]["weather"] == -1
+
+
+def test_index_is_cached_and_reused(tmp_path):
+    make_per_image_tree(tmp_path, "train", [("a", {"attributes": CLEAN})])
+    first = load_index(tmp_path, "train")
+    cache = tmp_path / ".jepa_lens_index_train.json"
+    assert cache.is_file()
+
+    # Corrupt the sidecar; a cached read must not notice.
+    (tmp_path / "train" / "a.json").write_text(json.dumps({"attributes": RAINY}))
+    assert load_index(tmp_path, "train") == first
+    assert load_index(tmp_path, "train", use_cache=False) != first
+
+
+def test_missing_split_names_the_paths_it_tried(tmp_path):
+    from jepa_lens.bdd100k import discover_split_dir
+
+    with pytest.raises(FileNotFoundError, match="images/100k/train"):
+        discover_split_dir(tmp_path, "train")
+
+
+def test_dataloaders_work_end_to_end_on_the_per_image_layout(tmp_path):
+    for split in ("train", "val"):
+        make_per_image_tree(
+            tmp_path,
+            split,
+            [(f"{split}{i}", {"attributes": CLEAN if i % 2 else RAINY}) for i in range(6)],
+        )
+    ssl_loader, probe_train, probe_test = build_bdd_dataloaders(bdd_config(tmp_path))
+    images, _ = next(iter(ssl_loader))
+    assert images.shape == (4, 3, 32, 32)
+    assert set(probe_train[1]) == set(ATTRIBUTE_VOCAB)
+    assert len(probe_test[0]) == 6

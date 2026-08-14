@@ -7,12 +7,15 @@ exactly the structure ADAS scenario mining has: unlabeled logs at scale, with
 scenario categories (weather x road type x lighting) as the thing an embedding
 must preserve to be useful.
 
-Expected layout under `data.root` (the official zips produce this):
+Two on-disk layouts are auto-detected, because the official zips and common
+redistributions disagree:
 
-    <root>/images/100k/train/*.jpg
-    <root>/images/100k/val/*.jpg
-    <root>/labels/bdd100k_labels_images_train.json
-    <root>/labels/bdd100k_labels_images_val.json
+    official:   <root>/images/100k/<split>/*.jpg
+                <root>/labels/bdd100k_labels_images_<split>.json
+    per_image:  <root>/<split>/*.jpg, each with a sibling <name>.json
+
+`data.root` may sit anywhere — it need not be inside the repository. The BDD
+`test` split carries no scenario attributes and is unused.
 
 Images are resized to a square (aspect distortion accepted and documented in
 the Phase-2 spec: the alternative — a non-square encoder — is an architectural
@@ -49,34 +52,115 @@ BDD_MEAN = (0.485, 0.456, 0.406)
 BDD_STD = (0.229, 0.224, 0.225)
 
 
-def load_index(root: Path, split: str) -> list[tuple[Path, dict[str, int]]]:
-    """(image path, {attribute: code}) per labelled image; code -1 = unusable.
+def _encode(attributes: dict) -> dict[str, int]:
+    """Map raw attribute strings to vocabulary indices; -1 if unusable."""
+    return {
+        attribute: (
+            ATTRIBUTE_VOCAB[attribute].index(attributes[attribute])
+            if attributes.get(attribute) in ATTRIBUTE_VOCAB[attribute]
+            else -1
+        )
+        for attribute in ATTRIBUTE_VOCAB
+    }
 
-    Reads the official per-split labels JSON. Entries whose image name is
-    missing are skipped; attribute values outside the canonical vocabulary
-    (e.g. "undefined") get code -1 so probe construction can filter them while
-    SSL keeps the image.
+
+def _extract_attributes(payload: Any) -> dict:
+    """Pull the attributes block out of whichever BDD JSON shape this is.
+
+    Releases differ: some put `attributes` at the top level of a per-image
+    file, some wrap the image in a single-element list, and some nest the
+    scene-level attributes inside `frames[0]`. Rather than guess a release,
+    look in all three places and take the first that yields a known key.
+    """
+    candidates: list[Any] = []
+    if isinstance(payload, list):
+        candidates.extend(payload[:1])
+    else:
+        candidates.append(payload)
+    for candidate in list(candidates):
+        if isinstance(candidate, dict):
+            frames = candidate.get("frames")
+            if isinstance(frames, list) and frames:
+                candidates.append(frames[0])
+    for candidate in candidates:
+        if isinstance(candidate, dict):
+            attributes = candidate.get("attributes")
+            if isinstance(attributes, dict) and any(k in attributes for k in ATTRIBUTE_VOCAB):
+                return attributes
+    return {}
+
+
+def discover_split_dir(root: Path, split: str) -> tuple[Path, str]:
+    """Locate a split's image directory and identify the on-disk layout.
+
+    Two layouts are supported, because the official zips and several common
+    redistributions disagree:
+
+    - "official":  <root>/images/100k/<split>/*.jpg
+                   <root>/labels/bdd100k_labels_images_<split>.json
+    - "per_image": <root>/<split>/*.jpg  with a sibling <name>.json each
+
+    Returns (image_dir, layout). Raises with the paths tried if neither exists,
+    since a silent empty index would look like a training bug much later.
     """
     root = Path(root)
-    labels_path = root / "labels" / f"bdd100k_labels_images_{split}.json"
-    entries = json.loads(labels_path.read_text())
-    image_dir = root / "images" / "100k" / split
+    official = root / "images" / "100k" / split
+    if official.is_dir():
+        return official, "official"
+    flat = root / split
+    if flat.is_dir():
+        return flat, "per_image"
+    raise FileNotFoundError(
+        f"no BDD100K split {split!r} under {root}. Tried {official} and {flat}. "
+        "Point data.root at the directory containing either images/100k/<split>/ "
+        "or <split>/ directly."
+    )
+
+
+def load_index(
+    root: Path, split: str, use_cache: bool = True
+) -> list[tuple[Path, dict[str, int]]]:
+    """(image path, {attribute: code}) per image; code -1 = attribute unusable.
+
+    Attribute values outside the canonical vocabulary (e.g. "undefined") get
+    -1 so probe construction can filter them while SSL still trains on the
+    image — scenario mining does not get to discard unlabeled miles either.
+
+    The per-image layout means one `open()` per image to build the index, which
+    is minutes across 70k files and would otherwise be repeated by all 21 runs
+    of a seeded matrix. The result is cached beside the data; delete
+    `.jepa_lens_index_<split>.json` to force a rebuild.
+    """
+    root = Path(root)
+    image_dir, layout = discover_split_dir(root, split)
+
+    cache_path = root / f".jepa_lens_index_{split}.json"
+    if use_cache and cache_path.is_file():
+        cached = json.loads(cache_path.read_text())
+        return [(image_dir / name, codes) for name, codes in cached]
 
     index: list[tuple[Path, dict[str, int]]] = []
-    for entry in entries:
-        name = entry.get("name")
-        if not name:
-            continue
-        attributes = entry.get("attributes", {})
-        codes = {
-            attribute: (
-                ATTRIBUTE_VOCAB[attribute].index(attributes[attribute])
-                if attributes.get(attribute) in ATTRIBUTE_VOCAB[attribute]
-                else -1
-            )
-            for attribute in ATTRIBUTE_VOCAB
-        }
-        index.append((image_dir / name, codes))
+    if layout == "official":
+        labels_path = root / "labels" / f"bdd100k_labels_images_{split}.json"
+        for entry in json.loads(labels_path.read_text()):
+            name = entry.get("name")
+            if name:
+                index.append((image_dir / name, _encode(_extract_attributes(entry))))
+    else:
+        for image_path in sorted(image_dir.glob("*.jpg")):
+            sidecar = image_path.with_suffix(".json")
+            attributes = {}
+            if sidecar.is_file():
+                try:
+                    attributes = _extract_attributes(json.loads(sidecar.read_text()))
+                except json.JSONDecodeError:
+                    attributes = {}
+            index.append((image_path, _encode(attributes)))
+
+    if use_cache and index:
+        cache_path.write_text(
+            json.dumps([[path.name, codes] for path, codes in index])
+        )
     return index
 
 

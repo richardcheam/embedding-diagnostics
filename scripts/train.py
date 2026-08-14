@@ -50,6 +50,13 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="override strategy.sigreg_weight; ignored by conditions without SIGReg",
     )
+    parser.add_argument(
+        "--data-root",
+        default=None,
+        help="override data.root. Dataset location is a property of the machine, "
+        "not of the experiment, so pass it here rather than editing the config — "
+        "a committed absolute path breaks every other box",
+    )
     return parser.parse_args()
 
 
@@ -69,6 +76,8 @@ def main() -> int:
         config["seed"] = args.seed
     if args.eval_split_seed is not None:
         config["data"]["eval_split_seed"] = args.eval_split_seed
+    if args.data_root is not None:
+        config["data"]["root"] = args.data_root
 
     run_dir = ROOT / config["logging"]["output_root"] / args.tag / args.condition
     ssl_loader, probe_train, probe_test = build_dataloaders(config)

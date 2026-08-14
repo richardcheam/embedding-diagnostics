@@ -108,16 +108,26 @@ Verify before spending GPU time — this exits non-zero on a bad tree:
 uv run python scripts/inspect_dataset.py --root ../100k
 ```
 
-Then point the config at it (`data.root` in `configs/bdd.yaml`, or leave the default and
-symlink), and run:
+Then pass the path with `--data-root`. Dataset location is a property of the machine, not
+of the experiment, so it stays out of the committed config:
 
 ```bash
 # Pilot first — full budget is decided from the pilot curves, never assumed
 uv run python scripts/run_all_conditions.py --device cuda --parallel \
-  --base-config bdd.yaml --total-steps 4000 --checkpoint-every 200 \
+  --base-config bdd.yaml --data-root ../100k \
+  --total-steps 4000 --checkpoint-every 200 \
   --tag bddpilot --seeds 0,1,2
 uv run python scripts/aggregate_seeds.py --tag bddpilot
+
+# Then the full matrix, once the pilot curves justify the budget
+uv run python scripts/run_all_conditions.py --device cuda --parallel \
+  --base-config bdd.yaml --data-root ../100k \
+  --total-steps 4000 --checkpoint-every 200 \
+  --tag phaseB --seeds 0,1,2,3,4 --jobs-per-gpu 2
 ```
+
+BDD images are 1280x720 JPEGs and decode, not the GPU, is the bottleneck — so use a lower
+`--jobs-per-gpu` here than on CIFAR-10 and watch whether steps/sec actually improves.
 
 Each BDD run logs per-attribute probes and retrieval (`probe_accuracy_weather`,
 `retrieval_p10_scene`, ...) plus across-attribute means under the canonical keys.

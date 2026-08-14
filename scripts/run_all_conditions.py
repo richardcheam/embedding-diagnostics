@@ -72,6 +72,13 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="comma-separated GPU ids for --parallel (default: every visible GPU)",
     )
+    parser.add_argument(
+        "--data-root",
+        default=None,
+        help="override data.root for every job. Dataset location is a property of "
+        "the machine, not the experiment — passing it here keeps machine-specific "
+        "absolute paths out of the committed configs",
+    )
     return parser.parse_args()
 
 
@@ -94,6 +101,8 @@ def build_command(job, args: argparse.Namespace) -> list[str]:
         command += ["--total-steps", str(args.total_steps)]
     if args.checkpoint_every is not None:
         command += ["--checkpoint-every", str(args.checkpoint_every)]
+    if args.data_root is not None:
+        command += ["--data-root", args.data_root]
     return command
 
 

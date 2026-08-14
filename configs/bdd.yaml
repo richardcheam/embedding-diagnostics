@@ -53,6 +53,10 @@ optim:
 logging:
   checkpoint_every: 200
   projection_samples: 500
+  # Persist the final encoder and its evaluation embeddings. Default on: a run
+  # that finishes without them can only ever be asked the questions whose
+  # diagnostics existed on the day it ran. Both files are gitignored.
+  save_artifacts: true
   output_root: ./experiments
 
 strategy:

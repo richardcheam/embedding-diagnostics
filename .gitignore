@@ -19,3 +19,7 @@ viz/dist/
 .superpowers/
 report/main.pdf
 experiments/smoke/
+
+# Run artifacts: the encoder and its embeddings are regenerable and large.
+# metrics.jsonl stays committed and remains the reproducible record.
+experiments/**/embeddings.npz

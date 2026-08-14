@@ -11,6 +11,7 @@ from __future__ import annotations
 import copy
 import math
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -323,6 +324,41 @@ class Trainer:
         record["condition"] = condition
         record.update({f"loss_{k}": v for k, v in train_metrics.items()})
         logger.log(record)
+
+        if self.config["logging"].get("save_artifacts", True):
+            self.save_artifacts(logger.run_dir, probe_test)
+
+    def save_artifacts(self, run_dir: Path, probe_test: tuple) -> None:
+        """Persist the final encoder and its evaluation embeddings.
+
+        Without this a run is answerable only by the diagnostics that happened
+        to be implemented on the day it ran: `metrics.jsonl` keeps a 2D PCA of
+        500 samples, which is too few dimensions for any rank measure to mean
+        anything. A diagnostic thought of later, a different probe, a
+        re-evaluation on a different attribute subset, or the controlled
+        degradation suite applied to real embeddings rather than synthetic
+        clusters — all of those need the representation itself, and retraining
+        the matrix to recover it costs far more than the disk.
+
+        Two files, both small: the encoder is a few MB and re-embeds anything
+        later; the embeddings are what the degradation suite consumes directly.
+        Both are gitignored — results stay reproducible from `metrics.jsonl`,
+        which remains the committed record.
+        """
+        run_dir.mkdir(parents=True, exist_ok=True)
+        torch.save(self.context_encoder.state_dict(), run_dir / "encoder.pt")
+
+        test_images, test_labels = probe_test
+        features = self.encode_all(test_images)
+        # Labels are a plain array on CIFAR-10 and a dict of named attributes
+        # on BDD100K; savez flattens the dict so each attribute lands under
+        # its own key and neither dataset family needs special handling later.
+        arrays = {"features": features}
+        if isinstance(test_labels, dict):
+            arrays.update({f"labels_{name}": value for name, value in test_labels.items()})
+        else:
+            arrays["labels"] = test_labels
+        np.savez_compressed(run_dir / "embeddings.npz", **arrays)
 
 
 def count_parameters(module: nn.Module) -> int:

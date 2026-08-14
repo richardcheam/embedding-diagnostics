@@ -148,3 +148,98 @@ def test_logged_lr_matches_the_rate_actually_applied():
         applied_during = trainer.optimizer.param_groups[0]["lr"]
         assert metrics["lr"] == pytest.approx(expected_rate)
         assert applied_during == pytest.approx(expected_rate)
+
+
+def test_save_artifacts_writes_a_loadable_encoder_and_embeddings(tmp_path):
+    """The point of the artifacts is answering questions posed after the run,
+    so the test loads them back rather than only asserting the files exist."""
+    trainer = Trainer(tiny_config("ema_stopgrad"))
+    rng = np.random.default_rng(0)
+    probe_test = (torch.randn(10, 3, 32, 32), rng.integers(0, 3, 10))
+
+    trainer.save_artifacts(tmp_path, probe_test)
+
+    state = torch.load(tmp_path / "encoder.pt", weights_only=True)
+    assert set(state) == set(trainer.context_encoder.state_dict())
+
+    stored = np.load(tmp_path / "embeddings.npz")
+    assert stored["features"].shape == (10, 16)
+    assert stored["labels"].shape == (10,)
+
+
+def test_saved_embeddings_match_what_the_diagnostics_scored(tmp_path):
+    """If the stored matrix were not the one evaluate() read, every post-hoc
+    diagnostic would silently describe a different representation."""
+    from jepa_lens.diagnostics.metrics import collapse_metrics
+
+    trainer = Trainer(tiny_config("ema_stopgrad"))
+    rng = np.random.default_rng(0)
+    probe_train = (torch.randn(20, 3, 32, 32), rng.integers(0, 3, 20))
+    probe_test = (torch.randn(10, 3, 32, 32), rng.integers(0, 3, 10))
+
+    record = trainer.evaluate(probe_train, probe_test)
+    trainer.save_artifacts(tmp_path, probe_test)
+    stored = np.load(tmp_path / "embeddings.npz")["features"]
+
+    assert collapse_metrics(stored)["total_variance"] == pytest.approx(
+        record["total_variance"], rel=1e-6
+    )
+
+
+def test_saved_encoder_reproduces_the_saved_embeddings(tmp_path):
+    """Reloading the weights must give back the same representation, or the
+    encoder cannot be used to re-embed anything later."""
+    trainer = Trainer(tiny_config("ema_stopgrad"))
+    rng = np.random.default_rng(0)
+    images = torch.randn(10, 3, 32, 32)
+    trainer.save_artifacts(tmp_path, (images, rng.integers(0, 3, 10)))
+    stored = np.load(tmp_path / "embeddings.npz")["features"]
+
+    fresh = Trainer(tiny_config("ema_stopgrad"))
+    fresh.context_encoder.load_state_dict(torch.load(tmp_path / "encoder.pt", weights_only=True))
+    assert np.allclose(fresh.encode_all(images), stored, atol=1e-5)
+
+
+def test_bdd_style_dict_labels_are_stored_per_attribute(tmp_path):
+    trainer = Trainer(tiny_config("ema_stopgrad"))
+    rng = np.random.default_rng(0)
+    labels = {"weather": rng.integers(0, 3, 10), "scene": rng.integers(0, 4, 10)}
+    trainer.save_artifacts(tmp_path, (torch.randn(10, 3, 32, 32), labels))
+
+    stored = np.load(tmp_path / "embeddings.npz")
+    assert set(stored) == {"features", "labels_weather", "labels_scene"}
+    assert np.array_equal(stored["labels_scene"], labels["scene"])
+
+
+def test_save_artifacts_can_be_disabled(tmp_path):
+    config = tiny_config("ema_stopgrad")
+    config["logging"]["save_artifacts"] = False
+    trainer = Trainer(config)
+    rng = np.random.default_rng(0)
+    probe_train = (torch.randn(20, 3, 32, 32), rng.integers(0, 3, 20))
+    probe_test = (torch.randn(10, 3, 32, 32), rng.integers(0, 3, 10))
+
+    from jepa_lens.logging_utils import RunLogger
+
+    with RunLogger(tmp_path / "run") as logger:
+        trainer.fit([(torch.randn(4, 3, 32, 32), None)], probe_train, probe_test, logger)
+
+    assert not (tmp_path / "run" / "encoder.pt").exists()
+    assert (tmp_path / "run" / "metrics.jsonl").exists()
+
+
+def test_fit_saves_artifacts_by_default(tmp_path):
+    """Default-on is deliberate: a run that finishes without them cannot be
+    re-examined, and nobody remembers to opt in before a long matrix."""
+    trainer = Trainer(tiny_config("ema_stopgrad"))
+    rng = np.random.default_rng(0)
+    probe_train = (torch.randn(20, 3, 32, 32), rng.integers(0, 3, 20))
+    probe_test = (torch.randn(10, 3, 32, 32), rng.integers(0, 3, 10))
+
+    from jepa_lens.logging_utils import RunLogger
+
+    with RunLogger(tmp_path / "run") as logger:
+        trainer.fit([(torch.randn(4, 3, 32, 32), None)], probe_train, probe_test, logger)
+
+    assert (tmp_path / "run" / "encoder.pt").exists()
+    assert (tmp_path / "run" / "embeddings.npz").exists()

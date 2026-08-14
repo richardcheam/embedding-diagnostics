@@ -1,0 +1,15 @@
+environment:
+  torch          : 2.11.0+cu128
+  built for CUDA : 12.8
+  driver CUDA    : ?
+  cuda available : True
+  device         : Quadro RTX 6000
+  device count   : 1
+  capability     : sm_75
+  arch list      : sm_75, sm_80, sm_86, sm_90, sm_100, sm_120
+condition=sigreg_stopgrad device=cuda seed=0
+sigreg_weight=0.0526
+encoder params=2,691,264
+predictor params=234,048
+steps=4000 -> /home/richard/jepa-lens/experiments/phaseA_s0/sigreg_stopgrad
+done: /home/richard/jepa-lens/experiments/phaseA_s0/sigreg_stopgrad/metrics.jsonl

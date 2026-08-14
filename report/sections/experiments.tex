@@ -1,8 +1,14 @@
 \section{Experimental Setup}
 
-\paragraph{Data.} CIFAR-10. The self-supervised pretraining stream is disjoint from the
-labelled split used by the linear probe. Probe splits are fixed once and reused at every
-checkpoint so accuracy is comparable across steps.
+\paragraph{Data.} CIFAR-10. The self-supervised stream and the probe-training split are
+drawn from the same 50{,}000 training images and therefore \emph{overlap}; the probe's
+\emph{test} split comes from the held-out 10{,}000. Self-supervised training never sees a
+label, so the probe measures linear decodability of a representation built without
+supervision --- but it is not a disjoint-data protocol, and an earlier version of this
+section wrongly described it as one. Probe splits are drawn once from a dedicated
+\texttt{eval\_split\_seed} and are identical across every condition and every training
+seed, so across-seed spread reflects training variability rather than which images were
+scored.
 
 \paragraph{Architecture.} A small ViT encoder \citep{dosovitskiy2021vit} (patch size 4, 6
 blocks, embedding dimension 192) and a position-conditioned MLP predictor. Context and

@@ -94,7 +94,7 @@ We wanted to test two things:
 - **Part 2:** do cheap collapse diagnostics (variance, cosine similarity) degrade *before*
   an expensive linear probe does? If so, you could monitor training cheaply.
 
-The design: **four conditions differing only in the collapse-prevention mechanism.**
+The original design used **four conditions** (three more were added after the audit; see section 0). The Phase-1 evidence below comes from these four:
 
 | condition | EMA target | stop-gradient | SIGReg | role |
 | --- | --- | --- | --- | --- |
@@ -105,15 +105,51 @@ The design: **four conditions differing only in the collapse-prevention mechanis
 
 ---
 
-## 2. Where we are right now, in one paragraph
+## 2. What is established, and at what strength
 
-**Part 1 has a clear answer: stop-gradient still matters, a lot.** Across every SIGReg
-strength we tested, the no-stop-gradient runs collapsed and the stop-gradient runs did not.
-**Part 2's answer is negative so far**: on the one run where we could ask the question
-properly, the expensive probe degraded *earlier* than the cheap diagnostics, not later.
-**A large caveat**: in our setup SIGReg never produced useful representations at all, and
-our setup differs from LeJEPA's in a way that matters — so none of this is evidence against
-LeJEPA's own claim.
+Four tiers. Nothing moves up a tier without the evidence that tier requires.
+
+### Tier 1 — validated engineering facts
+
+- The SIGReg loss matches the reference implementation bit-for-bit on isotropic,
+  anisotropic, collapsed and mean-shifted inputs.
+- The four conditions run through one shared training loop; within a seed they receive
+  identical initialisation, masks and batch order (test-enforced).
+- The evaluation split is fixed by `eval_split_seed`, independent of the training seed.
+- 232 tests pass; the run planner refuses to overwrite existing results.
+
+### Tier 2 — ground truth from the controlled stress test (no training involved)
+
+**No geometric diagnostic tracks semantic content.** Applying known transformations
+directly to embedding matrices: contracting by 10,000x, or driving mean pairwise cosine to
+1.000, leaves retrieval P@10 at exactly 1.000. Isotropic noise — the transformation that
+*does* destroy retrieval (1.000 -> 0.125) — raises total variance and both rank measures
+instead of lowering them.
+
+This is the strongest evidence the project holds, because the transformation is known
+exactly rather than inferred from an optimisation.
+
+### Tier 3 — exploratory single-seed observations (NOT claim-grade)
+
+All from one seed, at one scale, with **no projector** — the regularizer acting directly on
+the probed representation:
+
+- Across LeJEPA's swept lambda range, no-stop-gradient arms concentrated angularly while
+  stop-gradient arms stayed spread. At lambda 0.1, however, total variance ended *above*
+  initialisation, so that arm was not contracting at all.
+- On the one 32k run that learned then degraded, the probe peaked 2,500 steps before the
+  cosine bottomed.
+- No SIGReg configuration exceeded random-initialisation probe accuracy.
+
+Tier 2 constrains how these may be read: cosine near 1 is angular concentration, which is
+not by itself information loss.
+
+### Tier 4 — pre-registered and not yet run
+
+Phase A (7 conditions x 5 paired seeds, CIFAR-10) and Phase B (same matrix on BDD100K with
+scenario-attribute retrieval). Endpoints, contrasts, and falsification criteria are fixed
+in advance; see the spec and the report's pre-registration section. **No Phase-A or Phase-B
+result exists yet.**
 
 ---
 
@@ -128,16 +164,17 @@ means healthy and spread out, near 1 means collapsed**:
 | lambda 0.01 | **0.990** collapsed | 0.034 healthy |
 | lambda 0.02 | **0.951** collapsed | 0.021 healthy |
 | lambda 0.05 | **0.765** collapsed | 0.009 healthy |
-| lambda 0.10 | 0.381 borderline | 0.008 healthy |
+| lambda 0.10 | 0.381 — but variance *rose* to 1.03x init, so not contracting | 0.008 healthy |
 
 Two things to read off this:
 
 1. **With stop-gradient, nothing ever collapses** — at any strength. Cosine stays at
    0.008–0.034 throughout.
 2. **Without it, everything collapses**, and more SIGReg helps *monotonically* but does not
-   rescue it inside the tested range. The trend is clean enough that a stronger setting
-   might eventually suffice — lambda 0.1 is already borderline — but that is above the
-   range LeJEPA sweeps.
+   rescue it inside the tested range on the angular axis. At lambda 0.1 the scale axis
+   shows no degeneration at all (variance ends above where it began), so only the angular
+   measure separates it from the stop-gradient arms. Stronger settings lie above the range
+   LeJEPA sweeps and are untested.
 
 So within LeJEPA's own hyperparameter range, on our setup, **SIGReg alone did not replace
 stop-gradient.**
@@ -162,8 +199,9 @@ clearly, but **later**.
 Confidence: low-to-moderate. One condition, one seed, and 2,500 steps is only five
 checkpoints apart.
 
-A separate observation worth noting: **the healthy baseline partially re-collapses in its
-second half.** It peaks a third of the way through the budget and slowly degrades after. If
+A separate observation worth noting: **the healthy baseline shows angular reconcentration
+in its second half** (cosine rising, probe declining — not established as semantic
+collapse, since Tier 2 shows those axes move independently). It peaks a third of the way through the budget and slowly degrades after. If
 you only care about the best representation, 32,000 steps is too many.
 
 ---

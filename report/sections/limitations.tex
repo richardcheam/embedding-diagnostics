@@ -8,10 +8,12 @@ result does not disprove the effect at larger scale; it bounds where we looked. 
 secondhand result being replicated was reported around 20{,}000 steps at an unknown model
 scale, so our budget may sit near or below the threshold where the effect appears.
 
-\paragraph{Unvalidated SIGReg implementation.} \interp{} Written from a summary-level
-understanding of \citet{lejepa2025}, not validated against the reference implementation. A
-negative result could reflect an implementation discrepancy rather than a property of
-SIGReg.
+\paragraph{SIGReg is validated; the surrounding system is not LeJEPA.} The loss itself now
+matches the reference bit-for-bit on isotropic, anisotropic, collapsed and mean-shifted
+inputs. \interp{} What remains deviant is everything around it: our companion objective is
+masked latent prediction rather than multi-view invariance, and our projector is a
+project-specific MLP rather than the reference's three-layer BatchNorm head. No result here
+should be read as evidence about \citet{lejepa2025}'s claim.
 
 \paragraph{Simplified predictor.} An MLP conditioned on target position, rather than the
 narrow transformer used by \citet{assran2023ijepa}.

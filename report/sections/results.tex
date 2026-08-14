@@ -1,7 +1,14 @@
 \section{Results}
 \label{sec:results}
 
-All results below come from single-seed runs at one model scale. Section~\ref{sec:instrument}
+\interp{} \textbf{Everything in this section is an exploratory Phase-1 finding}: single
+seed, one model scale, and --- for every SIGReg row --- a configuration with no projector,
+in which the regularizer acted directly on the representation being probed. None of it is
+claim-grade. The pre-registered Phase-A design (Section~\ref{sec:prereg}; seven
+conditions, five paired seeds, fixed-step endpoints, paired confidence intervals) has not
+yet produced results, and neither has Phase B.
+
+These results come from single-seed runs at one model scale. Section~\ref{sec:instrument}
 describes three defects in the measurement apparatus found and corrected before these were
 collected; results predating those corrections have been discarded.
 
@@ -24,19 +31,23 @@ $\lambda$ & cosine & total var. & cosine & total var. \\
 0.01 & \textbf{0.990} & 0.56  & 0.034 & 153.4 \\
 0.02 & \textbf{0.951} & 1.83  & 0.021 & 162.5 \\
 0.05 & \textbf{0.765} & 19.3  & 0.009 & 167.6 \\
-0.10 & 0.381          & 89.5  & 0.008 & 171.0 \\
+0.10 & 0.381          & 89.5$^{\dagger}$  & 0.008 & 171.0 \\
 \bottomrule
 \end{tabular}
-\caption{\ours{} Final collapse metrics after 2{,}000 steps. With stop-gradient, no
-configuration collapses at any strength. Without it, every configuration inside
-\citet{lejepa2025}'s swept range collapses, though increasing $\lambda$ helps monotonically.}
+\caption{\ours{} Final collapse metrics after 2{,}000 steps, single seed, no projector.
+$^{\dagger}$At $\lambda = 0.1$ total variance \emph{ends above where it started}
+(89.5 versus 87.2 at initialisation), so that configuration shows angular concentration
+without contraction and should not be described as collapsed; $\lambda = 0.05$, at
+0.22 times its initial variance, does contract.}
 \end{table}
 
 \ours{} Within the hyperparameter range used by \citet{lejepa2025}, SIGReg alone did not
 substitute for stop-gradient in our setup. The dose-response is clean and monotone --- cosine
 falls from 0.990 to 0.381 as $\lambda$ rises --- so a stronger setting may eventually suffice.
-$\lambda = 0.1$ is already borderline by our collapse criterion. That lies above the range the
-reference sweeps and we have not tested it.
+At $\lambda = 0.1$ the cosine is much reduced \emph{and} total variance is back to its
+initial value, so on the scale axis that configuration is not degenerate at all --- only
+the angular axis distinguishes it from the stop-gradient arms. Stronger settings lie above
+the range the reference sweeps and are untested.
 
 \interp{} The original framing of Part 1 asked whether a gap would \emph{widen with training
 duration}. It did not need 32{,}000 steps to appear: the separation is unambiguous by 2{,}000.
@@ -73,13 +84,16 @@ checkpoints at our logging resolution; the probe's decline is four times its mea
 run-to-run noise floor of 0.005. A fair test of Part 2 needs several runs that genuinely learn
 and then degrade.
 
-\subsection{An incidental observation: the healthy baseline re-collapses}
+\subsection{An incidental observation: angular reconcentration in the baseline}
 
 \ours{} \texttt{ema\_stopgrad} reaches its best representation at step 11{,}000 --- roughly a
 third of the budget --- and degrades slowly thereafter, with mean pairwise cosine rising from
 0.294 to 0.530 and total variance falling sevenfold across the run. The classic
-stop-gradient-plus-EMA recipe does not hold a representation indefinitely at this scale; it
-partially re-collapses given long enough.
+stop-gradient-plus-EMA recipe does not hold a representation's geometry indefinitely at
+this scale. \interp{} We describe this as angular reconcentration accompanied by a probe
+decline, not as semantic collapse: the probe fell by 0.021 while cosine rose by 0.236, and
+Section~\ref{sec:stress} shows those two axes can move independently. Establishing
+semantic collapse would need the unscaled probe and retrieval to fall together.
 
 \subsection{What these results do not show}
 

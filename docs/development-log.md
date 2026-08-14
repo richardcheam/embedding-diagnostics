@@ -294,3 +294,32 @@ This is the first result in the project obtained with genuine ground truth rathe
 inference from a training run — and it cost no GPU time. It also sharpens what Phase A can
 claim: the training conditions produce degeneration whose *mode* must be identified from
 the diagnostic vector, not assumed from the intervention's name.
+
+## Corrections to earlier entries (2026-08-14, after the second audit)
+
+Earlier entries stand as written — they record what was believed at the time. These are
+the later corrections, not edits to the originals:
+
+- **"EMA re-collapses" (32k entry) is too strong.** What was observed is angular
+  reconcentration (cosine 0.294 -> 0.530) alongside a 0.021 probe decline. The stress test
+  since showed those axes move independently, so semantic collapse was never established.
+  Read it as angular reconcentration with a probe decline.
+- **"lambda 0.1 borderline collapsed" is wrong.** Its total variance ended at 1.03x
+  initialisation — above where it started. Only the angular axis distinguished it; on the
+  scale axis nothing degenerated. lambda 0.05 (0.22x) genuinely contracted.
+- **"cosine 1.000 means collapse" is unsafe throughout.** Mean injection drives cosine to
+  1.000 with retrieval untouched at 1.000. In `none_nostopgrad` collapse and high cosine
+  co-occurred; the log inferred one from the other, which does not follow.
+- **The CIFAR SSL stream is NOT disjoint from probe-training images.** Both draw from the
+  same 50,000 training images; only the probe's test split is held out. SSL uses no labels,
+  but the report described a disjointness that does not exist.
+- **The claim heuristic (2x seed SD and binomial SE) was not a valid paired analysis** and
+  has been removed in favour of paired Student-t intervals over the five pre-declared
+  contrasts.
+- **Sweep and pilot results are exploratory Phase-1 findings**, single-seed and
+  no-projector, not claim-grade evidence for any research question.
+
+The second audit also caught what the first could not: that the eval split moved with the
+training seed, and that the runner truncated `train.log` before the child's guard could
+refuse. Neither is visible from reading a metric; both needed someone to ask what the
+experiment was actually measuring and what the orchestration actually did.

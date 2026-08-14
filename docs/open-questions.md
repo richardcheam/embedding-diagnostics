@@ -196,3 +196,22 @@ regularizer was also producing almost no gradient. Both are now fixed; the condi
 - The remaining deviations are deliberate and documented in the module docstring: no
   distributed all-reduce (this project never shards a batch), an explicit `torch.Generator`
   rather than a synchronized global-step counter, and no `clip_value`.
+
+## Open after the second audit (2026-08-14)
+
+- **Phase A and Phase B have not run.** Everything currently in the repository is
+  exploratory Phase-1 evidence or stress-test ground truth.
+- **Five seeds is modest power.** With t(0.975, 4) = 2.776 the CI half-width is about 1.24
+  seed SDs, so effects smaller than roughly 1.3 seed SDs will not be resolvable. A wide
+  interval is not a null result.
+- **No multiplicity correction.** Five contrasts times several endpoints is dozens of
+  intervals. They are reported as estimates rather than tests; a reader should discount
+  accordingly.
+- **The stress test is not natural collapse.** It bounds what a metric CAN detect under
+  known transformations. Real degeneration mixes modes and interacts with the optimiser.
+- **BDD100K gives static driving context, not temporal scenarios.** Single frames carry no
+  dynamics; scenario intelligence in the ADAS sense is temporal. Trajectory datasets remain
+  future work.
+- **The rarest scenario classes cannot be scored.** `gas stations` (7 val images), `foggy`
+  (13), `tunnel` (27) fall below the 10-sample floor. For validation work, where rare
+  conditions are the concern, that is a limitation of the evaluation protocol.

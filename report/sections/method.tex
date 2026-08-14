@@ -2,7 +2,7 @@
 
 \subsection{Conditions}
 
-Four conditions vary only the collapse-prevention mechanism.
+Seven conditions vary only the collapse-prevention mechanism and where the regularizer acts. (Phase 1 used four of these; the other three were added after an audit found the original grid could not isolate its own factors.)
 
 \begin{table}[h]
 \centering
@@ -33,7 +33,7 @@ requires removing the teacher--student split as well.
 
 \subsection{Shared training loop}
 
-All four conditions execute the same training loop. The only swappable component is a
+All conditions execute the same training loop. The only swappable component is a
 strategy object exposing three things: whether a separate EMA target encoder is
 constructed, whether the target branch is detached, and how the total loss is assembled.
 
@@ -43,7 +43,18 @@ difference between loops rather than in the mechanism under study.
 
 \subsection{Where the regularizer is applied}
 
-SIGReg is applied to the pooled context-encoder embeddings, which always carry gradient.
-Applying it to the target branch would make it a no-op in the stop-gradient conditions,
-since a detached tensor propagates nothing. This choice is ours and is a deviation to note
-when comparing against LeJEPA.
+SIGReg is applied to a branch that carries gradient: applying it to the target branch would
+make it a no-op in the stop-gradient conditions, since a detached tensor propagates nothing.
+
+\emph{Which} such branch is the Phase-2 variable. In the four original conditions SIGReg
+acts directly on the pooled context embedding --- the same representation the probe reads.
+\citet{lejepa2025} instead applies it to a disposable projector output and probes the
+encoder beneath (\texttt{MINIMAL.md} at commit \texttt{c293d291}: \texttt{sigreg(proj)},
+\texttt{probe(emb.detach())}). The \texttt{proj\_*} conditions add such a buffer.
+
+\interp{} Our buffer is a project-specific disposable MLP, not a reproduction of LeJEPA's:
+theirs is three linear layers with BatchNorm and a fourfold hidden expansion over a 512-d
+encoder, ours is two layers with GELU and no normalization over a 192-d encoder. Matching
+an output width establishes nothing about architectural fidelity, and no claim of an exact
+match is made. A further deviation stands throughout: our companion objective is masked
+latent prediction, whereas LeJEPA pairs SIGReg with multi-view invariance.

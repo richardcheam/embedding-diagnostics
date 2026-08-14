@@ -9,17 +9,18 @@ driving scenarios, where the semantic endpoint is scenario-attribute retrieval.
 **Start here: [`docs/STATUS.md`](docs/STATUS.md)** — the plain-language story of what we set
 out to test, what actually happened, and what is still open.
 
-**Status:** harness complete, pilots and a lambda sweep done, one 32k baseline run done.
-Part 1 answered (stop-gradient still matters); Part 2 answered negatively so far.
+**Status:** harness hardened and pre-registered; **Phase A and Phase B have not produced
+results yet.** What exists is exploratory Phase-1 evidence (single seed, no projector) plus
+one ground-truth stress-test finding that needed no training.
 
 ## Honesty note
 
-Most of this project is assembly of existing work. The scale-dependence result under test is
-a **replication attempt** of a finding encountered secondhand, not an established fact. The
-SIGReg implementation was written from a summary-level reading of
-[LeJEPA](https://arxiv.org/abs/2511.08544) and is **not yet validated** against the reference
-implementation — see `docs/open-questions.md`. Full accounting in the report's contributions
-section.
+Most of this project is assembly of existing work. The SIGReg loss **has now been validated**
+against the reference implementation and matches it bit-for-bit — validation that found a
+real bug in our version (see `docs/open-questions.md`). But the *system* around it is not
+LeJEPA: we pair SIGReg with masked latent prediction rather than multi-view invariance, and
+our projector is a project-specific MLP, not a reproduction of theirs. No result here is
+evidence about LeJEPA's claim. Full accounting in the report's contributions section.
 
 ## Setup
 
@@ -152,12 +153,18 @@ tracked in git, so results move back by `git pull` — no separate sync tooling.
 
 Summarised in [`docs/STATUS.md`](docs/STATUS.md); written up in `report/`.
 
-- **Part 1 — does stop-gradient still matter under SIGReg?** Yes. Across every SIGReg
-  strength in LeJEPA's own swept range, runs without stop-gradient collapsed and runs with it
-  did not.
-- **Part 2 — do cheap diagnostics warn before the probe?** No, on the evidence so far. On the
-  one run that both learned and degraded, the probe turned 2,500 steps *earlier* than the
-  cheap diagnostic.
-- **Caveat that governs both:** in this setup SIGReg never produced a useful representation
-  at any strength. We pair it with masked latent prediction; LeJEPA pairs it with multi-view
-  invariance. These results are about that combination, not about LeJEPA's claim.
+**Ground truth, from the stress test (no training required):** applying *known*
+degradations to embedding matrices shows that **no geometric diagnostic tracks semantic
+content**. Contracting embeddings 10,000x, or driving mean pairwise cosine to 1.000, leaves
+retrieval P@10 at exactly 1.000. The transformations that *do* destroy retrieval move
+variance and rank in the opposite direction.
+
+**Exploratory Phase-1 observations** — single seed, no projector, not claim-grade:
+
+- Without a projector, no SIGReg configuration in LeJEPA's swept lambda range prevented
+  angular concentration without stop-gradient, while every stop-gradient arm stayed spread.
+- On the one 32k run that learned then degraded, the probe turned before the cheap
+  diagnostics rather than after.
+
+Both await the pre-registered Phase-A design (7 conditions, 5 paired seeds, paired
+confidence intervals) before any claim is made.

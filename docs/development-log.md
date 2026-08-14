@@ -252,3 +252,45 @@ The recurring lesson extends by one: the previous four bugs were caught by runni
 experiment; these two could only be caught by comparing the design against the reference
 setup and against what the question claims to isolate. Instrument validation and design
 validation are different activities, and passing one says nothing about the other.
+
+## The controlled stress test, and what it says about everything above (2026-08-14)
+
+The advisor objected to the phrase "the conditions manufacture known degeneration modes":
+a training intervention sets up an optimisation, it does not dictate which degeneracy
+emerges, and the modes here were read off the runs afterwards. Correct. So the
+degradations are now applied directly to embedding matrices, where the mechanics are exact
+by construction — scale contraction, SVD rank truncation, mean injection, isotropic noise,
+and interpolation toward the global mean.
+
+The resulting invariance map (synthetic, 8 clusters, severity 0 -> 0.99):
+
+| transformation | total var | cosine | PR | RankMe | retrieval |
+| --- | --- | --- | --- | --- | --- |
+| scale contraction | 1106 -> 0.11 | 0.086 -> 0.086 | 5.97 -> 5.97 | 15.9 -> 15.9 | **1.000 -> 1.000** |
+| mean injection | 1106 -> 1106 | 0.086 -> **1.000** | 5.97 -> 5.97 | 15.9 -> 1.23 | **1.000 -> 1.000** |
+| mean interpolation | 1106 -> 0.11 | 0.086 -> **0.999** | 5.97 -> 5.97 | 15.9 -> 1.77 | **1.000 -> 1.000** |
+| rank truncation | 1106 -> 254 | 0.086 -> 0.057 | 5.97 -> 1.00 | 15.9 -> 1.00 | 1.000 -> 0.244 |
+| isotropic noise | 1106 -> 1.2e7 | 0.086 -> 0.000 | 5.97 -> 30.0 | 15.9 -> 31.7 | 1.000 -> 0.125 |
+
+**No geometric diagnostic tracks semantic content.** The three transformations producing
+the classic signatures of collapse — variance down four orders, cosine at 1.000 — leave
+retrieval perfectly intact. The two that actually destroy retrieval move variance and rank
+in the *opposite* direction.
+
+Two consequences that revise earlier entries in this log:
+
+**A mean pairwise cosine of 1.000 does not imply collapse.** Under mean injection, cosine
+saturates while total variance, per-feature std, participation ratio, probe and retrieval
+are all exactly unchanged. Earlier entries treated cosine near 1 as collapse evidence; it
+is evidence of angular concentration, which a constant shift produces without any loss.
+
+**Scale collapse is not information loss.** Contracting embeddings by 1e4 leaves cosine,
+both rank measures, the probe and retrieval bit-identical. In `none_nostopgrad` the
+variance collapse and the probe collapse co-occurred, and this log has been reading the
+first as evidence for the second. It never was. They are separate events, and only the
+unscaled probe ever measured the second one directly.
+
+This is the first result in the project obtained with genuine ground truth rather than by
+inference from a training run — and it cost no GPU time. It also sharpens what Phase A can
+claim: the training conditions produce degeneration whose *mode* must be identified from
+the diagnostic vector, not assumed from the intervention's name.

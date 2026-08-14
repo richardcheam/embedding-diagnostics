@@ -1,0 +1,78 @@
+\section{Controlled Diagnostic Stress Test}
+\label{sec:stress}
+
+Training interventions set up an optimisation; they do not dictate which degeneracy
+emerges. To learn what a diagnostic is blind to, the degradation has to be applied
+directly, with known mechanics. We therefore transform embedding matrices under five
+controlled operations and measure every diagnostic on the result: multiplicative scale
+contraction, SVD rank truncation, mean-vector injection, isotropic noise injection, and
+interpolation of each sample toward the global mean.
+
+\interp{} This is a stress test of the instruments, not a model of natural training
+collapse: real degeneration mixes modes, arrives gradually and interacts with the
+optimiser. It bounds what a metric \emph{can} detect; it does not establish what a metric
+will detect in a run.
+
+\subsection{The invariance map}
+
+Synthetic embeddings, eight well-separated clusters, $512 \times 32$. Values are severity
+$0 \to 0.99$; retrieval is P@10 on the class labels.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{l r r r r r}
+\toprule
+\textbf{transformation} & \textbf{total var.} & \textbf{cosine} & \textbf{PR} &
+\textbf{RankMe} & \textbf{retrieval} \\
+\midrule
+scale contraction  & $1106 \to 0.11$      & $0.086 \to 0.086$ & $5.97 \to 5.97$  & $15.9 \to 15.9$ & $1.000 \to 1.000$ \\
+mean injection     & $1106 \to 1106$      & $0.086 \to 1.000$ & $5.97 \to 5.97$  & $15.9 \to 1.23$ & $1.000 \to 1.000$ \\
+mean interpolation & $1106 \to 0.11$      & $0.086 \to 0.999$ & $5.97 \to 5.97$  & $15.9 \to 1.77$ & $1.000 \to 1.000$ \\
+rank truncation    & $1106 \to 254$       & $0.086 \to 0.057$ & $5.97 \to 1.00$  & $15.9 \to 1.00$ & $1.000 \to 0.244$ \\
+isotropic noise    & $1106 \to 1.2\mathrm{e}7$ & $0.086 \to 0.000$ & $5.97 \to 30.0$ & $15.9 \to 31.7$ & $1.000 \to 0.125$ \\
+\bottomrule
+\end{tabular}
+\caption{\ours{} Diagnostic response to controlled degradations. A value that does not
+move is an invariance: that metric cannot see that mode.}
+\end{table}
+
+\subsection{What this shows}
+
+\ours{} \textbf{No geometric diagnostic tracks semantic content.} The three
+transformations that produce the classic visual signatures of collapse --- variance
+falling four orders of magnitude, mean pairwise cosine reaching $1.000$ --- leave
+retrieval at $1.000$, perfectly intact. The two that actually destroy retrieval move
+variance and rank in the \emph{opposite} direction: isotropic noise drives total variance
+\emph{up} by four orders and both rank measures \emph{up} toward their ceiling while
+retrieval falls to $0.125$.
+
+Three specific consequences:
+
+\paragraph{A mean pairwise cosine of 1.000 does not imply collapse.} Under mean injection
+the cosine saturates while total variance, per-feature standard deviation, the
+participation ratio and retrieval are all exactly unchanged. Adding a constant vector
+crowds every direction together without touching the centered covariance or any
+label-relevant structure. Reading angular concentration as evidence of collapse conflates
+a shift with a loss.
+
+\paragraph{Scale collapse is not information loss.} Contracting every embedding by a
+factor of $10^{4}$ leaves cosine, both rank measures, the linear probe and retrieval
+bit-identical. The representation is smaller, not poorer. \interp{} This bears directly on
+this project's earlier framing: the control condition's variance collapse and its loss of
+probe accuracy are separate events that happened to co-occur, and the geometric signature
+alone never established the semantic one.
+
+\paragraph{Both rank measures rise under noise-dominated degradation.} Consistent with the
+earlier training observation, and now with ground truth: as isotropic noise swamps the
+signal the spectrum flattens, so participation ratio and RankMe both climb to their
+ceiling exactly as retrieval collapses.
+
+\subsection{Where the two rank measures separate}
+
+\established{} The participation ratio is computed from the centered covariance spectrum;
+RankMe \citep{garrido2023rankme} from the raw matrix's singular values. Mean injection
+therefore leaves the participation ratio exactly unchanged at $5.97$ while RankMe falls
+from $15.9$ to $1.23$ --- the mean becomes the dominant singular direction. They are not
+interchangeable, and reporting either as ``effective rank'' hides which question was
+asked.

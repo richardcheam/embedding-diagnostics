@@ -40,6 +40,26 @@ added as a genuinely different measure).
 Full pre-registration: `docs/superpowers/specs/2026-08-14-phase2-scenario-reframe.md` and
 the report's Section "Phase-2 pre-registration".
 
+### The stress test already answered part of the question, with no GPU
+
+Applying *known* degradations directly to embedding matrices (rather than inferring modes
+from training runs) produced the project's first ground-truth result:
+
+| transformation | total var | cosine | retrieval P@10 |
+| --- | --- | --- | --- |
+| scale contraction 1e4x | 1106 -> 0.11 | unchanged | **1.000 -> 1.000** |
+| mean injection | unchanged | 0.086 -> **1.000** | **1.000 -> 1.000** |
+| interpolate to the mean | 1106 -> 0.11 | 0.086 -> **0.999** | **1.000 -> 1.000** |
+| isotropic noise | 1106 -> 1.2e7 | 0.086 -> 0.000 | 1.000 -> **0.125** |
+
+**No geometric diagnostic tracks semantic content.** Everything that looks like collapse —
+variance down four orders, cosine at 1.000 — can happen with retrieval perfectly intact.
+The one transformation that destroyed retrieval moved variance and rank the *other* way.
+
+So "cosine near 1" and "variance collapsed" are statements about geometry, not about
+whether the representation is still useful. Sections 3-5 below were written before this was
+known and should be read with it in mind.
+
 **Status: harness ready, Phase-A runs pending. BDD100K confirmed present on the GPU box**
 (70k train / 10k val, per-image-JSON layout, 61,591 + 8,801 fully labelled).
 

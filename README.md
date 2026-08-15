@@ -6,8 +6,12 @@ disposable projector as controlled interventions — and tests which label-free 
 actually detect each mode, first on a CIFAR-10 calibration bench and then on BDD100K
 driving scenarios, where the semantic endpoint is scenario-attribute retrieval.
 
-**Start here: [`docs/STATUS.md`](docs/STATUS.md)** — the plain-language story of what we set
-out to test, what actually happened, and what is still open.
+**New to this? Start with [`docs/primer.md`](docs/primer.md)** — builds the whole chain from
+scratch (what an embedding is, why models collapse, how representations are evaluated) and
+ends on the finding. Read it before the report.
+
+**Already have the background: [`docs/STATUS.md`](docs/STATUS.md)** — the plain-language
+story of what we set out to test, what actually happened, and what is still open.
 
 **Status:** **Phase A complete** — 7 conditions x 5 paired seeds on CIFAR-10, endpoints and
 claim rule fixed in advance. Phase B (BDD100K driving scenarios) is next.
@@ -212,8 +216,8 @@ floor. Here is what the diagnostics say about that encoder:
 | **cosine retrieval P@10** | **0.184 (1.8x chance)** | **blind** |
 | **participation ratio** | **34.98** (healthy baseline 26.90) | **blind, inverted** |
 
-**A dead encoder scores 0.413 on the standardized linear probe** — higher than three of the
-six conditions that are training normally — and retrieves at 1.8x chance, statistically
+**A dead encoder scores 0.413 on the standardized linear probe** — second of all seven
+conditions, behind only the EMA baseline — and retrieves at 1.8x chance, statistically
 indistinguishable from a partially-working encoder. The mechanism is not exotic and we
 predicted it in advance: standardization divides by per-feature standard deviation, cosine
 retrieval L2-normalizes. Both remove scale by construction, and scale is what was lost.

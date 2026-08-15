@@ -3,6 +3,10 @@
 Read this first. It is the plain-language story of what we set out to test, what actually
 happened, and what is still open. Everything else is detail.
 
+If the terms below are unfamiliar — embedding, collapse, linear probe, stop-gradient —
+read [`primer.md`](primer.md) first. It builds all of them from scratch and takes about
+half an hour.
+
 Last updated: 2026-08-14, after Phase A completed (5 seeds, CIFAR-10).
 
 ---
@@ -82,9 +86,10 @@ correctly calls it dead, 0.1066 against a 0.100 chance floor. But:
 | **cosine retrieval P@10** | **0.184 (1.8× chance)** | **blind** |
 | **participation ratio** | **34.98** (healthy baseline: 26.90) | **blind, and inverted** |
 
-A dead encoder scores 0.413 on the standardized linear probe — higher than three of the six
-conditions that are training normally. It retrieves at 1.8× chance, statistically
-indistinguishable from a partially-working encoder (paired difference +0.002).
+A dead encoder scores 0.413 on the standardized linear probe — **second of all seven
+conditions**, behind only the EMA baseline and above every other arm. It retrieves at 1.8×
+chance, statistically indistinguishable from a partially-working encoder (paired difference
++0.002).
 
 The mechanism is not a surprise and we predicted it a priori: standardization divides each
 feature by its standard deviation, cosine retrieval L2-normalizes each vector. **Both

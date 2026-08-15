@@ -110,9 +110,10 @@ calibration bench, 7 conditions.</p>
 
   <div class="note">
     <span class="chip">ours</span>You cannot, reliably. The collapsed control finishes
-    <strong>above three conditions that are training normally</strong> on the standardized
-    probe, and its retrieval is statistically indistinguishable from a partially-working
-    encoder (paired difference +0.002 over five seeds).
+    <strong>second of all seven</strong> on the standardized probe &mdash; behind only the
+    healthy baseline, above every other arm &mdash; and its retrieval is statistically
+    indistinguishable from a partially-working encoder (paired difference +0.002 over five
+    seeds).
   </div>
 
   <p><button class="reveal" id="revealBtn">Show the two diagnostics that answer it</button></p>

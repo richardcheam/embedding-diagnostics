@@ -161,9 +161,26 @@ def resolve_gpus(raw: str | None) -> list[int]:
 
 
 def run_sequential(args: argparse.Namespace, jobs) -> int:
+    # --gpus is honoured here too. It used to apply only under --parallel, so a
+    # sequential run with --gpus 2 silently trained on GPU 0 -- the wrong device,
+    # with no error, possibly colliding with someone else's job.
+    environment = dict(os.environ)
+    if args.gpus:
+        gpus = resolve_gpus(args.gpus)
+        if len(gpus) > 1:
+            print(
+                f"--gpus lists {len(gpus)} devices but this is a sequential run, which "
+                "uses one. Pass --parallel to spread jobs across them, or name a single "
+                "GPU.",
+                file=sys.stderr,
+            )
+            return 2
+        environment["CUDA_VISIBLE_DEVICES"] = str(gpus[0])
+        print(f"pinning every job to GPU {gpus[0]}")
+
     for job in jobs:
         print(f"\n=== {job.condition} (seed {job.seed} -> {job.tag}) ===", flush=True)
-        result = subprocess.run(build_command(job, args), check=False)
+        result = subprocess.run(build_command(job, args), env=environment, check=False)
         if result.returncode != 0:
             print(f"{job.label} failed with code {result.returncode}", file=sys.stderr)
             return result.returncode

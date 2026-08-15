@@ -150,6 +150,25 @@ uv run python scripts/run_all_conditions.py --device cuda --parallel \
 discarding their partial logs. It needs `--total-steps` explicitly, since that is how it
 decides what "finished" means.
 
+### Restricting to specific GPUs
+
+`--gpus` names the devices to use; each job is pinned with `CUDA_VISIBLE_DEVICES`, so the
+child sees its card as device 0 and `--device cuda` means that one.
+
+```bash
+# Everything on GPU 2, two jobs at a time, the rest queued behind them
+uv run python scripts/run_all_conditions.py --device cuda --parallel --gpus 2 \
+  --jobs-per-gpu 2 --base-config bdd.yaml --data-root ../100k \
+  --total-steps 4000 --checkpoint-every 200 --tag bddpilot --seeds 0,1,2 --resume
+
+# One job at a time on GPU 2, leaving the card as free as possible
+uv run python scripts/run_all_conditions.py --device cuda --gpus 2 ...
+```
+
+`--gpus` works with or without `--parallel`. Without it, jobs run one at a time on the named
+card; naming more than one device without `--parallel` is refused rather than silently using
+the first.
+
 Each BDD run logs per-attribute probes and retrieval (`probe_accuracy_weather`,
 `retrieval_p10_scene`, ...) plus across-attribute means under the canonical keys.
 

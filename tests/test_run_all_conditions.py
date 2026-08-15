@@ -116,3 +116,68 @@ def test_overwrite_also_replaces(job):
 def test_a_normal_run_does_not_replace_anything(job):
     """--replace deletes files, so it must never appear by default."""
     assert "--replace" not in build_command(job, make_args())
+
+
+# --- device pinning -----------------------------------------------------
+
+
+def test_parallel_pins_each_child_to_its_assigned_gpu():
+    """CUDA_VISIBLE_DEVICES is how a job is confined to one card. The child then
+    sees it as device 0, so --device cuda inside means the assigned GPU."""
+    from jepa_lens.hardware import plan_gpu_waves
+
+    waves = plan_gpu_waves(["a", "b", "c"], [2], jobs_per_gpu=2)
+    assert waves == [[("a", 2), ("b", 2)], [("c", 2)]]
+
+
+def test_sequential_pins_to_a_single_named_gpu(tmp_path, monkeypatch, job):
+    """Regression: --gpus used to apply only under --parallel, so a sequential
+    run with --gpus 2 trained on GPU 0 with no error at all."""
+    import subprocess
+
+    import run_all_conditions as runner
+
+    seen = {}
+
+    def fake_run(command, env=None, check=False):
+        seen["device"] = (env or {}).get("CUDA_VISIBLE_DEVICES")
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(runner.subprocess, "run", fake_run)
+    args = make_args()
+    args.gpus = "2"
+    assert runner.run_sequential(args, [job]) == 0
+    assert seen["device"] == "2"
+
+
+def test_sequential_refuses_several_gpus_rather_than_picking_one(monkeypatch, job):
+    """Silently using the first of four would be the same class of bug."""
+    import run_all_conditions as runner
+
+    monkeypatch.setattr(
+        runner.subprocess, "run", lambda *a, **k: pytest.fail("a process was started")
+    )
+    args = make_args()
+    args.gpus = "0,1,2,3"
+    assert runner.run_sequential(args, [job]) == 2
+
+
+def test_sequential_without_gpus_leaves_the_environment_alone(monkeypatch, job):
+    """No --gpus means inherit whatever the shell set, including an existing
+    CUDA_VISIBLE_DEVICES the user exported themselves."""
+    import subprocess
+
+    import run_all_conditions as runner
+
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "3")
+    seen = {}
+
+    def fake_run(command, env=None, check=False):
+        seen["device"] = (env or {}).get("CUDA_VISIBLE_DEVICES")
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(runner.subprocess, "run", fake_run)
+    args = make_args()
+    args.gpus = None
+    runner.run_sequential(args, [job])
+    assert seen["device"] == "3"

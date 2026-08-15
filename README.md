@@ -130,8 +130,25 @@ uv run python scripts/run_all_conditions.py --device cuda --parallel \
   --tag phaseB --seeds 0,1,2,3,4 --jobs-per-gpu 2
 ```
 
-BDD images are 1280x720 JPEGs and decode, not the GPU, is the bottleneck — so use a lower
-`--jobs-per-gpu` here than on CIFAR-10 and watch whether steps/sec actually improves.
+**Use `--jobs-per-gpu 2` on BDD, not the 3 that works on CIFAR-10.** Measured from the first
+pilot: a CIFAR condition uses about 1 GB, a BDD condition uses **3.6–7.9 GB** — the 128x128
+inputs and batch 256 dominate. Five jobs on one 24 GB card exhausted it and killed three
+runs with `torch.OutOfMemoryError`. Decode is also a bottleneck (1280x720 JPEGs), so raising
+the count buys less than it does on CIFAR anyway.
+
+If a crash takes out part of a matrix, recover with `--resume` instead of rerunning
+everything:
+
+```bash
+uv run python scripts/run_all_conditions.py --device cuda --parallel \
+  --base-config bdd.yaml --data-root ../100k \
+  --total-steps 4000 --checkpoint-every 200 \
+  --tag bddpilot --seeds 0,1,2 --jobs-per-gpu 2 --resume
+```
+
+`--resume` keeps every run whose log reaches `--total-steps` and reruns only the rest,
+discarding their partial logs. It needs `--total-steps` explicitly, since that is how it
+decides what "finished" means.
 
 Each BDD run logs per-attribute probes and retrieval (`probe_accuracy_weather`,
 `retrieval_p10_scene`, ...) plus across-attribute means under the canonical keys.

@@ -51,6 +51,13 @@ def parse_args() -> argparse.Namespace:
         help="override strategy.sigreg_weight; ignored by conditions without SIGReg",
     )
     parser.add_argument(
+        "--replace",
+        action="store_true",
+        help="discard any existing log in this run directory and start fresh. For "
+        "rerunning a job that crashed partway; without it RunLogger refuses to touch "
+        "a directory that already holds records",
+    )
+    parser.add_argument(
         "--data-root",
         default=None,
         help="override data.root. Dataset location is a property of the machine, "
@@ -91,6 +98,15 @@ def main() -> int:
     print(f"encoder params={count_parameters(trainer.context_encoder):,}")
     print(f"predictor params={count_parameters(trainer.predictor):,}")
     print(f"steps={config['optim']['total_steps']} -> {run_dir}")
+
+    if args.replace:
+        # Deliberately narrow: only the files a rerun regenerates. Anything else
+        # in this directory was not written by us and is not ours to delete.
+        for name in ("metrics.jsonl", "config.json", "encoder.pt", "embeddings.npz"):
+            stale = run_dir / name
+            if stale.exists():
+                print(f"--replace: discarding {stale}")
+                stale.unlink()
 
     with RunLogger(run_dir) as logger:
         logger.write_config(config)

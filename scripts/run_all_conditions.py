@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 from jepa_lens.hardware import plan_gpu_waves
-from jepa_lens.planning import build_jobs, parse_seeds, preflight
+from jepa_lens.planning import build_jobs, parse_seeds, partition_jobs, preflight
 
 ROOT = Path(__file__).resolve().parents[1]
 CONDITIONS = [
@@ -68,6 +68,13 @@ def parse_args() -> argparse.Namespace:
         help="discard existing results in the target directories (refused by default)",
     )
     parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="skip jobs whose log already reaches --total-steps and rerun only the rest. "
+        "For recovering a matrix that lost some jobs to a crash (OOM, preemption) "
+        "without discarding the runs that finished",
+    )
+    parser.add_argument(
         "--gpus",
         default=None,
         help="comma-separated GPU ids for --parallel (default: every visible GPU)",
@@ -103,12 +110,33 @@ def build_command(job, args: argparse.Namespace) -> list[str]:
         command += ["--checkpoint-every", str(args.checkpoint_every)]
     if args.data_root is not None:
         command += ["--data-root", args.data_root]
+    # A resumed job is by definition replacing a partial log from a crashed
+    # attempt; without this the child's anti-clobber guard rejects it.
+    if args.resume or args.overwrite:
+        command += ["--replace"]
     return command
 
 
 def plan(args: argparse.Namespace):
     """Build the job list and refuse to proceed if any target is occupied."""
     jobs = build_jobs(CONDITIONS, parse_seeds(args.seeds), args.tag)
+
+    if args.resume:
+        if args.total_steps is None:
+            raise SystemExit(
+                "--resume needs --total-steps: whether a run finished is decided by "
+                "whether its log reaches that step, and the runner cannot infer it."
+            )
+        done, jobs = partition_jobs(jobs, ROOT / "experiments", args.total_steps)
+        print(f"resume: {len(done)} already at step {args.total_steps}, {len(jobs)} to run")
+        for job in jobs:
+            print(f"  rerun {job.label}")
+        if not jobs:
+            print("nothing to do; every job is complete")
+            raise SystemExit(0)
+        # Partial logs from the crashed attempts are what we are replacing.
+        return jobs
+
     problems = preflight(jobs, ROOT / "experiments", overwrite=args.overwrite)
     if problems:
         print("refusing to start; nothing has been written:", file=sys.stderr)

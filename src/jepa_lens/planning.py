@@ -12,6 +12,7 @@ should touch the filesystem until every planned job is known to be safe.
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -70,6 +71,54 @@ def build_jobs(conditions: list[str], seeds: list[int], tag: str) -> list[Job]:
     if len(set(labels)) != len(labels):
         raise ValueError("duplicate job labels; conditions must be unique")
     return jobs
+
+
+def completed_step(run_dir: Path) -> int | None:
+    """Highest step in this run's metrics.jsonl, or None if it has no records.
+
+    Used to tell a finished run from one that died partway. A crashed run still
+    leaves a directory and usually a checkpoint or two, so directory existence
+    proves nothing; the last logged step does.
+
+    Tolerates a truncated final line: a process killed mid-write (OOM, SIGKILL)
+    can leave half a JSON object, and refusing to parse the whole file because
+    of it would misreport a nearly-complete run as never having started.
+    """
+    metrics = Path(run_dir) / "metrics.jsonl"
+    if not metrics.exists():
+        return None
+    best: int | None = None
+    for line in metrics.read_text().splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            step = json.loads(line).get("step")
+        except json.JSONDecodeError:
+            continue
+        if isinstance(step, int) and (best is None or step > best):
+            best = step
+    return best
+
+
+def partition_jobs(
+    jobs: list[Job], experiments_dir: Path, total_steps: int
+) -> tuple[list[Job], list[Job]]:
+    """Split jobs into (already finished, still to run).
+
+    A job counts as finished only if its log reaches `total_steps`. Anything
+    short of that -- absent, empty, or crashed partway -- goes in the run list,
+    and its partial log is expected to be discarded when it reruns.
+
+    This exists because hardware failures hit a matrix unevenly: an OOM can
+    take three jobs out of twenty-one and leave the rest perfect. Without this
+    the only options are rerunning everything or hand-deleting directories.
+    """
+    done, todo = [], []
+    for job in jobs:
+        reached = completed_step(job.run_dir(experiments_dir))
+        (done if reached is not None and reached >= total_steps else todo).append(job)
+    return done, todo
 
 
 def preflight(

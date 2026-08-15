@@ -25,6 +25,8 @@ def make_args(**overrides) -> argparse.Namespace:
         checkpoint_every=None,
         base_config="base.yaml",
         data_root=None,
+        resume=False,
+        overwrite=False,
     )
     defaults.update(overrides)
     return argparse.Namespace(**defaults)
@@ -99,3 +101,18 @@ def test_train_py_accepts_every_flag_the_runner_emits(job):
     assert args.seed == 3
     assert args.data_root == "/data/bdd/100k"
     assert args.total_steps == 100
+
+
+def test_resume_tells_the_child_to_replace_its_partial_log(job):
+    """A resumed job is replacing a crashed attempt's log. Without --replace the
+    child's anti-clobber guard rejects it and the resume silently does nothing."""
+    assert "--replace" in build_command(job, make_args(resume=True))
+
+
+def test_overwrite_also_replaces(job):
+    assert "--replace" in build_command(job, make_args(overwrite=True))
+
+
+def test_a_normal_run_does_not_replace_anything(job):
+    """--replace deletes files, so it must never appear by default."""
+    assert "--replace" not in build_command(job, make_args())

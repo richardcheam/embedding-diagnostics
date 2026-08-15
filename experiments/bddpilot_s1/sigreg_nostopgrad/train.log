@@ -1,0 +1,39 @@
+environment:
+  torch          : 2.11.0+cu128
+  built for CUDA : 12.8
+  driver CUDA    : ?
+  cuda available : True
+  device         : Quadro RTX 6000
+  device count   : 1
+  capability     : sm_75
+  arch list      : sm_75, sm_80, sm_86, sm_90, sm_100, sm_120
+condition=sigreg_nostopgrad device=cuda seed=1 eval_split_seed=0
+sigreg_weight=0.0526
+encoder params=2,755,776
+predictor params=270,912
+steps=4000 -> /home/richard/jepa-lens/experiments/bddpilot_s1/sigreg_nostopgrad
+Traceback (most recent call last):
+  File "/home/richard/jepa-lens/scripts/train.py", line 104, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/richard/jepa-lens/scripts/train.py", line 97, in main
+    trainer.fit(ssl_loader, probe_train, probe_test, logger)
+  File "/home/richard/jepa-lens/src/jepa_lens/training/trainer.py", line 319, in fit
+    train_metrics = self.train_step(images)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/jepa-lens/src/jepa_lens/training/trainer.py", line 171, in train_step
+    output = self.forward_pass(images)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/jepa-lens/src/jepa_lens/training/trainer.py", line 135, in forward_pass
+    prediction = self.predictor(context_embedding, target_indices)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/jepa-lens/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/jepa-lens/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/jepa-lens/src/jepa_lens/models/predictor.py", line 44, in forward
+    return self.net(torch.cat([context, positions], dim=-1))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 30.00 MiB. GPU 0 has a total capacity of 23.46 GiB of which 28.88 MiB is free. Including non-PyTorch memory, this process has 2.12 GiB memory in use. Process 2428849 has 1.27 GiB memory in use. Process 2428848 has 7.81 GiB memory in use. Process 2428847 has 8.45 GiB memory in use. Process 2428846 has 3.79 GiB memory in use. Of the allocated memory 1.81 GiB is allocated by PyTorch, and 114.65 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

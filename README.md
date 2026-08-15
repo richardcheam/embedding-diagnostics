@@ -155,10 +155,30 @@ stop-gradient still matters at that setting.
 ## Building outputs
 
 ```bash
-uv run python scripts/make_figures.py --tag main   # -> report/figures/*.pdf
-make -C report                                     # -> report/main.pdf
-uv run python viz/build_report.py --tag main       # -> viz/dist/report.html
+uv run python scripts/make_figures.py --tag phaseA_s0   # -> report/figures/*.pdf
+make -C report                                          # -> report/main.pdf
+
+# Interactive demo: one self-contained HTML file, no server, works offline
+uv run python viz/build_report.py \
+  --tag phaseA_s0 --scorecard-tag phaseA --seeds 0,1,2,3,4 \
+  --title "jepa-lens: can you trust a self-supervised embedding?"
 ```
+
+The demo is built around the finding rather than being a generic dashboard. It opens with
+the two evaluations almost everyone runs — standardized linear probe and cosine retrieval —
+asks which of the seven encoders is dead, and only then reveals total variance and the
+unscaled probe. That ordering is deliberate: those first two charts rate the collapsed
+control *above* most of the conditions that are training normally, so a plain dashboard
+built from them would look broken rather than making a point.
+
+`--tag` supplies the curves (one seed) and `--scorecard-tag` the scorecard (across seeds).
+They are separate arguments on purpose — deriving the scorecard from a single seed would
+put a number on the page whose stated basis is wrong.
+
+The scorecard verdicts each diagnostic on whether it ranks the collapsed control below
+`none_stopgrad`, the weakest condition that still genuinely trains, with the margin
+required to clear twice the across-seed SD. On Phase A that gives 1 correct (unscaled
+probe), 4 unresolved, and 2 actively inverted (standardized probe, participation ratio).
 
 ## Workflow across machines
 

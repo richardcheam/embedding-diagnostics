@@ -64,6 +64,68 @@ So "cosine near 1" and "variance collapsed" are statements about geometry, not a
 whether the representation is still useful. Sections 3-5 below were written before this was
 known and should be read with it in mind.
 
+### The prescription: a minimal sufficient panel
+
+Everything above is a negative result — these diagnostics cannot be trusted. The
+constructive version, and the thing worth taking away:
+
+**No single label-free diagnostic covers every collapse mode. Two do. Use total variance +
+RankMe.**
+
+That is not a preference; it is an exhaustive search over subsets of five candidate
+diagnostics against the five controlled degradations, reproducible with
+`uv run python scripts/validate_panel.py`. Every singleton fails, because each candidate is
+invariant to something:
+
+| degradation | detected by | blind |
+| --- | --- | --- |
+| scale contraction | total variance, feature std | cosine, RankMe, participation ratio |
+| mean injection | cosine, RankMe | **total variance**, participation ratio, feature std |
+| rank truncation | all five | — |
+| isotropic noise | all five | — |
+| mean interpolation | all but participation ratio | participation ratio |
+
+The two blind rows are complementary and that is the whole argument: the *scale-invariant*
+metrics cannot see pure contraction, and the *centered* metrics cannot see the cloud
+shifting off the origin. A sufficient panel needs one from each family. Exactly four pairs
+qualify; **the participation ratio appears in none of them.**
+
+**Two things had to be got right, and both were surprises.**
+
+*Drift alarms do not work.* The obvious monitoring rule — alarm when a diagnostic moves far
+from its value at initialisation — produced **5 false alarms out of 6 on CIFAR-10 and 4 out
+of 6 on BDD100K**, including on `ema_stopgrad`, the only condition that actually learns
+(total variance 2.2×, cosine 0.40× from init). Healthy self-supervised training legitimately
+reshapes the geometry, so movement carries almost no signal. The panel uses **absolute**
+limits near each metric's degenerate floor instead.
+
+*Absolute limits work, cleanly.* Zero misclassifications across all 14 condition-dataset
+pairs, with large margins:
+
+| metric | collapsed | worst run that trains | margin |
+| --- | --- | --- | --- |
+| total variance | 0.0001–0.0002 | 0.69 (CIFAR) / 4.17 (BDD) | 3,466× / 41,716× |
+| feature std | 0.0006–0.0011 | 0.057 / 0.097 | 54× / 168× |
+| RankMe | 1.06–1.12 | 9.67 / 9.72 | 9× |
+| cosine | 1.0000 | 0.85 / 0.64 | thinnest |
+
+**What the panel does and does not claim.** A tripped check means the embedding has entered a
+regime where your *scale-invariant* metrics — standardized probes, cosine retrieval — are no
+longer trustworthy. It does **not** mean the representation carries no information: three of
+the five controlled degradations leave retrieval P@10 at exactly 1.000 while wrecking the
+geometry, because the residual structure still orders neighbours correctly. Confirming
+actual information loss needs an unstandardized probe. The panel also does not detect
+*failure to learn* — `sigreg_nostopgrad` never beat its own initialisation and is correctly
+called healthy, because an untrained encoder is not a degenerate one.
+
+**Thresholds are calibrated, not universal.** They come from this project's own runs and sit
+midway in log space between the collapsed control and the worst genuinely-training
+condition. Recalibrate for a different architecture or embedding dimension. And the panel
+has only been validated against *total* collapse — partial degeneration is untested, and the
+cosine margin is thin enough that it would likely be the first check to fail there.
+
+---
+
 ### Phase B pilot: the blindness reproduces on driving data, and it is worse
 
 **Status: BDD100K pilot complete** — 7 conditions × 3 seeds, 4,000 steps. This is a

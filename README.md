@@ -264,6 +264,29 @@ A pipeline evaluated only that way cannot distinguish a working encoder from one
 collapsed by five orders of magnitude. Logging total variance and the unscaled probe
 alongside fixes it, but has to be done deliberately.
 
+**The prescription.** No single label-free diagnostic covers every collapse mode — that is
+an exhaustive search over subsets, not a preference. Two do: **total variance + RankMe**.
+The argument is that the *scale-invariant* metrics (cosine, RankMe, participation ratio)
+cannot see pure scale contraction, while the *centered* metrics (total variance,
+participation ratio) cannot see the cloud shifting off the origin, so a sufficient panel
+needs one from each family. Exactly four pairs qualify and **the participation ratio is in
+none of them**. Reproduce with:
+
+```bash
+uv run python scripts/validate_panel.py
+```
+
+Two things there were surprises. Drift-based alarms — "flag when a metric moves far from
+its init value" — give 5 false alarms out of 6 on CIFAR-10 and 4 out of 6 on BDD100K,
+including on the only condition that actually learns; healthy SSL training legitimately
+reshapes geometry. Absolute limits near each metric's degenerate floor instead give **zero
+misclassifications across all 14 condition-dataset pairs**, with margins of 9x (RankMe) to
+41,716x (total variance).
+
+A tripped check means scale-invariant metrics are untrustworthy on that embedding — not
+that it carries no information. Three of five controlled degradations leave retrieval P@10
+at exactly 1.000 while wrecking the geometry.
+
 Two further results:
 
 - **Geometry and semantics fail to resolve in opposite places.** Across the SIGReg

@@ -15,3 +15,7 @@ jobs:
       - run: uv sync --dev
       - run: uv run ruff check .
       - run: uv run pytest
+      # The panel's minimality claim is a search result, not a constant. If a
+      # diagnostic's behaviour changes, this fails rather than the docs quietly
+      # becoming wrong. Synthetic degradations only, so no run data is needed.
+      - run: uv run python scripts/validate_panel.py --tags

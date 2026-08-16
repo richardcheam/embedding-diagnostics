@@ -17,6 +17,7 @@ GPU; only `probe_environment` touches torch's CUDA state.
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -71,6 +72,89 @@ def plan_gpu_waves(
             conditions[start : start + len(slots)]
             for start in range(0, len(conditions), len(slots))
         )
+    ]
+
+
+# DataLoader workers hand batches back through POSIX shared memory. Containers
+# ship a 64 MB /dev/shm by default, which is less than a single BDD batch, and
+# the failure is a bare "unable to allocate shared memory(shm)" from inside a
+# worker -- it names neither /dev/shm nor the batch size, so it reads like a
+# torch bug rather than a container setting.
+SHM_PATH = "/dev/shm"
+PREFETCH_PER_WORKER = 2  # torch's default prefetch_factor
+
+
+def shared_memory_limit(path: str = SHM_PATH) -> int | None:
+    """Bytes available in the shared-memory filesystem, or None if absent.
+
+    None means "not applicable here" (macOS has no /dev/shm and does not use it
+    this way), not "unlimited" -- callers must not treat it as a pass.
+    """
+    try:
+        stats = os.statvfs(path)
+    except (OSError, ValueError):
+        return None
+    return stats.f_bsize * stats.f_blocks
+
+
+def dataloader_shm_bytes(
+    batch_size: int,
+    image_size: int,
+    num_workers: int,
+    channels: int = 3,
+    dtype_bytes: int = 4,
+    prefetch: int = PREFETCH_PER_WORKER,
+) -> int:
+    """Peak shared memory a DataLoader needs, in bytes.
+
+    Each worker keeps `prefetch` batches in flight, and every batch crosses the
+    process boundary through /dev/shm. Zero workers means loading happens in the
+    main process, so nothing is shared.
+    """
+    if num_workers <= 0:
+        return 0
+    per_batch = batch_size * channels * image_size * image_size * dtype_bytes
+    return per_batch * num_workers * prefetch
+
+
+def diagnose_shared_memory(
+    batch_size: int,
+    image_size: int,
+    num_workers: int,
+    limit: int | None = None,
+    path: str = SHM_PATH,
+) -> list[str]:
+    """Problems that would make DataLoader workers fail on this machine.
+
+    Pure apart from the optional probe, so it is testable without a container.
+    """
+    if num_workers <= 0:
+        return []
+    available = shared_memory_limit(path) if limit is None else limit
+    if available is None:
+        return []
+
+    needed = dataloader_shm_bytes(batch_size, image_size, num_workers)
+    if needed <= available:
+        return []
+
+    fits = available // dataloader_shm_bytes(batch_size, image_size, 1)
+    if fits >= 1:
+        worker_advice = f"pass --num-workers {fits} or fewer"
+    else:
+        # Not even one worker's prefetch fits, so no positive count helps.
+        worker_advice = (
+            "pass --num-workers 0 to load in the main process (no shared memory "
+            "at all, but no prefetching either)"
+        )
+    return [
+        f"DataLoader needs about {needed / 2**20:.0f} MiB of shared memory "
+        f"({num_workers} workers x {PREFETCH_PER_WORKER} batches of "
+        f"{batch_size}x{image_size}x{image_size}), but {path} holds "
+        f"{available / 2**20:.0f} MiB. Workers will die with 'unable to allocate "
+        f"shared memory(shm)'. Fix by any of: restart the container with "
+        f"--shm-size=8g (or --ipc=host); {worker_advice}; or let the run fall "
+        f"back to file-system sharing, which is automatic but slower."
     ]
 
 

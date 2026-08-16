@@ -1,9 +1,14 @@
+import pytest
+
 from jepa_lens.hardware import (
     EnvironmentInfo,
+    dataloader_shm_bytes,
     diagnose,
+    diagnose_shared_memory,
     format_report,
     parse_driver_version,
     plan_gpu_waves,
+    shared_memory_limit,
 )
 
 TURING = (7, 5)
@@ -288,3 +293,73 @@ def test_hopper_kernels_must_actually_be_compiled_in():
     without_hopper = ["sm_75", "sm_80", "sm_86"]
     problems = diagnose(gh200(arch_list=without_hopper), want_cuda=True)
     assert problems and "sm_90" in problems[0]
+
+
+# --- shared memory, the container failure mode --------------------------
+
+MIB = 2**20
+
+
+def test_zero_workers_needs_no_shared_memory():
+    """Loading in the main process never crosses a process boundary."""
+    assert dataloader_shm_bytes(256, 128, num_workers=0) == 0
+    assert diagnose_shared_memory(256, 128, num_workers=0, limit=1) == []
+
+
+def test_the_estimate_matches_the_batch_arithmetic():
+    """One BDD batch is 50 MiB, which alone exceeds a default 64 MB /dev/shm."""
+    one_batch = dataloader_shm_bytes(256, 128, num_workers=1, prefetch=1)
+    assert one_batch == 256 * 3 * 128 * 128 * 4
+    assert one_batch / MIB == pytest.approx(48.0, abs=0.1)
+
+
+def test_the_estimate_scales_with_workers_and_prefetch():
+    base = dataloader_shm_bytes(256, 128, num_workers=1)
+    assert dataloader_shm_bytes(256, 128, num_workers=8) == 8 * base
+
+
+def test_the_container_default_is_diagnosed():
+    """The exact configuration that failed on the GH200 box: 8 workers, batch
+    256, 128px, against Docker's 64 MB default."""
+    problems = diagnose_shared_memory(256, 128, num_workers=8, limit=64 * 10**6)
+    assert len(problems) == 1
+    message = problems[0]
+    assert "shm-size" in message and "--num-workers" in message
+
+
+def test_the_advice_names_a_worker_count_that_would_actually_fit():
+    """Advice that still overflows would send the user round the loop twice."""
+    limit = 200 * MIB
+    problems = diagnose_shared_memory(256, 128, num_workers=8, limit=limit)
+    suggested = int(problems[0].split("--num-workers ")[1].split()[0])
+    assert suggested >= 1
+    assert dataloader_shm_bytes(256, 128, num_workers=suggested) <= limit
+    assert dataloader_shm_bytes(256, 128, num_workers=suggested + 1) > limit
+
+
+def test_advice_when_not_even_one_worker_fits_says_zero_not_a_negative():
+    """The GH200 case: 61 MiB of /dev/shm against a 96 MiB single-worker need.
+    '--num-workers 0 or fewer' is not advice anyone can act on."""
+    problems = diagnose_shared_memory(256, 128, num_workers=8, limit=64 * 10**6)
+    assert "--num-workers 0 " in problems[0]
+    assert "or fewer" not in problems[0].split("--num-workers")[1][:40]
+
+
+def test_ample_shared_memory_is_silent():
+    assert diagnose_shared_memory(256, 128, num_workers=8, limit=16 * 2**30) == []
+
+
+def test_an_unmeasurable_filesystem_is_not_treated_as_a_pass_or_a_failure():
+    """macOS has no /dev/shm and does not use it this way. Unknown must mean
+    'no opinion', never 'fine' by omission of the check nor a false alarm."""
+    assert shared_memory_limit("/definitely/not/a/path") is None
+    assert diagnose_shared_memory(256, 128, num_workers=8, path="/definitely/not/a/path") == []
+
+
+def test_smaller_images_need_proportionally_less():
+    """CIFAR at 32px is 16x smaller per batch, which is why this never bit
+    before BDD."""
+    cifar = dataloader_shm_bytes(256, 32, num_workers=8)
+    bdd = dataloader_shm_bytes(256, 128, num_workers=8)
+    assert bdd == 16 * cifar
+    assert diagnose_shared_memory(256, 32, num_workers=8, limit=64 * 10**6) == []

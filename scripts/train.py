@@ -58,6 +58,14 @@ def parse_args() -> argparse.Namespace:
         "a directory that already holds records",
     )
     parser.add_argument(
+        "--num-workers",
+        type=int,
+        default=None,
+        help="override data.num_workers. Like --data-root this is a property of "
+        "the machine, not the experiment: it is bounded by CPU count and by the "
+        "size of /dev/shm, both of which differ per box",
+    )
+    parser.add_argument(
         "--data-root",
         default=None,
         help="override data.root. Dataset location is a property of the machine, "
@@ -85,6 +93,10 @@ def main() -> int:
         config["data"]["eval_split_seed"] = args.eval_split_seed
     if args.data_root is not None:
         config["data"]["root"] = args.data_root
+    if args.num_workers is not None:
+        if args.num_workers < 0:
+            raise SystemExit(f"--num-workers must be >= 0, got {args.num_workers}")
+        config["data"]["num_workers"] = args.num_workers
 
     run_dir = ROOT / config["logging"]["output_root"] / args.tag / args.condition
     ssl_loader, probe_train, probe_test = build_dataloaders(config)

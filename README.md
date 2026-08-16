@@ -236,6 +236,24 @@ Confirm on any new box before spending GPU time — it names the exact problem i
 uv run python scripts/check_environment.py --device cuda
 ```
 
+### Shared memory, if you are in a container
+
+DataLoader workers pass batches through `/dev/shm`. Containers default to 64 MB, and one
+BDD batch (256 x 3 x 128 x 128 float32) is **50 MB** — so the default cannot hold even one,
+and workers die with a bare `unable to allocate shared memory(shm)` that names neither the
+setting nor the batch size. CIFAR at 32px is 16x smaller per batch, which is why this only
+appears on BDD.
+
+The run now detects this before training and falls back to torch's `file_system` sharing
+strategy so it proceeds regardless. That is a workaround, not a fix — it is slower. Prefer,
+in order:
+
+```bash
+docker run --shm-size=8g ...        # or --ipc=host; best, needs container restart
+--num-workers N                     # fits within the shm you have
+--num-workers 0                     # last resort: no prefetching, slow
+```
+
 On a large-memory node, raise `--jobs-per-gpu` well above the 2 that suits a 24 GB card: at
 3.6–7.9 GB per BDD job a 144 GB device fits well over a dozen. The CPU saturates before the
 GPU does — each job runs dataloader workers *and* fits two sklearn probes per checkpoint —

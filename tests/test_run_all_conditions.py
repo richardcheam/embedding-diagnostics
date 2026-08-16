@@ -25,6 +25,7 @@ def make_args(**overrides) -> argparse.Namespace:
         checkpoint_every=None,
         base_config="base.yaml",
         data_root=None,
+        num_workers=None,
         resume=False,
         overwrite=False,
     )

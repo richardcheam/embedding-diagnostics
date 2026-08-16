@@ -80,6 +80,14 @@ def parse_args() -> argparse.Namespace:
         help="comma-separated GPU ids for --parallel (default: every visible GPU)",
     )
     parser.add_argument(
+        "--num-workers",
+        type=int,
+        default=None,
+        help="override data.num_workers for every job. Bounded by CPU count and "
+        "by /dev/shm size, both machine-specific; with several jobs per GPU the "
+        "workers multiply, so this is usually what to lower first",
+    )
+    parser.add_argument(
         "--data-root",
         default=None,
         help="override data.root for every job. Dataset location is a property of "
@@ -110,6 +118,8 @@ def build_command(job, args: argparse.Namespace) -> list[str]:
         command += ["--checkpoint-every", str(args.checkpoint_every)]
     if args.data_root is not None:
         command += ["--data-root", args.data_root]
+    if args.num_workers is not None:
+        command += ["--num-workers", str(args.num_workers)]
     # A resumed job is by definition replacing a partial log from a crashed
     # attempt; without this the child's anti-clobber guard rejects it.
     if args.resume or args.overwrite:

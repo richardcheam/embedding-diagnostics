@@ -19,6 +19,8 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
+from .hardware import diagnose_shared_memory
+
 CIFAR10_MEAN = (0.4914, 0.4822, 0.4465)
 CIFAR10_STD = (0.2470, 0.2435, 0.2616)
 
@@ -103,6 +105,44 @@ def sample_block_masks(
     return trimmed_context, trimmed_targets
 
 
+def ensure_shared_memory(config: dict[str, Any]) -> list[str]:
+    """Check /dev/shm against what the loader will need, and adapt if it is short.
+
+    Called before any DataLoader is constructed, by both dataset paths. When the
+    shared-memory filesystem is too small -- a 64 MiB /dev/shm is the container
+    default, and one BDD batch alone is 50 MiB -- torch's workers die with a
+    bare "unable to allocate shared memory(shm)" that names neither the setting
+    nor the batch size.
+
+    Rather than fail, switch torch to the `file_system` sharing strategy, which
+    passes tensors through files instead of /dev/shm and so has no such ceiling.
+    That keeps a run working on a container nobody can restart, which is the
+    point: the same command should work on every machine. It is slower, and if a
+    process is SIGKILLed it can leave files behind, so the swap is reported
+    rather than done silently -- raising --shm-size is still the better fix.
+
+    Returns the messages describing what was found and done, for logging.
+    """
+    data_config = config["data"]
+    batch_size = data_config.get("batch_size")
+    image_size = config.get("model", {}).get("image_size")
+    if not batch_size or not image_size:
+        return []
+    problems = diagnose_shared_memory(
+        batch_size=batch_size,
+        image_size=image_size,
+        num_workers=data_config.get("num_workers", 0),
+    )
+    if not problems:
+        return []
+
+    torch.multiprocessing.set_sharing_strategy("file_system")
+    return problems + [
+        "Falling back to torch's file_system sharing strategy so this run can "
+        "proceed. Throughput will be lower than with a larger /dev/shm."
+    ]
+
+
 def build_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tuple]:
     """Build the SSL loader plus frozen probe splits for the configured dataset.
 
@@ -118,12 +158,16 @@ def build_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tuple]
         accuracy is comparable across steps.
     """
     dataset_name = config["data"].get("dataset", "cifar10")
+    if dataset_name not in ("cifar10", "bdd100k"):
+        raise ValueError(f"unknown dataset {dataset_name!r}")
+
+    for message in ensure_shared_memory(config):
+        print(f"  {message}")
+
     if dataset_name == "bdd100k":
         from .bdd100k import build_bdd_dataloaders
 
         return build_bdd_dataloaders(config)
-    if dataset_name != "cifar10":
-        raise ValueError(f"unknown dataset {dataset_name!r}")
 
     data_config = config["data"]
     normalize = transforms.Normalize(CIFAR10_MEAN, CIFAR10_STD)

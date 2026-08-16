@@ -2,7 +2,11 @@ import numpy as np
 import pytest
 import torch
 
-from jepa_lens.diagnostics.probe import linear_probe_accuracy
+from jepa_lens.diagnostics.probe import (
+    ProbeConfig,
+    linear_probe_accuracy,
+    linear_probe_scores,
+)
 
 
 def test_separable_features_score_high():
@@ -40,28 +44,66 @@ def test_returns_plain_float_in_unit_range():
     assert 0.0 <= accuracy <= 1.0
 
 
-def test_standardizing_hides_scale_collapse_but_unscaled_does_not():
-    """The measurement defect the pilot exposed, pinned as a test.
+def test_a_scale_contracted_but_informative_representation_reads_the_same_either_way():
+    """WITHDRAWN CLAIM, inverted and pinned.
 
-    A collapsed encoder emits a large constant plus a tiny input-dependent
-    residue. StandardScaler divides that residue back up to unit variance, so
-    the standardized probe reads it perfectly while the representation is, by
-    every other measure, collapsed.
+    This test previously asserted that the standardized probe is "fooled" by
+    scale contraction while the unstandardized one is "the more honest of the
+    two". That was wrong, and the test was holding the error in place.
+
+    The construction below is a large constant plus a tiny input-dependent
+    residue that carries the label perfectly. There is no information loss by
+    construction. Under matched optimisation both probes recover it, so a gap
+    between them would have measured the optimiser, not the representation.
+
+    Under the old protocol (fixed C=1, tol=1e-4, max_iter=1000) the
+    unstandardized probe scored at chance here with n_iter near zero: lbfgs
+    stops when the gradient norm drops below tol, the gradient scales with
+    feature magnitude, and on a 1e-3 scale the criterion is met at the initial
+    all-zero point -- with no ConvergenceWarning.
     """
     rng = np.random.default_rng(0)
     labels = rng.integers(0, 10, 600)
     signal = np.eye(10)[labels] @ rng.normal(size=(10, 32))
-    collapsed = np.ones((600, 32)) + 0.0019 * signal / signal.std()
+    contracted = np.ones((600, 32)) + 0.0019 * signal / signal.std()
 
     train = slice(0, 450)
     test = slice(450, 600)
-    args = (collapsed[train], labels[train], collapsed[test], labels[test])
+    args = (contracted[train], labels[train], contracted[test], labels[test])
 
-    standardized = linear_probe_accuracy(*args, standardize=True)
-    unscaled = linear_probe_accuracy(*args, standardize=False)
+    standardized = linear_probe_scores(*args, standardize=True)
+    unscaled = linear_probe_scores(*args, standardize=False)
 
-    assert standardized > 0.9, "standardized probe should be fooled by scale collapse"
-    assert unscaled < standardized, "unscaled probe must be the more honest of the two"
+    assert standardized["accuracy"] > 0.9
+    assert unscaled["accuracy"] > 0.9, (
+        "with matched optimisation the unstandardized probe must also recover "
+        "information that is present by construction"
+    )
+    assert not unscaled["underfit_train"]
+
+
+def test_the_old_protocol_would_have_reported_chance_on_that_same_data():
+    """Direct evidence for the paragraph above, so the claim is not just
+    asserted in prose. Reproduces the old settings explicitly."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 10, 600)
+    signal = np.eye(10)[labels] @ rng.normal(size=(10, 32))
+    contracted = np.ones((600, 32)) + 0.0019 * signal / signal.std()
+
+    old = ProbeConfig(c_grid=(1.0,), tol=1e-4, max_iter=1000)
+    scores = linear_probe_scores(
+        contracted[:450], labels[:450], contracted[450:], labels[450:],
+        standardize=False, config=old,
+    )
+    assert scores["accuracy"] < 0.3, "the old protocol's failure must be reproducible"
+    # The tell is that it does not even fit TRAIN: this is gross underfitting
+    # from a stopping rule met almost immediately, not overfitting or a hard
+    # problem. (Iteration count itself varies with the data -- 13 here, 2 at
+    # the 192-dimension scale of the real runs -- so train accuracy is the
+    # stable signature.)
+    assert scores["train_accuracy"] < 0.3
+    # And it did so silently: sklearn raised no ConvergenceWarning at all.
+    assert scores["converged"] == 1.0
 
 
 def test_standardize_flag_defaults_to_true():
@@ -218,3 +260,147 @@ def test_evaluate_logs_macro_f1_and_adjusted_retrieval_per_attribute():
     # The across-attribute aggregate uses the adjusted form, never raw P@10.
     assert "retrieval_adjusted" in record
     assert "probe_macro_f1" in record
+
+
+# --- exact-constant negative control ------------------------------------
+#
+# An exactly constant encoder E(x) = c carries no input-dependent structure at
+# all. No preprocessing can manufacture label information from it. These pin
+# that floor, and separate it from the near-constant case above, which is a
+# different thing entirely and must not be described with the same words.
+
+
+def constant_features(samples=600, dim=32, value=1.0):
+    return np.full((samples, dim), value)
+
+
+def test_an_exactly_constant_encoder_cannot_be_probed_above_chance():
+    """The genuine floor. Standardization cannot create information here:
+    StandardScaler maps a zero-variance column to zeros."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 10, 600)
+    features = constant_features()
+
+    for standardize in (True, False):
+        scores = linear_probe_scores(
+            features[:450], labels[:450], features[450:], labels[450:],
+            standardize=standardize,
+        )
+        # Only the majority class can ever be predicted, so accuracy equals the
+        # majority rate rather than 1/k.
+        assert scores["accuracy"] <= scores["majority"] + 1e-9
+
+
+def test_standardizing_an_exact_constant_yields_no_signal():
+    """The mechanism: zero variance in, zeros out. Contrast with the
+    near-constant case, where a real residue survives division."""
+    from sklearn.preprocessing import StandardScaler
+
+    scaled = StandardScaler().fit_transform(constant_features())
+    assert np.allclose(scaled, 0.0)
+
+
+def test_an_exact_constant_is_distinguishable_from_a_contracted_representation():
+    """These are different failures and the project must not conflate them:
+    one has no recoverable information, the other has it at a small scale."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 10, 600)
+    signal = np.eye(10)[labels] @ rng.normal(size=(10, 32))
+    contracted = np.ones((600, 32)) + 1e-3 * signal / signal.std()
+
+    exact = linear_probe_scores(
+        constant_features()[:450], labels[:450], constant_features()[450:], labels[450:],
+    )
+    near = linear_probe_scores(
+        contracted[:450], labels[:450], contracted[450:], labels[450:],
+    )
+    assert exact["accuracy"] <= exact["majority"] + 1e-9
+    assert near["accuracy"] > 0.9
+
+
+# --- the regularisation / stopping-rule confound ------------------------
+
+
+def test_a_fixed_C_makes_probe_accuracy_depend_on_feature_scale():
+    """Same information, different scale, fixed C: the score moves. This is why
+    a raw-versus-standardized comparison at fixed C measures the protocol."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 4, 400)
+    base = np.eye(4, 16)[labels] + 0.05 * rng.normal(size=(400, 16))
+    fixed = ProbeConfig(c_grid=(1.0,), tol=1e-4, max_iter=1000)
+
+    big = linear_probe_scores(base[:300], labels[:300], base[300:], labels[300:],
+                              standardize=False, config=fixed)
+    small = linear_probe_scores(base[:300] * 1e-3, labels[:300], base[300:] * 1e-3,
+                                labels[300:], standardize=False, config=fixed)
+    assert big["accuracy"] - small["accuracy"] > 0.3
+
+
+def test_selecting_C_on_validation_removes_most_of_that_scale_dependence():
+    """The correction. The same two representations, same information, now
+    scored comparably because the regularisation is chosen per representation."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 4, 400)
+    base = np.eye(4, 16)[labels] + 0.05 * rng.normal(size=(400, 16))
+
+    big = linear_probe_scores(base[:300], labels[:300], base[300:], labels[300:],
+                              standardize=False)
+    small = linear_probe_scores(base[:300] * 1e-3, labels[:300], base[300:] * 1e-3,
+                                labels[300:], standardize=False)
+    assert abs(big["accuracy"] - small["accuracy"]) < 0.1
+
+
+def test_C_is_never_selected_on_the_test_split():
+    """Selection touching test would inflate every reported number. Verified by
+    giving test labels that are pure noise: the choice must not react."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 4, 400)
+    features = np.eye(4, 16)[labels] + 0.1 * rng.normal(size=(400, 16))
+
+    honest = linear_probe_scores(features[:300], labels[:300], features[300:], labels[300:])
+    shuffled = linear_probe_scores(
+        features[:300], labels[:300], features[300:], rng.permutation(labels[300:])
+    )
+    assert honest["selected_C"] == shuffled["selected_C"]
+
+
+# --- convergence reporting ----------------------------------------------
+
+
+def test_every_score_carries_its_optimisation_metadata():
+    """A score without these is uninterpretable, so they cannot be optional."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 3, 200)
+    features = rng.normal(size=(200, 8)) + np.eye(3, 8)[labels]
+    scores = linear_probe_scores(features[:150], labels[:150], features[150:], labels[150:])
+
+    for key in ("n_iter", "converged", "underfit_train", "warnings",
+                "selected_C", "feature_scale", "train_accuracy", "standardized"):
+        assert key in scores, key
+
+
+def test_a_convergence_failure_is_recorded_rather_than_swallowed():
+    """Capped iterations on a hard problem must surface in the record."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 5, 300)
+    features = rng.normal(size=(300, 40))
+    capped = ProbeConfig(c_grid=(1e5,), tol=1e-14, max_iter=2)
+    scores = linear_probe_scores(features[:200], labels[:200], features[200:], labels[200:],
+                                 standardize=False, config=capped)
+    assert scores["converged"] == 0.0
+    assert scores["warnings"]
+
+
+def test_the_silent_failure_is_flagged_even_though_sklearn_reports_success():
+    """The dangerous case. lbfgs stops after two or three iterations having
+    learned nothing, and raises NO ConvergenceWarning -- so `converged` alone
+    would certify it. `underfit_train` is what exposes it."""
+    rng = np.random.default_rng(0)
+    labels = rng.integers(0, 10, 400)
+    tiny = np.ones((400, 32)) + 1e-9 * rng.normal(size=(400, 32))
+    loose = ProbeConfig(c_grid=(1.0,), tol=1e-4, max_iter=1000)
+    scores = linear_probe_scores(tiny[:300], labels[:300], tiny[300:], labels[300:],
+                                 standardize=False, config=loose)
+    assert scores["underfit_train"] == 1.0
+    assert scores["converged"] == 1.0, "no warning is raised: that is the danger"
+    assert scores["n_iter"] > 0, "and it is not detectable from the iteration count"

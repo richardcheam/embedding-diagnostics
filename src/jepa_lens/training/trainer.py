@@ -241,6 +241,16 @@ class Trainer:
             # about 0.60 — an accuracy reported without its floor is unreadable.
             chance = retrieval_chance(eval_labels)
 
+            # Optimisation metadata travels with every probe number, for both
+            # variants. Without it a reader cannot tell a genuine chance-level
+            # reading from a probe whose optimiser stopped before it moved --
+            # the two are indistinguishable in the accuracy alone. See
+            # diagnostics/probe.py.
+            for variant, scores in (("", probe), ("_unscaled", probe_raw)):
+                for key in ("selected_C", "n_iter", "converged", "underfit_train",
+                            "train_accuracy", "feature_scale"):
+                    record[f"probe_{key}{variant}{suffix}"] = scores[key]
+
             if name is not None:
                 record[f"probe_accuracy{suffix}"] = probe["accuracy"]
                 record[f"probe_accuracy_unscaled{suffix}"] = probe_raw["accuracy"]

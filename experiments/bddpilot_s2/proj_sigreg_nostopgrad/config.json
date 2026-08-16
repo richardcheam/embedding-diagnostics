@@ -1,5 +1,5 @@
 {
-  "seed": 1,
+  "seed": 2,
   "data": {
     "dataset": "bdd100k",
     "root": "data/bdd100k",
@@ -17,7 +17,7 @@
     "num_heads": 3,
     "mlp_ratio": 4.0,
     "predictor_hidden_dim": 384,
-    "projector_dim": 0,
+    "projector_dim": 512,
     "projector_hidden_dim": 512
   },
   "masking": {
@@ -44,11 +44,11 @@
     "output_root": "./experiments"
   },
   "strategy": {
-    "name": "none_nostopgrad",
+    "name": "proj_sigreg_nostopgrad",
     "uses_ema_target": false,
     "detaches_target": false,
     "ema_decay": 0.996,
-    "sigreg_weight": 0.0,
+    "sigreg_weight": 0.0526,
     "sigreg_num_slices": 1024,
     "sigreg_num_freqs": 17,
     "sigreg_freq_max": 3.0

@@ -40,6 +40,7 @@
   "logging": {
     "checkpoint_every": 200,
     "projection_samples": 500,
+    "save_artifacts": true,
     "output_root": "./experiments"
   },
   "strategy": {

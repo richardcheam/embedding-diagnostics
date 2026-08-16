@@ -1,5 +1,5 @@
 {
-  "seed": 1,
+  "seed": 2,
   "data": {
     "dataset": "bdd100k",
     "root": "data/bdd100k",
@@ -44,9 +44,9 @@
     "output_root": "./experiments"
   },
   "strategy": {
-    "name": "none_nostopgrad",
+    "name": "none_stopgrad",
     "uses_ema_target": false,
-    "detaches_target": false,
+    "detaches_target": true,
     "ema_decay": 0.996,
     "sigreg_weight": 0.0,
     "sigreg_num_slices": 1024,

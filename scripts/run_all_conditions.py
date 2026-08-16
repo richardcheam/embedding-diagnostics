@@ -180,7 +180,20 @@ def run_sequential(args: argparse.Namespace, jobs) -> int:
 
     for job in jobs:
         print(f"\n=== {job.condition} (seed {job.seed} -> {job.tag}) ===", flush=True)
-        result = subprocess.run(build_command(job, args), env=environment, check=False)
+        # Write train.log here too. Sequential runs used to leave it untouched,
+        # so a stale log from an earlier crashed parallel attempt survived beside
+        # fresh metrics -- two runs of the BDD pilot looked like OOM failures
+        # when they had actually succeeded on the rerun.
+        run_dir = job.run_dir(ROOT / "experiments")
+        run_dir.mkdir(parents=True, exist_ok=True)
+        with (run_dir / "train.log").open("w", encoding="utf-8") as handle:
+            result = subprocess.run(
+                build_command(job, args),
+                env=environment,
+                stdout=handle,
+                stderr=subprocess.STDOUT,
+                check=False,
+            )
         if result.returncode != 0:
             print(f"{job.label} failed with code {result.returncode}", file=sys.stderr)
             return result.returncode

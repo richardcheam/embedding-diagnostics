@@ -130,6 +130,59 @@ def test_parallel_pins_each_child_to_its_assigned_gpu():
     assert waves == [[("a", 2), ("b", 2)], [("c", 2)]]
 
 
+def test_sequential_writes_a_train_log_beside_the_metrics(tmp_path, monkeypatch, job):
+    """Regression: sequential runs left train.log untouched, so a stale log from
+    an earlier crashed attempt survived beside fresh metrics. Two BDD pilot runs
+    read as OOM failures when the rerun had actually succeeded."""
+    import subprocess
+
+    import run_all_conditions as runner
+
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+
+    def fake_run(command, env=None, stdout=None, stderr=None, check=False):
+        stdout.write("child output\n")
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(runner.subprocess, "run", fake_run)
+    args = make_args()
+    args.gpus = None
+    assert runner.run_sequential(args, [job]) == 0
+
+    log = tmp_path / "experiments" / job.tag / job.condition / "train.log"
+    assert log.read_text() == "child output\n"
+
+
+def test_sequential_truncates_a_stale_log_rather_than_appending(tmp_path, monkeypatch, job):
+    import subprocess
+
+    import run_all_conditions as runner
+
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+    run_dir = tmp_path / "experiments" / job.tag / job.condition
+    run_dir.mkdir(parents=True)
+    (run_dir / "train.log").write_text("OLD CRASH: torch.OutOfMemoryError\n")
+
+    def fake_run(command, env=None, stdout=None, stderr=None, check=False):
+        stdout.write("fresh run\n")
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(runner.subprocess, "run", fake_run)
+    args = make_args()
+    args.gpus = None
+    runner.run_sequential(args, [job])
+    assert "OutOfMemoryError" not in (run_dir / "train.log").read_text()
+
+
+def test_replace_does_not_delete_train_log():
+    """The parallel runner holds an open handle on train.log and passes it as the
+    child's stdout. Unlinking it in the child would leave the parent writing to a
+    deleted inode, losing the log of the run that is happening right now."""
+    source = (Path(__file__).resolve().parents[1] / "scripts" / "train.py").read_text()
+    replace_block = source.split("if args.replace:")[1].split("with RunLogger")[0]
+    assert "train.log" not in replace_block.replace("# NOT train.log", "")
+
+
 def test_sequential_pins_to_a_single_named_gpu(tmp_path, monkeypatch, job):
     """Regression: --gpus used to apply only under --parallel, so a sequential
     run with --gpus 2 trained on GPU 0 with no error at all."""
@@ -139,7 +192,9 @@ def test_sequential_pins_to_a_single_named_gpu(tmp_path, monkeypatch, job):
 
     seen = {}
 
-    def fake_run(command, env=None, check=False):
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+
+    def fake_run(command, env=None, stdout=None, stderr=None, check=False):
         seen["device"] = (env or {}).get("CUDA_VISIBLE_DEVICES")
         return subprocess.CompletedProcess(command, 0)
 
@@ -162,7 +217,7 @@ def test_sequential_refuses_several_gpus_rather_than_picking_one(monkeypatch, jo
     assert runner.run_sequential(args, [job]) == 2
 
 
-def test_sequential_without_gpus_leaves_the_environment_alone(monkeypatch, job):
+def test_sequential_without_gpus_leaves_the_environment_alone(tmp_path, monkeypatch, job):
     """No --gpus means inherit whatever the shell set, including an existing
     CUDA_VISIBLE_DEVICES the user exported themselves."""
     import subprocess
@@ -170,9 +225,10 @@ def test_sequential_without_gpus_leaves_the_environment_alone(monkeypatch, job):
     import run_all_conditions as runner
 
     monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "3")
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
     seen = {}
 
-    def fake_run(command, env=None, check=False):
+    def fake_run(command, env=None, stdout=None, stderr=None, check=False):
         seen["device"] = (env or {}).get("CUDA_VISIBLE_DEVICES")
         return subprocess.CompletedProcess(command, 0)
 

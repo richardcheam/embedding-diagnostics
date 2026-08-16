@@ -102,6 +102,9 @@ def main() -> int:
     if args.replace:
         # Deliberately narrow: only the files a rerun regenerates. Anything else
         # in this directory was not written by us and is not ours to delete.
+        # NOT train.log: under --parallel the runner holds an open handle on it
+        # and passes it as this process's stdout. Unlinking it here would leave
+        # the parent writing to a deleted inode. The runner truncates it instead.
         for name in ("metrics.jsonl", "config.json", "encoder.pt", "embeddings.npz"):
             stale = run_dir / name
             if stale.exists():

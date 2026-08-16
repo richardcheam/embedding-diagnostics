@@ -7,7 +7,7 @@ If the terms below are unfamiliar — embedding, collapse, linear probe, stop-gr
 read [`primer.md`](primer.md) first. It builds all of them from scratch and takes about
 half an hour.
 
-Last updated: 2026-08-14, after Phase A completed (5 seeds, CIFAR-10).
+Last updated: 2026-08-16, after the Phase-B pilot on BDD100K (3 seeds).
 
 ---
 
@@ -63,6 +63,55 @@ The one transformation that destroyed retrieval moved variance and rank the *oth
 So "cosine near 1" and "variance collapsed" are statements about geometry, not about
 whether the representation is still useful. Sections 3-5 below were written before this was
 known and should be read with it in mind.
+
+### Phase B pilot: the blindness reproduces on driving data, and it is worse
+
+**Status: BDD100K pilot complete** — 7 conditions × 3 seeds, 4,000 steps. This is a
+*pilot*, not the claim-grade Phase-B run: 3 seeds, and it was launched to size the budget.
+Read it as a strong indication, not a result. The full 5-seed matrix is still to run.
+
+The Phase-A finding was that a collapsed encoder scores 0.413 on the standardized probe
+against a 0.100 chance floor. The obvious objection is that CIFAR-10 is a toy. On driving
+data the effect is **larger**:
+
+| condition | total var | cosine | probe uns. | **probe std.** | retr. P@10 | RankMe | PR |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `ema_stopgrad` (healthy) | 108.6 | 0.256 | 0.769 | **0.768** | 0.676 | 78.9 | 11.2 |
+| `none_stopgrad` (weakest real) | 49.1 | 0.549 | 0.735 | **0.738** | 0.628 | 9.7 | 1.6 |
+| `none_nostopgrad` (**dead**) | 0.0001 | 1.000 | 0.564 | **0.737** | 0.566 | 1.1 | 26.9 |
+| *floor* | — | — | 0.564 | 0.564 | 0.429 | — | — |
+
+**The standardized probe cannot separate a dead encoder from a real one at all.** Dead
+0.7375 versus the weakest genuinely-training run at 0.7383 — a difference of **−0.0008**
+against a 2×SD threshold of 0.0116. Not separable, and consistent across all three seeds.
+On CIFAR-10 the dead-to-healthy gap was 0.128; here it is **0.030**, four times smaller.
+
+**Retrieval is dangerous rather than blind.** It does separate them (−0.062, 2×SD 0.056 —
+just clears), so it is better here than on CIFAR where it could not. But the absolute
+reading is the problem: a dead encoder retrieves at **1.34× chance on weather and 1.57× on
+timeofday**. Seeing P@10 = 0.544 on weather against a 0.406 floor, nobody would suspect the
+encoder had collapsed to a single point.
+
+**The participation ratio is confidently inverted.** It reads 26.9 on the dead encoder
+against 11.2 on the healthy baseline — ranking the corpse second of seven, above every real
+run, by a margin that clears the claim rule in the wrong direction.
+
+**What still works:** total variance (0.0001), mean pairwise cosine (1.0000), RankMe (1.06),
+and the unscaled probe — which lands on **0.5635 against a majority floor of 0.5636**, exact
+to four decimals in all three seeds. Perfect detection.
+
+So the label-free panel that survives both datasets is: **total variance + RankMe +
+the unscaled probe.** Standardized probing and the participation ratio fail on both, and
+retrieval — the operation scenario mining actually performs — reads comfortably above
+chance on an encoder with no information in it.
+
+**Budget note.** Balanced accuracy on weather (the endpoint that actually moves) gained
++0.041 over the first 1,000 steps and +0.009 over the last 1,000: decelerating but not
+flat. 4,000 steps captures ~91% of the learning. With fixed compute, spend it on **seeds
+rather than steps** — the claim rule is driven by across-seed spread, so more seeds buy
+credibility that longer training does not.
+
+---
 
 ### Phase A is done, and it answered the question
 

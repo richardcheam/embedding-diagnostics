@@ -243,3 +243,18 @@ def test_fit_saves_artifacts_by_default(tmp_path):
 
     assert (tmp_path / "run" / "encoder.pt").exists()
     assert (tmp_path / "run" / "embeddings.npz").exists()
+
+
+def test_saved_artifacts_include_the_train_split_for_offline_reprobing(tmp_path):
+    """Refitting a probe offline needs TRAIN embeddings, not just test. Storing
+    only test forces recovery back through encoder.pt and the raw dataset."""
+    trainer = Trainer(tiny_config("ema_stopgrad"))
+    rng = np.random.default_rng(0)
+    probe_train = (torch.randn(20, 3, 32, 32), rng.integers(0, 3, 20))
+    probe_test = (torch.randn(10, 3, 32, 32), rng.integers(0, 3, 10))
+
+    trainer.save_artifacts(tmp_path, probe_test, probe_train)
+    stored = np.load(tmp_path / "embeddings.npz")
+    assert stored["features"].shape == (10, 16)
+    assert stored["train_features"].shape == (20, 16)
+    assert stored["train_labels"].shape == (20,)

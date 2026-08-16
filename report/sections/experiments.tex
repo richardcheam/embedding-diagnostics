@@ -60,9 +60,29 @@ $+0.005$). Secondary: total variance, mean pairwise cosine, participation ratio,
 per-component losses, the standardized/unscaled probe gap, and retrieval P@10. On BDD100K
 the primary semantic endpoint is retrieval P@10 per scenario attribute.
 
-\paragraph{Claim rule.} A between-condition difference is claimed only if it clears twice
-the across-seed standard deviation \emph{and} the probe's binomial standard error
-($\approx 0.007$ at $n=5{,}000$ test samples).
+\paragraph{Analysis.} Paired Student-t. For each pre-declared contrast we compute the
+per-seed differences $d_i$, their mean, the sample standard deviation (ddof 1), the standard
+error $s_d/\sqrt{n}$, and the two-sided 95\% interval $\bar{d} \pm t_{0.975,\,n-1}\cdot
+\mathrm{SE}$. The five contrasts are listed in \texttt{jepa\_lens.stats.CONTRASTS}; EMA is a
+reference baseline only, never a contrast arm, since it differs from the others in two
+factors at once. \textbf{No verdicts are issued}: no result is labelled significant, real,
+learned, or collapsed. Intervals are reported as estimates, not tests.
+
+\emph{What the interval covers:} training-seed variability conditional on the fixed
+evaluation split. Not split choice, dataset, or architecture.
+
+\emph{Power:} with $n=5$, $t_{0.975,4}=2.776$, so the half-width is about 1.24 seed SDs and
+effects below roughly 1.3 seed SDs are unresolvable. A wide interval is not a null result.
+
+\emph{Multiplicity:} five contrasts across several endpoints, reported without correction.
+
+\paragraph{A rule that was withdrawn before any run.} An earlier draft used a decision
+heuristic --- claim a difference only if it clears twice the across-seed SD and the probe's
+binomial standard error. It was withdrawn on 2026-08-14 (commit \texttt{96184e2}), before
+any Phase-A data existed, because it was not a paired analysis and functioned as an
+arbitrary decision threshold. It is recorded here because an earlier version of this report
+mistakenly described that withdrawn rule as pre-registered and reported Phase-A results
+under it. See Section~\ref{sec:provenance}.
 
 \paragraph{Falsification.} The projector hypothesis is falsified if
 \texttt{proj\_sigreg\_nostopgrad} collapses as badly as \texttt{sigreg\_nostopgrad} on all

@@ -271,14 +271,39 @@ for whatever looks best. The report's pre-registration is in the Experiments sec
 **unedited** even where reality deviated (3 seeds registered, 5 run — footnoted, not
 rewritten).
 
-**The claim rule.** A difference is claimed only if it exceeds **twice the across-seed
-standard deviation**. If run-to-run noise is ±5 and conditions differ by 3, that is noise.
-This rule is deliberately strict; the report applies it as written, and it kills three
-results that would have looked significant otherwise.
+**The analysis.** Paired Student-t 95% confidence intervals over five pre-declared
+contrasts. For each contrast you take the per-seed differences, average them, and put an
+interval around that average wide enough to cover run-to-run noise. The interval is an
+*estimate*, not a test: no result gets labelled significant, real, learned, or collapsed.
+
+An earlier draft of this project used a decision rule instead — "claim a difference only if
+it exceeds twice the across-seed standard deviation" — and that rule was **withdrawn before
+any data existed**, because it was not a paired analysis and worked as an arbitrary
+threshold. If you see it quoted anywhere as pre-registered, that text is wrong and is being
+corrected; see the report's Provenance section.
 
 ---
 
 ## 7. The finding
+
+> ⚠️ **Read this box before the numbers.** The unstandardized-probe half of this section is
+> **under revision, and the numbers below are provisional.** The probe used during these
+> runs had a defect: on very small-scale features the optimiser's stopping rule is satisfied
+> before it fits anything, so it predicts the majority class and reports chance — without
+> raising any warning. So "the unstandardized probe correctly reports the encoder as dead"
+> may be an artifact of the measurement rather than a fact about the representation. The
+> geometric numbers (variance, cosine, RankMe) and retrieval are unaffected. Corrected
+> values are being recomputed from the saved encoders. This section is kept as written so
+> the correction is visible.
+
+> ⚠️ **Read this box first.** The unstandardized-probe half of this section is **under
+> revision.** The probe used during these runs had a defect: on very small-scale features
+> the optimiser's stopping rule is met before it fits anything, so it predicts the majority
+> class and reports chance — with no warning. That means "the unstandardized probe correctly
+> reports the encoder as dead" may be an artifact of the measurement rather than a fact
+> about the representation. The geometric numbers (variance, cosine, RankMe) and retrieval
+> are unaffected. The corrected numbers are being recomputed. Everything below is retained
+> so the correction is visible, not because it is settled.
 
 Everything above was setup. Here is the result.
 

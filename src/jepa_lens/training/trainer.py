@@ -336,9 +336,11 @@ class Trainer:
         logger.log(record)
 
         if self.config["logging"].get("save_artifacts", True):
-            self.save_artifacts(logger.run_dir, probe_test)
+            self.save_artifacts(logger.run_dir, probe_test, probe_train)
 
-    def save_artifacts(self, run_dir: Path, probe_test: tuple) -> None:
+    def save_artifacts(
+        self, run_dir: Path, probe_test: tuple, probe_train: tuple | None = None
+    ) -> None:
         """Persist the final encoder and its evaluation embeddings.
 
         Without this a run is answerable only by the diagnostics that happened
@@ -360,10 +362,21 @@ class Trainer:
 
         test_images, test_labels = probe_test
         features = self.encode_all(test_images)
+        # Both splits. Refitting a probe offline needs the TRAIN embeddings too,
+        # and storing only test forced recovery to go back through encoder.pt
+        # and the raw dataset -- which works, but needs the data present.
+        train_features = self.encode_all(probe_train[0]) if probe_train is not None else None
         # Labels are a plain array on CIFAR-10 and a dict of named attributes
         # on BDD100K; savez flattens the dict so each attribute lands under
         # its own key and neither dataset family needs special handling later.
         arrays = {"features": features}
+        if train_features is not None:
+            arrays["train_features"] = train_features
+            train_labels = probe_train[1]
+            if isinstance(train_labels, dict):
+                arrays.update({f"train_labels_{k}": v for k, v in train_labels.items()})
+            else:
+                arrays["train_labels"] = train_labels
         if isinstance(test_labels, dict):
             arrays.update({f"labels_{name}": value for name, value in test_labels.items()})
         else:

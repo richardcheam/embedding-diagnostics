@@ -217,8 +217,12 @@ put a number on the page whose stated basis is wrong.
 
 The scorecard verdicts each diagnostic on whether it ranks the collapsed control below
 `none_stopgrad`, the weakest condition that still genuinely trains, with the margin
-required to clear twice the across-seed SD. On Phase A that gives 1 correct (unscaled
-probe), 4 unresolved, and 2 actively inverted (standardized probe, participation ratio).
+required to clear twice the across-seed SD. **Both the comparator and that threshold were
+chosen after seeing results — this scorecard is exploratory, not pre-registered**, and the
+threshold is a withdrawn heuristic retained here only for the panel's descriptive purpose.
+On Phase A it gives 1 correct (unscaled probe), 4 unresolved, and 2 inverted (standardized
+probe, participation ratio) — but the unscaled-probe row is itself under recomputation, see
+below.
 
 ## One environment for every machine
 
@@ -275,7 +279,13 @@ content**. Contracting embeddings 10,000x, or driving mean pairwise cosine to 1.
 retrieval P@10 at exactly 1.000. The transformations that *do* destroy retrieval move
 variance and rank in the opposite direction.
 
-**Phase A, under a pre-registered claim rule (5 paired seeds, CIFAR-10):**
+> ⚠️ **Probe endpoints under recomputation.** A defect in the probe protocol used during
+> training means every *unstandardized* probe number below is provisional: on severely
+> scale-contracted embeddings the optimiser stops before fitting, predicts the majority
+> class, and reports chance without warning. Geometric endpoints and retrieval are
+> unaffected. See the report's Provenance section.
+
+**Phase A (5 paired seeds, CIFAR-10), paired Student-t 95% intervals:**
 
 The control condition with no collapse prevention collapses to a point — total variance
 0.0002, mean pairwise cosine 1.0000, unscaled probe accuracy 0.107 against a 0.100 chance

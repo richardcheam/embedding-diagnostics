@@ -7,7 +7,7 @@ diagnostic study, not a benchmark attempt. Nothing here is trying to reach state
 
 ## Non-negotiable constraints
 
-**One training loop.** All four conditions run through `Trainer` in
+**One training loop.** All seven conditions run through `Trainer` in
 `src/jepa_lens/training/trainer.py`. The only thing that varies is the
 `CollapsePreventionStrategy`. Never add a condition-specific branch to the loop — if a
 condition needs different behaviour, it goes behind the strategy interface. A difference in
@@ -103,7 +103,11 @@ added by the audit:
   probe (or retrieval P@10 on BDD). Never select best-over-checkpoints as a result; the
   expected max of 21 noise checkpoints is already +0.005.
 - **No single-seed claims.** A difference is real only if it clears 2x the across-seed SD
-  and the probe's binomial SE (~0.007 at n=5000). `aggregate_seeds.py` prints the rule.
+  **WITHDRAWN 2026-08-14 (96184e2), before any Phase-A run.** It was not a paired
+  analysis and acted as an arbitrary threshold. The protocol in force is paired
+  Student-t 95% intervals over the five contrasts in `jepa_lens.stats.CONTRASTS`, with
+  no verdict language: never label a result significant, real, learned, or collapsed.
+  `aggregate_seeds.py` prints the intervals.
 - **The projector is part of the design.** SIGReg results without a projector describe the
   no-projector configuration, not SIGReg. Keep `reg_embedding` distinct from
   `context_embedding` — the rename exists so this cannot be missed silently.

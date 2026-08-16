@@ -244,7 +244,7 @@ RankMe.
 Decisions taken, with the owner's goals (ADAS-validation CIFRE preparation, portfolio
 credibility) steering: reframe around diagnostic reliability with the conditions as
 manufactured degeneration modes; add the projector arm and `none_stopgrad`; 3 paired
-seeds; fixed-step endpoints and a pre-registered claim rule; per-phenomenon reporting
+seeds; fixed-step endpoints and (initially) a claim rule later withdrawn; per-phenomenon reporting
 instead of binary verdicts; Phase B on BDD100K with scenario-attribute retrieval as the
 primary semantic endpoint. Full pre-registration in the Phase-2 spec and the report.
 

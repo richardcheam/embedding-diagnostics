@@ -37,7 +37,7 @@ The audit's two design findings, both now fixed in code:
    missing, so stop-gradient's effect could not be separated from SIGReg's. Added.
 
 Plus the statistics fixes: paired seeds (registered at 3, run at 5), fixed-step endpoints instead of
-best-over-checkpoints, a pre-registered claim rule (2x seed SD and the probe's binomial
+best-over-checkpoints, paired Student-t 95% intervals (the 2x-seed-SD/binomial
 SE), and the rank metric renamed to what it actually is (participation ratio, with RankMe
 added as a genuinely different measure).
 
@@ -177,8 +177,13 @@ credibility that longer training does not.
 
 ### Phase A is done, and it answered the question
 
+> ⚠️ **Unstandardized probe endpoints are provisional and under recomputation.** The probe
+> used during these runs stops before fitting on severely scale-contracted features,
+> predicting the majority class and reporting chance with no warning. Geometric endpoints
+> and retrieval are unaffected. See the report's Provenance section.
+
 **Status: Phase A complete** — 7 conditions × 5 paired seeds on CIFAR-10, endpoints read at
-the pre-registered final checkpoint, pre-registered claim rule applied as written. Phase B
+the pre-registered final checkpoint, analysed with paired Student-t intervals. Phase B
 is next; BDD100K is confirmed present on the GPU box (70k train / 10k val,
 per-image-JSON layout, 61,591 + 8,801 fully labelled).
 
@@ -327,7 +332,7 @@ the probed representation:
 Tier 2 constrains how these may be read: cosine near 1 is angular concentration, which is
 not by itself information loss.
 
-### Tier 2b — Phase-A results under a pre-registered claim rule (claim-grade)
+### Tier 2b — Phase-A results under paired Student-t intervals
 
 7 conditions x 5 paired seeds, CIFAR-10, endpoints fixed in advance. These are the
 strongest *training* results the project holds; only the stress test (Tier 2) is stronger,

@@ -10,12 +10,24 @@ changed --- conditions, budget, checkpoint interval, endpoint definitions, and t
 rule are as registered. The three-seed pilot that preceded this is retained separately as
 \texttt{phaseApilot} and none of its numbers appear below.
 
-\paragraph{How to read the claim column.} The pre-registered claim rule is stricter than a
-confidence interval: a difference is claimed only if its magnitude exceeds twice the
-across-seed standard deviation of the paired differences, \emph{and}, for the probe, the
-binomial standard error of $0.007$. Several contrasts below have 95\% intervals excluding
-zero yet fail this rule. We report them as unclaimed. The rule was fixed in advance and we
-apply it as written.
+\paragraph{Correction to an earlier version of this section.} An earlier version reported
+the results below under a ``pre-registered claim rule'' of twice the across-seed standard
+deviation plus the probe's binomial standard error, and stated that the rule ``was fixed in
+advance and we apply it as written''. \textbf{That was false.} That heuristic had been
+withdrawn on 2026-08-14, roughly four hours before any Phase-A data existed, and replaced
+with the paired Student-t protocol in Section~\ref{sec:prereg}. The starred cells in
+Table~\ref{tab:phasea} mark that withdrawn heuristic and are retained only so the earlier
+error is visible; they carry no inferential weight. Read the intervals, not the stars.
+Section~\ref{sec:provenance} sets out what was fixed when.
+
+\paragraph{Probe endpoints are under recomputation.} A defect was found in the probe
+protocol used during training (Section~\ref{sec:probe-defect}): on severely
+scale-contracted embeddings the optimiser's stopping rule is satisfied before it fits, so
+it returns the majority-class prediction and reports chance without raising a warning.
+\textbf{Every unstandardized probe number in this section is therefore provisional} and is
+being recomputed from the saved encoders. The geometric endpoints --- total variance, mean
+pairwise cosine, RankMe, participation ratio --- and retrieval are unaffected, since no
+probe is involved in them.
 
 \subsection{The headline: geometry and semantics are separately unresolvable}
 
@@ -34,7 +46,8 @@ apply it as written.
 \bottomrule
 \end{tabular}
 \caption{\ours{} Paired mean differences over five seeds. $^\star$ = clears the
-pre-registered claim rule. \texttt{sg} abbreviates \texttt{stopgrad}. Geometric endpoints
+withdrawn heuristic, retained only to make the earlier error visible and carrying no
+inferential weight. \texttt{sg} abbreviates \texttt{stopgrad}. Geometric endpoints
 clear the rule in 8 of 10 cells; the primary semantic endpoint clears it in 2 of 5.}
 \label{tab:phasea}
 \end{table}

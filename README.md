@@ -220,6 +220,27 @@ The scorecard verdicts each diagnostic on whether it ranks the collapsed control
 required to clear twice the across-seed SD. On Phase A that gives 1 correct (unscaled
 probe), 4 unresolved, and 2 actively inverted (standardized probe, participation ratio).
 
+## One environment for every machine
+
+`uv sync` installs the same CUDA 12.8 torch build everywhere, and that is intentional — do
+not repin per machine. CUDA drivers are **backward** compatible, so cu128 runs on a 12.8
+driver and on a 13.0 driver alike, while a cu130 build cannot run on a 12.8 driver at all.
+Pinning cu130 for a newer box would break the older one. cu128 also carries sm_75 through
+sm_120 kernels and publishes both `x86_64` and `aarch64` wheels, so a Turing workstation and
+a Grace-Hopper (ARM) node install from the same lockfile. Comparable results across machines
+need the same build on all of them.
+
+Confirm on any new box before spending GPU time — it names the exact problem if there is one:
+
+```bash
+uv run python scripts/check_environment.py --device cuda
+```
+
+On a large-memory node, raise `--jobs-per-gpu` well above the 2 that suits a 24 GB card: at
+3.6–7.9 GB per BDD job a 144 GB device fits well over a dozen. The CPU saturates before the
+GPU does — each job runs dataloader workers *and* fits two sklearn probes per checkpoint —
+so raise it until steps/sec stops improving, then stop.
+
 ## Workflow across machines
 
 Development happens without a GPU; training happens elsewhere. Run logs are small and

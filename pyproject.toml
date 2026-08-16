@@ -16,6 +16,15 @@ dependencies = [
 [dependency-groups]
 dev = ["pytest>=8.0", "ruff>=0.6"]
 
+# ONE PIN FOR EVERY MACHINE. cu128 is deliberate and should not be "upgraded"
+# per-machine: CUDA drivers are BACKWARD compatible, so a cu128 build runs on a
+# 12.8 driver and equally on a 13.0 one, while a cu130 build cannot run on 12.8
+# at all. Pinning cu130 for a newer box would therefore break the older one --
+# the exact failure this project already hit. cu128 also ships sm_75 through
+# sm_120 kernels and both x86_64 and aarch64 wheels, so it covers a Turing
+# workstation and a Grace-Hopper node from the same lockfile. Results have to be
+# comparable across machines, which needs the same build on all of them.
+#
 # Linux training machines pull torch from PyTorch's CUDA 12.8 index rather than
 # PyPI. The default PyPI wheel tracks the newest CUDA major version, which a
 # 12.x driver cannot run at all — CUDA is only minor-version compatible, so a

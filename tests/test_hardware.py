@@ -226,3 +226,65 @@ def test_lambda_outside_the_unit_interval_is_rejected():
     for bad in (0.0, 1.0, -0.1, 1.5):
         with pytest.raises(ValueError, match="lambda must be in"):
             lambda_to_weight(bad)
+
+
+# --- running one pinned build across differently-aged machines ----------
+
+
+def gh200(build_cuda="12.8", arch_list=None):
+    """A GH200: Hopper sm_90, Grace ARM host, CUDA 13.0 driver."""
+    return EnvironmentInfo(
+        torch_version=f"2.11.0+cu{build_cuda.replace('.', '')}",
+        build_cuda=build_cuda,
+        driver_cuda=(13, 0),
+        cuda_available=True,
+        device_name="NVIDIA GH200 144GB HBM3e",
+        capability=(9, 0),
+        arch_list=arch_list or ["sm_75", "sm_80", "sm_86", "sm_90", "sm_100", "sm_120"],
+        device_count=2,
+    )
+
+
+def quadro(build_cuda="12.8", arch_list=None):
+    """The other machine: Turing sm_75, CUDA 12.8 driver."""
+    return EnvironmentInfo(
+        torch_version=f"2.11.0+cu{build_cuda.replace('.', '')}",
+        build_cuda=build_cuda,
+        driver_cuda=(12, 8),
+        cuda_available=True,
+        device_name="Quadro RTX 6000",
+        capability=(7, 5),
+        arch_list=arch_list or ["sm_75", "sm_80", "sm_86", "sm_90", "sm_100", "sm_120"],
+        device_count=4,
+    )
+
+
+def test_a_newer_driver_runs_an_older_build():
+    """CUDA drivers are backward compatible: a 13.0 driver runs a cu128 build.
+    Only the reverse fails. Without this the project would need a second pin
+    for every newer machine."""
+    assert diagnose(gh200(), want_cuda=True) == []
+
+
+def test_the_pinned_build_runs_on_both_machines():
+    """The whole reason for one pin: results must be comparable across the two
+    boxes, which needs the same build on both."""
+    assert diagnose(gh200(), want_cuda=True) == []
+    assert diagnose(quadro(), want_cuda=True) == []
+
+
+def test_upgrading_the_pin_to_cu130_would_break_the_older_machine():
+    """The trap. cu130 looks like the natural choice for a CUDA 13.0 box, but a
+    13.x build cannot run on the 12.8 driver -- the exact failure this project
+    already hit once. cu128 is the only pin that serves both."""
+    problems = diagnose(quadro(build_cuda="13.0"), want_cuda=True)
+    assert problems and "cannot run" in problems[0]
+    assert diagnose(gh200(build_cuda="13.0"), want_cuda=True) == []
+
+
+def test_hopper_kernels_must_actually_be_compiled_in():
+    """Driver compatibility is not enough: the build also has to carry sm_90.
+    A wheel that dropped it would fail at the first kernel launch, not import."""
+    without_hopper = ["sm_75", "sm_80", "sm_86"]
+    problems = diagnose(gh200(arch_list=without_hopper), want_cuda=True)
+    assert problems and "sm_90" in problems[0]

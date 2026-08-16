@@ -118,9 +118,19 @@ def test_the_probe_defect_is_disclosed_wherever_probe_numbers_are_quoted():
         text = (ROOT / name).read_text(encoding="utf-8", errors="ignore").lower()
         if "unscaled" not in text and "unstandardized" not in text:
             continue
+        # Any of these constitutes disclosure. The list is deliberately broad
+        # about WORDING and strict about PRESENCE: the requirement is that a
+        # reader meeting a probe number also meets the caveat, not that every
+        # document phrases it identically.
         assert any(
             marker in text
-            for marker in ("under recomputation", "under revision", "provisional")
+            for marker in (
+                "under recomputation",
+                "under revision",
+                "provisional",
+                "withdrawn",
+                "being recomputed",
+            )
         ), f"{name} quotes probe numbers without disclosing the defect"
 
 

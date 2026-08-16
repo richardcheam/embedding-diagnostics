@@ -301,11 +301,15 @@ floor. Here is what the diagnostics say about that encoder:
 | **cosine retrieval P@10** | **0.184 (1.8x chance)** | **blind** |
 | **participation ratio** | **34.98** (healthy baseline 26.90) | **blind, inverted** |
 
-**A dead encoder scores 0.413 on the standardized linear probe** — second of all seven
-conditions, behind only the EMA baseline — and retrieves at 1.8x chance, statistically
-indistinguishable from a partially-working encoder. The mechanism is not exotic and we
-predicted it in advance: standardization divides by per-feature standard deviation, cosine
-retrieval L2-normalizes. Both remove scale by construction, and scale is what was lost.
+**A degenerate encoder scores 0.413 on the standardized linear probe** — second of all
+seven conditions, behind only the EMA baseline — and retrieves at 1.8x chance,
+indistinguishable from a partially-working encoder.
+
+⚠️ The *comparison* with the unstandardized probe (0.107, apparently "correctly dead") is
+**withdrawn**: that probe's optimiser stops before fitting on features this small, predicts
+the majority class, and returns chance without warning. Verified on data where the labels
+are recoverable by construction. Retrieval and the geometric measurements are arithmetic and
+stand; the probe comparison is being recomputed from the saved encoders.
 
 That matters because both blind protocols are the defaults — standardized probing is the
 standard SSL evaluation, cosine similarity the default in essentially every vector database.

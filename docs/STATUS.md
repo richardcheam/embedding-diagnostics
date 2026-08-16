@@ -11,6 +11,31 @@ Last updated: 2026-08-16, after the Phase-B pilot on BDD100K (3 seeds).
 
 ---
 
+## Terminology: what the control condition actually is
+
+The `none_nostopgrad` control is **not** an exactly constant encoder. Its embeddings have
+measurable, consistent, non-zero variance (2.1–2.3e-4 across five seeds; minimum per-feature
+std 7.4–8.4e-4). It is **severely scale-contracted and angularly concentrated**: the cloud
+of points has shrunk by four to five orders of magnitude and every point now aims in nearly
+the same direction.
+
+That distinction is load-bearing, so this document tries to keep six things separate:
+
+| | meaning |
+| --- | --- |
+| exact constant collapse | E(x) = c for every input; no input-dependent structure at all |
+| near-constant scale contraction | structure survives, shrunk by orders of magnitude |
+| angular concentration | vectors aim the same way; magnitudes may still differ |
+| dimensional / rank collapse | spread survives in only a few directions |
+| loss of downstream information | the representation no longer supports the task |
+| numerical fragility | structure survives in float64 but may not in float16 or int8 |
+
+These are not interchangeable, and earlier versions of this document used "dead", "fully
+collapsed" and "constant" as if they were. Whether our control has lost *downstream
+information* is currently unmeasured — see the probe defect below.
+
+---
+
 ## 0. The reframe (read this before the history below)
 
 An external advisor audit found two design flaws that change how everything below must be
@@ -143,19 +168,19 @@ data the effect is **larger**:
 | `none_nostopgrad` (**dead**) | 0.0001 | 1.000 | 0.564 | **0.737** | 0.566 | 1.1 | 26.9 |
 | *floor* | — | — | 0.564 | 0.564 | 0.429 | — | — |
 
-**The standardized probe cannot separate a dead encoder from a real one at all.** Dead
+**The standardized probe cannot separate a degenerate encoder from a real one at all.** Dead
 0.7375 versus the weakest genuinely-training run at 0.7383 — a difference of **−0.0008**
 against a 2×SD threshold of 0.0116. Not separable, and consistent across all three seeds.
 On CIFAR-10 the dead-to-healthy gap was 0.128; here it is **0.030**, four times smaller.
 
 **Retrieval is dangerous rather than blind.** It does separate them (−0.062, 2×SD 0.056 —
 just clears), so it is better here than on CIFAR where it could not. But the absolute
-reading is the problem: a dead encoder retrieves at **1.34× chance on weather and 1.57× on
+reading is the problem: a degenerate encoder retrieves at **1.34× chance on weather and 1.57× on
 timeofday**. Seeing P@10 = 0.544 on weather against a 0.406 floor, nobody would suspect the
 encoder had collapsed to a single point.
 
-**The participation ratio is confidently inverted.** It reads 26.9 on the dead encoder
-against 11.2 on the healthy baseline — ranking the corpse second of seven, above every real
+**The participation ratio is confidently inverted.** It reads 26.9 on the degenerate encoder
+against 11.2 on the healthy baseline — ranking the degenerate encoder second of seven, above every real
 run, by a margin that clears the claim rule in the wrong direction.
 
 **What still works:** total variance (0.0001), mean pairwise cosine (1.0000), RankMe (1.06),
@@ -187,10 +212,21 @@ the pre-registered final checkpoint, analysed with paired Student-t intervals. P
 is next; BDD100K is confirmed present on the GPU box (70k train / 10k val,
 per-image-JSON layout, 61,591 + 8,801 fully labelled).
 
-**The finding that matters.** The control condition with no collapse prevention
-(`none_nostopgrad`) collapses to a point: total variance 0.0002 — four hundred thousand
-times below the baseline — and mean pairwise cosine exactly 1.0000. The unscaled probe
-correctly calls it dead, 0.1066 against a 0.100 chance floor. But:
+**The finding that matters — half of it withdrawn on 2026-08-16.** The control condition
+with no collapse prevention (`none_nostopgrad`) degenerates until the cloud of embeddings is
+essentially one point: total variance 0.0002 — four hundred thousand times below the
+baseline — and mean pairwise cosine exactly 1.0000. Those two are pure arithmetic on the
+embeddings and stand.
+
+⚠️ **What does not stand:** the row below reading "unscaled linear probe 0.1066 → correct".
+The probe's optimiser stops when the slope of its objective gets shallow, and the slope
+scales with how large the input numbers are. At this encoder's scale (~0.001) the slope is
+already below the threshold before a single step, so the probe never fits, predicts the most
+common class, and returns chance — silently. Verified: on synthetic data where the labels
+are perfectly recoverable *by construction*, at the same scale, the unscaled probe reads
+0.096 and the standardized one reads 1.000. And the tell is in our own numbers: 0.1066 sits
+on the always-guess-the-majority score of 0.1088. **Whether a degenerate representation
+retains usable information is currently unmeasured**, not resolved either way.
 
 | metric on the fully-collapsed control | reading | verdict |
 | --- | --- | --- |
@@ -202,15 +238,21 @@ correctly calls it dead, 0.1066 against a 0.100 chance floor. But:
 | **cosine retrieval P@10** | **0.184 (1.8× chance)** | **blind** |
 | **participation ratio** | **34.98** (healthy baseline: 26.90) | **blind, and inverted** |
 
-A dead encoder scores 0.413 on the standardized linear probe — **second of all seven
-conditions**, behind only the EMA baseline and above every other arm. It retrieves at 1.8×
-chance, statistically indistinguishable from a partially-working encoder (paired difference
-+0.002).
+The degenerate encoder scores 0.413 on the standardized linear probe — **second of all
+seven conditions**, behind only the EMA baseline. It retrieves at 1.8× chance,
+indistinguishable from a partially-working encoder (paired difference +0.002). Retrieval is
+arithmetic (sort by angle, count matching labels) so that part stands; the probe comparison
+is what is under recomputation.
 
-The mechanism is not a surprise and we predicted it a priori: standardization divides each
-feature by its standard deviation, cosine retrieval L2-normalizes each vector. **Both
-remove scale by construction, and scale is exactly what was lost.** The residual numerical
-noise is still a deterministic function of the input, so a linear model reads it happily.
+⚠️ **The mechanism we gave for this is also under revision.** We wrote that standardization
+and L2-normalization both "rescale floating-point noise back to readable magnitude". Those
+are not the same operation and that phrasing was never derived. Standardization divides each
+feature by its own standard deviation, which does amplify small per-coordinate differences.
+L2-normalization divides each vector by its length, which does not amplify anything — it
+removes overall size and can preserve tiny angular orderings that were already there. Any
+surviving structure may be genuine angular structure rather than numerical noise. The
+retrieval-robustness study (does the ordering survive float16, int8, approximate search?)
+is what will settle which it is.
 
 What makes this worth reporting is the *reach*, not the mechanism. Standardized probing is
 the default SSL evaluation and cosine similarity is the default in essentially every vector
@@ -338,7 +380,7 @@ not by itself information loss.
 strongest *training* results the project holds; only the stress test (Tier 2) is stronger,
 because there the transformation is known exactly rather than produced by an optimiser.
 
-- A fully collapsed encoder scores 0.413 on the standardized probe and 1.8x chance on
+- A severely contracted encoder scores 0.413 on the standardized probe and 1.8x chance on
   cosine retrieval, while the unscaled probe correctly reads chance. Both blind protocols
   are the field defaults.
 - Geometric contrasts clear the claim rule in 8 of 10 cells; the primary semantic endpoint

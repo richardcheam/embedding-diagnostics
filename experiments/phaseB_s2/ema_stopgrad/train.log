@@ -1,0 +1,33 @@
+environment:
+  torch          : 2.11.0+cu128
+  built for CUDA : 12.8
+  driver CUDA    : ?
+  cuda available : True
+  device         : Quadro RTX 6000
+  device count   : 1
+  capability     : sm_75
+  arch list      : sm_75, sm_80, sm_86, sm_90, sm_100, sm_120
+condition=ema_stopgrad device=cuda seed=2 eval_split_seed=0
+sigreg_weight=0.0
+encoder params=2,755,776
+predictor params=270,912
+steps=4000 -> /home/richard/jepa-lens/experiments/phaseB_s2/ema_stopgrad
+/home/richard/jepa-lens/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:599: ConvergenceWarning: lbfgs failed to converge after 1000 iteration(s) (status=1):
+STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT
+
+Increase the number of iterations to improve the convergence (max_iter=1000).
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+/home/richard/jepa-lens/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:599: ConvergenceWarning: lbfgs failed to converge after 1000 iteration(s) (status=1):
+STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT
+
+Increase the number of iterations to improve the convergence (max_iter=1000).
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+done: /home/richard/jepa-lens/experiments/phaseB_s2/ema_stopgrad/metrics.jsonl

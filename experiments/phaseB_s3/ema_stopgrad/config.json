@@ -1,0 +1,56 @@
+{
+  "seed": 3,
+  "data": {
+    "dataset": "bdd100k",
+    "root": "data/bdd100k",
+    "batch_size": 256,
+    "num_workers": 8,
+    "eval_split_seed": 0,
+    "probe_train_samples": 5000,
+    "probe_test_samples": 8000
+  },
+  "model": {
+    "image_size": 128,
+    "patch_size": 8,
+    "embed_dim": 192,
+    "depth": 6,
+    "num_heads": 3,
+    "mlp_ratio": 4.0,
+    "predictor_hidden_dim": 384,
+    "projector_dim": 0,
+    "projector_hidden_dim": 512
+  },
+  "masking": {
+    "num_target_blocks": 4,
+    "target_block_scale": [
+      0.15,
+      0.2
+    ],
+    "target_block_aspect": [
+      0.75,
+      1.5
+    ]
+  },
+  "optim": {
+    "lr": 0.001,
+    "weight_decay": 0.05,
+    "warmup_steps": 500,
+    "total_steps": 4000
+  },
+  "logging": {
+    "checkpoint_every": 200,
+    "projection_samples": 500,
+    "save_artifacts": true,
+    "output_root": "./experiments"
+  },
+  "strategy": {
+    "name": "ema_stopgrad",
+    "uses_ema_target": true,
+    "detaches_target": true,
+    "ema_decay": 0.996,
+    "sigreg_weight": 0.0,
+    "sigreg_num_slices": 1024,
+    "sigreg_num_freqs": 17,
+    "sigreg_freq_max": 3.0
+  }
+}

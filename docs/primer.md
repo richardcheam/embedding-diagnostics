@@ -315,16 +315,62 @@ This section describes a claim the project made, then refuted with its own data.
 sequence is the point: the withdrawal is better evidence of the method working than the
 original claim would have been.
 
+### 7.0 How to read every table in this section
+
+The tables below compare the same three encoders and quote the same two baselines. Learn
+these five things once and every table becomes readable.
+
+**The three encoders.** We trained seven conditions; three of them do all the explanatory
+work, so those are the ones quoted:
+
+| what I call it | actual condition name | what it is |
+| --- | --- | --- |
+| **healthy** | `ema_stopgrad` | the classic recipe (EMA target + stop-gradient). Our best encoder. The "this is what good looks like" reference. |
+| **contracted** | `none_nostopgrad` | the control with *no* collapse prevention. Built to fail, on purpose, so the diagnostics have something to be tested against. |
+| **weakest real** | `none_stopgrad` | has stop-gradient but nothing else. It trains, but badly. **The most important comparison**, because "is the broken one worse than the *best* one" is easy; "is it worse than a *mediocre but genuine* one" is the real test. |
+
+**The two baselines.** A raw accuracy is meaningless on its own. 0.60 might be excellent or
+might be worthless — you cannot tell without knowing what doing *nothing* scores. So every
+number is quoted next to its floor.
+
+- **majority floor** — what you get by ignoring the image entirely and always guessing the
+  most common answer. On BDD's `weather`, 60% of images are "clear", so guessing "clear"
+  every time scores **0.604**. A probe scoring 0.61 has learned essentially nothing.
+- **chance (retrieval)** — what you get by returning 10 *random* images instead of the 10
+  most similar. This is **not** 1/number-of-classes: it is the probability two random images
+  share a label, which on BDD is about **0.43**. (Worked out in
+  [`metrics.md`](metrics.md) §5.)
+
+The floors differ per row because the class balance differs per attribute. `timeofday` is
+roughly half day / half night, so its floor is 0.48. `weather` is 60% clear, so its floor is
+0.60. **Always read a number as "how far above its own floor", never as an absolute.**
+
+**A worked reading.** Take one row from §7.4 and say it out loud:
+
+> | attribute | healthy | contracted | weakest real | majority floor |
+> | --- | --- | --- | --- | --- |
+> | timeofday | 0.9271 | **0.9137** | 0.9167 | 0.4833 |
+
+*"Guessing scores 0.483. Our best encoder scores 0.927 — so it has learned a lot. A badly
+trained but genuine encoder scores 0.917. And the encoder that is supposed to be destroyed
+scores 0.914 — statistically the same as the badly-trained one, and nowhere near the 0.483
+you would get from learning nothing. So it has not lost the information."*
+
+That sentence is the whole finding. Everything below is the same reading applied to more
+rows.
+
+---
+
 ### 7.1 The set-up
 
 The control condition has no collapse prevention at all. It degenerated exactly as intended,
 and all three geometric measures agree:
 
-| measurement | reading | healthy encoder | meaning |
+| geometric measure | **contracted** (the control) | healthy | what the contracted reading means |
 | --- | --- | --- | --- |
-| total variance | **0.0001** | 107.71 | the cloud shrank to almost nothing |
-| mean pairwise cosine | **1.0000** | 0.256 | every point aims the same way |
-| RankMe | **1.06** | 78.36 | one usable dimension out of 192 |
+| total variance | **0.0001** | 107.71 | the cloud shrank to almost nothing — a millionth of normal |
+| mean pairwise cosine | **1.0000** | 0.256 | every point aims in the same direction (1.0 is the maximum) |
+| RankMe | **1.06** | 78.36 | one usable dimension left out of 192 (1.0 is the floor) |
 
 These are **Kind 1** (§5) — arithmetic, no optimizer — so they are reliable. By any
 geometric account this representation is wrecked.
@@ -333,10 +379,10 @@ geometric account this representation is wrecked.
 
 We ran the two evaluations people normally use, and they disagreed:
 
-| evaluation | reading | chance | our original interpretation |
+| evaluation, run on the **contracted** encoder | its score | its floor | what we concluded at the time |
 | --- | --- | --- | --- |
-| standardized probe | 0.413 | 0.100 | "blind — it can't see the collapse" |
-| unstandardized probe | 0.107 | 0.100 | "correct — it sees the encoder is dead" |
+| standardized probe | 0.413 | 0.100 | "blind — scores well above the floor on a broken encoder" |
+| unstandardized probe | 0.107 | 0.100 | "correct — sits on the floor, so it sees the failure" |
 
 That looked like a clean result: *the field-standard evaluation is blind to this failure.*
 Since standardized probing is the default everywhere, it would have mattered.
@@ -374,11 +420,15 @@ every other condition moved by 0.00 to 0.01, and the standardized probe moved by
 
 The full corrected picture:
 
-| attribute | healthy | **contracted** | weakest run that trains | majority floor |
+| BDD attribute | healthy `ema_stopgrad` | **contracted** `none_nostopgrad` | weakest real `none_stopgrad` | floor (always guess majority) |
 | --- | --- | --- | --- | --- |
 | weather | 0.7271 | **0.6680** | 0.6778 | 0.6041 |
 | scene | 0.6560 | **0.6381** | 0.6333 | 0.6034 |
 | timeofday | 0.9271 | **0.9137** | 0.9167 | 0.4833 |
+
+Read each row against its floor. On `weather` the floor is high (0.604) so nobody is far
+above it. On `timeofday` the floor is low (0.483) and everything is far above it — which is
+why that row is the clearest evidence.
 
 Read the timeofday row slowly. Guessing scores 0.483. A healthy encoder scores 0.927. The
 encoder whose variance is one ten-thousandth of normal, whose every output points the same
@@ -402,10 +452,14 @@ This is the better result, and it is what the project now says:
 And a second, sharper observation — **the two semantic evaluations disagree with each
 other:**
 
-| | healthy | contracted | weakest real | chance |
+| semantic endpoint | healthy | **contracted** | weakest real | its floor |
 | --- | --- | --- | --- | --- |
-| linear probe (timeofday) | 0.9271 | **0.9137** | 0.9167 | 0.483 |
-| retrieval P@10 | 0.6750 | **0.5664** | 0.6329 | 0.429 |
+| linear probe (timeofday) | 0.9271 | **0.9137** | 0.9167 | 0.483 (majority) |
+| retrieval P@10 | 0.6750 | **0.5664** | 0.6329 | 0.429 (random neighbours) |
+
+Compare the two rows *within* the contracted column. On the probe it sits level with the
+weakest real encoder (0.9137 vs 0.9167). On retrieval it drops well below it (0.5664 vs
+0.6329) and is heading toward the 0.429 floor. Same encoder, two endpoints, opposite verdicts.
 
 The probe says the contracted encoder is fine. Retrieval says it is clearly worse — and that
 gap, unlike the probe's, is bigger than the run-to-run noise.
@@ -420,10 +474,13 @@ and the endpoint most people report is the one that does not.
 
 ### 7.6 And the diagnostics still disagree with each other
 
-| | healthy | contracted | verdict |
+Both of these claim to measure "how many dimensions is the encoder using", so for both,
+**higher = healthier**:
+
+| measure | healthy | **contracted** | is that the right direction? |
 | --- | --- | --- | --- |
-| RankMe | 78.36 | **1.06** | correct |
-| participation ratio | 10.99 | **25.45** | **backwards** |
+| RankMe | 78.36 | **1.06** | ✅ yes — far lower, as it should be |
+| participation ratio | 10.99 | **25.45** | ❌ **no — it says the broken one is better** |
 
 The participation ratio says the wrecked encoder is using more than twice the dimensions of
 the healthy one. Cause: **it subtracts the average position before measuring.** Picture every

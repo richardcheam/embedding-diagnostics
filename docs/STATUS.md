@@ -43,6 +43,21 @@ encoder saving.
 
 ### 3.1 Set-up
 
+**The three encoders quoted throughout, and the floors.** Every table below compares the
+same three conditions against a baseline. If the columns do not immediately make sense,
+[`primer.md` §7.0](primer.md) walks through reading one row out loud.
+
+| column | condition | role |
+| --- | --- | --- |
+| healthy | `ema_stopgrad` | our best encoder — what good looks like |
+| **contracted** | `none_nostopgrad` | the control, built to fail on purpose |
+| weakest real | `none_stopgrad` | trains, but badly — the demanding comparison |
+| floor | — | what you score by ignoring the input: guess the most common class (probe), or return random neighbours (retrieval) |
+
+A score is only meaningful relative to its floor, and the floors differ per attribute
+because the class balance does. `timeofday` is near 50/50 so its floor is 0.483; `weather`
+is 60% clear so its floor is 0.604.
+
 The `none_nostopgrad` control has no collapse prevention at all. It degenerated as designed,
 and every geometric measure agrees it is in a terrible state:
 

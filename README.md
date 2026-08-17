@@ -6,6 +6,10 @@ disposable projector as controlled interventions — and tests which label-free 
 actually detect each mode, first on a CIFAR-10 calibration bench and then on BDD100K
 driving scenarios, where the semantic endpoint is scenario-attribute retrieval.
 
+**Metric definitions** — formula, worked example and blind spot for every measure used
+here (RankMe, participation ratio, P@10, balanced accuracy, chance floors, paired
+intervals): [`docs/metrics.md`](docs/metrics.md).
+
 **New to this? Start with [`docs/primer.md`](docs/primer.md)** — builds the whole chain from
 scratch (what an embedding is, why models collapse, how representations are evaluated) and
 ends on the finding. Read it before the report.

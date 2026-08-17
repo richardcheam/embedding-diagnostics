@@ -9,6 +9,10 @@ The payoff at the end is that the report's central result becomes a single sente
 say out loud. If you get there and it does not feel obvious, the fault is in this document
 and you should tell me which section lost you.
 
+**Every metric named here is defined with formula, worked example and blind spot in
+[`metrics.md`](metrics.md).** If a term like RankMe, participation ratio or P@10 goes past
+without landing, that is the place to look it up rather than pushing on.
+
 Companion material lives in the original learning repo at `~/Desktop/git/jepa-learning`
 (`docs/concepts/`, `docs/model_families/`, and nine notebooks). Pointers are given inline.
 That repo teaches the *field*; this document teaches *this project*.

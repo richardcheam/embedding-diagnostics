@@ -63,6 +63,11 @@ TEMPLATE = """<!doctype html>
   #revealBlock[hidden] { display:none; }
   .controls { display:flex; flex-wrap:wrap; gap:1.2rem; align-items:center; margin:1rem 0; }
   .toggles { display:flex; flex-wrap:wrap; gap:.65rem; }
+  .legend { display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; margin:.85rem 0 .2rem;
+            font-size:.82rem; }
+  .legend span.item { display:flex; align-items:center; gap:.35rem; }
+  .legend span.item.highlight { font-weight:700; }
+  .legend .rule { width:16px; height:0; border-top:3px solid; border-radius:2px; flex:none; }
   .toggle { display:flex; align-items:center; gap:.32rem; font-size:.82rem; cursor:pointer; }
   .swatch { width:10px; height:10px; border-radius:2px; display:inline-block; flex:none; }
   input[type=range] { width:250px; }
@@ -85,15 +90,16 @@ TEMPLATE = """<!doctype html>
 <div class="wrap">
 
 <h1>__TITLE__</h1>
-<p class="sub">Can you trust a self-supervised scenario embedding? &mdash; CIFAR-10
-calibration bench, 7 conditions.</p>
+<p class="sub">Can you trust a self-supervised scenario embedding? &mdash; __DATASET__,
+7 conditions.</p>
 
 <section>
   <h2>1. Which of these encoders is dead?</h2>
   <p class="lead">Below are the two evaluations almost everyone actually runs: a
   standardized linear probe, and nearest-neighbour retrieval by cosine similarity. One of
-  these seven conditions has no collapse prevention at all &mdash; its encoder has
-  collapsed to a single point. Pick it out.</p>
+  these seven conditions has no collapse prevention at all: its embeddings have contracted
+  by orders of magnitude and every point now aims in nearly the same direction. Find it in
+  the legend, then judge how far apart these charts put it from the rest.</p>
 
   <div class="grid">
     <div class="card">
@@ -107,14 +113,9 @@ calibration bench, 7 conditions.</p>
       <canvas id="retr" width="640" height="360"></canvas>
     </div>
   </div>
+  <div class="legend" id="legend1"></div>
 
-  <div class="note">
-    <span class="chip">ours</span>You cannot, reliably. The collapsed control finishes
-    <strong>second of all seven</strong> on the standardized probe &mdash; behind only the
-    healthy baseline, above every other arm &mdash; and its retrieval is statistically
-    indistinguishable from a partially-working encoder (paired difference +0.002 over five
-    seeds).
-  </div>
+  <div class="note" id="section1note"></div>
 
   <p><button class="reveal" id="revealBtn">Show the two diagnostics that answer it</button></p>
 </section>
@@ -137,6 +138,7 @@ calibration bench, 7 conditions.</p>
       <canvas id="probeUns" width="640" height="360"></canvas>
     </div>
   </div>
+  <div class="legend" id="legend2"></div>
 
   <div class="note">
     <span class="chip">established</span>Standardizing divides each feature by its standard
@@ -225,8 +227,16 @@ calibration bench, 7 conditions.</p>
 const RUNS = __RUNS__;
 const COLORS = __COLORS__;
 const SCORECARD = __SCORECARD__;
+const SECTION1 = __SECTION1__;
 const conditions = Object.keys(RUNS);
 const enabled = new Set(conditions);
+
+/* ---------- section 1 note, computed from the loaded runs ---------- */
+// Written from the data rather than hardcoded: the original copy asserted the
+// degenerate encoder was hard to spot, which held on CIFAR-10 (it ranked 2nd of
+// 7) and is false on BDD100K (it ranks last). A claim that flips between
+// datasets should not be baked into the template.
+document.getElementById('section1note').innerHTML = SECTION1;
 
 /* ---------- scorecard ---------- */
 const tbody = document.querySelector('#scorecard tbody');
@@ -365,6 +375,30 @@ function drawCloud(stepIndex) {
   ctx.globalAlpha = 1;
 }
 
+/* ---------- legends for the fixed-set charts ---------- */
+// Sections 1 and 2 plot all conditions with no toggles, so without this a reader
+// cannot map a curve to a condition -- which makes the question in section 1
+// unanswerable rather than hard.
+function buildLegend(elementId) {
+  const host = document.getElementById(elementId);
+  if (!host) return;
+  conditions.forEach(condition => {
+    const item = document.createElement('span');
+    item.className = 'item' + (condition === 'none_nostopgrad' ? ' highlight' : '');
+    const rule = document.createElement('span');
+    rule.className = 'rule';
+    rule.style.borderTopColor = COLORS[condition] || '#888';
+    if (condition === 'none_nostopgrad') rule.style.borderTopWidth = '4px';
+    const label = document.createElement('span');
+    label.textContent = condition
+      + (condition === 'none_nostopgrad' ? '  \u2190 no collapse prevention' : '');
+    item.append(rule, label);
+    host.append(item);
+  });
+}
+buildLegend('legend1');
+buildLegend('legend2');
+
 /* ---------- controls ---------- */
 const togglesEl = document.getElementById('toggles');
 conditions.forEach(condition => {
@@ -449,6 +483,8 @@ def build_html(
     title: str = "jepa-lens",
     scorecard: list[dict] | None = None,
     provenance: str = "",
+    dataset: str = "calibration bench",
+    section1_note: str = "",
 ) -> str:
     """Render the report to a single self-contained HTML string.
 
@@ -464,4 +500,6 @@ def build_html(
         .replace("__RUNS__", _embed_json(runs))
         .replace("__COLORS__", _embed_json(CONDITION_COLORS))
         .replace("__SCORECARD__", _embed_json(scorecard or []))
+        .replace("__SECTION1__", _embed_json(section1_note))
+        .replace("__DATASET__", html.escape(dataset, quote=True))
     )

@@ -52,6 +52,68 @@ def _values(finals: dict[str, list[dict]], condition: str, key: str) -> list[flo
     return [float(r[key]) for r in records]
 
 
+DATASET_LABELS = {"cifar10": "CIFAR-10 calibration bench", "bdd100k": "BDD100K driving scenarios"}
+
+
+def dataset_label(experiments_dir: Path, tag: str) -> str:
+    """Read the dataset from a run's own config rather than hardcoding it.
+
+    The subtitle used to be a literal "CIFAR-10 calibration bench" and silently
+    became false the first time the demo was rebuilt on BDD100K.
+    """
+    for config_path in sorted((experiments_dir / tag).glob("*/config.json")):
+        name = json.loads(config_path.read_text())["data"].get("dataset", "")
+        if name:
+            return DATASET_LABELS.get(name, name)
+    return "calibration bench"
+
+
+def section1_note(finals: dict[str, list[dict]]) -> str:
+    """State what the two default evaluations actually did, on THIS data.
+
+    The original copy asserted the degenerate encoder was hard to pick out. That
+    was measured on CIFAR-10, where it ranked second of seven on the
+    standardized probe. On BDD100K it ranks last on both charts, so the same
+    sentence would be false. This computes the ranking and the margin to the
+    nearest genuinely-training condition, and says whether that margin clears
+    twice the across-seed SD of the paired differences.
+    """
+    if COLLAPSED not in finals:
+        return ""
+    parts = []
+    for key, label in (("probe_accuracy", "the standardized probe"),
+                       ("retrieval_p10", "cosine retrieval")):
+        dead = _values(finals, COLLAPSED, key)
+        if dead is None:
+            continue
+        others = {c: _values(finals, c, key) for c in finals if c != COLLAPSED}
+        others = {c: v for c, v in others.items() if v is not None}
+        if not others:
+            continue
+        dead_mean = sum(dead) / len(dead)
+        means = {c: sum(v) / len(v) for c, v in others.items()}
+        rank = 1 + sum(1 for m in means.values() if m > dead_mean)
+        nearest = min(means, key=lambda c: abs(means[c] - dead_mean))
+        diffs = [d - w for d, w in zip(dead, others[nearest])]
+        mean_diff = sum(diffs) / len(diffs)
+        if len(diffs) > 1:
+            sd = (sum((d - mean_diff) ** 2 for d in diffs) / (len(diffs) - 1)) ** 0.5
+        else:
+            sd = 0.0
+        separable = abs(mean_diff) > 2 * sd
+        parts.append(
+            f"On <strong>{label}</strong> it ranks {rank} of {len(means) + 1} "
+            f"({dead_mean:.4f}); its nearest neighbour is <code>{nearest}</code> at "
+            f"{means[nearest]:.4f}, a gap of {abs(mean_diff):.4f} against a "
+            f"2&times;SD spread of {2 * sd:.4f} &mdash; "
+            + ("<strong>separable</strong>" if separable
+               else "<strong>inside seed noise</strong>") + "."
+        )
+    return ('<span class="chip">ours</span>' + " ".join(parts)
+            + " Whether these defaults <em>rank</em> a degenerate encoder correctly is the "
+              "question; whether they flag it in absolute terms is a different one.")
+
+
 def build_scorecard(finals: dict[str, list[dict]]) -> list[dict]:
     """One row per diagnostic, verdicted against the pre-registered claim rule.
 
@@ -131,6 +193,7 @@ def main() -> int:
         return 1
 
     scorecard: list[dict] = []
+    finals: dict[str, list[dict]] = {}
     provenance = f"Curves: {args.tag}, one seed."
     if args.scorecard_tag:
         seeds = [int(s) for s in args.seeds.split(",") if s.strip()]
@@ -146,8 +209,12 @@ def main() -> int:
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    note = section1_note(finals) if args.scorecard_tag else ""
     out_path.write_text(
-        build_html(runs, args.title, scorecard=scorecard, provenance=provenance),
+        build_html(
+            runs, args.title, scorecard=scorecard, provenance=provenance,
+            dataset=dataset_label(experiments_dir, args.tag), section1_note=note,
+        ),
         encoding="utf-8",
     )
     size_kb = out_path.stat().st_size / 1024

@@ -277,49 +277,71 @@ tracked in git, so results move back by `git pull` — no separate sync tooling.
 
 Summarised in [`docs/STATUS.md`](docs/STATUS.md); written up in `report/`.
 
-**Ground truth, from the stress test (no training required):** applying *known*
-degradations to embedding matrices shows that **no geometric diagnostic tracks semantic
-content**. Contracting embeddings 10,000x, or driving mean pairwise cosine to 1.000, leaves
-retrieval P@10 at exactly 1.000. The transformations that *do* destroy retrieval move
-variance and rank in the opposite direction.
+**Supporting evidence, from controlled degradations (no training required):** applying
+*known* transformations to embedding matrices maps out which diagnostic is invariant to
+which change. Contracting 10,000x, or driving mean pairwise cosine to 1.000, leaves
+retrieval P@10 at exactly 1.000 — but note these transformations are **invertible by
+construction**, so they are designed to preserve information while changing geometry. They
+establish each metric's *invariances*; they do not by themselves show that geometry can
+never track semantics. The training results above are what show the dissociation arising on
+its own.
 
-> ⚠️ **Probe endpoints under recomputation.** A defect in the probe protocol used during
-> training means every *unstandardized* probe number below is provisional: on severely
-> scale-contracted embeddings the optimiser stops before fitting, predicts the majority
-> class, and reports chance without warning. Geometric endpoints and retrieval are
-> unaffected. See the report's Provenance section.
+**Phase B (BDD100K driving scenarios, 7 conditions × 5 paired seeds).** The control has no
+collapse prevention. Every geometric measure says it is destroyed:
 
-**Phase A (5 paired seeds, CIFAR-10), paired Student-t 95% intervals:**
+| geometric measure | healthy | **contracted control** | weakest run that trains |
+| --- | --- | --- | --- |
+| total variance | 107.71 | **0.0001** | 39.61 |
+| mean pairwise cosine | 0.256 | **1.0000** | 0.676 |
+| RankMe | 78.36 | **1.06** | 7.45 |
 
-The control condition with no collapse prevention collapses to a point — total variance
-0.0002, mean pairwise cosine 1.0000, unscaled probe accuracy 0.107 against a 0.100 chance
-floor. Here is what the diagnostics say about that encoder:
+Measured with a working probe, it is nearly as decodable as a condition that genuinely
+trained:
 
-| metric | reading | verdict |
-| --- | --- | --- |
-| total variance | 0.0002 | correct |
-| mean pairwise cosine | 1.0000 | correct |
-| unscaled linear probe | 0.107 (chance 0.100) | correct |
-| RankMe | 1.12 | correct |
-| **standardized linear probe** | **0.413** | **blind** |
-| **cosine retrieval P@10** | **0.184 (1.8x chance)** | **blind** |
-| **participation ratio** | **34.98** (healthy baseline 26.90) | **blind, inverted** |
+| attribute | healthy | **contracted** | weakest real | majority floor |
+| --- | --- | --- | --- | --- |
+| weather | 0.7271 | **0.6680** | 0.6778 | 0.6041 |
+| scene | 0.6560 | **0.6381** | 0.6333 | 0.6034 |
+| timeofday | 0.9271 | **0.9137** | 0.9167 | 0.4833 |
 
-**A degenerate encoder scores 0.413 on the standardized linear probe** — second of all
-seven conditions, behind only the EMA baseline — and retrieves at 1.8x chance,
-indistinguishable from a partially-working encoder.
+Guessing scores 0.483 on timeofday. A healthy encoder scores 0.927. An encoder with a
+millionth of normal variance, every output pointing the same direction, scores **0.914**.
 
-⚠️ The *comparison* with the unstandardized probe (0.107, apparently "correctly dead") is
-**withdrawn**: that probe's optimiser stops before fitting on features this small, predicts
-the majority class, and returns chance without warning. Verified on data where the labels
-are recoverable by construction. Retrieval and the geometric measurements are arithmetic and
-stand; the probe comparison is being recomputed from the saved encoders.
+> **Geometric degeneration does not imply loss of decodable information.**
 
-That matters because both blind protocols are the defaults — standardized probing is the
-standard SSL evaluation, cosine similarity the default in essentially every vector database.
-A pipeline evaluated only that way cannot distinguish a working encoder from one that has
-collapsed by five orders of magnitude. Logging total variance and the unscaled probe
-alongside fixes it, but has to be done deliberately.
+**Second finding: the two semantic evaluations disagree.** Linear decodability survives;
+neighbourhood structure does not.
+
+| | healthy | contracted | weakest real | chance |
+| --- | --- | --- | --- | --- |
+| linear probe (timeofday) | 0.9271 | 0.9137 | 0.9167 | 0.483 |
+| **retrieval P@10** | 0.6750 | **0.5664** | 0.6329 | 0.429 |
+
+The probe says fine; retrieval says clearly worse, by more than the seed noise. A linear
+classifier only needs *some* separating direction; retrieval needs the *ordering of
+neighbours*, and squashing the cloud scrambles that. **For scenario mining this is the half
+that matters** — the application is retrieval, and it is the endpoint that degrades.
+
+**Third finding: two "effective rank" measures invert.** The participation ratio reads
+**25.45** on the contracted encoder against **10.99** on the healthy one — paired 95%
+interval [−32.70, −15.36], in the wrong direction. It subtracts the mean before measuring,
+which deletes exactly the failure; RankMe does not, and gets it right.
+
+### What we withdrew
+
+An earlier version of this README claimed the standard evaluation was blind to collapse
+while the unstandardized probe detected it. **That was wrong.** The unstandardized probe's
+optimiser stops when the objective's slope goes shallow, the slope scales with feature
+magnitude, and at ~0.001 it stopped before fitting — predicting the majority class and
+returning chance, with no warning. Re-measuring Phase B from its saved encoders moved the
+contracted encoder's timeofday score from 0.4832 to 0.9137 while every other condition moved
+by ≤0.01. There was no information loss for the standard protocol to be blind to.
+
+⚠️ **Phase A (CIFAR-10) probe numbers are not corrected** — that campaign saved no encoders
+and needs a re-run. Do not quote them. Its geometric numbers are unaffected.
+
+Full account: [`docs/STATUS.md`](docs/STATUS.md); provenance and commit references in
+`report/sections/provenance.tex`.
 
 **The prescription.** No single label-free diagnostic covers every collapse mode — that is
 an exhaustive search over subsets, not a preference. Two do: **total variance + RankMe**.

@@ -309,135 +309,147 @@ corrected; see the report's Provenance section.
 
 ---
 
-## 7. What we found — and what we had to take back
+## 7. What we found — including the part we got wrong
 
-This section changed on 2026-08-16 after an audit. One of the two headline results turned
-out to rest on a broken measurement. Rather than delete it, the story is told as it
-happened, because how a result gets withdrawn is worth more than the result was.
+This section describes a claim the project made, then refuted with its own data. That
+sequence is the point: the withdrawal is better evidence of the method working than the
+original claim would have been.
 
-### 7.1 What we set out to show
+### 7.1 The set-up
 
-The control condition — the one with no collapse prevention at all — degenerated exactly as
-designed. Its measurements:
+The control condition has no collapse prevention at all. It degenerated exactly as intended,
+and all three geometric measures agree:
 
-| measurement | reading | what it means |
-| --- | --- | --- |
-| total variance | 0.0002 | the cloud of points shrank to almost nothing |
-| mean pairwise cosine | 1.0000 | every point ends up pointing the same direction |
-| RankMe | 1.12 | effectively one dimension left, out of 192 |
-
-Those three agree: this encoder maps essentially every image to the same place. All three
-are **Kind 1** — pure arithmetic — so they are as trustworthy as a ruler.
-
-Then we ran the two evaluations people normally use, and they disagreed with each other:
-
-| evaluation | reading | chance | our original reading of it |
+| measurement | reading | healthy encoder | meaning |
 | --- | --- | --- | --- |
-| standardized linear probe | 0.413 | 0.100 | "blind — it can't see the collapse" |
-| unstandardized linear probe | 0.107 | 0.100 | "correct — it reports the encoder as dead" |
+| total variance | **0.0001** | 107.71 | the cloud shrank to almost nothing |
+| mean pairwise cosine | **1.0000** | 0.256 | every point aims the same way |
+| RankMe | **1.06** | 78.36 | one usable dimension out of 192 |
 
-That looked like a clean, useful result: *the standard way of evaluating these models is
-blind to this failure.* Since standardized probing is the field default, that mattered.
+These are **Kind 1** (§5) — arithmetic, no optimizer — so they are reliable. By any
+geometric account this representation is wrecked.
 
-### 7.2 Why we took half of it back
+### 7.2 What we originally claimed
+
+We ran the two evaluations people normally use, and they disagreed:
+
+| evaluation | reading | chance | our original interpretation |
+| --- | --- | --- | --- |
+| standardized probe | 0.413 | 0.100 | "blind — it can't see the collapse" |
+| unstandardized probe | 0.107 | 0.100 | "correct — it sees the encoder is dead" |
+
+That looked like a clean result: *the field-standard evaluation is blind to this failure.*
+Since standardized probing is the default everywhere, it would have mattered.
+
+### 7.3 Why it was wrong
 
 Both probes are **Kind 2** — they fit a model — and the fitting was broken.
 
-The probe trains a small classifier by taking repeated downhill steps. It stops when the
-slope gets shallow enough, on the reasoning that a shallow slope means you've arrived.
+The probe trains a classifier by repeatedly stepping downhill, stopping when the slope goes
+shallow, on the reasoning that a shallow slope means you have arrived. But **the slope's
+steepness scales with the size of the input numbers.** Our contracted encoder emits numbers
+around 0.001. At that scale the slope is already shallower than the stopping threshold
+before a single step. The optimizer looked at its starting point, concluded it had arrived,
+and stopped — having learned nothing.
 
-But the slope's steepness scales with how big the input numbers are. Our collapsed encoder
-emits numbers around 0.001. On numbers that small, the slope is *already* shallower than the
-stopping threshold before a single step is taken. So the optimizer looked at the starting
-point, decided it had arrived, and stopped — having learned nothing.
+A classifier that learned nothing predicts the most common class every time. Which scores
+exactly what "chance" scores. **So it looked like a correct detection and was in fact a
+failure to measure.**
 
-A classifier that has learned nothing predicts the most common class every time. On
-10-class CIFAR-10 that scores about 0.10. **Which looks exactly like "chance."**
+The tell was in our own numbers. Those "dead" readings sat exactly on the always-guess-the-
+majority score:
 
-Here is the test that settles it. Take data where the label information is *definitely
-present* — we build it in on purpose — but at that same tiny scale:
-
-```
-unstandardized probe : 0.096   ← reports "dead"
-standardized probe   : 1.000   ← reports "perfect"
-```
-
-Same data. Full information. No collapse whatsoever. Our exact headline pattern, reproduced
-with nothing wrong. Under a corrected setup both read 1.000.
-
-And it reached the real runs. On both datasets the control's unstandardized score sits
-exactly on top of the always-guess-the-most-common-class score:
-
-| dataset | unstandardized probe | always-guess-majority | difference |
+| dataset | our "dead" reading | always-guess-majority | difference |
 | --- | --- | --- | --- |
 | CIFAR-10 | 0.1066 | 0.1088 | −0.0022 |
-| BDD100K | 0.5635 | 0.5636 | −0.0001 |
+| BDD100K (timeofday) | 0.4832 | 0.4833 | −0.0001 |
 
-Agreeing to four decimal places is not a coincidence. That is the signature of a classifier
-that only ever guessed the majority class.
+Agreeing to four decimals is not coincidence.
 
-**So the claim "the unstandardized probe correctly detects collapse" is withdrawn.** Not
-disproven — *unmeasured*. The instrument was broken, so we do not currently know whether a
-collapsed representation still holds usable information.
+### 7.4 What happened when we measured properly
 
-⚠️ Note carefully what this does **not** say. It does not say the encoder is fine. It does
-not say the standardized probe was right after all. It says one of our two instruments was
-faulty, so that particular comparison tells us nothing until it is redone.
+Phase B saved its trained encoders, so we reloaded them and re-measured with a corrected
+probe. The contracted encoder's score on *timeofday* moved from **0.4832 to 0.9137** — while
+every other condition moved by 0.00 to 0.01, and the standardized probe moved by 0.0035.
 
-### 7.3 What still stands, and why
+The full corrected picture:
 
-Everything in §7.1 — the geometric measurements — is **Kind 1**. No optimizer, nothing to
-fail. Also unaffected: retrieval (find the 10 nearest neighbours, count how many share the
-label — sorting and counting, no fitting).
+| attribute | healthy | **contracted** | weakest run that trains | majority floor |
+| --- | --- | --- | --- | --- |
+| weather | 0.7271 | **0.6680** | 0.6778 | 0.6041 |
+| scene | 0.6560 | **0.6381** | 0.6333 | 0.6034 |
+| timeofday | 0.9271 | **0.9137** | 0.9167 | 0.4833 |
 
-Two further results also stand, both Kind 1.
+Read the timeofday row slowly. Guessing scores 0.483. A healthy encoder scores 0.927. The
+encoder whose variance is one ten-thousandth of normal, whose every output points the same
+direction, scores **0.914**.
 
-**Two "effective rank" measures disagree, and one is backwards.** On the collapsed control:
+> **The information was never lost.** The representation is squashed almost flat, and you
+> can still read the labels off it.
 
-| measure | reading | healthy baseline | verdict |
+So the original claim collapses. There was nothing for the standardized probe to be blind
+to — it had been right all along. Our unstandardized probe manufactured a fake detection out
+of an optimizer failure.
+
+### 7.5 The finding that replaces it
+
+This is the better result, and it is what the project now says:
+
+> **Geometric degeneration and loss of information are different things, and they come
+> apart.** An encoder can be degenerate on every geometric measure and still carry nearly
+> all its decodable content.
+
+And a second, sharper observation — **the two semantic evaluations disagree with each
+other:**
+
+| | healthy | contracted | weakest real | chance |
+| --- | --- | --- | --- | --- |
+| linear probe (timeofday) | 0.9271 | **0.9137** | 0.9167 | 0.483 |
+| retrieval P@10 | 0.6750 | **0.5664** | 0.6329 | 0.429 |
+
+The probe says the contracted encoder is fine. Retrieval says it is clearly worse — and that
+gap, unlike the probe's, is bigger than the run-to-run noise.
+
+Why? They ask different questions. A linear classifier only needs *some direction* along
+which the classes separate; squashing the cloud does not necessarily destroy that. Retrieval
+asks *which points are closest to which*, and squashing scrambles that ordering.
+
+**This is the half that matters for driving.** Scenario mining is retrieval — "find me more
+clips like this one". The endpoint the application actually uses is the one that degrades,
+and the endpoint most people report is the one that does not.
+
+### 7.6 And the diagnostics still disagree with each other
+
+| | healthy | contracted | verdict |
 | --- | --- | --- | --- |
-| RankMe | 1.12 | 85.72 | correct |
-| participation ratio | **34.98** | 26.90 | **backwards** |
+| RankMe | 78.36 | **1.06** | correct |
+| participation ratio | 10.99 | **25.45** | **backwards** |
 
-The participation ratio calls the degenerate encoder healthier than the healthy encoder. The cause is
-one step of arithmetic: **it subtracts the average position before measuring.**
+The participation ratio says the wrecked encoder is using more than twice the dimensions of
+the healthy one. Cause: **it subtracts the average position before measuring.** Picture every
+image landing on the same spot far from the origin. Subtract the average and that shared spot
+vanishes, leaving a whisker of random wobble — and random wobble points every which way, so
+it reads as "many dimensions in use". It is measuring noise and calling it structure.
 
-Picture every image landing on the same spot, far from the origin — say at (5, 5, 5, …).
-Subtract the average, and that shared spot vanishes. What's left is a whisker of random
-measurement wobble. Random wobble points every which way, so it looks like the cloud is
-using lots of dimensions, so it reads as healthy. It is measuring noise and calling it
-structure.
+RankMe skips the subtraction, so it still sees everything piled in one place.
 
-RankMe doesn't subtract the average, so it still sees that everything is piled in one place.
-Both are called "effective rank" in the literature. They are not interchangeable.
+**No single label-free measurement is enough**, either. Break embeddings in five known ways
+and two blind spots turn out to be complementary: shrink everything and the scale-invariant
+measures notice nothing; shift the whole cloud sideways and the centred measures notice
+nothing. You need one from each family. We recommend **total variance + RankMe**.
 
-**No single label-free measurement is enough.** We break embeddings in five known ways and
-check which measurements notice. Two blind spots turn out to be complementary:
+### 7.7 Where that leaves things
 
-- shrink everything 1000× → cosine, RankMe and the participation ratio notice *nothing*
-  (they ignore size, deliberately)
-- shove the whole cloud sideways → total variance and the participation ratio notice
-  *nothing* (they subtract position, deliberately)
+**Known:** how to describe the shape of a degenerate representation precisely; which
+shape-measures lie and why; that shape and information come apart; that probing and
+retrieval come apart.
 
-So you need at least one from each family. We recommend **total variance + RankMe**. Of the
-four pairs that work, the participation ratio is in none of them.
+**Unknown:** whether the surviving retrieval signal is genuine angular structure or an
+artifact of exact float64 arithmetic that would vanish in a real vector database (float16,
+int8, approximate search). That is the next experiment.
 
-**Watching for change doesn't work either.** The obvious monitoring rule — "warn me if a
-number drifts a long way from where it started" — fired on 5 of 6 healthy CIFAR runs and 4
-of 6 healthy BDD runs, including the only condition that actually learned anything. Healthy
-training reshapes the geometry just as much as collapse does. Fixed thresholds are needed
-instead.
-
-### 7.4 Where that leaves the project
-
-**Known:** how to describe the *shape* of a degenerate representation precisely, which
-shape-measurements lie to you, and why they lie.
-
-**Unknown:** whether a degenerate representation still holds usable information. That needs
-a working probe.
-
-**Being done:** Phase B saved its trained encoders, so the probes can simply be re-run on
-them — minutes, no retraining. Phase A did not save encoders, so it needs a re-run. See §10.
+**Not yet redone:** the CIFAR-10 probe numbers. That campaign saved no encoders, so it needs
+a re-run. Do not quote its probe values.
 
 ## 8. What to read, in order
 
@@ -482,36 +494,30 @@ RankMe (arXiv 2210.02885), BYOL (arXiv 2006.07733).
 
 ## 9. Say it in one sentence
 
-Two versions, and you want the second.
+If you can say this without notes, you can defend the project:
 
-**What we can say today:**
+> A self-supervised encoder can degenerate until its embeddings have a millionth of their
+> normal spread and every one points the same direction — and still be almost as linearly
+> decodable as a working encoder. Geometric collapse and information loss are different
+> things. What *does* degrade is retrieval, which is the operation scenario mining actually
+> performs and the one people report least.
 
-> Self-supervised encoders can degenerate until every input maps to nearly the same place,
-> and the label-free measurements people use to detect that disagree with each other — the
-> participation ratio actually rates a degenerate encoder as *healthier* than a working one,
-> because it subtracts the average position before measuring and so deletes the very thing
-> that went wrong. No single measurement covers every failure mode; two do.
+Two follow-ups you should expect:
 
-**What we cannot yet say**, and previously claimed:
+> **"Didn't you originally claim the opposite?"**
+> Yes. I claimed the standard evaluation was blind to collapse, because our unstandardized
+> probe read chance on the degenerate encoder. That probe was broken: on features that small
+> its optimizer stopped before fitting and returned the majority-class guess, which is
+> numerically identical to chance. I found it by auditing my own protocol, re-measured from
+> the saved encoders, and the reading moved from 0.483 to 0.914. The withdrawal is in the
+> report's Provenance section with commit references.
 
-> ~~The standard evaluation protocol is blind to collapse while the unstandardized probe
-> detects it.~~ Withdrawn. The unstandardized probe's optimizer stopped before fitting on
-> such small-scale features, so it reported chance regardless of what was there. Being
-> recomputed.
-
-The follow-up you should expect, and its answer:
-
-> **"So your headline result fell over?"**
-> Half of it did. The geometric half stands and is what the project is now built on. The
-> semantic half was measured with a broken instrument, and I found that out by auditing my
-> own protocol rather than by publishing it and being corrected. The withdrawal is
-> documented in the report's Provenance section with the commit history, including the fact
-> that an earlier draft described a withdrawn decision rule as pre-registered.
-
-That last answer is worth more in an interview than the original claim was. Anyone can
-report a finding; being able to show how you caught your own error is the harder signal.
-
----
+> **"So what's left?"**
+> Three things, all of which survive because they involve no fitted model: the dissociation
+> between geometry and information; the dissociation between probing and retrieval; and a
+> reproducible inversion where the participation ratio rates a degenerate encoder as
+> healthier than a working one. Plus a methods contribution — the probe failure mode is a
+> real trap, it is silent, and it will bite anyone evaluating a low-scale representation.
 
 ## 10. Why "reprobe", and why Phase A costs more
 

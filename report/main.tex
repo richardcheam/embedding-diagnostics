@@ -20,39 +20,45 @@
 \maketitle
 
 \begin{abstract}
-Scenario mining for ADAS validation embeds millions of unlabeled driving situations and
-asks whether the embedding covers the operating domain. That question rests entirely on
-label-free diagnostics, so we ask which of them can be trusted. We treat
-collapse-prevention mechanisms --- stop-gradient, SIGReg \citep{lejepa2025}, and a
-disposable projector --- as controlled interventions that manufacture known degeneration
-modes in negative-free masked JEPA training, and measure which diagnostics distinguish
-scale collapse, angular concentration, dimensional structure, and semantic loss.
+Scenario mining for ADAS validation embeds millions of unlabelled driving clips and asks
+geometric questions of them. That rests entirely on label-free diagnostics, so we ask which
+of them can be trusted. Collapse-prevention mechanisms --- stop-gradient, EMA, SIGReg and a
+disposable projector --- are used as instruments to manufacture known degeneration, including
+a control designed to fail outright, across seven conditions and five paired seeds on
+CIFAR-10 and BDD100K.
 
-Phase~A calibrates on CIFAR-10: seven conditions, five paired seeds, pre-registered
-fixed-step endpoints and paired Student-t intervals. Two results are reported, both
-provisional pending a probe recomputation described in the Provenance section. First,
-geometry and semantics fail to resolve in opposite places --- across the SIGReg contrasts
-every geometric comparison is large and resolvable (up to 169 units of total variance,
-0.84 of mean pairwise cosine) while the probe moves by at most 0.035; and in the one
-contrast whose semantic difference is unambiguous ($+0.210$ probe accuracy), neither
-geometric endpoint clears the claim rule. Second, and more practically: the control
-condition with no collapse prevention collapses to a point --- total variance
-$2\times10^{-4}$, mean pairwise cosine $1.0000$, unscaled probe accuracy at the $0.100$
-chance floor --- yet scores $0.413$ on the \emph{standardized} linear probe and retrieves
-at $1.8\times$ chance. Both protocols normalize away scale by construction, and scale is
-what was lost. Since standardized probing is the default SSL evaluation and cosine
-similarity the default retrieval metric, a pipeline evaluated only that way cannot
-distinguish a working encoder from one that has collapsed by five orders of magnitude.
-We also find RankMe and the covariance participation ratio each blind to the collapse mode
-the other detects, so the two are not interchangeable despite both being called
-effective-rank measures.
+\ours{} Our central result is a dissociation. The control degenerates on every geometric
+measure: total variance $10^{-4}$ against a healthy $107.7$, mean pairwise cosine exactly
+$1.0000$, RankMe $1.06$ out of 192 dimensions. Yet measured with a correctly optimised linear
+probe it remains nearly as decodable as a condition that genuinely trained --- on BDD100K's
+\texttt{timeofday} attribute it scores $0.914$ against a healthy $0.927$ and a majority floor
+of $0.483$, and on balanced accuracy it is indistinguishable from the weakest
+genuinely-training arm on all three attributes. Geometric degeneration does not imply loss of
+decodable information.
 
-No SIGReg configuration in our setup beat its own random initialisation; only the EMA
-stop-gradient baseline learned. That is a statement about this combination --- SIGReg
-paired with masked latent prediction rather than LeJEPA's multi-view invariance --- and not
-about \citet{lejepa2025}. Phase~B repeats the matrix on BDD100K driving images, where the
-semantic endpoint is scenario-attribute retrieval: the operation scenario mining actually
-performs, and the one Phase~A finds least able to detect this failure.
+\ours{} A second dissociation sits inside the semantic endpoints themselves. Linear
+decodability survives contraction; nearest-neighbour structure does not. Retrieval P@10 falls
+from $0.675$ to $0.566$ against a $0.429$ chance floor, a gap that clears across-seed noise
+where the probe comparison does not. For scenario mining this is the consequential half: the
+application \emph{is} retrieval, and it is the endpoint that degrades while the commonly
+reported one does not.
+
+\ours{} We also report a reproducible inversion between two measures both described in the
+literature as effective rank. The covariance participation ratio reads $25.45$ on the
+contracted control against $10.99$ on the healthy baseline --- paired 95\% interval
+$[-32.70, -15.36]$, in the wrong direction --- because it subtracts the mean and so removes
+precisely the degeneracy, while RankMe, computed from raw singular values, correctly reports
+$1.06$. The underlying algebra is known; the reproducible inversion in real training is what
+we contribute.
+
+\interp{} This report also records a claim we withdrew. An earlier version argued that
+standardized probing is blind to collapse while unstandardized probing detects it. That
+rested on a defective probe: on features of magnitude $10^{-3}$, lbfgs satisfies its
+gradient-norm stopping criterion before taking a useful step, returns the majority-class
+prediction, and reports chance while raising no warning. Recomputing from saved encoders
+moved the affected endpoint from $0.483$ to $0.914$ while every other condition moved by at
+most $0.01$. Section~\ref{sec:provenance} records what was fixed before the experiments, what
+was withdrawn, and what was chosen after seeing results.
 \end{abstract}
 
 \input{sections/introduction}

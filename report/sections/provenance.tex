@@ -97,10 +97,43 @@ the collapsed control's unstandardized accuracy sits exactly at its majority flo
 (CIFAR-10 $0.1066$ against $0.1088$; BDD100K $0.5635$ against $0.5636$), which is what a
 classifier that only ever predicts the majority class returns.
 
-\ours{} Consequently the claim that ``the unstandardized probe correctly detects collapse
-where the standardized one does not'' is \textbf{withdrawn} pending recomputation. Whether a
-severely contracted representation retains decodable information is, on our present
-evidence, \emph{unresolved} --- the measurement that would answer it was not functioning.
-The corrected protocol selects regularisation on a validation split carved from the training
-set, tightens the tolerance, and records convergence, iteration count and whether the probe
-beat the trivial predictor on its own training data.
+\ours{} The claim that ``the unstandardized probe correctly detects collapse where the
+standardized one does not'' is therefore \textbf{withdrawn as refuted}, not merely
+unverified. Recomputing Phase~B from its saved encoders under the corrected protocol moved
+the contracted control's \texttt{timeofday} accuracy from $0.4832$ to $0.9137$, while every
+other condition moved by at most $0.01$ and the standardized probe moved by $0.0035$. The
+defect was specific to exactly the condition the claim depended on. There was no loss of
+decodable information for the standard protocol to be blind to.
+
+\interp{} The corrected protocol selects regularisation on a validation split carved from
+the training set, tightens the optimiser tolerance, and records convergence, iteration
+count, and whether the probe beat the trivial predictor on its own training data --- the
+last of these being the only reliable indicator, since lbfgs reports two or three iterations
+rather than zero and raises no warning.
+
+\subsection{Status of each result after the correction}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{6.6cm} p{7.2cm}}
+\toprule
+\textbf{Result} & \textbf{Status} \\
+\midrule
+Geometry on Phase~B (variance, cosine, RankMe, participation ratio), 5 paired seeds &
+Unaffected. No optimiser is involved. Confirmatory. \\
+Retrieval P@10, all attributes &
+Unaffected by the probe defect. Confirmatory, subject to the precision caveat below. \\
+Corrected probe endpoints on Phase~B &
+Recomputed from saved encoders on the fixed evaluation split. Endpoints pre-registered;
+the probe protocol itself is post-hoc. \\
+All Phase~A (CIFAR-10) probe endpoints &
+\textbf{Not corrected.} That campaign saved no encoders and requires a re-run. Not quoted. \\
+``Standard evaluation is blind to collapse'' &
+\textbf{Refuted by our own data.} \\
+``Standardization and $L^2$-normalization both rescale floating-point noise'' &
+\textbf{Withdrawn.} Different operations; never derived. Whether the surviving retrieval
+signal is angular structure or numerical fragility is untested. \\
+\bottomrule
+\end{tabular}
+\end{table}

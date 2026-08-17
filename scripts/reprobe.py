@@ -153,19 +153,29 @@ def main() -> int:
     if args.compare and rows:
         print()
         print("old protocol vs corrected, unstandardized probe at the final checkpoint")
-        print(f"{'run':<34}{'old':>9}{'new':>9}{'delta':>9}{'C':>9}{'underfit':>10}")
+        print(f"{'run [attribute]':<46}{'old':>9}{'new':>9}{'delta':>9}{'C':>9}{'underfit':>10}")
+        # BDD100K logs per-attribute keys only, with no aggregate, so a fixed
+        # key name printed an empty table. Discover whatever this dataset has.
+        keys = sorted(
+            k for k in rows[0]
+            if k.startswith("probe_accuracy_unscaled") and "balanced" not in k
+        )
         for record in rows:
             run_dir = experiments_dir / str(record["tag"]) / str(record["condition"])
-            old = original_endpoint(run_dir, "probe_accuracy_unscaled")
-            new = record.get("probe_accuracy_unscaled")
-            if old is None or new is None:
-                continue
-            label = f"{record['tag']}/{record['condition']}"
-            print(
-                f"{label:<34}{old:>9.4f}{new:>9.4f}{new - old:>+9.4f}"
-                f"{record['probe_selected_C_unscaled']:>9g}"
-                f"{'yes' if record['probe_underfit_train_unscaled'] else 'no':>10}"
-            )
+            for key in keys:
+                old = original_endpoint(run_dir, key)
+                new = record.get(key)
+                if old is None or new is None:
+                    continue
+                attribute = key.replace("probe_accuracy_unscaled", "").lstrip("_") or "all"
+                label = f"{record['tag']}/{record['condition']} [{attribute}]"
+                suffix = key.replace("probe_accuracy_unscaled", "")
+                selected = record.get(f"probe_selected_C_unscaled{suffix}", float("nan"))
+                underfit = record.get(f"probe_underfit_train_unscaled{suffix}", 0.0)
+                print(
+                    f"{label:<46}{old:>9.4f}{new:>9.4f}{new - old:>+9.4f}"
+                    f"{selected:>9g}{'yes' if underfit else 'no':>10}"
+                )
         print()
         print("A large positive delta means the old number was an optimiser artifact,")
         print("not a property of the representation.")

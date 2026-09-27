@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from jepa_lens.stats import (
+from embedding_diagnostics.stats import (
     CONTRASTS,
     paired_contrast,
     summarize_condition,

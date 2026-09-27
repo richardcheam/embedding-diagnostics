@@ -480,7 +480,7 @@ def _embed_json(value: object) -> str:
 
 def build_html(
     runs: dict[str, list[dict]],
-    title: str = "jepa-lens",
+    title: str = "embedding-diagnostics",
     scorecard: list[dict] | None = None,
     provenance: str = "",
     dataset: str = "calibration bench",

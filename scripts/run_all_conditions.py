@@ -18,8 +18,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-from jepa_lens.hardware import plan_gpu_waves
-from jepa_lens.planning import build_jobs, parse_seeds, partition_jobs, preflight
+from embedding_diagnostics.hardware import plan_gpu_waves
+from embedding_diagnostics.planning import build_jobs, parse_seeds, partition_jobs, preflight
 
 ROOT = Path(__file__).resolve().parents[1]
 CONDITIONS = [

@@ -15,8 +15,8 @@ import argparse
 import json
 from pathlib import Path
 
-from jepa_lens.report_html import build_html
-from jepa_lens.runs import load_runs
+from embedding_diagnostics.report_html import build_html
+from embedding_diagnostics.runs import load_runs
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -183,7 +183,7 @@ def main() -> int:
     parser.add_argument("--seeds", default="0,1,2,3,4", help="seeds for --scorecard-tag")
     parser.add_argument("--experiments-dir", default=str(ROOT / "experiments"))
     parser.add_argument("--out", default=str(ROOT / "viz" / "dist" / "report.html"))
-    parser.add_argument("--title", default="jepa-lens")
+    parser.add_argument("--title", default="embedding-diagnostics")
     args = parser.parse_args()
 
     experiments_dir = Path(args.experiments_dir)

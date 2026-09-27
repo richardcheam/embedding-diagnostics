@@ -11,8 +11,8 @@ import pytest
 import torch
 from PIL import Image
 
-from jepa_lens.bdd100k import ATTRIBUTE_VOCAB, build_bdd_dataloaders, load_index
-from jepa_lens.diagnostics.retrieval import retrieval_precision_at_k
+from embedding_diagnostics.bdd100k import ATTRIBUTE_VOCAB, build_bdd_dataloaders, load_index
+from embedding_diagnostics.diagnostics.retrieval import retrieval_precision_at_k
 
 
 def make_bdd_tree(root, split, entries):
@@ -91,7 +91,7 @@ def test_build_bdd_dataloaders_returns_the_standard_contract(bdd_root):
 
 
 def test_dataset_dispatch_reaches_bdd(bdd_root):
-    from jepa_lens.data import build_dataloaders
+    from embedding_diagnostics.data import build_dataloaders
 
     ssl_loader, _, _ = build_dataloaders(bdd_config(bdd_root))
     images, _ = next(iter(ssl_loader))
@@ -99,7 +99,7 @@ def test_dataset_dispatch_reaches_bdd(bdd_root):
 
 
 def test_unknown_dataset_is_rejected():
-    from jepa_lens.data import build_dataloaders
+    from embedding_diagnostics.data import build_dataloaders
 
     with pytest.raises(ValueError, match="unknown dataset"):
         build_dataloaders({"data": {"dataset": "imagenet"}})
@@ -133,7 +133,7 @@ def test_retrieval_excludes_self_matches():
 def test_evaluate_handles_dict_labels_with_per_attribute_keys():
     """The trainer must probe each scenario attribute separately AND publish
     the across-attribute means under the canonical keys every tool reads."""
-    from jepa_lens.training.trainer import Trainer
+    from embedding_diagnostics.training.trainer import Trainer
     from test_phase2_conditions import tiny_config
 
     trainer = Trainer(tiny_config("none_stopgrad"))
@@ -154,7 +154,7 @@ def test_evaluate_handles_dict_labels_with_per_attribute_keys():
 
 
 def test_evaluate_still_handles_plain_array_labels():
-    from jepa_lens.training.trainer import Trainer
+    from embedding_diagnostics.training.trainer import Trainer
     from test_phase2_conditions import tiny_config
 
     trainer = Trainer(tiny_config("none_stopgrad"))
@@ -181,7 +181,7 @@ def make_per_image_tree(root, split, entries):
 
 
 def test_per_image_layout_is_detected_and_parsed(tmp_path):
-    from jepa_lens.bdd100k import discover_split_dir
+    from embedding_diagnostics.bdd100k import discover_split_dir
 
     make_per_image_tree(
         tmp_path,
@@ -201,7 +201,7 @@ def test_per_image_layout_is_detected_and_parsed(tmp_path):
 
 
 def test_official_layout_still_wins_when_both_could_match(tmp_path):
-    from jepa_lens.bdd100k import discover_split_dir
+    from embedding_diagnostics.bdd100k import discover_split_dir
 
     make_bdd_tree(tmp_path, "train", [("a.jpg", CLEAN)])
     (tmp_path / "train").mkdir(exist_ok=True)
@@ -243,7 +243,7 @@ def test_corrupt_sidecar_does_not_kill_the_index(tmp_path):
 def test_index_is_cached_and_reused(tmp_path):
     make_per_image_tree(tmp_path, "train", [("a", {"attributes": CLEAN})])
     first = load_index(tmp_path, "train")
-    cache = tmp_path / ".jepa_lens_index_train.json"
+    cache = tmp_path / ".embedding_diagnostics_index_train.json"
     assert cache.is_file()
 
     # Corrupt the sidecar; a cached read must not notice.
@@ -253,7 +253,7 @@ def test_index_is_cached_and_reused(tmp_path):
 
 
 def test_missing_split_names_the_paths_it_tried(tmp_path):
-    from jepa_lens.bdd100k import discover_split_dir
+    from embedding_diagnostics.bdd100k import discover_split_dir
 
     with pytest.raises(FileNotFoundError, match="images/100k/train"):
         discover_split_dir(tmp_path, "train")

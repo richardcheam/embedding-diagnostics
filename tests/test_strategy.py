@@ -2,7 +2,7 @@ import pytest
 import torch
 from torch import nn
 
-from jepa_lens.training.strategy import build_strategy
+from embedding_diagnostics.training.strategy import build_strategy
 
 CONDITIONS = ["ema_stopgrad", "sigreg_stopgrad", "sigreg_nostopgrad", "none_nostopgrad"]
 

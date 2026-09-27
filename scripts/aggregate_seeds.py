@@ -10,7 +10,7 @@ pre-registered final checkpoint:
                       two-sided 95% Student-t confidence interval
 
 Contrasts are the five pre-declared factorial comparisons in
-`jepa_lens.stats.CONTRASTS`. EMA appears only in the descriptives: it differs
+`embedding_diagnostics.stats.CONTRASTS`. EMA appears only in the descriptives: it differs
 from the shared-encoder conditions in two factors at once, so it cannot
 estimate a stop-gradient-only effect.
 
@@ -27,9 +27,9 @@ import argparse
 import re
 from pathlib import Path
 
-from jepa_lens.logging_utils import read_jsonl
-from jepa_lens.runs import CONDITION_ORDER
-from jepa_lens.stats import CONTRASTS, paired_contrast, summarize_condition
+from embedding_diagnostics.logging_utils import read_jsonl
+from embedding_diagnostics.runs import CONDITION_ORDER
+from embedding_diagnostics.stats import CONTRASTS, paired_contrast, summarize_condition
 
 ROOT = Path(__file__).resolve().parents[1]
 

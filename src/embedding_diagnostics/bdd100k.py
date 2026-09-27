@@ -129,12 +129,12 @@ def load_index(
     The per-image layout means one `open()` per image to build the index, which
     is minutes across 70k files and would otherwise be repeated by all 21 runs
     of a seeded matrix. The result is cached beside the data; delete
-    `.jepa_lens_index_<split>.json` to force a rebuild.
+    `.embedding_diagnostics_index_<split>.json` to force a rebuild.
     """
     root = Path(root)
     image_dir, layout = discover_split_dir(root, split)
 
-    cache_path = root / f".jepa_lens_index_{split}.json"
+    cache_path = root / f".embedding_diagnostics_index_{split}.json"
     if use_cache and cache_path.is_file():
         cached = json.loads(cache_path.read_text())
         return [(image_dir / name, codes) for name, codes in cached]

@@ -8,7 +8,7 @@ is void.
 import numpy as np
 import pytest
 
-from jepa_lens.degradation import (
+from embedding_diagnostics.degradation import (
     DEFAULT_SEVERITIES,
     TRANSFORMS,
     diagnose_transform,
@@ -19,7 +19,7 @@ from jepa_lens.degradation import (
     scale_contraction,
     sweep,
 )
-from jepa_lens.diagnostics.metrics import collapse_metrics, participation_ratio, rankme
+from embedding_diagnostics.diagnostics.metrics import collapse_metrics, participation_ratio, rankme
 
 
 @pytest.fixture

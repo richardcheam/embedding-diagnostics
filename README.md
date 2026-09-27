@@ -1,4 +1,4 @@
-# jepa-lens
+# embedding-diagnostics
 
 Can you trust a self-supervised scenario embedding? This project manufactures known modes
 of representation degeneration in masked JEPA training — via stop-gradient, SIGReg, and a
@@ -17,8 +17,10 @@ ends on the finding. Read it before the report.
 **Already have the background: [`docs/STATUS.md`](docs/STATUS.md)** — the plain-language
 story of what we set out to test, what actually happened, and what is still open.
 
-**Status:** **Phase A complete** — 7 conditions x 5 paired seeds on CIFAR-10, endpoints and
-claim rule fixed in advance. Phase B (BDD100K driving scenarios) is next.
+**Status:** **Phases A and B complete** — 7 conditions x 5 paired seeds each, on CIFAR-10
+and on BDD100K driving scenarios, endpoints and claim rule fixed in advance. Re-measuring
+Phase B from its saved encoders refuted the original headline claim; Phase A's probe
+numbers are still uncorrected, because that campaign predates encoder saving.
 
 ## Honesty note
 
@@ -205,7 +207,7 @@ make -C report                                          # -> report/main.pdf
 # Interactive demo: one self-contained HTML file, no server, works offline
 uv run python viz/build_report.py \
   --tag phaseA_s0 --scorecard-tag phaseA --seeds 0,1,2,3,4 \
-  --title "jepa-lens: can you trust a self-supervised embedding?"
+  --title "embedding-diagnostics: can you trust a self-supervised embedding?"
 ```
 
 The demo is built around the finding rather than being a generic dashboard. It opens with

@@ -1,6 +1,6 @@
 import pytest
 
-from jepa_lens.hardware import (
+from embedding_diagnostics.hardware import (
     EnvironmentInfo,
     dataloader_shm_bytes,
     diagnose,

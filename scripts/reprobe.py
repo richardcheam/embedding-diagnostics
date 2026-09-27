@@ -9,7 +9,7 @@ feature magnitude, and on severely scale-contracted embeddings the default
 `tol=1e-4` is met almost immediately. The solver takes two or three steps, never
 fits, predicts the majority class, reports chance -- and raises no
 ConvergenceWarning. Every unstandardized probe endpoint measured on a contracted
-representation is therefore suspect. See `jepa_lens.diagnostics.probe`.
+representation is therefore suspect. See `embedding_diagnostics.diagnostics.probe`.
 
 Retraining to fix a measurement would be absurd, and the encoder is saved, so
 this reloads it, re-embeds the same evaluation split, and refits the probes under
@@ -30,9 +30,9 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from jepa_lens.data import build_dataloaders
-from jepa_lens.diagnostics.probe import ProbeConfig, linear_probe_scores, majority_rate
-from jepa_lens.training.trainer import Trainer
+from embedding_diagnostics.data import build_dataloaders
+from embedding_diagnostics.diagnostics.probe import ProbeConfig, linear_probe_scores, majority_rate
+from embedding_diagnostics.training.trainer import Trainer
 
 ROOT = Path(__file__).resolve().parents[1]
 

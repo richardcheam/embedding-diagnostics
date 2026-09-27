@@ -9,8 +9,8 @@ import numpy as np
 import pytest
 import torch
 
-from jepa_lens.training.strategy import build_strategy
-from jepa_lens.training.trainer import Trainer
+from embedding_diagnostics.training.strategy import build_strategy
+from embedding_diagnostics.training.trainer import Trainer
 
 
 def tiny_config(name: str, projector_dim: int = 0, seed: int = 0) -> dict:
@@ -140,7 +140,7 @@ def test_same_seed_pairs_masks_across_conditions():
     torch.manual_seed(999)  # pollute the global RNG to prove it is not used
     first = Trainer(tiny_config("none_stopgrad", seed=3))
     second = Trainer(tiny_config("sigreg_nostopgrad", seed=3))
-    from jepa_lens.data import sample_block_masks
+    from embedding_diagnostics.data import sample_block_masks
 
     mask_a = sample_block_masks(4, 4, 2, (0.15, 0.2), (0.75, 1.5), first.generator)
     mask_b = sample_block_masks(4, 4, 2, (0.15, 0.2), (0.75, 1.5), second.generator)
@@ -151,7 +151,7 @@ def test_same_seed_pairs_masks_across_conditions():
 def test_different_seeds_produce_different_masks():
     first = Trainer(tiny_config("none_stopgrad", seed=0))
     second = Trainer(tiny_config("none_stopgrad", seed=1))
-    from jepa_lens.data import sample_block_masks
+    from embedding_diagnostics.data import sample_block_masks
 
     mask_a = sample_block_masks(4, 4, 2, (0.15, 0.2), (0.75, 1.5), first.generator)
     mask_b = sample_block_masks(4, 4, 2, (0.15, 0.2), (0.75, 1.5), second.generator)
@@ -224,7 +224,7 @@ def test_bdd_probe_split_follows_eval_split_seed_not_the_run_seed(tmp_path):
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from jepa_lens.bdd100k import build_bdd_dataloaders
+    from embedding_diagnostics.bdd100k import build_bdd_dataloaders
     from test_bdd100k import CLEAN, RAINY, make_per_image_tree
 
     for split in ("train", "val"):

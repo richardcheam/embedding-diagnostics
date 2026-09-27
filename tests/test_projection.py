@@ -1,6 +1,6 @@
 import numpy as np
 
-from jepa_lens.diagnostics.projection import project_2d
+from embedding_diagnostics.diagnostics.projection import project_2d
 
 
 def test_projection_returns_two_dimensions():

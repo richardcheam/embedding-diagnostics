@@ -1,6 +1,6 @@
 import torch
 
-from jepa_lens.data import sample_block_masks
+from embedding_diagnostics.data import sample_block_masks
 
 
 def test_masks_have_expected_shapes():

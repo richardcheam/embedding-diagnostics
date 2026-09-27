@@ -26,7 +26,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from jepa_lens.logging_utils import read_jsonl
+from embedding_diagnostics.logging_utils import read_jsonl
 
 ROOT = Path(__file__).resolve().parents[1]
 KERNEL_NOISE_FLOOR = 0.005  # same-seed rerun spread, measured (development log)

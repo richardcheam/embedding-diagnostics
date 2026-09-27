@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from jepa_lens.config import load_config
+from embedding_diagnostics.config import load_config
 
 CONFIGS = Path(__file__).resolve().parents[1] / "configs"
 

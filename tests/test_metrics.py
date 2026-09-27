@@ -1,6 +1,6 @@
 import numpy as np
 
-from jepa_lens.diagnostics.metrics import collapse_metrics, effective_rank
+from embedding_diagnostics.diagnostics.metrics import collapse_metrics, effective_rank
 
 
 def test_constant_embeddings_have_effective_rank_near_one():
@@ -122,7 +122,7 @@ def test_rankme_and_participation_ratio_are_genuinely_different_measures():
     on the centered covariance spectrum. A distribution that is isotropic
     around a far-off mean therefore separates them decisively.
     """
-    from jepa_lens.diagnostics.metrics import participation_ratio, rankme
+    from embedding_diagnostics.diagnostics.metrics import participation_ratio, rankme
 
     rng = np.random.default_rng(0)
     shifted = rng.normal(size=(512, 16)) + 50.0

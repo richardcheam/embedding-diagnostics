@@ -1,6 +1,6 @@
 import json
 
-from jepa_lens.logging_utils import RunLogger, read_jsonl
+from embedding_diagnostics.logging_utils import RunLogger, read_jsonl
 
 
 def test_logger_roundtrips_records(tmp_path):

@@ -21,7 +21,7 @@ from pathlib import Path
 
 import numpy as np
 
-from jepa_lens.degradation import DEFAULT_SEVERITIES, TRANSFORMS, diagnose_transform
+from embedding_diagnostics.degradation import DEFAULT_SEVERITIES, TRANSFORMS, diagnose_transform
 
 ROOT = Path(__file__).resolve().parents[1]
 

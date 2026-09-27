@@ -1,7 +1,7 @@
 import pytest
 import torch
 
-from jepa_lens.training.sigreg import sigreg_loss
+from embedding_diagnostics.training.sigreg import sigreg_loss
 
 
 def test_returns_finite_scalar():

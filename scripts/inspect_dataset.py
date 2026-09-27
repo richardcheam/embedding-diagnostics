@@ -18,7 +18,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from jepa_lens.bdd100k import ATTRIBUTE_VOCAB, discover_split_dir, load_index
+from embedding_diagnostics.bdd100k import ATTRIBUTE_VOCAB, discover_split_dir, load_index
 
 
 def main() -> int:
@@ -28,7 +28,7 @@ def main() -> int:
     parser.add_argument(
         "--no-cache",
         action="store_true",
-        help="rebuild the index instead of reading .jepa_lens_index_<split>.json",
+        help="rebuild the index instead of reading .embedding_diagnostics_index_<split>.json",
     )
     args = parser.parse_args()
 

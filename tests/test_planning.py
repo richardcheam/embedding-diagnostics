@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from jepa_lens.planning import (
+from embedding_diagnostics.planning import (
     Job,
     build_jobs,
     completed_step,

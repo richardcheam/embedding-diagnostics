@@ -10,7 +10,7 @@ Prints, in order:
    (it does not -- that negative is the reason the panel uses absolute limits);
 3. whether the absolute panel separates them (it does), with the margins.
 
-Every claim in `jepa_lens.panel`'s docstring is reproduced by this script, so a
+Every claim in `embedding_diagnostics.panel`'s docstring is reproduced by this script, so a
 reader can check the reasoning rather than take it on trust.
 """
 
@@ -22,7 +22,7 @@ from pathlib import Path
 
 import numpy as np
 
-from jepa_lens.panel import (
+from embedding_diagnostics.panel import (
     CANDIDATES,
     OBSERVED_MARGINS,
     RECOMMENDED_PANEL,

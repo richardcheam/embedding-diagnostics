@@ -11,7 +11,7 @@ controlled degradations and the same recorded readings the claims came from.
 import numpy as np
 import pytest
 
-from jepa_lens.panel import (
+from embedding_diagnostics.panel import (
     CANDIDATES,
     RECOMMENDED_PANEL,
     PanelThresholds,

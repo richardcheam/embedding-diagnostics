@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import argparse
 
-from jepa_lens.hardware import diagnose, format_report, probe_environment
+from embedding_diagnostics.hardware import diagnose, format_report, probe_environment
 
 
 def main() -> int:

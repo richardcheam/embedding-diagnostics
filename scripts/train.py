@@ -11,17 +11,17 @@ from pathlib import Path
 
 import torch
 
-from jepa_lens.config import load_config
-from jepa_lens.data import build_dataloaders
-from jepa_lens.hardware import require_device
-from jepa_lens.logging_utils import RunLogger
-from jepa_lens.training.trainer import Trainer, count_parameters
+from embedding_diagnostics.config import load_config
+from embedding_diagnostics.data import build_dataloaders
+from embedding_diagnostics.hardware import require_device
+from embedding_diagnostics.logging_utils import RunLogger
+from embedding_diagnostics.training.trainer import Trainer, count_parameters
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train one jepa-lens condition")
+    parser = argparse.ArgumentParser(description="Train one condition")
     parser.add_argument("--condition", required=True)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--total-steps", type=int, default=None, help="override config")

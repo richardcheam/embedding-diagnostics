@@ -147,7 +147,7 @@ def build_dataloaders(config: dict[str, Any]) -> tuple[DataLoader, tuple, tuple]
     """Build the SSL loader plus frozen probe splits for the configured dataset.
 
     Dispatches on `data.dataset`: "cifar10" (this module) or "bdd100k"
-    (`jepa_lens.bdd100k`). Both return the same (ssl_loader, probe_train,
+    (`embedding_diagnostics.bdd100k`). Both return the same (ssl_loader, probe_train,
     probe_test) contract; BDD's probe labels are a dict of scenario attributes
     rather than a single class array.
 

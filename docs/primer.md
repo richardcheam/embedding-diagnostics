@@ -514,7 +514,7 @@ a re-run. Do not quote its probe values.
 
 ```bash
 uv run python viz/build_report.py --tag phaseA_s0 --scorecard-tag phaseA --seeds 0,1,2,3,4 \
-  --title "jepa-lens: can you trust a self-supervised embedding?"
+  --title "embedding-diagnostics: can you trust a self-supervised embedding?"
 open viz/dist/report.html
 ```
 

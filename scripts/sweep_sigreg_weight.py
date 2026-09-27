@@ -22,7 +22,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from jepa_lens.hardware import plan_gpu_waves
+from embedding_diagnostics.hardware import plan_gpu_waves
 
 ROOT = Path(__file__).resolve().parents[1]
 SIGREG_CONDITIONS = ["sigreg_stopgrad", "sigreg_nostopgrad"]

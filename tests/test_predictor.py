@@ -1,6 +1,6 @@
 import torch
 
-from jepa_lens.models.predictor import MLPPredictor
+from embedding_diagnostics.models.predictor import MLPPredictor
 
 
 def test_output_shape_matches_target_count():

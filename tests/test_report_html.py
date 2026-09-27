@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from jepa_lens.report_html import build_html
+from embedding_diagnostics.report_html import build_html
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "viz"))
 

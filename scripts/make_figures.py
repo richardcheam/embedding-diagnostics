@@ -9,8 +9,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from jepa_lens.figures import build_all_figures
-from jepa_lens.runs import load_runs
+from embedding_diagnostics.figures import build_all_figures
+from embedding_diagnostics.runs import load_runs
 
 ROOT = Path(__file__).resolve().parents[1]
 

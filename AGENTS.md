@@ -2,13 +2,14 @@
 
 ## What this is
 
-A four-condition ablation harness testing JEPA collapse-prevention mechanisms. It is a
-diagnostic study, not a benchmark attempt. Nothing here is trying to reach state of the art.
+A seven-condition harness that manufactures known degeneration modes in JEPA training and
+tests which label-free diagnostics detect them. It is a diagnostic study, not a benchmark
+attempt. Nothing here is trying to reach state of the art.
 
 ## Non-negotiable constraints
 
 **One training loop.** All seven conditions run through `Trainer` in
-`src/jepa_lens/training/trainer.py`. The only thing that varies is the
+`src/embedding_diagnostics/training/trainer.py`. The only thing that varies is the
 `CollapsePreventionStrategy`. Never add a condition-specific branch to the loop — if a
 condition needs different behaviour, it goes behind the strategy interface. A difference in
 results must be attributable to the mechanism, not to the loop. This is a correctness
@@ -22,7 +23,7 @@ is worthless.
 
 **Provenance in docstrings.** Any module reimplementing a published method cites the paper.
 If the implementation is unvalidated, the docstring says so — see
-`src/jepa_lens/training/sigreg.py` for the pattern.
+`src/embedding_diagnostics/training/sigreg.py` for the pattern.
 
 **Negative results are reported.** If the replication fails, the report says the replication
 failed, in the abstract and the conclusion. Do not bury it.
@@ -105,7 +106,7 @@ added by the audit:
 - **No single-seed claims.** A difference is real only if it clears 2x the across-seed SD
   **WITHDRAWN 2026-08-14 (96184e2), before any Phase-A run.** It was not a paired
   analysis and acted as an arbitrary threshold. The protocol in force is paired
-  Student-t 95% intervals over the five contrasts in `jepa_lens.stats.CONTRASTS`, with
+  Student-t 95% intervals over the five contrasts in `embedding_diagnostics.stats.CONTRASTS`, with
   no verdict language: never label a result significant, real, learned, or collapsed.
   `aggregate_seeds.py` prints the intervals.
 - **The projector is part of the design.** SIGReg results without a projector describe the

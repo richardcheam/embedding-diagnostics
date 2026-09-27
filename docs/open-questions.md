@@ -8,7 +8,7 @@ context.
 
 ### Original open question
 
-`src/jepa_lens/training/sigreg.py` was written from a summary-level
+`src/embedding_diagnostics/training/sigreg.py` was written from a summary-level
 understanding of LeJEPA (arXiv 2511.08544), not an end-to-end reading.
 
 **Not yet done:** compare against the reference implementation at

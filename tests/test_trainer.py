@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import torch
 
-from jepa_lens.training.trainer import Trainer
+from embedding_diagnostics.training.trainer import Trainer
 
 CONDITIONS = ["ema_stopgrad", "sigreg_stopgrad", "sigreg_nostopgrad", "none_nostopgrad"]
 
@@ -170,7 +170,7 @@ def test_save_artifacts_writes_a_loadable_encoder_and_embeddings(tmp_path):
 def test_saved_embeddings_match_what_the_diagnostics_scored(tmp_path):
     """If the stored matrix were not the one evaluate() read, every post-hoc
     diagnostic would silently describe a different representation."""
-    from jepa_lens.diagnostics.metrics import collapse_metrics
+    from embedding_diagnostics.diagnostics.metrics import collapse_metrics
 
     trainer = Trainer(tiny_config("ema_stopgrad"))
     rng = np.random.default_rng(0)
@@ -219,7 +219,7 @@ def test_save_artifacts_can_be_disabled(tmp_path):
     probe_train = (torch.randn(20, 3, 32, 32), rng.integers(0, 3, 20))
     probe_test = (torch.randn(10, 3, 32, 32), rng.integers(0, 3, 10))
 
-    from jepa_lens.logging_utils import RunLogger
+    from embedding_diagnostics.logging_utils import RunLogger
 
     with RunLogger(tmp_path / "run") as logger:
         trainer.fit([(torch.randn(4, 3, 32, 32), None)], probe_train, probe_test, logger)
@@ -236,7 +236,7 @@ def test_fit_saves_artifacts_by_default(tmp_path):
     probe_train = (torch.randn(20, 3, 32, 32), rng.integers(0, 3, 20))
     probe_test = (torch.randn(10, 3, 32, 32), rng.integers(0, 3, 10))
 
-    from jepa_lens.logging_utils import RunLogger
+    from embedding_diagnostics.logging_utils import RunLogger
 
     with RunLogger(tmp_path / "run") as logger:
         trainer.fit([(torch.randn(4, 3, 32, 32), None)], probe_train, probe_test, logger)

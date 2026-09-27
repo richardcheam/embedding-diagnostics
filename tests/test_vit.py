@@ -1,6 +1,6 @@
 import torch
 
-from jepa_lens.models.vit import ViTEncoder
+from embedding_diagnostics.models.vit import ViTEncoder
 
 
 def make_encoder() -> ViTEncoder:

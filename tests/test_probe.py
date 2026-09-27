@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import torch
 
-from jepa_lens.diagnostics.probe import (
+from embedding_diagnostics.diagnostics.probe import (
     ProbeConfig,
     linear_probe_accuracy,
     linear_probe_scores,
@@ -118,7 +118,7 @@ def test_standardize_flag_defaults_to_true():
 
 def test_majority_rate_is_the_real_floor_on_skewed_labels():
     """BDD's `scene` is 71% one class; accuracy must be read against this."""
-    from jepa_lens.diagnostics.probe import majority_rate
+    from embedding_diagnostics.diagnostics.probe import majority_rate
 
     labels = np.array([0] * 71 + [1] * 20 + [2] * 9)
     assert abs(majority_rate(labels) - 0.71) < 1e-12
@@ -126,7 +126,7 @@ def test_majority_rate_is_the_real_floor_on_skewed_labels():
 
 def test_retrieval_chance_is_class_self_match_not_one_over_k():
     """With two dominant classes, random retrieval already scores ~0.6."""
-    from jepa_lens.diagnostics.probe import retrieval_chance
+    from embedding_diagnostics.diagnostics.probe import retrieval_chance
 
     labels = np.array([0] * 71 + [1] * 28 + [2] * 1)
     expected = 0.71**2 + 0.28**2 + 0.01**2
@@ -137,7 +137,7 @@ def test_retrieval_chance_is_class_self_match_not_one_over_k():
 def test_balanced_accuracy_exposes_a_majority_only_probe():
     """A probe that has learned nothing but the prior scores high raw accuracy
     and chance-level balanced accuracy. That gap is the point."""
-    from jepa_lens.diagnostics.probe import linear_probe_scores
+    from embedding_diagnostics.diagnostics.probe import linear_probe_scores
 
     rng = np.random.default_rng(0)
     # Features carry no class information at all.
@@ -152,7 +152,7 @@ def test_balanced_accuracy_exposes_a_majority_only_probe():
 def test_classes_below_min_support_are_dropped_and_counted():
     """BDD has 27 'gas stations' images in 70k; such classes cannot be scored,
     and the count of dropped ones is reported rather than hidden."""
-    from jepa_lens.diagnostics.probe import linear_probe_scores
+    from embedding_diagnostics.diagnostics.probe import linear_probe_scores
 
     rng = np.random.default_rng(0)
     features = rng.normal(size=(120, 4))
@@ -163,7 +163,7 @@ def test_classes_below_min_support_are_dropped_and_counted():
 
 
 def test_evaluate_logs_a_floor_for_every_headline_number():
-    from jepa_lens.training.trainer import Trainer
+    from embedding_diagnostics.training.trainer import Trainer
     from test_phase2_conditions import tiny_config
 
     trainer = Trainer(tiny_config("none_stopgrad"))
@@ -185,7 +185,7 @@ def test_evaluate_logs_a_floor_for_every_headline_number():
 def test_chance_adjustment_rescales_so_zero_is_chance():
     """On BDD's scene, chance retrieval is ~0.46; raw 0.50 is 0.07 adjusted,
     not the '3x chance' a reader would infer from 1/K."""
-    from jepa_lens.diagnostics.probe import chance_adjusted
+    from embedding_diagnostics.diagnostics.probe import chance_adjusted
 
     assert chance_adjusted(0.46, 0.46) == pytest.approx(0.0)
     assert chance_adjusted(1.0, 0.46) == pytest.approx(1.0)
@@ -194,7 +194,7 @@ def test_chance_adjustment_rescales_so_zero_is_chance():
 
 
 def test_chance_adjustment_handles_a_degenerate_denominator():
-    from jepa_lens.diagnostics.probe import chance_adjusted
+    from embedding_diagnostics.diagnostics.probe import chance_adjusted
 
     assert np.isnan(chance_adjusted(1.0, 1.0))  # single-class split
     assert np.isnan(chance_adjusted(0.5, float("nan")))
@@ -203,7 +203,7 @@ def test_chance_adjustment_handles_a_degenerate_denominator():
 def test_macro_f1_penalises_a_probe_that_over_predicts_the_majority():
     """Balanced accuracy is recall-only; macro-F1 also charges for the
     false positives a majority-latching probe generates."""
-    from jepa_lens.diagnostics.probe import linear_probe_scores
+    from embedding_diagnostics.diagnostics.probe import linear_probe_scores
 
     rng = np.random.default_rng(0)
     features = rng.normal(size=(400, 6))  # carries no class information
@@ -214,7 +214,7 @@ def test_macro_f1_penalises_a_probe_that_over_predicts_the_majority():
 
 def test_macro_retrieval_weights_rare_classes_equally():
     """Micro P@10 is dominated by the majority class; macro is not."""
-    from jepa_lens.diagnostics.retrieval import (
+    from embedding_diagnostics.diagnostics.retrieval import (
         retrieval_macro_precision_at_k,
         retrieval_precision_at_k,
     )
@@ -233,7 +233,7 @@ def test_macro_retrieval_weights_rare_classes_equally():
 
 
 def test_macro_retrieval_drops_classes_below_support():
-    from jepa_lens.diagnostics.retrieval import retrieval_macro_precision_at_k
+    from embedding_diagnostics.diagnostics.retrieval import retrieval_macro_precision_at_k
 
     rng = np.random.default_rng(0)
     features = rng.normal(size=(60, 4))
@@ -243,7 +243,7 @@ def test_macro_retrieval_drops_classes_below_support():
 
 
 def test_evaluate_logs_macro_f1_and_adjusted_retrieval_per_attribute():
-    from jepa_lens.training.trainer import Trainer
+    from embedding_diagnostics.training.trainer import Trainer
     from test_phase2_conditions import tiny_config
 
     trainer = Trainer(tiny_config("none_stopgrad"))

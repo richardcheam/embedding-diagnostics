@@ -14,7 +14,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from jepa_lens.planning import Job  # noqa: E402
+from embedding_diagnostics.planning import Job  # noqa: E402
 from run_all_conditions import build_command  # noqa: E402
 
 
@@ -125,7 +125,7 @@ def test_a_normal_run_does_not_replace_anything(job):
 def test_parallel_pins_each_child_to_its_assigned_gpu():
     """CUDA_VISIBLE_DEVICES is how a job is confined to one card. The child then
     sees it as device 0, so --device cuda inside means the assigned GPU."""
-    from jepa_lens.hardware import plan_gpu_waves
+    from embedding_diagnostics.hardware import plan_gpu_waves
 
     waves = plan_gpu_waves(["a", "b", "c"], [2], jobs_per_gpu=2)
     assert waves == [[("a", 2), ("b", 2)], [("c", 2)]]

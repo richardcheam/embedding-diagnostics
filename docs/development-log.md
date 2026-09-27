@@ -34,9 +34,11 @@ Two notes on the SIGReg one, which was the most serious:
 ## Process caveats
 
 - Four commits did not pass through the normal implement-then-independently-review path,
-  because repeated API outages blocked subagent dispatch: `23904b7` (HTML escaping),
-  `2034790` (the global-RNG fix), `dcc2ada` and `8ba67c9` (test hardening). All four were
+  because repeated API outages blocked subagent dispatch: `6ae2e69` (HTML escaping),
+  `51184f4` (the global-RNG fix), `ac07725` and `f9c4f46` (test hardening). All four were
   subsequently covered by the final whole-branch review, which found no issues in them.
+  (These IDs were updated on 2026-09-27, when the history was rewritten to change the
+  author email; the commits are otherwise unchanged.)
 - The README and agent conventions were written before the figure and HTML tooling
   existed, so for a period the README documented files that did not yet exist. Resolved
   once those tasks landed; every documented command was then verified to run.

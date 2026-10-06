@@ -10,7 +10,7 @@
     'Two protocols. One encoder. The original score is retained as an audit record.',
     'The original optimizer settings underfit small-magnitude features. Test the instrument.',
     'Corrected fitting changes the reading. The encoder and evaluation split remain fixed.',
-    'Linear decodability and neighbour quality are separate endpoints. Compare them below.'
+    'Label prediction and neighbour quality are separate endpoints. The Results section reports both.'
   ];
   function setStage(index) {
     stage.dataset.state = steps[index].dataset.state;
@@ -96,10 +96,10 @@
     const attribute = document.getElementById('attribute').value;
     const charts = document.getElementById('measured-charts');
     charts.replaceChildren(
-      chart(data,'total_variance','Total variance / log scale',true),
-      chart(data,`probe_accuracy_unscaled_${attribute}`,'Corrected unscaled probe / accuracy',false,`probe_majority_${attribute}`),
-      chart(data,`probe_balanced_accuracy_unscaled_${attribute}`,'Corrected unscaled probe / balanced accuracy'),
-      chart(data,`retrieval_p10_${attribute}`,'Cosine retrieval / P@10',false,`retrieval_chance_${attribute}`)
+      chart(data,'total_variance','Embedding spread / total variance',true),
+      chart(data,`probe_accuracy_unscaled_${attribute}`,'Label prediction / corrected probe accuracy',false,`probe_majority_${attribute}`),
+      chart(data,`probe_balanced_accuracy_unscaled_${attribute}`,'Label prediction / balanced accuracy'),
+      chart(data,`retrieval_p10_${attribute}`,'Neighbour label agreement / P@10',false,`retrieval_chance_${attribute}`)
     );
     const table = document.createElement('table');
     const caption = document.createElement('caption');

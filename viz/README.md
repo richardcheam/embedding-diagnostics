@@ -12,6 +12,14 @@ Open `http://localhost:8080/`. Building uses only Python's standard library. The
 uses relative URLs, local SVG/JavaScript/CSS, and no external fonts or animation services.
 Generated output is ignored by Git.
 
+## Report structure
+
+The page introduces the problem before the measurements: motivation, controlled approach,
+datasets and evaluation definitions, corrected results, the measurement audit, and limits
+with next steps. Dataset names, JEPA, the interventions, linear probing, and retrieval P@10
+are explained before their results. Architecture details and rank formulas are optional
+expandable material. The scroll audit follows the results rather than acting as the introduction.
+
 ## Evidence and publication safeguards
 
 - Geometry and retrieval: final step-4,000 records from `experiments/phaseB_s*/**/metrics.jsonl`.

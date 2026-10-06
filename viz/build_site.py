@@ -162,9 +162,19 @@ def build(experiments: Path, out: Path) -> None:
         "__OLD__": f"{100 * mean(data, control, 'original_probe_timeofday'):.2f}",
         "__NEW__": f"{100 * mean(data, control, 'probe_accuracy_unscaled_timeofday'):.2f}",
         "__VARIANCE__": f"{mean(data, control, 'total_variance'):.7f}",
+        "__REFERENCE_VARIANCE__": f"{mean(data, 'ema_stopgrad', 'total_variance'):.2f}",
         "__RANKME__": f"{mean(data, control, 'rankme'):.2f}",
         "__WARNINGS__": str(warnings),
         "__TABLE__": evidence_table(data),
+        "__REFERENCE_PROBE__": (
+            f"{100 * mean(data, 'ema_stopgrad', 'probe_accuracy_unscaled_timeofday'):.2f}"
+        ),
+        "__CONTROL_RETRIEVAL__": (
+            f"{100 * mean(data, control, 'retrieval_p10_timeofday'):.2f}"
+        ),
+        "__REFERENCE_RETRIEVAL__": (
+            f"{100 * mean(data, 'ema_stopgrad', 'retrieval_p10_timeofday'):.2f}"
+        ),
     }
     for label, key in (("OLD", "original_probe_timeofday"),
                        ("NEW", "probe_accuracy_unscaled_timeofday")):

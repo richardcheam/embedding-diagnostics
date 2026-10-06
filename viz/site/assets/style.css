@@ -101,9 +101,9 @@ nav {
   padding-top:62px
 }
 h1 {
-  font-size:clamp(58px,7.3vw,104px);
-  line-height:1.01;
-  letter-spacing:-.065em;
+  font-size:clamp(42px,5.4vw,72px);
+  line-height:1.06;
+  letter-spacing:-.05em;
   font-weight:500;
   max-width:1000px;
   margin:35px 0 36px
@@ -130,7 +130,180 @@ h3 {
 }
 .hero-bottom p {
   font-size:16px;
+  color:var(--muted);
+  max-width:69ch
+}
+.project-summary {
+  margin:34px 0 0;
+  border-top:1px solid var(--ink)
+}
+.project-summary>div {
+  display:grid;
+  grid-template-columns:150px 1fr;
+  gap:30px;
+  border-bottom:1px solid var(--line);
+  padding:17px 0
+}
+.project-summary dt {
+  font:11px ui-monospace,SFMono-Regular,Consolas,monospace;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding-top:4px
+}
+.project-summary dd {
+  margin:0;
+  font-size:14px;
+  line-height:1.55;
+  max-width:85ch
+}
+.report-contents {
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px 28px;
+  margin-top:24px;
+  font:11px ui-monospace,monospace;
   color:var(--muted)
+}
+.problem-flow {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:25px 0;
+  margin-bottom:32px;
+  font:13px ui-monospace,monospace
+}
+.report-prose {
+  max-width:79ch;
+  margin-bottom:30px
+}
+.report-prose p {
+  color:var(--muted);
+  font-size:15px
+}
+.report-prose h3 {
+  font-size:20px;
+  margin:25px 0 12px
+}
+.report-prose .research-question {
+  font-size:21px;
+  line-height:1.5;
+  color:var(--ink)
+}
+.method-definitions {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px 55px;
+  border-top:1px solid var(--line);
+  padding-top:24px;
+  margin:30px 0
+}
+.method-definitions dt {
+  font-weight:600;
+  font-size:14px;
+  margin-bottom:8px
+}
+.method-definitions dd {
+  margin:0;
+  font-size:13px;
+  line-height:1.6;
+  color:var(--muted);
+  max-width:55ch
+}
+.technical-method {
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:18px 0;
+  margin:25px 0
+}
+.technical-method summary {
+  cursor:pointer;
+  font-size:13px
+}
+.technical-method .pipeline {
+  margin-top:30px
+}
+.dataset-comparison {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:65px;
+  border-top:1px solid var(--ink);
+  padding-top:25px
+}
+.dataset-comparison h3 {
+  margin-top:12px
+}
+.dataset-comparison p {
+  color:var(--muted);
+  font-size:14px;
+  max-width:55ch
+}
+.dataset-comparison .small {
+  font-size:12px
+}
+.evaluation-heading {
+  font-size:22px;
+  margin-top:40px;
+  margin-bottom:20px
+}
+.evaluation-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:35px;
+  border-top:1px solid var(--line);
+  padding-top:24px;
+  margin-bottom:20px
+}
+.evaluation-grid h3,.result-findings h3,.next-grid h3 {
+  font-size:20px;
+  line-height:1.25;
+  margin:14px 0 12px
+}
+.evaluation-grid p {
+  color:var(--muted);
+  font-size:13px
+}
+.result-findings {
+  list-style:none;
+  counter-reset:finding;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:35px;
+  margin:0 0 25px
+}
+.result-findings li {
+  border-top:1px solid var(--ink);
+  padding-top:18px;
+  counter-increment:finding
+}
+.result-findings li::before {
+  content:"0" counter(finding);
+  font:11px ui-monospace,monospace;
+  color:var(--accent)
+}
+.result-findings p {
+  font-size:14px;
+  color:var(--muted)
+}
+.result-findings strong {
+  color:var(--ink)
+}
+.result-interpretation {
+  font-size:18px;
+  max-width:80ch;
+  line-height:1.6
+}
+.figure-guide {
+  font-size:13px;
+  color:var(--muted);
+  max-width:95ch;
+  margin-bottom:24px
+}
+.rank-detail .chapter-label {
+  margin-top:30px
 }
 .text-link {
   font-size:13px;
@@ -612,7 +785,7 @@ footer p {
 }
 @media(min-width:1600px) {
   h1 {
-    font-size:110px
+    font-size:76px
   }
 }
 @media(max-width:1000px) {
@@ -648,7 +821,7 @@ footer p {
   nav {
     gap:15px
   }
-  nav a:first-child {
+  .masthead nav a:first-child {
     display:none
   }
   .wordmark span {
@@ -664,7 +837,7 @@ footer p {
     display:none
   }
   h1 {
-    font-size:clamp(48px,11.4vw,74px);
+    font-size:clamp(40px,10vw,52px);
     margin:28px 0;
     line-height:1.04
   }
@@ -673,6 +846,46 @@ footer p {
   }
   .hero-bottom p {
     font-size:14px
+  }
+  .project-summary>div {
+    grid-template-columns:1fr;
+    gap:8px;
+    padding:17px 0
+  }
+  .project-summary dd {
+    font-size:13px
+  }
+  .report-contents {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    font-size:10px
+  }
+  .problem-flow {
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+    font-size:12px
+  }
+  .problem-flow span:nth-child(even) {
+    transform:rotate(90deg)
+  }
+  .method-definitions,.dataset-comparison,.evaluation-grid,.result-findings {
+    grid-template-columns:1fr;
+    gap:25px
+  }
+  .dataset-comparison article+article {
+    border-top:1px solid var(--line);
+    padding-top:25px
+  }
+  .report-prose p {
+    font-size:14px
+  }
+  .report-prose .research-question {
+    font-size:19px
+  }
+  .result-interpretation {
+    font-size:16px
   }
   .hero-bottom .text-link {
     margin-top:8px

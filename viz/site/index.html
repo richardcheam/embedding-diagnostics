@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Can simple measurements tell us whether image embeddings are useful for driving-scene search? Motivation, method, datasets, corrected results, and limitations of a controlled JEPA study.">
-  <meta name="theme-color" content="#f6f4ee">
+  <meta name="theme-color" content="#fcfcfa">
   <title>Embedding diagnostics · Richard Cheam</title>
   <link rel="stylesheet" href="assets/style.css">
   <script src="assets/story.js" defer></script>
@@ -45,7 +45,7 @@
         <svg viewBox="0 0 1000 250" role="img" aria-labelledby="pipeline-title pipeline-desc">
           <title id="pipeline-title">The shared JEPA training apparatus</title>
           <desc id="pipeline-desc">Masked images enter the context encoder and predictor. Full images enter the target branch. The predictor matches masked target latents. SIGReg, when enabled, acts on pooled context embeddings or projector outputs.</desc>
-          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#69706e"/></marker></defs>
+          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="var(--muted)"/></marker></defs>
           <g class="wires" marker-end="url(#arrow)"><path d="M135 50H215"/><path d="M385 50H455"/><path d="M620 50H695V100H730"/><path d="M300 80V115H430V155H455"/><path d="M620 155H675V190H730"/><path d="M135 180H215"/><path d="M385 180H410V235H705V120H730"/></g>
           <g class="diagram-block"><rect x="0" y="20" width="135" height="60"/><rect x="215" y="20" width="170" height="60"/><rect x="455" y="20" width="165" height="60"/><rect x="730" y="80" width="230" height="60"/><rect x="0" y="150" width="135" height="60"/><rect x="215" y="150" width="170" height="60"/><rect x="455" y="125" width="165" height="60"/><rect x="730" y="160" width="230" height="60"/></g>
           <g class="diagram-text"><text x="67" y="55">Masked input</text><text x="300" y="55">Context encoder</text><text x="537" y="55">Predictor</text><text x="845" y="115">Latent prediction loss</text><text x="67" y="185">Full input</text><text x="300" y="185">Target branch</text><text x="537" y="160">Projector / bypass</text><text x="848" y="195" class="diagram-accent">SIGReg, when enabled</text></g>

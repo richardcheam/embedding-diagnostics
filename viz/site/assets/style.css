@@ -1,13 +1,16 @@
 @charset "UTF-8";
 :root {
-  --paper:#f6f4ee;
-  --ink:#202a29;
-  --muted:#626b67;
-  --line:#d5d8cd;
-  --accent:#177970;
-  --control:#b65a3a;
-  --reference:#273a37;
-  --comparison:#829483;
+  --paper:#fcfcfa;
+  --ink:#17212f;
+  --body:#344054;
+  --muted:#586273;
+  --line:#ccd2dc;
+  --grid:#e3e7ed;
+  --accent:#17212f;
+  --control:#b4471b;
+  --reference:#2454c6;
+  --comparison:#7543a2;
+  --corrected:#006f62;
   font-family:Arial,Helvetica,sans-serif;
   color:var(--ink);
   background:var(--paper);
@@ -78,7 +81,7 @@ nav {
 }
 .eyebrow,.chapter-label,.metric-label,.figure-heading,.stage-top,.step-number,.metric-foot {
   font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
-  font-size:11px;
+  font-size:12px;
   letter-spacing:.04em
 }
 .eyebrow {
@@ -130,7 +133,7 @@ h3 {
 }
 .hero-bottom p {
   font-size:16px;
-  color:var(--muted);
+  color:var(--body);
   max-width:69ch
 }
 .project-summary {
@@ -145,14 +148,14 @@ h3 {
   padding:17px 0
 }
 .project-summary dt {
-  font:11px ui-monospace,SFMono-Regular,Consolas,monospace;
+  font:600 12px ui-monospace,SFMono-Regular,Consolas,monospace;
   text-transform:uppercase;
-  color:var(--muted);
+  color:var(--ink);
   padding-top:4px
 }
 .project-summary dd {
   margin:0;
-  font-size:14px;
+  font-size:15px;
   line-height:1.55;
   max-width:85ch
 }
@@ -161,8 +164,8 @@ h3 {
   flex-wrap:wrap;
   gap:18px 28px;
   margin-top:24px;
-  font:11px ui-monospace,monospace;
-  color:var(--muted)
+  font:12px ui-monospace,monospace;
+  color:var(--ink)
 }
 .problem-flow {
   display:flex;
@@ -180,8 +183,8 @@ h3 {
   margin-bottom:30px
 }
 .report-prose p {
-  color:var(--muted);
-  font-size:15px
+  color:var(--body);
+  font-size:16px
 }
 .report-prose h3 {
   font-size:20px;
@@ -209,7 +212,7 @@ h3 {
   margin:0;
   font-size:13px;
   line-height:1.6;
-  color:var(--muted);
+  color:var(--body);
   max-width:55ch
 }
 .technical-method {
@@ -236,7 +239,7 @@ h3 {
   margin-top:12px
 }
 .dataset-comparison p {
-  color:var(--muted);
+  color:var(--body);
   font-size:14px;
   max-width:55ch
 }
@@ -262,7 +265,7 @@ h3 {
   margin:14px 0 12px
 }
 .evaluation-grid p {
-  color:var(--muted);
+  color:var(--body);
   font-size:13px
 }
 .result-findings {
@@ -275,7 +278,7 @@ h3 {
   margin:0 0 25px
 }
 .result-findings li {
-  border-top:1px solid var(--ink);
+  border-top:2px solid var(--ink);
   padding-top:18px;
   counter-increment:finding
 }
@@ -286,7 +289,7 @@ h3 {
 }
 .result-findings p {
   font-size:14px;
-  color:var(--muted)
+  color:var(--body)
 }
 .result-findings strong {
   color:var(--ink)
@@ -378,7 +381,7 @@ h3 {
   margin-bottom:12px
 }
 figcaption,.small {
-  font-size:11px;
+  font-size:12px;
   line-height:1.6;
   color:var(--muted);
   max-width:1000px
@@ -406,11 +409,13 @@ figcaption {
   background:var(--accent)
 }
 .chapter {
-  padding-top:104px;
-  margin-top:10px
+  border-top:1px solid var(--line);
+  padding-top:58px;
+  margin-top:72px
 }
 .chapter-label {
-  color:var(--muted);
+  color:var(--ink);
+  font-weight:600;
   text-transform:uppercase;
   margin-bottom:25px
 }
@@ -422,8 +427,8 @@ figcaption {
   margin-bottom:42px
 }
 .section-intro>p {
-  color:var(--muted);
-  font-size:15px;
+  color:var(--body);
+  font-size:16px;
   max-width:48ch;
   margin-top:5px
 }
@@ -437,7 +442,7 @@ figcaption {
 }
 .wires {
   fill:none;
-  stroke:#69706e;
+  stroke:var(--muted);
   stroke-width:1.5
 }
 .diagram-block rect {
@@ -560,10 +565,10 @@ tbody td {
   font:10px ui-monospace,monospace
 }
 .old-bar {
-  fill:var(--control)
+  fill:var(--muted)
 }
 .new-bar {
-  fill:var(--accent)
+  fill:var(--corrected)
 }
 .audit-value {
   font:25px Arial,sans-serif;
@@ -613,17 +618,20 @@ tbody td {
   text-transform:uppercase
 }
 .audit-step p {
-  font-size:15px;
-  color:var(--muted)
+  font-size:16px;
+  color:var(--body)
 }
-.motion-ready .audit-stage[data-state=original] .new-bar,.motion-ready .audit-stage[data-state=optimizer] .new-bar {
-  opacity:.18
+.motion-ready .audit-stage[data-state=original] .old-bar,.motion-ready .audit-stage[data-state=optimizer] .old-bar {
+  stroke:var(--ink);
+  stroke-width:3
 }
-.motion-ready .audit-stage[data-state=corrected] .old-bar,.motion-ready .audit-stage[data-state=retrieval] .old-bar {
-  opacity:.3
+.motion-ready .audit-stage[data-state=corrected] .new-bar,.motion-ready .audit-stage[data-state=retrieval] .new-bar {
+  stroke:var(--ink);
+  stroke-width:3
 }
 .old-bar,.new-bar {
-  transition:opacity .55s
+  transition:stroke-width .3s;
+  stroke-width:0
 }
 .evidence-controls {
   display:flex;
@@ -636,7 +644,7 @@ tbody td {
   display:flex;
   gap:20px;
   flex-wrap:wrap;
-  font-size:11px
+  font-size:12px
 }
 .legend span {
   display:flex;
@@ -644,8 +652,8 @@ tbody td {
   align-items:center
 }
 .legend i {
-  width:7px;
-  height:7px;
+  width:9px;
+  height:9px;
   border-radius:50%;
   display:block
 }
@@ -655,9 +663,26 @@ tbody td {
 .comparison {
   background:var(--comparison)
 }
+.legend .comparison {
+  border-radius:0;
+  transform:rotate(45deg);
+  width:8px;
+  height:8px
+}
 .contracted {
   background:var(--control)
 }
+.legend .contracted {
+  border-radius:0
+}
+.condition-symbol {
+  display:inline-block;
+  margin-right:8px;
+  font-size:13px
+}
+.condition-reference { color:var(--reference) }
+.condition-comparison { color:var(--comparison) }
+.condition-control { color:var(--control) }
 .evidence-controls label {
   font-size:11px;
   color:var(--muted);
@@ -762,7 +787,7 @@ select {
 }
 .next-grid p {
   font-size:13px;
-  color:var(--muted);
+  color:var(--body);
   margin-top:15px
 }
 footer {
@@ -1012,7 +1037,7 @@ footer p {
     gap:20px
   }
   figcaption,.small {
-    font-size:10px
+    font-size:12px
   }
   .stage-control {
     display:none

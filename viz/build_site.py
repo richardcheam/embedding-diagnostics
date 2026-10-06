@@ -135,6 +135,11 @@ def mean(data: dict, condition: str, key: str) -> float:
 
 def evidence_table(data: dict) -> str:
     rows = []
+    symbols = {
+        "ema_stopgrad": ("reference", "●"),
+        "none_stopgrad": ("comparison", "◆"),
+        "none_nostopgrad": ("control", "■"),
+    }
     for condition in CONDITIONS:
         values = [
             f"{mean(data, condition, 'total_variance'):.3g}",
@@ -142,8 +147,15 @@ def evidence_table(data: dict) -> str:
             f"{100 * mean(data, condition, 'probe_accuracy_unscaled_timeofday'):.2f}%",
             f"{100 * mean(data, condition, 'retrieval_p10_timeofday'):.2f}%",
         ]
+        symbol = ""
+        if condition in symbols:
+            role, marker = symbols[condition]
+            symbol = (
+                f'<span class="condition-symbol condition-{role}" '
+                f'aria-hidden="true">{marker}</span>'
+            )
         rows.append(
-            f'<tr><th scope="row">{html.escape(LABELS[condition])}</th>'
+            f'<tr><th scope="row">{symbol}{html.escape(LABELS[condition])}</th>'
             + "".join(f"<td>{value}</td>" for value in values) + "</tr>"
         )
     return "\n".join(rows)

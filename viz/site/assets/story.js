@@ -42,7 +42,9 @@
 
   const order = ['ema_stopgrad', 'none_stopgrad', 'none_nostopgrad'];
   const names = ['EMA reference', 'Stop-gradient only', 'Contracted control'];
-  const colors = ['#273a37', '#829483', '#b65a3a'];
+  const palette = getComputedStyle(document.documentElement);
+  const token = name => palette.getPropertyValue(`--${name}`).trim();
+  const colors = ['reference', 'comparison', 'control'].map(token);
   const mean = values => values.reduce((a, b) => a + b, 0) / values.length;
   const ns = 'http://www.w3.org/2000/svg';
   function svgElement(name, attributes, text) {
@@ -57,7 +59,7 @@
     const heading = document.createElement('h3');
     heading.textContent = title;
     figure.append(heading);
-    const svg = svgElement('svg', {viewBox:'0 0 550 240', role:'img', 'aria-label':`${title}: five individual seeds and a mean marker per condition.`});
+    const svg = svgElement('svg', {viewBox:'0 0 580 240', role:'img', 'aria-label':`${title}: five individual seeds and a mean marker per condition. Circle: EMA reference. Diamond: stop-gradient only. Square: contracted control.`});
     const left = 140, right = 495, top = 40, row = 51;
     const all = order.flatMap(condition => data.conditions[condition][key]);
     const low = logarithmic ? Math.floor(Math.log10(Math.min(...all))) : 0;
@@ -66,19 +68,23 @@
     const ticks = logarithmic ? Array.from({length:high - low + 1}, (_, i) => low + i) : [0, .25, .5, .75, 1];
     ticks.forEach(tick => {
       const position = logarithmic ? x(10 ** tick) : x(tick);
-      svg.append(svgElement('line',{x1:position,y1:top-12,x2:position,y2:top+2*row+15,stroke:'#d5d8cd','stroke-width':1}));
-      svg.append(svgElement('text',{x:position,y:top+2*row+39,'text-anchor':'middle',fill:'#626b67','font-size':10,'font-family':'monospace'}, logarithmic ? `10^${tick}` : `${tick*100}%`));
+      svg.append(svgElement('line',{x1:position,y1:top-12,x2:position,y2:top+2*row+15,stroke:token('grid'),'stroke-width':1}));
+      svg.append(svgElement('text',{x:position,y:top+2*row+39,'text-anchor':'middle',fill:token('muted'),'font-size':12,'font-family':'monospace'}, logarithmic ? `10^${tick}` : `${tick*100}%`));
     });
     if (floorKey) {
       const floor = mean(data.conditions[order[0]][floorKey]);
-      svg.append(svgElement('line',{x1:x(floor),y1:top-15,x2:x(floor),y2:top+2*row+15,stroke:'#626b67','stroke-dasharray':'4 4'}));
-      svg.append(svgElement('text',{x:x(floor),y:18,'text-anchor':'middle',fill:'#626b67','font-size':9,'font-family':'monospace'},`floor ${(floor*100).toFixed(1)}%`));
+      svg.append(svgElement('line',{x1:x(floor),y1:top-15,x2:x(floor),y2:top+2*row+15,stroke:token('muted'),'stroke-dasharray':'4 4'}));
+      svg.append(svgElement('text',{x:x(floor),y:18,'text-anchor':'middle',fill:token('muted'),'font-size':11,'font-family':'monospace'},`floor ${(floor*100).toFixed(1)}%`));
     }
     order.forEach((condition, i) => {
       const values = data.conditions[condition][key], y = top + i*row;
       svg.append(svgElement('text',{x:0,y:y+4,fill:colors[i],'font-size':11,'font-family':'Arial'},names[i]));
       values.forEach((value, seed) => {
-        const dot = svgElement('circle',{cx:x(value),cy:y+(seed-2)*3,r:4,fill:colors[i],class:'chart-dot'});
+        const px = x(value), py = y+(seed-2)*3;
+        const shape = i === 0 ? ['circle', {cx:px,cy:py,r:4}]
+          : i === 1 ? ['path', {d:`M${px},${py-5} l5,5 l-5,5 l-5,-5 Z`}]
+          : ['rect', {x:px-4,y:py-4,width:8,height:8}];
+        const dot = svgElement(shape[0],{...shape[1],fill:colors[i],class:'chart-dot'});
         dot.append(svgElement('title',{},`Seed ${seed}: ${logarithmic ? value.toPrecision(5) : (value*100).toFixed(3)+'%'}`));
         svg.append(dot);
       });
@@ -88,7 +94,7 @@
     });
     figure.append(svg);
     const caption = document.createElement('figcaption');
-    caption.textContent = `[ours] ${logarithmic ? 'Log axis.' : 'Linear axis.'} Dots: seeds 0–4. Vertical marker: mean. Values at right: means.`;
+    caption.textContent = `[ours] ${logarithmic ? 'Log axis.' : 'Linear axis.'} Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
     figure.append(caption);
     return figure;
   }

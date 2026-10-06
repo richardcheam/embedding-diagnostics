@@ -6,6 +6,10 @@ disposable projector as controlled interventions — and tests which label-free 
 actually detect each mode, first on a CIFAR-10 calibration bench and then on BDD100K
 driving scenarios, where the semantic endpoint is scenario-attribute retrieval.
 
+**[Project page](https://richardcheam.github.io/embedding-diagnostics/)** — a visual case
+study of the experiment and probe correction, rebuilt from tracked Phase-B records and
+published by GitHub Actions. Includes per-seed figures and downloadable paired intervals.
+
 **Metric definitions** — formula, worked example and blind spot for every measure used
 here (RankMe, participation ratio, P@10, balanced accuracy, chance floors, paired
 intervals): [`docs/metrics.md`](docs/metrics.md).
@@ -204,13 +208,21 @@ stop-gradient still matters at that setting.
 uv run python scripts/make_figures.py --tag phaseA_s0   # -> report/figures/*.pdf
 make -C report                                          # -> report/main.pdf
 
-# Interactive demo: one self-contained HTML file, no server, works offline
-uv run python viz/build_report.py \
-  --tag phaseA_s0 --scorecard-tag phaseA --seeds 0,1,2,3,4 \
-  --title "embedding-diagnostics: can you trust a self-supervised embedding?"
+# Current public case study: standard-library build, corrected Phase-B endpoints
+python3 viz/build_site.py                   # -> viz/dist/index.html + data.json
+python3 -m http.server 8080 --directory viz/dist
 ```
 
-The demo is built around the finding rather than being a generic dashboard. It opens with
+The current project page is deployed by `.github/workflows/pages.yml` on changes to its
+source or Phase-B records. It presents the corrected measurement audit, individual seed
+scores, and paired Student-t intervals without verdicts. See [`viz/README.md`](viz/README.md)
+for hosting and provenance details.
+
+**Historical demo:** `viz/build_report.py` and the following description predate the probe
+correction. That demo retains withdrawn claims and is not published by the Pages workflow.
+Use `build_site.py` for the current public case study.
+
+The historical demo is built around the finding rather than being a generic dashboard. It opens with
 the two evaluations almost everyone runs — standardized linear probe and cosine retrieval —
 asks which of the seven encoders is dead, and only then reveals total variance and the
 unscaled probe. That ordering is deliberate: those first two charts rate the collapsed

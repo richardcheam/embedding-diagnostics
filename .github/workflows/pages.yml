@@ -1,0 +1,56 @@
+name: Publish project page
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'viz/build_site.py'
+      - 'viz/site/**'
+      - 'experiments/phaseB_s*/**'
+      - 'src/embedding_diagnostics/stats.py'
+      - '.github/workflows/pages.yml'
+  pull_request:
+    paths:
+      - 'viz/build_site.py'
+      - 'viz/site/**'
+      - 'experiments/phaseB_s*/**'
+      - 'src/embedding_diagnostics/stats.py'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate endpoints and build static site
+        run: python viz/build_site.py --out viz/dist
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: viz/dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

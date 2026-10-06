@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A controlled JEPA study of embedding diagnostics, geometric degeneration, and the evaluation audit that changed its conclusion.">
+  <meta name="theme-color" content="#f6f4ee">
+  <title>Embedding diagnostics · Richard Cheam</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/story.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#evidence">Skip to measured evidence</a>
+  <header class="masthead">
+    <a class="wordmark" href="https://richardcheam.github.io/">Richard Cheam<span> / research</span></a>
+    <nav aria-label="Project navigation"><a href="#experiment">Experiment</a><a href="#audit">The audit</a><a href="https://github.com/richardcheam/embedding-diagnostics">Source ↗</a></nav>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <div class="eyebrow"><span class="signal"></span> Embedding diagnostics <span class="edition">Research case study / 2026</span></div>
+      <h1 id="title">When geometry stops telling the whole story.</h1>
+      <div class="hero-bottom"><p>Can you trust a self-supervised embedding?<br>A controlled JEPA study—and the evaluation audit that changed its conclusion.</p><a class="text-link" href="#experiment">Follow the experiment <span>↓</span></a></div>
+      <figure class="opening-figure">
+        <div class="figure-heading"><span>01 / One representation, different readings</span><span>BDD100K · final checkpoint · five seeds</span></div>
+        <div class="opening-grid">
+          <div><span class="metric-label">Total variance</span><strong>__VARIANCE__</strong><span class="metric-foot">Contracted control · encoder geometry</span></div>
+          <div><span class="metric-label">Corrected probe accuracy</span><strong class="accent">__NEW__<small>%</small></strong><span class="metric-foot">Same control · time-of-day classification</span><div class="mini-probe" aria-hidden="true"><span style="width:__NEW__%"></span></div></div>
+          <p class="figure-thought"><span class="claim">[interpretation]</span> A representation can contract sharply while retaining information a classifier can read.</p>
+        </div>
+        <figcaption><span class="claim">[ours]</span> Means over five paired seeds. Geometry comes from the original run logs; probe scores come from the corrected endpoint records. Optimizer convergence limits are disclosed below. These are different measurements, not a common health score.</figcaption>
+      </figure>
+    </section>
+
+    <section class="chapter" id="experiment" aria-labelledby="experiment-title">
+      <div class="chapter-label">01 / The apparatus</div>
+      <div class="section-intro"><h2 id="experiment-title">Change the mechanism.<br>Keep the experiment fixed.</h2><p>One training loop, seven interventions. Stop-gradient, an EMA target, SIGReg, and a disposable projector vary through the strategy interface. Data, masking, measurement, and the training schedule share the same plumbing.</p></div>
+      <figure class="pipeline">
+        <svg viewBox="0 0 1000 250" role="img" aria-labelledby="pipeline-title pipeline-desc">
+          <title id="pipeline-title">The shared JEPA training apparatus</title>
+          <desc id="pipeline-desc">Masked images enter the context encoder and predictor. Full images enter the target branch. The predictor matches masked target latents. SIGReg, when enabled, acts on pooled context embeddings or projector outputs.</desc>
+          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#69706e"/></marker></defs>
+          <g class="wires" marker-end="url(#arrow)"><path d="M135 50H215"/><path d="M385 50H455"/><path d="M620 50H695V100H730"/><path d="M300 80V115H430V155H455"/><path d="M620 155H675V190H730"/><path d="M135 180H215"/><path d="M385 180H410V235H705V120H730"/></g>
+          <g class="diagram-block"><rect x="0" y="20" width="135" height="60"/><rect x="215" y="20" width="170" height="60"/><rect x="455" y="20" width="165" height="60"/><rect x="730" y="80" width="230" height="60"/><rect x="0" y="150" width="135" height="60"/><rect x="215" y="150" width="170" height="60"/><rect x="455" y="125" width="165" height="60"/><rect x="730" y="160" width="230" height="60"/></g>
+          <g class="diagram-text"><text x="67" y="55">Masked input</text><text x="300" y="55">Context encoder</text><text x="537" y="55">Predictor</text><text x="845" y="115">Latent prediction loss</text><text x="67" y="185">Full input</text><text x="300" y="185">Target branch</text><text x="537" y="160">Projector / bypass</text><text x="848" y="195" class="diagram-accent">SIGReg, when enabled</text></g>
+        </svg>
+        <figcaption>Architecture schematic. Arrows show computation and loss inputs; spacing does not encode compute cost. Target detachment and EMA are controlled by the strategy. Evaluation always reads the context encoder.</figcaption>
+      </figure>
+      <div class="table-scroll"><table class="condition-matrix"><caption>Intervention matrix · seven conditions</caption><thead><tr><th scope="col">Condition</th><th scope="col">Stop-gradient</th><th scope="col">EMA target</th><th scope="col">SIGReg</th><th scope="col">Projector</th></tr></thead><tbody>
+        <tr><th scope="row">EMA reference</th><td>●</td><td>●</td><td>—</td><td>—</td></tr>
+        <tr><th scope="row">Stop-gradient only</th><td>●</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><th scope="row">SIGReg + stop-gradient</th><td>●</td><td>—</td><td>●</td><td>—</td></tr>
+        <tr><th scope="row">SIGReg</th><td>—</td><td>—</td><td>●</td><td>—</td></tr>
+        <tr><th scope="row">Projector + SIGReg + stop-gradient</th><td>●</td><td>—</td><td>●</td><td>●</td></tr>
+        <tr><th scope="row">Projector + SIGReg</th><td>—</td><td>—</td><td>●</td><td>●</td></tr>
+        <tr class="control-row"><th scope="row">Contracted control</th><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      </tbody></table></div>
+      <div class="protocol-strip"><div><strong>2</strong><span>CIFAR-10 + BDD100K</span></div><div><strong>70</strong><span>Completed training runs</span></div><div><strong>4,000</strong><span>Steps per campaign run</span></div><div><strong>5</strong><span>Paired seeds per condition</span></div></div>
+      <p class="small"><span class="claim">[ours]</span> Both campaigns contain 35 completed runs. This page uses Phase-B evidence; Phase-A probe endpoints have not been corrected.</p>
+    </section>
+
+    <section class="chapter audit" id="audit" aria-labelledby="audit-title">
+      <div class="chapter-label">02 / The measurement audit</div>
+      <div class="section-intro"><h2 id="audit-title">The encoder stayed the same.<br>The measurement changed.</h2><p><span class="claim">[ours]</span> Our original conclusion relied on a probe that underfit contracted features. Re-evaluating the saved encoders refuted that conclusion. Scroll through the correction.</p></div>
+      <a class="text-link skip-scene" href="#evidence">Skip the scroll scene ↓</a>
+      <div class="audit-layout">
+        <div class="audit-stage" data-state="original">
+          <div class="stage-top"><span>Fixed encoder / none_nostopgrad</span><span id="stage-count">01 / 04</span></div>
+          <svg class="audit-chart" viewBox="0 0 620 370" role="img" aria-labelledby="audit-chart-title audit-chart-desc">
+            <title id="audit-chart-title">Original and corrected time-of-day probe accuracy</title><desc id="audit-chart-desc">The original protocol scored __OLD__ percent; the corrected protocol scored __NEW__ percent on the same contracted control. Five-seed final-checkpoint means. This is a measurement correction, not a training trajectory.</desc>
+            <g class="chart-grid"><path d="M70 55H580M70 175H580M70 295H580"/></g>
+            <g class="axis-text"><text x="50" y="60">100%</text><text x="50" y="180">50%</text><text x="50" y="300">0%</text></g>
+            <rect class="old-bar" x="120" y="__OLD_Y__" width="155" height="__OLD_HEIGHT__"/>
+            <rect class="new-bar" x="360" y="__NEW_Y__" width="155" height="__NEW_HEIGHT__"/>
+            <g class="audit-value"><text x="197" y="__OLD_LABEL_Y__">__OLD__%</text><text x="437" y="__NEW_LABEL_Y__">__NEW__%</text></g>
+            <g class="bar-label"><text x="197" y="324">Original protocol</text><text x="437" y="324">Corrected protocol</text></g>
+          </svg>
+          <p class="stage-note" id="stage-note">Two protocols. One encoder. The original score is retained as an audit record.</p>
+          <div class="stage-control" aria-label="Audit steps"><button type="button" data-step="0" aria-label="Step 1: original reading" aria-pressed="true">01</button><button type="button" data-step="1" aria-label="Step 2: optimizer audit" aria-pressed="false">02</button><button type="button" data-step="2" aria-label="Step 3: corrected probe" aria-pressed="false">03</button><button type="button" data-step="3" aria-label="Step 4: retrieval" aria-pressed="false">04</button></div>
+          <p class="small"><span class="claim">[ours]</span> Time-of-day accuracy, BDD100K, five paired seeds, final checkpoint. Bars encode measured endpoint means; scroll position does not encode training time.</p>
+        </div>
+        <div class="audit-steps">
+          <article class="audit-step" data-state="original"><span class="step-number">01 / Original reading</span><h3>A score near the majority floor.</h3><p><span class="claim">[ours]</span> The unstandardized probe read __OLD__%. We initially treated this as evidence of lost information. That interpretation was withdrawn.</p></article>
+          <article class="audit-step" data-state="optimizer"><span class="step-number">02 / Test the instrument</span><h3>Small features changed the fitting problem.</h3><p><span class="interpretation-label">[interpretation]</span> Feature scale affects the optimizer’s stopping rule and the effective strength of regularization. The original fixed settings did not adequately fit the contracted representation.</p><p>The audit tested synthetic features with known label information before trusting the evaluation again.</p></article>
+          <article class="audit-step" data-state="corrected"><span class="step-number">03 / Re-measure</span><h3>The information was still decodable.</h3><p><span class="claim">[ours]</span> Selecting regularization on a training validation split, tightening tolerance, and increasing the iteration budget moved the score to __NEW__%. No retraining was involved.</p><p>Convergence flags remain part of the evidence; the corrected protocol is post-hoc.</p></article>
+          <article class="audit-step" data-state="retrieval"><span class="step-number">04 / Ask the application question</span><h3>A classifier and a neighbour search ask different questions.</h3><p><span class="interpretation-label">[interpretation]</span> Recovering labels with a linear classifier does not establish that nearest-neighbour search is equally useful. The next figure separates those endpoints.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="evidence" aria-labelledby="evidence-title">
+      <div class="chapter-label">03 / Inspect the evidence</div>
+      <div class="section-intro"><h2 id="evidence-title">Separate geometry<br>from downstream utility.</h2><p>Compare the reference, stop-gradient-only condition, and contracted control. Every dot is one seed; the short vertical marker is its condition mean. The full seven-condition table follows.</p></div>
+      <div class="evidence-controls"><div class="legend"><span><i class="reference"></i>EMA reference</span><span><i class="comparison"></i>Stop-gradient only</span><span><i class="contracted"></i>Contracted control</span></div><label for="attribute">Scenario attribute <select id="attribute"><option value="timeofday">Time of day</option><option value="weather">Weather</option><option value="scene">Scene</option></select></label></div>
+      <div id="measured-charts" class="measured-charts" aria-live="polite"></div>
+      <p class="small"><span class="claim">[ours]</span> Phase B, seeds 0–4, step 4,000. Variance has a log axis; the semantic plots use 0–100% axes. Dashed lines show the majority floor for raw accuracy and random-neighbour expectation for retrieval. Balanced accuracy excludes classes below the ten-sample support floor.</p>
+      <p id="data-error" hidden>The interactive plots could not load. The measured table below remains available; <a href="data.json">download the endpoint data</a>.</p>
+      <div class="table-scroll"><table class="results"><caption><span class="claim">[ours]</span> All seven conditions · five-seed means · time of day</caption><thead><tr><th scope="col">Condition</th><th scope="col">Total variance</th><th scope="col">RankMe</th><th scope="col">Corrected raw probe</th><th scope="col">Retrieval P@10</th></tr></thead><tbody>__TABLE__</tbody></table></div>
+      <details class="intervals"><summary>Paired contrasts and uncertainty</summary><p>The five pre-declared contrasts use paired Student-t 95% intervals (five seeds, four degrees of freedom). These cover training-seed variation on one fixed evaluation split. No multiplicity correction or significance verdicts. Probe fitting was corrected after the campaign.</p><div id="interval-table" class="table-scroll"></div><a class="text-link" href="data.json">Download all per-seed endpoints and intervals ↗</a></details>
+      <aside class="caveat"><span class="chapter-label">Read with the numbers</span><p><span class="claim">[ours]</span> __WARNINGS__ of 105 corrected unscaled attribute fits reached the iteration limit. Reaching the cap does not establish convergence, even when training accuracy exceeds the trivial predictor. The downloadable data retain convergence flags, iteration counts, selected regularization, and underfit flags.</p></aside>
+    </section>
+
+    <section class="chapter" id="rank" aria-labelledby="rank-title">
+      <div class="chapter-label">04 / Two different spectra</div>
+      <div class="section-intro"><h2 id="rank-title">“Rank” depends on<br>what you measure.</h2><p><span class="claim">[established]</span> Participation ratio uses the centered covariance eigenvalues. RankMe uses the raw embedding singular values. Centering changes the object being measured.</p></div>
+      <div class="rank-comparison"><div><span class="metric-label">Participation ratio</span><p class="formula">(Σ λ)² / Σ λ²</p><p>Subtract the mean, then measure the covariance spectrum. Translation is invisible to this diagnostic.</p></div><div><span class="metric-label">RankMe</span><p class="formula">exp(−Σ p log p)</p><p>Normalize the raw singular values to probabilities, then measure spectral entropy. The mean contributes to this spectrum.</p></div></div>
+      <p class="small"><span class="claim">[interpretation]</span> Read each diagnostic beside total variance. A ratio or normalized spectrum alone cannot establish whether the representation supports an application.</p>
+    </section>
+
+    <section class="chapter next" aria-labelledby="next-title"><div class="chapter-label">05 / What comes next</div><div class="section-intro"><h2 id="next-title">Does the surviving structure<br>survive deployment?</h2><p>The next experiment is numerical robustness: measure neighbour overlap and per-attribute P@10 under lower precision, declared quantization schemes, and then approximate search.</p></div><div class="next-grid"><div><span class="metric-label">Open / numerical robustness</span><p>Separate storage precision from similarity computation. Compare float64, float32, float16, and int8 under a fixed protocol.</p></div><div><span class="metric-label">Not corrected / Phase A</span><p>CIFAR-10 probe endpoints require retraining with saved encoders. They are excluded from this page’s semantic evidence.</p></div><div><span class="metric-label">Scope / induced degeneration</span><p>These are controlled interventions in one masked-prediction system. Validating SIGReg’s loss implementation does not reproduce the complete LeJEPA system.</p></div></div></section>
+    <footer><div><a class="wordmark" href="https://richardcheam.github.io/">Richard Cheam</a><p>Embedding diagnostics / reproducible research case study</p></div><div class="footer-links"><a href="https://github.com/richardcheam/embedding-diagnostics">Repository ↗</a><a href="https://github.com/richardcheam/embedding-diagnostics/blob/main/docs/STATUS.md">Research status ↗</a><a href="data.json">Endpoint data ↗</a></div></footer>
+  </main>
+</body>
+</html>

@@ -23,7 +23,9 @@ and works a clearly labelled illustrative example. The portfolio page reports th
 
 The contents list remains beside the report on desktop, with a scroll-tracked current
 section. Smaller screens use a sticky contents control; links work without JavaScript.
-Shared architecture and BDD100K results have direct entries.
+Shared architecture, BDD100K results, paired uncertainty, and dimensionality
+explanations have direct entries. Contents links open the optional sections,
+including when loaded from a direct URL.
 
 The interactive figures show all seven conditions for each driving attribute, with
 five seed markers and a mean per row. The table explanation is generated from the

@@ -110,7 +110,7 @@ def test_contents_links_have_static_targets(tmp_path):
     parser.feed(page)
     assert set(parser.anchors) <= parser.ids
     assert 'aria-controls="contents-links"' in page
-    for target in ("overview", "architecture", "bdd-results"):
+    for target in ("overview", "architecture", "bdd-results", "uncertainty", "rank"):
         assert f'href="#{target}"' in page
 
 

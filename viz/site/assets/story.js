@@ -278,7 +278,11 @@
     contents.dataset.open = String(open);
     button.setAttribute('aria-expanded', String(open));
   });
-  links.forEach(link => link.addEventListener('click', () => {
+  links.forEach(link => link.addEventListener('click', event => {
+    if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+      const disclosure = document.getElementById(link.hash.slice(1)).closest('details');
+      if (disclosure) disclosure.open = true;
+    }
     close();
     if (innerWidth < 1200) button.focus({preventScroll:true});
   }));
@@ -287,8 +291,15 @@
   });
   window.addEventListener('scroll', schedule, {passive:true});
   window.addEventListener('resize', schedule);
-  window.addEventListener('hashchange', schedule);
+  function revealHash() {
+    const target = document.getElementById(location.hash.slice(1));
+    const disclosure = target?.closest('details');
+    if (disclosure) disclosure.open = true;
+    schedule();
+  }
+  window.addEventListener('hashchange', revealHash);
   new ResizeObserver(schedule).observe(document.querySelector('main'));
   close();
+  revealHash();
   locate();
 })();

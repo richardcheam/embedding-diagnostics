@@ -25,7 +25,7 @@
           <li><a href="#motivation">01 Problem</a></li>
           <li><a href="#experiment">02 Approach</a><ol><li><a href="#architecture">Shared architecture</a></li></ol></li>
           <li><a href="#data">03 Data & evaluation</a></li>
-          <li><a href="#evidence">04 Results</a><ol><li><a href="#bdd-results">BDD100K</a></li></ol></li>
+          <li><a href="#evidence">04 Results</a><ol><li><a href="#bdd-results">BDD100K</a></li><li><a href="#uncertainty">Paired uncertainty</a></li><li><a href="#rank">Dimensionality explained</a></li></ol></li>
           <li><a href="#next">05 Limitations</a></li>
           <li><a href="#bibliography">06 Bibliography</a></li>
         </ol>
@@ -213,7 +213,7 @@
         <p><strong>A projector does not give a uniform retrieval increase.</strong> With SIGReg and stop-gradient, adding it raises the displayed mean P@10 by __PROJECTOR_WITH_STOP__ percentage points; with SIGReg alone, it lowers the mean by __PROJECTOR_WITHOUT_STOP__ points. These are descriptive five-seed averages. Read the paired intervals below for uncertainty in the pre-declared comparisons. <a class="citation" href="#ref-project" aria-label="Reference 5: experiment data and protocol">[5]</a></p>
       </div>
       <p class="small">Higher accuracy and P@10 mean more correct labels or greater neighbour agreement. Geometry columns describe distributions; their highest values do not automatically identify the most useful model. Read differences with the paired intervals below.</p>
-      <details class="intervals"><summary>How uncertain are these differences?</summary>
+      <details class="intervals" id="uncertainty"><summary>How uncertain are these differences?</summary>
         <div class="report-prose uncertainty-intro"><h3>Compare the same seed, then average the differences.</h3><p>Each row changes one mechanism. For each of the five seeds, subtract model B’s score from model A’s score: <code>dᵢ = score(A, i) − score(B, i)</code>. This pairing removes variation shared by both runs, rather than treating them as unrelated experiments.</p><p><strong>Read from the zero line.</strong> Right means a higher score for A; left means a lower score for A. The small dots are the five seed differences, the diamond is their mean, and the horizontal line is the 95% interval. A line spanning zero includes differences in both directions. A wider line means a less precise estimate under this protocol.</p></div>
         <div class="uncertainty-controls" hidden><label for="uncertainty-attribute">Driving attribute <select id="uncertainty-attribute"><option value="timeofday">Time of day</option><option value="weather">Weather</option><option value="scene">Scene</option></select></label></div>
         __UNCERTAINTY_PLOTS__

@@ -1,0 +1,22 @@
+{
+  "claim_label": "[measurement]",
+  "freeze_commit_status": "prepared for commit; author identity confirmed by user",
+  "freeze_file_hashes_verified": 44,
+  "main_embedding_cache_exists": false,
+  "main_sample_count": 3000,
+  "neural_inference_calls": 0,
+  "pilot_overlap": 0,
+  "pilot_preserved": true,
+  "pytest": {
+    "passed": 401,
+    "skipped": 1
+  },
+  "review": {
+    "cache_freeze_provenance": "checked before evaluation",
+    "regression_tests_added": 2,
+    "resume_identity_volatility": "fixed with stable committed-freeze identity"
+  },
+  "ruff": "passed",
+  "runtime_versions_verified": true,
+  "uv_lock_check": "passed"
+}

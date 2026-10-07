@@ -404,3 +404,51 @@ def test_the_silent_failure_is_flagged_even_though_sklearn_reports_success():
     assert scores["underfit_train"] == 1.0
     assert scores["converged"] == 1.0, "no warning is raised: that is the danger"
     assert scores["n_iter"] > 0, "and it is not detectable from the iteration count"
+
+
+def test_first_class_fit_diagnostics_include_selection_candidates():
+    rng = np.random.default_rng(5)
+    x = rng.normal(size=(60, 3))
+    y = (x[:, 0] > 0).astype(int)
+    result = linear_probe_scores(x[:40], y[:40], x[40:], y[40:],
+                                 config=ProbeConfig(c_grid=(.01, 1.), max_iter=1))
+    assert result['max_iter_reached'] is True
+    assert result['selected_C_at_grid_boundary'] is True
+    assert result['train_balanced_accuracy'] >= 0
+    assert result['validation_accuracy'] == result['accuracy']
+    assert result['validation_balanced_accuracy'] == result['balanced_accuracy']
+    assert len(result['selection_fits']) == 2
+    assert all('train_balanced_accuracy' in fit and 'max_iter_reached' in fit
+               for fit in result['selection_fits'])
+
+
+def test_explicit_class_eligibility_changes_scores_not_fit():
+    rng = np.random.default_rng(3)
+    x = rng.normal(size=(80, 3))
+    labels = (x[:, 0] > 0).astype(int)
+    options = dict(config=ProbeConfig(c_grid=(1.,)), min_support=1)
+    unrestricted = linear_probe_scores(x[:60], labels[:60], x[60:], labels[60:], **options)
+    restricted = linear_probe_scores(x[:60], labels[:60], x[60:], labels[60:],
+                                      eligible_classes=(0,), **options)
+    assert unrestricted['accuracy'] == restricted['accuracy']
+    assert unrestricted['train_accuracy'] == restricted['train_accuracy']
+    assert restricted['scored_classes'] == 1
+
+
+def test_scalar_objective_equivalence_and_offset_centering():
+    rng = np.random.default_rng(11)
+    x = rng.normal(size=(100, 4))
+    y = (x[:, 0] + .5*x[:, 1] > 0).astype(int)
+    def fit(train, val, c):
+        return linear_probe_scores(train,y[:70],val,y[70:],standardize=False,
+                                   config=ProbeConfig(c_grid=(c,)))
+    base = fit(x[:70],x[70:],1.)
+    scaled = fit(x[:70]*.01,x[70:]*.01,1e4)
+    assert scaled['accuracy'] == base['accuracy']
+    assert scaled['train_accuracy'] == base['train_accuracy']
+    shifted = x + 100
+    centred = fit(shifted[:70]-shifted[:70].mean(0),
+                 shifted[70:]-shifted[:70].mean(0),1.)
+    original_centred = fit(x[:70]-x[:70].mean(0),x[70:]-x[:70].mean(0),1.)
+    assert centred['accuracy'] == original_centred['accuracy']
+    assert centred['converged'] == 1

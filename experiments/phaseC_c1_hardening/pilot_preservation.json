@@ -1,0 +1,14 @@
+{
+  "experiments/phaseC_c1_pilot/README.md": "7249b553cdb1b5de6586a2a918c9a3d52a44ec1baf0a0dfae05481c8d3398865",
+  "experiments/phaseC_c1_pilot/dataset_census.json": "5e5a96c59a8fc3ae36fd121f35595b6053eee265848a2d59396d40743d94120b",
+  "experiments/phaseC_c1_pilot/extraction_manifest.json": "e5bd965b7f239269b8f87f48f683029a92daeb97bed3981678c470a9b29a3ae8",
+  "experiments/phaseC_c1_pilot/extraction_metrics.json": "4e13ed54a3bcf15aebe60870818950c291ae84596e569e6d9c7e36aff7a6352a",
+  "experiments/phaseC_c1_pilot/pilot_assessment.json": "63a1225d4427b5f064b0964e6828bd696e619107fcbd1e81473886584e842677",
+  "experiments/phaseC_c1_pilot/pristine_metrics.json": "a63d25b2d0bdf08efc5cfcce5b82353b509e18cce771f90b573ce8aa7aaef9a7",
+  "experiments/phaseC_c1_pilot/protocol-before-inference.md": "1885b868c37c9273318a744e054e9af064c908b21ef06416011d7fa8642e29c1",
+  "experiments/phaseC_c1_pilot/resource_observation.json": "e063aed664a35e2d72c199246a83f55f9cf549795018b9208286b00839223580",
+  "experiments/phaseC_c1_pilot/resume_verification.json": "32db3c689f85f77167682451a1fda438938e193179cce5ec8e911b158fed2358",
+  "experiments/phaseC_c1_pilot/sample_manifest.json": "dd4f6883daef03dc3b7e7f1e849079bc233af4f81edbe945509b8c3bc6c03b69",
+  "experiments/phaseC_c1_pilot/stress_results.json": "f8181643a5c89fb035c8261b68e09db03a621f97123f1f1078da2488777022a6",
+  "experiments/phaseC_c1_pilot/verification.json": "d7303d357b4bf113de9faf5539025b448c9760dd9f134ede715cf69d43d50d8c"
+}

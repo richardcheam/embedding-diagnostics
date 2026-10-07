@@ -39,8 +39,9 @@ What this module does about it:
 * `tol` defaults far below sklearn's, and `max_iter` far above;
 * convergence status, iteration count and any warnings are recorded in the
   result and cannot be dropped, alongside `underfit_train` -- failing to beat
-  the trivial predictor on the TRAINING set, which is what actually detects the
-  silent case, since lbfgs reports two or three iterations rather than zero;
+  the trivial predictor on the TRAINING set, which can expose the
+  silent case but also weak linear signal or selected regularization;
+  lbfgs can report two or three iterations rather than zero;
 * the feature scale and the selected `C` travel with every score.
 """
 
@@ -99,9 +100,18 @@ def _fit_recording_convergence(features, labels, C, config, seed):
     iterations = int(np.max(classifier.n_iter_)) if classifier.n_iter_ is not None else -1
     return classifier, {
         "n_iter": float(iterations),
+        "max_iter_reached": iterations >= config.max_iter,
         "converged": float(not messages),
         "warnings": "; ".join(sorted(set(messages))),
     }
+
+
+def _balanced(labels, predictions, classes=None):
+    labels = np.asarray(labels)
+    classes = np.unique(labels) if classes is None else classes
+    recalls = [float((predictions[labels == cls] == cls).mean())
+               for cls in classes if np.any(labels == cls)]
+    return float(np.mean(recalls)) if recalls else float("nan")
 
 
 def _select_c(features, labels, config, seed):
@@ -115,26 +125,41 @@ def _select_c(features, labels, config, seed):
     labels = np.asarray(labels)
     fallback = config.c_grid[len(config.c_grid) // 2]
     if len(config.c_grid) == 1:
-        return config.c_grid[0], float("nan")
+        return config.c_grid[0], float("nan"), []
 
     rng = np.random.default_rng(seed)
     order = rng.permutation(len(features))
     cut = int(len(features) * (1.0 - config.val_fraction))
     if cut < 2 or len(features) - cut < 1:
-        return fallback, float("nan")
+        return fallback, float("nan"), []
     fit_idx, val_idx = order[:cut], order[cut:]
     if len(np.unique(labels[fit_idx])) < 2:
-        return fallback, float("nan")
+        return fallback, float("nan"), []
 
     best_c, best_score = fallback, -1.0
+    fits = []
     for candidate in config.c_grid:
-        classifier, _ = _fit_recording_convergence(
+        classifier, diagnostics = _fit_recording_convergence(
             features[fit_idx], labels[fit_idx], candidate, config, seed
         )
-        score = float((classifier.predict(features[val_idx]) == labels[val_idx]).mean())
+        train_predictions = classifier.predict(features[fit_idx])
+        predictions = classifier.predict(features[val_idx])
+        score = float((predictions == labels[val_idx]).mean())
+        fits.append({"role": "inner_train_C_selection", "selected_C": float(candidate),
+                     "selected_C_at_grid_boundary": candidate in (min(config.c_grid),
+                                                                  max(config.c_grid)),
+                     "train_accuracy": float((train_predictions == labels[fit_idx]).mean()),
+                     "train_balanced_accuracy": _balanced(labels[fit_idx], train_predictions),
+                     "validation_accuracy": score,
+                     "validation_balanced_accuracy": _balanced(labels[val_idx], predictions),
+                     "train_support": {int(c): int((labels[fit_idx] == c).sum())
+                                       for c in np.unique(labels)},
+                     "validation_support": {int(c): int((labels[val_idx] == c).sum())
+                                            for c in np.unique(labels)},
+                     **diagnostics})
         if score > best_score:
             best_c, best_score = candidate, score
-    return best_c, best_score
+    return best_c, best_score, fits
 
 
 def linear_probe_accuracy(
@@ -199,8 +224,16 @@ def linear_probe_scores(
     standardize: bool = True,
     min_support: int = MIN_SUPPORT,
     config: ProbeConfig | None = None,
+    eligible_classes: tuple[int, ...] | None = None,
 ) -> dict[str, object]:
-    """Probe accuracy, balanced accuracy, and the floors both must beat.
+    """Probe scores and fit diagnostics, without representation-health verdicts.
+
+    Optional eligible_classes restricts balanced/F1 scoring, never training
+    observations, C selection or raw accuracy. Train balanced accuracy is a
+    macro recall over those classes (all present training classes by default).
+    validation_* aliases identify the outer held-out split; legacy val_accuracy
+    remains the inner C-selection score. selection_fits records every candidate.
+    Grid boundaries and max_iter are diagnostic flags, not proof of lost signal.
 
     Returns:
         accuracy          - raw, comparable to `majority` below
@@ -222,8 +255,8 @@ def linear_probe_scores(
         converged         - 0.0 if a ConvergenceWarning was raised
         underfit_train    - 1.0 when the probe failed to beat the trivial
                             predictor on its own TRAINING set, which together
-                            with converged == 1.0 is the silent-failure
-                            signature described in the module docstring
+                            with convergence/grid diagnostics needs investigation;
+                            it is not a unique optimization-failure signature
         warnings          - the convergence messages, joined
         feature_scale     - mean per-dimension std BEFORE standardization
         train_accuracy    - to expose the underfit case n_iter=0 produces
@@ -241,16 +274,18 @@ def linear_probe_scores(
         train_features = scaler.transform(train_features)
         test_features = scaler.transform(test_features)
 
-    selected_c, val_score = _select_c(train_features, train_labels, config, seed)
+    selected_c, val_score, selection_fits = _select_c(train_features, train_labels, config, seed)
     classifier, optimisation = _fit_recording_convergence(
         train_features, train_labels, selected_c, config, seed
     )
     predictions = classifier.predict(test_features)
-    train_accuracy = float((classifier.predict(train_features) == train_labels).mean())
+    train_predictions = classifier.predict(train_features)
+    train_accuracy = float((train_predictions == train_labels).mean())
 
     test_labels = np.asarray(test_labels)
     classes, counts = np.unique(test_labels, return_counts=True)
-    scorable = classes[counts >= min_support]
+    scorable = classes[counts >= min_support] if eligible_classes is None else np.asarray(
+        [cls for cls in eligible_classes if cls in classes])
     recalls = [
         float((predictions[test_labels == cls] == cls).mean())
         for cls in scorable
@@ -281,14 +316,20 @@ def linear_probe_scores(
         # not interpretable without them: a probe that took no steps reports
         # chance regardless of what the representation contains.
         "train_accuracy": train_accuracy,
-        # THE SILENT FAILURE FLAG. lbfgs almost never reports zero iterations --
-        # it takes two or three and stops -- so an iteration count cannot detect
-        # this on its own. What does detect it: the probe failed to beat the
-        # trivial predictor ON ITS OWN TRAINING SET. A correctly optimised probe
-        # with any usable information clears that easily, so `underfit_train`
-        # together with `converged == 1` is the signature of a stopping rule met
-        # before the optimiser moved anywhere useful. Any accuracy reported
-        # alongside underfit_train == 1 says nothing about the representation.
+        "train_balanced_accuracy": _balanced(train_labels, train_predictions,
+                                             scorable if eligible_classes is not None else None),
+        "validation_accuracy": float((predictions == test_labels).mean()),
+        "validation_balanced_accuracy": float(np.mean(recalls)) if recalls else float("nan"),
+        "selected_C_at_grid_boundary": selected_c in (min(config.c_grid), max(config.c_grid)),
+        "grid_boundary": "lower" if selected_c == min(config.c_grid) else
+                         "upper" if selected_c == max(config.c_grid) else None,
+        "selection_fits": selection_fits,
+        "selection_mode": "fixed_C" if len(config.c_grid) == 1 else
+                          "inner_validation" if selection_fits else "fallback",
+        "inner_validation_accuracy": float(val_score),
+        # A descriptive training-fit flag. It can reflect weak remaining
+        # linear signal, selected regularization or optimization failure.
+        # Neither convergence nor this flag alone resolves that ambiguity.
         "underfit_train": float(train_accuracy <= majority_rate(train_labels) + 1e-9),
         "val_accuracy": float(val_score),
         "selected_C": float(selected_c),

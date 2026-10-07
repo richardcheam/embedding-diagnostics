@@ -33,6 +33,16 @@ def test_missing_reprobe_blocks_publication(tmp_path):
         builder().collect(tmp_path)
 
 
+def test_table_extrema_keep_displayed_ties_and_avoid_uniform_verdicts():
+    module = builder()
+    columns = list(zip(["91.37%", "1.00"], ["92.71%", "1.00"], ["92.71%", "1.00"]))
+    low = module.highlighted_cells(["91.37%", "1.00"], columns)
+    high = module.highlighted_cells(["92.71%", "1.00"], columns)
+    assert low.count('class="metric-extreme metric-low"') == 1
+    assert high.count('class="metric-extreme metric-high"') == 1
+    assert "<td>1.00</td>" in high  # An equal column has no high/low annotation.
+
+
 def test_build_publishes_data_and_static_evidence(tmp_path):
     builder().build(ROOT / "experiments", tmp_path)
     data = json.loads((tmp_path / "data.json").read_text())

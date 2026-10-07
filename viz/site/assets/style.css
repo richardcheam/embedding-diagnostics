@@ -7,9 +7,11 @@
   --line:#ccd2dc;
   --grid:#e3e7ed;
   --accent:#17212f;
-  --control:#b4471b;
-  --reference:#2454c6;
-  --comparison:#7543a2;
+  --control:#9b4138;
+  --reference:#334f85;
+  --comparison:#6f536d;
+  --focus:#805b19;
+  --focus-wash:#f4ead3;
   font-family:Arial,Helvetica,sans-serif;
   color:var(--ink);
   background:var(--paper);
@@ -190,9 +192,30 @@ h3 {
   margin:25px 0 12px
 }
 .report-prose .research-question {
-  font-size:21px;
+  font-size:27px;
   line-height:1.5;
-  color:var(--ink)
+  color:var(--focus);
+  border-left:3px solid var(--focus);
+  padding-left:24px;
+  margin:20px 0 28px;
+  max-width:52ch
+}
+.focus-label,.report-prose .focus-label {
+  color:var(--focus)
+}
+.focus-line {
+  border-left:3px solid var(--focus);
+  padding-left:20px
+}
+.project-summary .summary-finding dt {
+  color:var(--focus)
+}
+.summary-finding dd strong {
+  font-weight:600;
+  text-decoration:underline;
+  text-decoration-color:var(--focus);
+  text-decoration-thickness:2px;
+  text-underline-offset:4px
 }
 .method-definitions {
   display:grid;
@@ -297,6 +320,10 @@ h3 {
   font-size:18px;
   max-width:80ch;
   line-height:1.6
+}
+.result-interpretation .takeaway {
+  color:var(--focus);
+  font-weight:500
 }
 .figure-guide {
   font-size:13px;
@@ -496,6 +523,40 @@ tbody th {
 }
 tbody td {
   font-family:ui-monospace,monospace
+}
+.metric-extreme {
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  padding:6px 8px;
+  color:var(--ink);
+  border:1px solid var(--focus);
+  font-weight:600
+}
+.metric-high {
+  background:var(--focus-wash)
+}
+.metric-low {
+  border-style:dashed
+}
+.extreme-label {
+  font:600 9px ui-monospace,SFMono-Regular,Consolas,monospace;
+  text-transform:uppercase;
+  color:var(--focus)
+}
+.table-key {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px 16px;
+  font-size:12px;
+  color:var(--muted);
+  margin:25px 0 15px
+}
+.table-key .metric-extreme {
+  font:600 11px ui-monospace,SFMono-Regular,Consolas,monospace;
+  color:var(--focus)
 }
 .control-row {
   color:var(--control)

@@ -155,17 +155,42 @@ def collect_phase_a_geometry(experiments: Path) -> dict:
     return {"seeds": SEEDS, "step": 4000, "conditions": conditions}
 
 
+def highlighted_cells(values: list[str], columns: list[tuple[str, ...]]) -> str:
+    """Mark displayed column extrema, including ties; do not assign quality verdicts."""
+    cells = []
+    for value, column in zip(values, columns):
+        number = float(value.rstrip("%"))
+        numbers = [float(item.rstrip("%")) for item in column]
+        role = ""
+        if min(numbers) != max(numbers):
+            role = "high" if number == max(numbers) else "low" if number == min(numbers) else ""
+        if role:
+            label = "High" if role == "high" else "Low"
+            content = (
+                f'<span class="metric-extreme metric-{role}">{value}'
+                f'<span class="extreme-label">{label}</span></span>'
+            )
+        else:
+            content = value
+        cells.append(f"<td>{content}</td>")
+    return "".join(cells)
+
+
 def geometry_table(data: dict) -> str:
     rows = []
-    for condition in CONDITIONS:
-        values = [
+    values_by_condition = {
+        condition: [
             f"{mean(data, condition, 'total_variance'):.3g}",
             f"{mean(data, condition, 'mean_pairwise_cosine'):.4f}",
             f"{mean(data, condition, 'rankme'):.2f}",
         ]
+        for condition in CONDITIONS
+    }
+    columns = list(zip(*values_by_condition.values()))
+    for condition, values in values_by_condition.items():
         rows.append(
             f'<tr><th scope="row">{html.escape(LABELS[condition])}</th>'
-            + "".join(f"<td>{value}</td>" for value in values) + "</tr>"
+            + highlighted_cells(values, columns) + "</tr>"
         )
     return "\n".join(rows)
 
@@ -177,13 +202,17 @@ def evidence_table(data: dict) -> str:
         "none_stopgrad": ("comparison", "◆"),
         "none_nostopgrad": ("control", "■"),
     }
-    for condition in CONDITIONS:
-        values = [
+    values_by_condition = {
+        condition: [
             f"{mean(data, condition, 'total_variance'):.3g}",
             f"{mean(data, condition, 'rankme'):.2f}",
             f"{100 * mean(data, condition, 'probe_accuracy_unscaled_timeofday'):.2f}%",
             f"{100 * mean(data, condition, 'retrieval_p10_timeofday'):.2f}%",
         ]
+        for condition in CONDITIONS
+    }
+    columns = list(zip(*values_by_condition.values()))
+    for condition, values in values_by_condition.items():
         symbol = ""
         if condition in symbols:
             role, marker = symbols[condition]
@@ -193,7 +222,7 @@ def evidence_table(data: dict) -> str:
             )
         rows.append(
             f'<tr><th scope="row">{symbol}{html.escape(LABELS[condition])}</th>'
-            + "".join(f"<td>{value}</td>" for value in values) + "</tr>"
+            + highlighted_cells(values, columns) + "</tr>"
         )
     return "\n".join(rows)
 

@@ -18,7 +18,8 @@ The page introduces the problem before the measurements: motivation, controlled 
 BDD100K and evaluation definitions, final results, and limits
 with next steps. BDD100K, JEPA, the interventions, linear probing, and retrieval P@10
 are explained before their results. The architecture and condition matrix are directly visible in the Approach section;
-rank formulas remain optional expandable material. The portfolio page reports the final method; the linked research status preserves the evaluation history.
+The optional dimensionality section defines the matrix, derives the soft counts,
+and works a clearly labelled illustrative example. The portfolio page reports the final method; the linked research status preserves the evaluation history.
 
 The contents list remains beside the report on desktop, with a scroll-tracked current
 section. Smaller screens use a sticky contents control; links work without JavaScript.
@@ -65,3 +66,10 @@ permissions. The training environment and saved encoder files are not needed for
 `build_report.py` and `embedding_diagnostics.report_html` retain the earlier narrative.
 They are not used or published by this workflow. The public page uses `build_site.py` and
 `site/` exclusively.
+
+Paired uncertainty is presented as static forest plots inside an expandable section,
+with five seed differences, mean diamonds, 95% t intervals, and a zero reference.
+Each row names both contrast arms. Classification and retrieval have separate axes,
+kept fixed across attributes; the attribute selectors stay synchronized. The plots
+remain available for time of day without JavaScript. Narrative warnings use muted
+iron-oxide red; findings use malachite green. Interval signs carry no colour verdict.

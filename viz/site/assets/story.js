@@ -80,25 +80,10 @@
       chart(data,`probe_balanced_accuracy_unscaled_${attribute}`,'Label prediction / balanced accuracy',false,null,compact),
       chart(data,`retrieval_p10_${attribute}`,'Neighbour label agreement / P@10',false,`retrieval_chance_${attribute}`,compact)
     );
-    const table = document.createElement('table');
-    const caption = document.createElement('caption');
-    caption.textContent = `${attribute} · linear probe and retrieval · paired differences A − B`;
-    table.append(caption);
-    const head = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    ['Contrast','Endpoint','Mean difference','95% interval'].forEach(label => {
-      const cell = document.createElement('th'); cell.scope = 'col'; cell.textContent = label; headerRow.append(cell);
+    document.querySelectorAll('.uncertainty-group').forEach(group => {
+      group.hidden = group.dataset.attribute !== attribute;
     });
-    head.append(headerRow); table.append(head);
-    const body = document.createElement('tbody');
-    data.intervals.filter(item => [`probe_accuracy_unscaled_${attribute}`,`retrieval_p10_${attribute}`].includes(item.metric)).forEach(item => {
-      const row = document.createElement('tr');
-      const values = [item.name, item.metric.startsWith('probe') ? 'Raw probe' : 'P@10', `${(item.mean*100).toFixed(2)} pp`, `[${(item.low*100).toFixed(2)}, ${(item.high*100).toFixed(2)}] pp`];
-      values.forEach((value,i) => { const cell=document.createElement(i===0?'th':'td'); if(i===0)cell.scope='row'; cell.textContent=value; row.append(cell); });
-      body.append(row);
-    });
-    table.append(body);
-    document.getElementById('interval-table').replaceChildren(table);
+    document.getElementById('uncertainty-attribute').value = attribute;
   }
   fetch('data.json').then(response => {
     if (!response.ok) throw new Error('Missing endpoint data');
@@ -106,6 +91,11 @@
   }).then(data => {
     render(data);
     document.getElementById('attribute').addEventListener('change', () => render(data));
+    document.querySelector('.uncertainty-controls').hidden = false;
+    document.getElementById('uncertainty-attribute').addEventListener('change', event => {
+      document.getElementById('attribute').value = event.target.value;
+      render(data);
+    });
     const charts = document.getElementById('measured-charts');
     new ResizeObserver(() => {
       const columns = getComputedStyle(charts).gridTemplateColumns.split(' ').length;

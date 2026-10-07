@@ -129,3 +129,43 @@ def test_corrected_record_with_wrong_seed_is_rejected(tmp_path):
     target.write_text(json.dumps(record))
     with pytest.raises(ValueError, match="seed"):
         module.collect(tmp_path)
+
+
+def test_uncertainty_plots_preserve_paired_endpoints_without_javascript(tmp_path):
+    class IntervalBars(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.bars = []
+            self.zero_axes = 0
+
+        def handle_starttag(self, tag, attrs):
+            attrs = dict(attrs)
+            if attrs.get("class") == "interval-bar":
+                self.bars.append(attrs)
+            if attrs.get("class") == "interval-zero":
+                self.zero_axes += 1
+
+    module = builder()
+    data = module.collect(ROOT / "experiments")
+    module.build(ROOT / "experiments", tmp_path)
+    page = (tmp_path / "index.html").read_text()
+    parser = IntervalBars()
+    parser.feed(page)
+    expected = [
+        item for item in data["intervals"]
+        if item["metric"].startswith(("probe_accuracy_unscaled_", "retrieval_p10_"))
+    ]
+    # Each attribute has two metrics and wide/compact versions of each plot.
+    assert len(parser.bars) == 2 * len(expected)
+    assert parser.zero_axes == 12
+    for bar in parser.bars:
+        item = next(
+            item for item in expected
+            if item["a"] == bar["data-a"] and item["b"] == bar["data-b"]
+            and item["metric"] == bar["data-metric"]
+        )
+        assert float(bar["data-low"]) == pytest.approx(100 * item["low"])
+        assert float(bar["data-high"]) == pytest.approx(100 * item["high"])
+        assert float(bar["data-mean"]) == pytest.approx(100 * item["mean"])
+    assert "How uncertain are these differences?" in page
+    assert 'id="interval-table"' not in page

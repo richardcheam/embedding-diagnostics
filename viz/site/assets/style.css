@@ -10,6 +10,8 @@
   --control:#9b4138;
   --reference:#334f85;
   --comparison:#6f536d;
+  --issue:#9b4138;
+  --finding:#45634c;
   --focus:#805b19;
   --focus-wash:#f4ead3;
   /* 利休白茶 rikyū-shiracha — inputs: a quiet tea-grey, deliberately the
@@ -748,9 +750,6 @@ select {
   margin-top:20px;
   color:var(--muted)
 }
-.intervals table {
-  margin:20px 0
-}
 .caveat {
   display:grid;
   grid-template-columns:1fr 3fr;
@@ -1417,3 +1416,87 @@ footer p {
 }
 
 .legend .regularized { background:var(--ink) }
+
+/* Iron-oxide warnings and muted malachite findings highlight the narrative. */
+.project-summary .summary-problem dt,
+#motivation>.chapter-label,
+.issue-label,
+.report-prose .issue-label,
+#motivation .focus-label { color:var(--issue) }
+#motivation .research-question {
+  color:var(--issue);
+  border-left-color:var(--issue)
+}
+.project-summary .summary-finding dt,
+#evidence>.chapter-label,
+.table-reading .focus-label,
+.result-interpretation .takeaway { color:var(--finding) }
+.summary-finding dd strong {
+  color:var(--finding);
+  text-decoration-color:var(--finding)
+}
+.finding-issue { --finding-tone:var(--issue) }
+.finding-result { --finding-tone:var(--finding) }
+.result-findings li {
+  border-top-color:var(--finding-tone)
+}
+.result-findings li h3,
+.result-findings li::before { color:var(--finding-tone) }
+.caveat .chapter-label { color:var(--issue) }
+
+/* Paired forest plots are neutral: colour does not encode a verdict. */
+.uncertainty-intro { margin:26px 0 }
+.uncertainty-controls { margin:20px 0 32px }
+.uncertainty-controls label { font-size:13px }
+.uncertainty-controls select { margin-left:12px }
+.uncertainty-group[hidden] { display:none }
+.uncertainty-figure {
+  margin:28px 0 36px;
+  border-top:1px solid var(--line);
+  padding-top:18px
+}
+.uncertainty-figure h3 { font-size:20px; margin:0 0 16px }
+.uncertainty-figure svg { width:100%; height:auto; display:block }
+.uncertainty-figure .interval-compact { display:none }
+.interval-grid { stroke:var(--grid); stroke-width:1 }
+.interval-zero { stroke:var(--muted); stroke-width:1.5; stroke-dasharray:5 4 }
+.interval-bar,.interval-cap { stroke:var(--ink); stroke-width:2 }
+.interval-seed { fill:var(--muted); opacity:.7 }
+.interval-mean { fill:var(--ink); stroke:var(--paper); stroke-width:1 }
+.interval-label { fill:var(--ink); font:600 14px Arial,Helvetica,sans-serif }
+.interval-arm { fill:var(--body); font:13px Arial,Helvetica,sans-serif }
+.interval-tick { fill:var(--muted); font:12px ui-monospace,monospace }
+.interval-direction { fill:var(--muted); font:13px Arial,Helvetica,sans-serif }
+.uncertainty-figure figcaption {
+  font-size:12px;
+  color:var(--muted);
+  max-width:80ch;
+  margin:12px 0 0
+}
+.uncertainty-method { margin:28px 0 }
+.intervals .report-prose { font-size:16px; max-width:85ch }
+.intervals .report-prose p { font-size:15px }
+
+/* Define the quantities before the equations, then work an explicit example. */
+.rank-start { margin:24px 0 32px; max-width:85ch }
+.rank-comparison { gap:40px }
+.rank-comparison article { min-width:0 }
+.rank-comparison h3 { font-size:22px; line-height:1.3; margin:14px 0 18px }
+.rank-comparison p:not(.formula) { color:var(--body); line-height:1.65; max-width:none }
+.rank-comparison math { font-size:27px; margin:25px 0; text-align:left }
+.rank-example,.rank-limits { max-width:85ch; margin:30px 0 }
+.rank-example { border-top:1px solid var(--line); padding-top:12px }
+.rank-example li { margin:16px 0; color:var(--body); font-size:15px; line-height:1.65 }
+.rank-limits .small { font-size:12px }
+.rank-limits h3 { color:var(--issue) }
+@media(max-width:1199px) {
+  .rank-comparison { grid-template-columns:1fr }
+}
+@media(max-width:900px) {
+  .uncertainty-figure .interval-wide { display:none }
+  .uncertainty-figure .interval-compact { display:block; max-width:540px }
+}
+@media(max-width:700px) {
+  .rank-comparison math { font-size:24px }
+  .rank-example ol { padding-left:22px }
+}

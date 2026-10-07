@@ -185,6 +185,128 @@ def evidence_table(data: dict) -> str:
     return "\n".join(rows)
 
 
+
+def interval_svg(items: list[dict], limit: float, compact: bool) -> str:
+    """Plot recorded paired differences and t intervals; colour carries no verdict."""
+    width = 360 if compact else 1000
+    left, right = (22, 338) if compact else (345, 968)
+    top, spacing = (96, 105) if compact else (60, 85)
+    bottom = top + (len(items) - 1) * spacing + 25
+
+    def x(value: float) -> float:
+        return left + (100 * value + limit) / (2 * limit) * (right - left)
+
+    description_id = (
+        f'interval-description-{items[0]["metric"]}-'
+        f'{"compact" if compact else "wide"}'
+    )
+    description = " ".join(
+        f'{item["name"]}. A: {LABELS[item["a"]]}; B: {LABELS[item["b"]]}. '
+        f'Mean A minus B: {100 * item["mean"]:+.2f} percentage points. '
+        f'95% interval: {100 * item["low"]:+.2f} to {100 * item["high"]:+.2f} '
+        'percentage points.'
+        for item in items
+    )
+    parts = [
+        f'<svg class="interval-{"compact" if compact else "wide"}" '
+        f'viewBox="0 0 {width} {bottom + 82}" role="img" '
+        f'aria-describedby="{description_id}" '
+        'aria-label="Five paired comparisons: seed points, mean diamonds, '
+        'and 95 percent intervals. Scores are A minus B in percentage points.">',
+        f'<desc id="{description_id}">{html.escape(description)}</desc>',
+    ]
+    for index in range(7):
+        tick = (index - 3) * limit / 3
+        position = x(tick / 100)
+        anchor = "start" if index == 0 else "end" if index == 6 else "middle"
+        css = "interval-zero" if index == 3 else "interval-grid"
+        label = "0" if index == 3 else f"{tick:+g}"
+        parts.extend([
+            f'<line class="{css}" x1="{position}" x2="{position}" '
+            f'y1="{top - 15}" y2="{bottom}"/>',
+            f'<text class="interval-tick" x="{position}" y="{bottom + 28}" '
+            f'text-anchor="{anchor}">{label}</text>',
+        ])
+    for index, item in enumerate(items):
+        y = top + index * spacing
+        label_x = left if compact else 12
+        label_y = y - 63 if compact else y - 20
+        title = html.escape(item["name"].replace(" effect,", ","))
+        a, b = html.escape(LABELS[item["a"]]), html.escape(LABELS[item["b"]])
+        parts.extend([
+            f'<text class="interval-label" x="{label_x}" y="{label_y}">{title}</text>',
+            f'<text class="interval-arm" x="{label_x}" y="{label_y + 19}">A: {a}</text>',
+            f'<text class="interval-arm" x="{label_x}" y="{label_y + 36}">B: {b}</text>',
+            f'<line class="interval-bar" data-a="{item["a"]}" data-b="{item["b"]}" '
+            f'data-metric="{item["metric"]}" data-mean="{100 * item["mean"]}" '
+            f'data-low="{100 * item["low"]}" data-high="{100 * item["high"]}" '
+            f'x1="{x(item["low"])}" x2="{x(item["high"])}" y1="{y}" y2="{y}"/>',
+        ])
+        for endpoint in ("low", "high"):
+            parts.append(
+                f'<line class="interval-cap" x1="{x(item[endpoint])}" '
+                f'x2="{x(item[endpoint])}" y1="{y - 7}" y2="{y + 7}"/>'
+            )
+        for seed, value in enumerate(item["differences"]):
+            parts.append(
+                f'<circle class="interval-seed" cx="{x(value)}" '
+                f'cy="{y + (seed - 2) * 4}" r="3">'
+                f'<title>Seed {seed}: {100 * value:+.3f} percentage points</title></circle>'
+            )
+        px = x(item["mean"])
+        parts.append(
+            f'<path class="interval-mean" d="M{px},{y - 6} l6,6 l-6,6 l-6,-6 Z">'
+            f'<title>{a} minus {b}: mean {100 * item["mean"]:+.2f}; '
+            f'95% interval [{100 * item["low"]:.2f}, {100 * item["high"]:.2f}] '
+            'percentage points</title></path>'
+        )
+    parts.extend([
+        f'<text class="interval-direction" x="{left}" y="{bottom + 61}">Lower score for A</text>',
+        f'<text class="interval-direction" x="{right}" y="{bottom + 61}" '
+        'text-anchor="end">Higher score for A</text>',
+        '</svg>',
+    ])
+    return "".join(parts)
+
+
+def uncertainty_figures(data: dict) -> str:
+    """Generate no-JavaScript paired plots, with fixed axes across attributes."""
+    metrics = {
+        "probe_accuracy_unscaled": "Classification accuracy",
+        "retrieval_p10": "Neighbour agreement / P@10",
+    }
+    limits = {}
+    for prefix in metrics:
+        items = [i for i in data["intervals"] if i["metric"].startswith(prefix + "_")]
+        extent = max(
+            abs(value) * 100 for item in items
+            for value in [item["low"], item["high"], *item["differences"]]
+        )
+        base = 10 ** math.floor(math.log10(max(extent / 3, 0.01)))
+        step = next(base * m for m in (1, 2, 5, 10) if base * m >= extent / 3)
+        limits[prefix] = 3 * step
+    groups = []
+    for attribute in ATTRIBUTES:
+        hidden = "" if attribute == "timeofday" else " hidden"
+        figures = []
+        for prefix, title in metrics.items():
+            items = [i for i in data["intervals"] if i["metric"] == f"{prefix}_{attribute}"]
+            figures.append(
+                f'<figure class="uncertainty-figure"><h3>{title}</h3>'
+                + interval_svg(items, limits[prefix], False)
+                + interval_svg(items, limits[prefix], True)
+                + '<figcaption>Difference in percentage points. Dots: five paired seeds. '
+                'Diamond: mean difference. Horizontal line: paired Student-t 95% interval. '
+                'Zero: equal scores. Axis limits stay fixed across attributes for this metric.'
+                '</figcaption></figure>'
+            )
+        groups.append(
+            f'<div class="uncertainty-group" data-attribute="{attribute}"{hidden}>'
+            + "".join(figures) + '</div>'
+        )
+    return "".join(groups)
+
+
 def build(experiments: Path, out: Path) -> None:
     data = collect(experiments)
     control = "none_nostopgrad"
@@ -221,6 +343,7 @@ def build(experiments: Path, out: Path) -> None:
         "__PROJECTOR_WITH_STOP__": f"{projector_with_stop:.2f}",
         "__PROJECTOR_WITHOUT_STOP__": f"{projector_without_stop:.2f}",
         "__TABLE__": evidence_table(data),
+        "__UNCERTAINTY_PLOTS__": uncertainty_figures(data),
         "__REFERENCE_PROBE__": (
             f"{100 * mean(data, 'ema_stopgrad', 'probe_accuracy_unscaled_timeofday'):.2f}"
         ),

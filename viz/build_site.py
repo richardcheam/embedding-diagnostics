@@ -1,4 +1,4 @@
-"""Build the public case study from final Phase-B logs and corrected probe records.
+"""Build the case study from final geometry logs and corrected Phase-B probes.
 
 Standard-library only: publishing must not download CUDA or require saved encoders.
 Paired Student-t intervals follow embedding_diagnostics.stats (five paired seeds,
@@ -133,6 +133,44 @@ def mean(data: dict, condition: str, key: str) -> float:
     return statistics.mean(data["conditions"][condition][key])
 
 
+def collect_phase_a_geometry(experiments: Path) -> dict:
+    """Read final CIFAR-10 geometry only; uncorrected probes are excluded."""
+    conditions = {}
+    for condition in CONDITIONS:
+        columns = {key: [] for key in GEOMETRY}
+        for seed in SEEDS:
+            directory = experiments / f"phaseA_s{seed}" / condition
+            config = json.loads((directory / "config.json").read_text())
+            record = max(read_records(directory / "metrics.jsonl"), key=lambda r: r["step"])
+            if (
+                config["seed"] != seed or config["data"]["dataset"] != "cifar10"
+                or config["strategy"]["name"] != condition or record["step"] != 4000
+            ):
+                raise ValueError(f"Not a final matched Phase-A endpoint: {directory}")
+            for key in GEOMETRY:
+                value = record[key]
+                if not isinstance(value, (float, int)) or not math.isfinite(value):
+                    raise ValueError(f"Invalid {key}: {directory}")
+                columns[key].append(value)
+        conditions[condition] = columns
+    return {"seeds": SEEDS, "step": 4000, "conditions": conditions}
+
+
+def geometry_table(data: dict) -> str:
+    rows = []
+    for condition in CONDITIONS:
+        values = [
+            f"{mean(data, condition, 'total_variance'):.3g}",
+            f"{mean(data, condition, 'mean_pairwise_cosine'):.4f}",
+            f"{mean(data, condition, 'rankme'):.2f}",
+        ]
+        rows.append(
+            f'<tr><th scope="row">{html.escape(LABELS[condition])}</th>'
+            + "".join(f"<td>{value}</td>" for value in values) + "</tr>"
+        )
+    return "\n".join(rows)
+
+
 def evidence_table(data: dict) -> str:
     rows = []
     symbols = {
@@ -163,6 +201,7 @@ def evidence_table(data: dict) -> str:
 
 def build(experiments: Path, out: Path) -> None:
     data = collect(experiments)
+    data["phase_a_geometry"] = collect_phase_a_geometry(experiments)
     control = "none_nostopgrad"
     warnings = sum(
         value == 0
@@ -178,6 +217,7 @@ def build(experiments: Path, out: Path) -> None:
         "__RANKME__": f"{mean(data, control, 'rankme'):.2f}",
         "__WARNINGS__": str(warnings),
         "__TABLE__": evidence_table(data),
+        "__CIFAR_TABLE__": geometry_table(data["phase_a_geometry"]),
         "__REFERENCE_PROBE__": (
             f"{100 * mean(data, 'ema_stopgrad', 'probe_accuracy_unscaled_timeofday'):.2f}"
         ),
@@ -210,4 +250,4 @@ if __name__ == "__main__":
     parser.add_argument("--out", type=Path, default=ROOT / "viz/dist")
     args = parser.parse_args()
     build(args.experiments_dir, args.out)
-    print(f"Built corrected Phase-B project page: {args.out / 'index.html'}")
+    print(f"Built project page with CIFAR-10 geometry and corrected BDD100K probes: {args.out / 'index.html'}")

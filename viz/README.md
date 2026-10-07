@@ -32,7 +32,7 @@ expandable material. The scroll audit follows the results rather than acting as 
   split, without multiplicity correction or verdict language.
 - Convergence, iteration counts, selected regularization, and underfit flags are retained
   in the downloadable `data.json`. Corrected fitting is post-hoc; iteration caps remain disclosed.
-- Phase-A probe endpoints are uncorrected and excluded. The page does not claim a
+- Phase-A geometry is published from final logs, separately from the corrected Phase-B evidence. Phase-A probe endpoints are uncorrected and excluded. The page does not claim a
   reproduction of the full LeJEPA system.
 
 The scroll scene changes emphasis between measured endpoints; it does not interpolate

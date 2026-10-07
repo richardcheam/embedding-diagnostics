@@ -6,6 +6,7 @@ on:
     paths:
       - 'viz/build_site.py'
       - 'viz/site/**'
+      - 'experiments/phaseA_s*/**'
       - 'experiments/phaseB_s*/**'
       - 'src/embedding_diagnostics/stats.py'
       - '.github/workflows/pages.yml'
@@ -13,6 +14,7 @@ on:
     paths:
       - 'viz/build_site.py'
       - 'viz/site/**'
+      - 'experiments/phaseA_s*/**'
       - 'experiments/phaseB_s*/**'
       - 'src/embedding_diagnostics/stats.py'
       - '.github/workflows/pages.yml'

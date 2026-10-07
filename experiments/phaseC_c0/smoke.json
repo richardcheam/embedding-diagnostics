@@ -1,0 +1,417 @@
+{
+  "all_finite": true,
+  "cache_bytes": 120805,
+  "claim_label": "[ours]",
+  "created_at": "2026-10-07T16:15:25.750908+00:00",
+  "cuda_preflight": {
+    "capability": [
+      6,
+      1
+    ],
+    "compiled_arches": [
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90",
+      "sm_100",
+      "sm_120"
+    ],
+    "name": "NVIDIA GeForce GTX 1050 Ti with Max-Q Design",
+    "reason": "GPU architecture absent from locked Torch build",
+    "usable": false
+  },
+  "extraction_seconds": 400.4665991300135,
+  "geometry": {
+    "effective_rank": 16.93528426518402,
+    "mean_feature_std": 0.018546860383236895,
+    "mean_pairwise_cosine": 0.7223314427148793,
+    "min_feature_std": 0.010723013214375741,
+    "participation_ratio": 16.93528426518402,
+    "rankme": 22.2797855066172,
+    "std_pairwise_cosine": 0.062315311978559725,
+    "total_variance": 0.2776685574471457
+  },
+  "image_ids": [
+    "0000f77c-6257be58",
+    "0000f77c-62c2a288",
+    "0000f77c-cb820c98",
+    "0001542f-5ce3cf52",
+    "0001542f-7c670be8",
+    "0001542f-ec815219",
+    "0004974f-05e1c285",
+    "00054602-3bf57337",
+    "00067cfb-5443fe39",
+    "00067cfb-5adfaaa7",
+    "00067cfb-caba8a02",
+    "00067cfb-f1b91e3c",
+    "00091078-7cff8ea6",
+    "00091078-84635cf2",
+    "00091078-875c1f73",
+    "00091078-c1d32eea",
+    "b1c66a42-6f7d68ca",
+    "b1c81faa-3df17267",
+    "b1c81faa-c80764c5",
+    "b1ca2e5d-84cf9134",
+    "b1ca8418-84a133a0",
+    "b1cac6a7-04e33135",
+    "b1cd1e94-26dd524f",
+    "b1ceb32e-3f481b43",
+    "b1ceb32e-51852abe",
+    "b1ceb32e-a106591d",
+    "b1cebfb7-284f5117",
+    "b1d0091f-75824d0d",
+    "b1d0091f-f2c2d2ae",
+    "b1d0a191-03dcecc2",
+    "b1d0a191-06deb55d",
+    "b1d0a191-28f0e779"
+  ],
+  "inference_seconds": 400.00023875408806,
+  "load_and_selection_seconds": 19.970555802050512,
+  "manifest": "/home/richard/projects/embedding-diagnostics/experiments/phaseC_c0/audited/embedding-cache/manifest.json",
+  "new_images": 32,
+  "norm_range": [
+    0.9999998807907104,
+    1.0000001192092896
+  ],
+  "peak_ram_mib": 3680.5859375,
+  "peak_vram_allocated_mib": null,
+  "peak_vram_reserved_mib": null,
+  "phase": "C0",
+  "provenance": {
+    "attention_implementation": "eager",
+    "attribute_policy": "Phase B canonical vocab; unknown=-1; fully-labelled selection",
+    "audio_excluded": true,
+    "chunk_size": 4,
+    "code": {
+      "commit": "e1bf17bca3f232f3ec50603572c88c611d1b065a",
+      "source_sha256": {
+        "pyproject.toml": "0beddff18172f6de073422a19513a439067280e0f7c347d92e37a279cd29fcc0",
+        "scripts/extract_phase_c.py": "60070c2b4535ef7a37301bd345deb2fe7b0219bf367be34e4726754a58dad33c",
+        "src/embedding_diagnostics/bdd100k.py": "2758ce4eeec948d64a047165c3b8b42eef9a48bdde7f9282ccba97807824dec2",
+        "src/embedding_diagnostics/bdd_lance.py": "ad5e7d431bfd156ce4e04996d85ed659b52721e450026f7ce84f71cc4fba58c9",
+        "src/embedding_diagnostics/diagnostics/metrics.py": "30fc90c6aaba130c87a366aaacc456e470ca2bac53b4a01a023c4406928ddd99",
+        "src/embedding_diagnostics/embedding_cache.py": "1ea5685592ceb44d51003fd74aee2a4163d4fbad64eb821b8cebc654475ec635",
+        "src/embedding_diagnostics/models/embeddinggemma2.py": "e4b8c876bb90f548acacc0a747abee0fcbddf11f0b6d2f2908b7d8ac3e1533f2",
+        "src/embedding_diagnostics/phase_c.py": "f47d49559a62781b2574882cc3fc9e581add8af27b78ccbb56507ea8750656e3",
+        "uv.lock": "a2229fda36115780e0c226383ba8b9eb14b707a5a93c86a80e4e3a6c7885c78a"
+      },
+      "worktree_dirty": true
+    },
+    "dataset": {
+      "lance_version": 55,
+      "path": "/mnt/hdd/data/datasets/BDD100K-enriched/data/bdd100k.lance",
+      "rows": 80500,
+      "source": "lance-format/BDD100K-enriched"
+    },
+    "dataset_splits": [
+      "train",
+      "val"
+    ],
+    "device": "cpu",
+    "dtype": "float32",
+    "enabled_modalities": [
+      "text",
+      "vision"
+    ],
+    "extraction_batch_size": 1,
+    "image_processor_class": "Gemma4ImageProcessor",
+    "input_modality": "image",
+    "lance_version": "0.39.0",
+    "model_configuration": {
+      "_name_or_path": "",
+      "architectures": [
+        "EmbeddingGemma2Model"
+      ],
+      "audio_config": null,
+      "audio_token_id": 258881,
+      "boa_token_id": 256000,
+      "boi_token_id": 255999,
+      "chunk_size_feed_forward": 0,
+      "dtype": "bfloat16",
+      "eoa_token_index": 258883,
+      "eoi_token_id": 258882,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "image_token_id": 258880,
+      "initializer_range": 0.02,
+      "is_encoder_decoder": false,
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "model_type": "embedding_gemma2",
+      "output_attentions": false,
+      "output_hidden_states": false,
+      "problem_type": null,
+      "return_dict": true,
+      "text_config": {
+        "_name_or_path": "",
+        "architectures": null,
+        "attention_bias": false,
+        "attention_dropout": 0.0,
+        "bos_token_id": 2,
+        "chunk_size_feed_forward": 0,
+        "dtype": "bfloat16",
+        "embedding_dim": 768,
+        "eos_token_id": 1,
+        "head_dim": 256,
+        "hidden_activation": "gelu_pytorch_tanh",
+        "hidden_size": 512,
+        "hidden_size_per_layer_input": 512,
+        "id2label": {
+          "0": "LABEL_0",
+          "1": "LABEL_1"
+        },
+        "initializer_range": 0.02,
+        "intermediate_size": 2048,
+        "is_encoder_decoder": false,
+        "label2id": {
+          "LABEL_0": 0,
+          "LABEL_1": 1
+        },
+        "layer_types": [
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "full_attention"
+        ],
+        "max_position_embeddings": 262144,
+        "model_type": "embedding_gemma2_text",
+        "num_attention_heads": 4,
+        "num_hidden_layers": 24,
+        "num_key_value_heads": 2,
+        "output_attentions": false,
+        "output_hidden_states": false,
+        "pad_token_id": 0,
+        "per_layer_config": {
+          "05": {
+            "head_dim": 512,
+            "num_key_value_heads": 1
+          },
+          "11": {
+            "head_dim": 512,
+            "num_key_value_heads": 1
+          },
+          "17": {
+            "head_dim": 512,
+            "num_key_value_heads": 1
+          },
+          "23": {
+            "head_dim": 512,
+            "num_key_value_heads": 1
+          }
+        },
+        "problem_type": null,
+        "return_dict": true,
+        "rms_norm_eps": 1e-06,
+        "rope_parameters": {
+          "full_attention": {
+            "rope_theta": 1000000.0,
+            "rope_type": "default"
+          },
+          "sliding_attention": {
+            "rope_theta": 10000.0,
+            "rope_type": "default"
+          }
+        },
+        "sliding_window": 512,
+        "vocab_size": 262144
+      },
+      "transformers_version": "5.19.0",
+      "video_token_id": 258884,
+      "vision_config": {
+        "_name_or_path": "",
+        "architectures": null,
+        "attention_bias": false,
+        "attention_dropout": 0.0,
+        "chunk_size_feed_forward": 0,
+        "default_output_length": 280,
+        "dtype": "bfloat16",
+        "global_head_dim": 64,
+        "head_dim": 64,
+        "hidden_activation": "gelu_pytorch_tanh",
+        "hidden_size": 768,
+        "id2label": {
+          "0": "LABEL_0",
+          "1": "LABEL_1"
+        },
+        "initializer_range": 0.02,
+        "intermediate_size": 3072,
+        "is_encoder_decoder": false,
+        "label2id": {
+          "LABEL_0": 0,
+          "LABEL_1": 1
+        },
+        "max_position_embeddings": 131072,
+        "model_type": "gemma4_vision",
+        "num_attention_heads": 12,
+        "num_hidden_layers": 16,
+        "num_key_value_heads": 12,
+        "output_attentions": false,
+        "output_hidden_states": false,
+        "patch_size": 16,
+        "pooling_kernel_size": 3,
+        "position_embedding_size": 10240,
+        "problem_type": null,
+        "return_dict": true,
+        "rms_norm_eps": 1e-06,
+        "rope_parameters": {
+          "rope_theta": 100.0,
+          "rope_type": "axial"
+        },
+        "standardize": false,
+        "use_clipped_linears": false
+      },
+      "vision_soft_tokens_per_image": 280
+    },
+    "model_id": "google/embeddinggemma-2",
+    "model_revision": "914f7f89142e33e77833254d9c9b90c3cef7303b",
+    "model_source": "/mnt/hdd/data/hf/hub/models--google--embeddinggemma-2/snapshots/914f7f89142e33e77833254d9c9b90c3cef7303b",
+    "native_embedding_dimension": 768,
+    "normalization_policy": "attention-mask mean pooling; L2 unit norm",
+    "parameter_count": 438760448,
+    "preprocessing_versions": {
+      "numpy": "2.5.1",
+      "pillow": "12.3.0",
+      "tokenizers": "0.23.2",
+      "torchvision": "0.26.0+cu128"
+    },
+    "processor_class": "EmbeddingGemma2Processor",
+    "processor_configuration": {
+      "audio_ms_per_token": 40,
+      "audio_seq_length": 280,
+      "feature_extractor": {
+        "dither": 0.0,
+        "feature_extractor_type": "Gemma4AudioFeatureExtractor",
+        "feature_size": 128,
+        "fft_length": 512,
+        "fft_overdrive": false,
+        "frame_length": 320,
+        "hop_length": 160,
+        "input_scale_factor": 1.0,
+        "max_frequency": 8000.0,
+        "mel_floor": 0.001,
+        "min_frequency": 0.0,
+        "padding_side": "right",
+        "padding_value": 0.0,
+        "per_bin_mean": null,
+        "per_bin_stddev": null,
+        "preemphasis": 0.0,
+        "preemphasis_htk_flavor": true,
+        "return_attention_mask": true,
+        "sampling_rate": 16000
+      },
+      "image_processor": {
+        "do_convert_rgb": true,
+        "do_normalize": false,
+        "do_rescale": true,
+        "do_resize": true,
+        "image_mean": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "image_processor_type": "Gemma4ImageProcessor",
+        "image_seq_length": 280,
+        "image_std": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "max_soft_tokens": 280,
+        "patch_size": 16,
+        "pooling_kernel_size": 3,
+        "resample": 3,
+        "rescale_factor": 0.00392156862745098
+      },
+      "image_seq_length": 280,
+      "processor_class": "EmbeddingGemma2Processor",
+      "video_processor": {
+        "add_timestamps": false,
+        "do_convert_rgb": true,
+        "do_normalize": false,
+        "do_rescale": true,
+        "do_resize": true,
+        "do_sample_frames": true,
+        "fps": 1,
+        "image_mean": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "image_std": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "max_frames": 32,
+        "max_soft_tokens": 140,
+        "overflow_strategy": "uniform",
+        "patch_size": 16,
+        "pooling_kernel_size": 3,
+        "resample": 3,
+        "rescale_factor": 0.00392156862745098,
+        "return_metadata": false,
+        "video_processor_type": "EmbeddingGemma2VideoProcessor"
+      }
+    },
+    "repeat_tolerance": {
+      "atol": 1e-06,
+      "rtol": 1e-05
+    },
+    "revision_verification": "HF snapshot directory",
+    "selection_procedure": "first N fully-labelled lexicographic image IDs per split; global image_id ordering (C0)",
+    "source_configuration_sha256": {
+      "1_Pooling/config.json": "8759bdf7c77efc7df7723f64856a593c8943b71ee38baf2a88771fbaf78438f9",
+      "config.json": "b8f1e9931b57fbc054acdb445c41765d55b0074c58d145fa82839941ad1b5bb3",
+      "modules.json": "3d02572a0455b832de67fb8e63a54981bc7e8b46e337c95e917bd8122a533bfd",
+      "preprocessor_config.json": "ea2ae257e901064abdd98dceb19f2b0da06af600bed15e0f99f5c85c37ee9d78",
+      "processor_config.json": "168f6a08522f3ce5dea596d94d003af2fd691742d4f41fe1f9d8cce76bfbf69c",
+      "tokenizer.json": "4d777ef5bdc1aa36227abdfb77c3e49e7b9c892d16e1b6bda41c393504828be4",
+      "tokenizer_config.json": "17bd5d6e9364ca49a534e1502076593317c298d4a663623091ed45388f004874"
+    },
+    "torch_cpu_threads": 4,
+    "torch_version": "2.11.0+cu128",
+    "transformers_version": "5.19.0",
+    "weights_sha256": {
+      "model.safetensors": "197a32965d4b1105faf060417baa899e193fb73cd401f42ec9295234d5553d79"
+    }
+  },
+  "repeat_count": 32,
+  "repeat_equivalent": true,
+  "repeat_max_abs": 0.0,
+  "repeat_seconds": 353.16990655701375,
+  "resumed_images": 0,
+  "role": "integration smoke",
+  "shape": [
+    32,
+    768
+  ],
+  "splits": {
+    "train": 16,
+    "val": 16
+  },
+  "total_wall_seconds": 773.7402917110012
+}

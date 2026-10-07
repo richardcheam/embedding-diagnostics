@@ -189,6 +189,17 @@ runs dataloader workers *and* fits two sklearn linear probes at each checkpoint 
 it until steps/sec stops improving, then stop. Check `nproc` before going high, and lower
 `num_workers` in the config if the workers start starving each other.
 
+## Phase C (external pretrained reference)
+
+C0 adds local BDD Lance image-byte extraction through pinned EmbeddingGemma 2,
+an FP32 resumable canonical cache, and the existing geometry diagnostics.
+EmbeddingGemma is an external reference encoder; the seven training conditions
+are unchanged. C1-pilot is complete and exploratory; C1-main is not frozen,
+and C2–C4 remain deferred. See
+[`docs/phase-c.md`](docs/phase-c.md) for the offline command, provenance, and
+integration record, and the [pilot report](experiments/phaseC_c1_pilot/README.md).
+No confirmatory Phase-C scientific conclusion is available.
+
 ## Sweeping the SIGReg weight
 
 ```bash

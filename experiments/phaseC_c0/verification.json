@@ -1,0 +1,23 @@
+{
+  "cache_reload_geometry_identical": true,
+  "cached_columns": [
+    "embeddings",
+    "image_id",
+    "split",
+    "weather",
+    "scene",
+    "timeofday"
+  ],
+  "claim_label": "[ours]",
+  "completed_cache_resume": {
+    "inference_seconds": 0,
+    "new_images": 0,
+    "resumed_images": 32
+  },
+  "independent_process_embedding_max_abs": 0.0,
+  "phase": "C0",
+  "primary_smoke_record": "experiments/phaseC_c0/smoke.json",
+  "resume_network_guard": "Python AF_INET/AF_INET6 connect forbidden; HF/Transformers offline",
+  "review": "Source-replacement resume regression fixed; no blocking canonical C0 finding",
+  "source_hashes_match_final_code": true
+}

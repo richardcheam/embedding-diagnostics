@@ -1,0 +1,298 @@
+{
+  "attributes": {
+    "scene": {
+      "classes_absent_from_train": [
+        "gas stations",
+        "tunnel"
+      ],
+      "floors": {
+        "retrieval_chance": 0.428955078125,
+        "retrieval_chance_convention": "Phase B sum of squared validation frequencies",
+        "train_majority_predictor_validation_accuracy": 0.5859375,
+        "uniform_random_probe_accuracy": 0.16666666666666666,
+        "uniform_random_probe_convention": "uniform over full canonical vocabulary",
+        "validation_majority": 0.5859375
+      },
+      "macro_excluded_classes": [
+        "gas stations",
+        "parking lot",
+        "tunnel"
+      ],
+      "macro_scored_classes": [
+        "city street",
+        "highway",
+        "residential"
+      ],
+      "probe_standardized": {
+        "accuracy": 0.796875,
+        "balanced_accuracy": 0.7286935286935287,
+        "converged": 1.0,
+        "dropped_classes": 3.0,
+        "feature_scale": 0.01775517419414682,
+        "macro_f1": 0.7666423977672613,
+        "majority": 0.5859375,
+        "n_iter": 171.0,
+        "scored_classes": 3.0,
+        "selected_C": 0.01,
+        "standardized": 1.0,
+        "train_accuracy": 0.9479166666666666,
+        "underfit_train": 0.0,
+        "val_accuracy": 0.7792207792207793,
+        "warnings": ""
+      },
+      "probe_unscaled": {
+        "accuracy": 0.8046875,
+        "balanced_accuracy": 0.7331379731379731,
+        "converged": 1.0,
+        "dropped_classes": 3.0,
+        "feature_scale": 0.01775517419414682,
+        "macro_f1": 0.7771831337325349,
+        "majority": 0.5859375,
+        "n_iter": 180.0,
+        "scored_classes": 3.0,
+        "selected_C": 10.0,
+        "standardized": 0.0,
+        "train_accuracy": 0.890625,
+        "underfit_train": 0.0,
+        "val_accuracy": 0.7922077922077922,
+        "warnings": ""
+      },
+      "retrieval_macro_p10": 0.5174554334554334,
+      "retrieval_p10": 0.58203125,
+      "retrieval_per_class_p10": {
+        "city street": 0.6853333333333333,
+        "highway": 0.5285714285714286,
+        "residential": 0.3384615384615385
+      },
+      "support": {
+        "train": {
+          "city street": 239,
+          "gas stations": 0,
+          "highway": 93,
+          "parking lot": 1,
+          "residential": 51,
+          "tunnel": 0
+        },
+        "val": {
+          "city street": 75,
+          "gas stations": 2,
+          "highway": 35,
+          "parking lot": 2,
+          "residential": 13,
+          "tunnel": 1
+        }
+      }
+    },
+    "timeofday": {
+      "classes_absent_from_train": [],
+      "floors": {
+        "retrieval_chance": 0.4266357421875,
+        "retrieval_chance_convention": "Phase B sum of squared validation frequencies",
+        "train_majority_predictor_validation_accuracy": 0.4296875,
+        "uniform_random_probe_accuracy": 0.3333333333333333,
+        "uniform_random_probe_convention": "uniform over full canonical vocabulary",
+        "validation_majority": 0.484375
+      },
+      "macro_excluded_classes": [],
+      "macro_scored_classes": [
+        "dawn/dusk",
+        "daytime",
+        "night"
+      ],
+      "probe_standardized": {
+        "accuracy": 0.8828125,
+        "balanced_accuracy": 0.6680351906158357,
+        "converged": 1.0,
+        "dropped_classes": 0.0,
+        "feature_scale": 0.01775517419414682,
+        "macro_f1": 0.6650386650386649,
+        "majority": 0.484375,
+        "n_iter": 58.0,
+        "scored_classes": 3.0,
+        "selected_C": 0.01,
+        "standardized": 1.0,
+        "train_accuracy": 0.9895833333333334,
+        "underfit_train": 0.0,
+        "val_accuracy": 0.948051948051948,
+        "warnings": ""
+      },
+      "probe_unscaled": {
+        "accuracy": 0.8828125,
+        "balanced_accuracy": 0.6680351906158357,
+        "converged": 1.0,
+        "dropped_classes": 0.0,
+        "feature_scale": 0.01775517419414682,
+        "macro_f1": 0.6650386650386649,
+        "majority": 0.484375,
+        "n_iter": 217.0,
+        "scored_classes": 3.0,
+        "selected_C": 100.0,
+        "standardized": 0.0,
+        "train_accuracy": 1.0,
+        "underfit_train": 0.0,
+        "val_accuracy": 0.948051948051948,
+        "warnings": ""
+      },
+      "retrieval_macro_p10": 0.5793059628543499,
+      "retrieval_p10": 0.76328125,
+      "retrieval_per_class_p10": {
+        "dawn/dusk": 0.1,
+        "daytime": 0.7072727272727272,
+        "night": 0.9306451612903225
+      },
+      "support": {
+        "train": {
+          "dawn/dusk": 29,
+          "daytime": 184,
+          "night": 171
+        },
+        "val": {
+          "dawn/dusk": 11,
+          "daytime": 55,
+          "night": 62
+        }
+      }
+    },
+    "weather": {
+      "classes_absent_from_train": [],
+      "floors": {
+        "retrieval_chance": 0.3970947265625,
+        "retrieval_chance_convention": "Phase B sum of squared validation frequencies",
+        "train_majority_predictor_validation_accuracy": 0.59375,
+        "uniform_random_probe_accuracy": 0.16666666666666666,
+        "uniform_random_probe_convention": "uniform over full canonical vocabulary",
+        "validation_majority": 0.59375
+      },
+      "macro_excluded_classes": [
+        "foggy",
+        "partly cloudy"
+      ],
+      "macro_scored_classes": [
+        "clear",
+        "overcast",
+        "rainy",
+        "snowy"
+      ],
+      "probe_standardized": {
+        "accuracy": 0.7421875,
+        "balanced_accuracy": 0.6681286549707601,
+        "converged": 1.0,
+        "dropped_classes": 1.0,
+        "feature_scale": 0.01775517419414682,
+        "macro_f1": 0.6952186934754819,
+        "majority": 0.59375,
+        "n_iter": 70.0,
+        "scored_classes": 4.0,
+        "selected_C": 100000.0,
+        "standardized": 1.0,
+        "train_accuracy": 1.0,
+        "underfit_train": 0.0,
+        "val_accuracy": 0.7272727272727273,
+        "warnings": ""
+      },
+      "probe_unscaled": {
+        "accuracy": 0.7578125,
+        "balanced_accuracy": 0.6747076023391814,
+        "converged": 1.0,
+        "dropped_classes": 1.0,
+        "feature_scale": 0.01775517419414682,
+        "macro_f1": 0.7261503928170595,
+        "majority": 0.59375,
+        "n_iter": 357.0,
+        "scored_classes": 4.0,
+        "selected_C": 100.0,
+        "standardized": 0.0,
+        "train_accuracy": 0.9973958333333334,
+        "underfit_train": 0.0,
+        "val_accuracy": 0.7142857142857143,
+        "warnings": ""
+      },
+      "retrieval_macro_p10": 0.34730263157894736,
+      "retrieval_p10": 0.5609375,
+      "retrieval_per_class_p10": {
+        "clear": 0.8092105263157895,
+        "overcast": 0.18333333333333335,
+        "rainy": 0.26666666666666666,
+        "snowy": 0.13
+      },
+      "support": {
+        "train": {
+          "clear": 242,
+          "foggy": 1,
+          "overcast": 44,
+          "partly cloudy": 39,
+          "rainy": 28,
+          "snowy": 30
+        },
+        "val": {
+          "clear": 76,
+          "foggy": 0,
+          "overcast": 18,
+          "partly cloudy": 9,
+          "rainy": 15,
+          "snowy": 10
+        }
+      }
+    }
+  },
+  "claim_label": "[measurement]",
+  "geometry": {
+    "train": {
+      "effective_rank": 34.96364135825383,
+      "mean_feature_std": 0.017778338162502117,
+      "mean_pairwise_cosine": 0.7484386038028376,
+      "min_feature_std": 0.011325033637837505,
+      "participation_ratio": 34.96364135825383,
+      "rankme": 194.61743896522935,
+      "std_pairwise_cosine": 0.07156301061728497,
+      "total_variance": 0.2515613973261469
+    },
+    "val": {
+      "effective_rank": 30.493772158975535,
+      "mean_feature_std": 0.017898157017590146,
+      "mean_pairwise_cosine": 0.7443144129945941,
+      "min_feature_std": 0.0112182573799365,
+      "participation_ratio": 30.493772158975535,
+      "rankme": 77.78160259746895,
+      "std_pairwise_cosine": 0.07538743702473644,
+      "total_variance": 0.2556855854064551
+    }
+  },
+  "identity": {
+    "blas_thread_limit": 4,
+    "cache_manifest": "e5bd965b7f239269b8f87f48f683029a92daeb97bed3981678c470a9b29a3ae8",
+    "runtime_versions": {
+      "numpy": "2.5.1",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.0",
+      "threadpoolctl": "3.6.0"
+    },
+    "scripts/evaluate_c1_pilot.py": "2b875dbf41916e49faf723583e93576062c72d45482cff961fedc9bb8654f3bf",
+    "src/embedding_diagnostics/degradation.py": "3c189f1115b206957eb9862e7e971272d2f7f9581a90f851b31793535ff2ca11",
+    "src/embedding_diagnostics/diagnostics/metrics.py": "30fc90c6aaba130c87a366aaacc456e470ca2bac53b4a01a023c4406928ddd99",
+    "src/embedding_diagnostics/diagnostics/probe.py": "1dcc2d960f1057f08aafcbfe41b4e3fae7bbe45c49beb623d20f079d288089d5",
+    "src/embedding_diagnostics/diagnostics/retrieval.py": "5d6927bba13639b55bf105baca905b53d9259daec1ff7574a23039b566f57f2e",
+    "src/embedding_diagnostics/phase_c_evaluation.py": "4a3da32c9307516ba669516b311406302c53e450473fbd56bd17fdce9d47c6bf",
+    "src/embedding_diagnostics/phase_c_pilot.py": "e6a0e815d917dba78c2b07acc0c4bbf8a9d496ac0374c9b2d88e355b6221c104"
+  },
+  "probe_config": {
+    "c_grid": [
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0,
+      10000.0,
+      100000.0
+    ],
+    "max_iter": 5000,
+    "metadata": {},
+    "solver": "lbfgs",
+    "tol": 1e-08,
+    "val_fraction": 0.2
+  },
+  "status": "PILOT / EXPLORATORY",
+  "threshold_verdicts": null,
+  "wall_seconds": 8.474732136004604
+}

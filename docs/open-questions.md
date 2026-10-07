@@ -1,5 +1,31 @@
 # Open questions
 
+## Phase C: external pretrained reference (2026-10-07)
+
+C0 and the exploratory C1-pilot are complete. The uniform 384/128 selection,
+train-fitted transformations and held-out endpoints are frozen and measured;
+see the [pilot report](../experiments/phaseC_c1_pilot/README.md). C1-main is not
+frozen and no confirmatory external-validity conclusion exists.
+
+[open] Before main, decide how to handle the finite C-grid ceiling under severe
+positive scaling and the 5000-iteration failures of unscaled weather/scene
+probes under severity-.99 mean injection. These instrument limits remain
+visible in the pilot rather than being repaired after inspecting scores.
+The four-direction weather probes flag training underfit; their floor-level
+scores alone do not establish absent information.
+
+[open] Natural sampling gives inadequate gas-station/tunnel training support.
+A provisional 5000/2000 common-class main would cost about 21.67 extraction
+hours, while Phase-B-matched 5000/8000 would cost about 40.24 hours and improve
+rare validation support. These are throughput estimates, not frozen designs.
+No rare-class oversampling or main image IDs have been chosen.
+
+[ours] The MSI's GTX 1050 Ti has compute capability 6.1; the existing locked
+Torch 2.11 CUDA build starts at sm_75. CUDA inference is unavailable in this
+environment, independently of VRAM capacity. C0 uses CPU FP32 without
+changing the established Torch build. A CUDA memory/throughput comparison
+would require a separately justified compatible dependency configuration.
+
 ## SIGReg implementation fidelity — RESOLVED 2026-08-14
 
 The check was done. The implementation was **wrong**, in a way that silently disabled the

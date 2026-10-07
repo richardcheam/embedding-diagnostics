@@ -1,0 +1,94 @@
+{
+  "C2_C3_C4_started": false,
+  "[interpretation]": {
+    "estimate_assumption": "same image pipeline, CPU threads and measured pilot throughput; excludes model loading and endpoint analysis",
+    "estimated_extraction_hours": 21.670033259666972,
+    "expected_main_support_from_eligible_frequencies": {
+      "train": {
+        "scene": {
+          "city street": 3080.076634573233,
+          "gas stations": 2.029517299605462,
+          "highway": 1327.0607718660194,
+          "parking lot": 25.653098667013037,
+          "residential": 564.2869899823027,
+          "tunnel": 0.8929876118264032
+        },
+        "timeofday": {
+          "dawn/dusk": 365.39429462096734,
+          "daytime": 2411.715997467162,
+          "night": 2222.88970791187
+        },
+        "weather": {
+          "clear": 3022.2759818804698,
+          "foggy": 10.553489957948402,
+          "overcast": 712.4417528535013,
+          "partly cloudy": 396.486499650923,
+          "rainy": 407.60825445276095,
+          "snowy": 450.63402120439673
+        }
+      },
+      "val": {
+        "scene": {
+          "city street": 1179.0797749089706,
+          "gas stations": 12.578616352201259,
+          "highway": 531.8327264702638,
+          "parking lot": 20.743683107138917,
+          "residential": 246.9380999668984,
+          "tunnel": 8.827099194527198
+        },
+        "timeofday": {
+          "dawn/dusk": 174.99724153150171,
+          "daytime": 961.9331347236015,
+          "night": 863.0696237448968
+        },
+        "weather": {
+          "clear": 1184.1553569458238,
+          "foggy": 13.461326271653977,
+          "overcast": 285.55665894295487,
+          "partly cloudy": 162.63930265916363,
+          "rainy": 172.56978925300672,
+          "snowy": 181.6175659273971
+        }
+      }
+    },
+    "phase_b_matched_5000_train_8000_val_hours": 40.244347482238666,
+    "provisional_main_counts": {
+      "train": 5000,
+      "val": 2000
+    },
+    "rationale": "practical common-class study; matches Phase B training count; more observations than 768 dimensions; rare-scene limitations persist"
+  },
+  "[measurement]": {
+    "analysis_endpoint_seconds": 501.23391881980933,
+    "extraction_seconds": 5706.029329174024,
+    "nonconverged_final_probes": [
+      {
+        "attribute": "scene",
+        "severity": 0.99,
+        "transform": "mean_injection",
+        "variant": "probe_unscaled"
+      },
+      {
+        "attribute": "weather",
+        "severity": 0.99,
+        "transform": "mean_injection",
+        "variant": "probe_unscaled"
+      }
+    ],
+    "sample": {
+      "train": 384,
+      "val": 128
+    },
+    "seconds_per_image": 11.144588533543015
+  },
+  "[open]": [
+    "Decide the C grid / scale calibration before freezing C1-main; severe contraction selects its ceiling.",
+    "Two unscaled probes fail convergence at mean-injection severity .99; preserve warnings, decide protocol before main.",
+    "Both rank-truncated weather probes flag training underfit at four retained directions; not proof of absent information.",
+    "Rare gas-station and tunnel training support remains inadequate under uniform main sampling.",
+    "The 128 validation examples and support-filtered macro scores cannot establish a confirmatory external-validity result."
+  ],
+  "main_sample_frozen": false,
+  "main_started": false,
+  "status": "PILOT / EXPLORATORY"
+}

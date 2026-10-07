@@ -1,0 +1,93 @@
+{
+  "all_finite": true,
+  "audit_created_at": "2026-10-07T20:48:17.205640+00:00",
+  "canonical_dimension": 768,
+  "claim_label": "[measurement]",
+  "completed_analysis_resume": {
+    "endpoint_calls": 0,
+    "stress_file_unchanged": true,
+    "transform_calls": 0
+  },
+  "completed_cache_resume": {
+    "geometry_identical": true,
+    "neural_inference_calls": 0,
+    "new_images": 0,
+    "reused_images": 512,
+    "source_bytes_checked": 512,
+    "tcp_connections_blocked": true
+  },
+  "dataset_columns_projected": [
+    "image_id",
+    "split",
+    "weather",
+    "scene",
+    "timeofday",
+    "image_bytes"
+  ],
+  "dataset_provided_embeddings_used": false,
+  "duplicate_source_hash_count": 0,
+  "identity": {
+    "blas_thread_limit": 4,
+    "cache_manifest": "e5bd965b7f239269b8f87f48f683029a92daeb97bed3981678c470a9b29a3ae8",
+    "runtime_versions": {
+      "numpy": "2.5.1",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.0",
+      "threadpoolctl": "3.6.0"
+    },
+    "scripts/evaluate_c1_pilot.py": "2b875dbf41916e49faf723583e93576062c72d45482cff961fedc9bb8654f3bf",
+    "src/embedding_diagnostics/degradation.py": "3c189f1115b206957eb9862e7e971272d2f7f9581a90f851b31793535ff2ca11",
+    "src/embedding_diagnostics/diagnostics/metrics.py": "30fc90c6aaba130c87a366aaacc456e470ca2bac53b4a01a023c4406928ddd99",
+    "src/embedding_diagnostics/diagnostics/probe.py": "1dcc2d960f1057f08aafcbfe41b4e3fae7bbe45c49beb623d20f079d288089d5",
+    "src/embedding_diagnostics/diagnostics/retrieval.py": "5d6927bba13639b55bf105baca905b53d9259daec1ff7574a23039b566f57f2e",
+    "src/embedding_diagnostics/phase_c_evaluation.py": "4a3da32c9307516ba669516b311406302c53e450473fbd56bd17fdce9d47c6bf",
+    "src/embedding_diagnostics/phase_c_pilot.py": "e6a0e815d917dba78c2b07acc0c4bbf8a9d496ac0374c9b2d88e355b6221c104"
+  },
+  "lock_check": {
+    "command": "uv lock --check",
+    "passed": true
+  },
+  "neural_inference_during_analysis": false,
+  "norm_range": [
+    0.9999998211860657,
+    1.0000001192092896
+  ],
+  "process_peak_rss_mib": 3679.171875,
+  "ruff": {
+    "command": "uv run ruff check .",
+    "passed": true
+  },
+  "sample_cache_alignment": true,
+  "sample_frozen_before_cache_creation": true,
+  "sampled_process_peak_swap_mib": 1226.9765625,
+  "semantics_check": {
+    "adapter_policy": "attention-mask mean pooling followed by L2 normalization",
+    "module_sequence": [
+      "Transformer",
+      "Pooling",
+      "Normalize"
+    ],
+    "modules_sha256": "3d02572a0455b832de67fb8e63a54981bc7e8b46e337c95e917bd8122a533bfd",
+    "pooling": {
+      "embedding_dimension": 768,
+      "include_prompt": true,
+      "pooling_mode": "mean"
+    }
+  },
+  "shape": [
+    512,
+    768
+  ],
+  "status": "PILOT / EXPLORATORY",
+  "stress_record_count": 30,
+  "tests": {
+    "command": "uv run pytest",
+    "log_sha256": "3697e5fd307b5aab48d18c3650d55449b8ab98e9f82d07682ac2af88c6c9d67f",
+    "passed": 392,
+    "skipped": 1
+  },
+  "threshold_verdicts_applied": false,
+  "train_count": 384,
+  "train_validation_source_hash_overlap_count": 0,
+  "validation_count": 128
+}

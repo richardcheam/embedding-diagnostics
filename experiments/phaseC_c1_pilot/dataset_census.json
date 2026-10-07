@@ -1,0 +1,3048 @@
+{
+  "claim_label": "[measurement]",
+  "dataset": {
+    "lance_version": 55,
+    "path": "/mnt/hdd/data/datasets/BDD100K-enriched/data/bdd100k.lance",
+    "rows": 80500,
+    "source": "lance-format/BDD100K-enriched"
+  },
+  "projected_columns": [
+    "image_id",
+    "split",
+    "weather",
+    "scene",
+    "timeofday"
+  ],
+  "rare_definition": "fewer than 100 fully-labelled rows, descriptive only",
+  "splits": {
+    "train": {
+      "counts": {
+        "scene": {
+          "city street": 43581,
+          "gas stations": 27,
+          "highway": 17414,
+          "parking lot": 378,
+          "residential": 8105,
+          "tunnel": 129
+        },
+        "timeofday": {
+          "dawn/dusk": 5033,
+          "daytime": 36800,
+          "night": 28028
+        },
+        "weather": {
+          "clear": 37412,
+          "foggy": 130,
+          "overcast": 8784,
+          "partly cloudy": 4886,
+          "rainy": 5083,
+          "snowy": 5571
+        }
+      },
+      "fully_labelled_counts": {
+        "scene": {
+          "city street": 37941,
+          "gas stations": 25,
+          "highway": 16347,
+          "parking lot": 316,
+          "residential": 6951,
+          "tunnel": 11
+        },
+        "timeofday": {
+          "dawn/dusk": 4501,
+          "daytime": 29708,
+          "night": 27382
+        },
+        "weather": {
+          "clear": 37229,
+          "foggy": 130,
+          "overcast": 8776,
+          "partly cloudy": 4884,
+          "rainy": 5021,
+          "snowy": 5551
+        }
+      },
+      "fully_labelled_joint_counts": [
+        {
+          "count": 1044,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 6647,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 15090,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 6,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 7,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 693,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 3582,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 6168,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 13,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 84,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 71,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 249,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 2134,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 1430,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 6,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 7,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 11,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 43,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 5,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 20,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 16,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 17,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 8,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 675,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 4411,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 41,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 4,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 347,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 1966,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 27,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 56,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 122,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 1118,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 315,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 2225,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 23,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 204,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1479,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 24,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 31,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 48,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 530,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 2,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 206,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 1640,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 1556,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 79,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 539,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 488,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 13,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 5,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 41,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 324,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 123,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 310,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 1908,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 1789,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 46,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 445,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 219,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 5,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 18,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 9,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 76,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 492,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 232,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "snowy"
+        }
+      ],
+      "fully_labelled_rows": 61591,
+      "joint_counts": [
+        {
+          "count": 1044,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 6647,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 15090,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 6,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 7,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 693,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 3582,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 6168,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 13,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 84,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 71,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 249,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 2134,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 1430,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 1,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 6,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 23,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 157,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 7,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 11,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 43,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 5,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 20,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 16,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 17,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 8,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 675,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 4411,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 41,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 4,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 347,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 1966,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 27,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 56,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 122,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 1118,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 7,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 315,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 2225,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 23,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 204,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1479,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 24,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 31,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 48,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 530,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 2,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 206,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 1640,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 1556,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 79,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 539,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 488,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "highway",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 13,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 5,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 41,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 324,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 123,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 4,
+          "scene": "tunnel",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 12,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 36,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 5,
+          "scene": "undefined",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 310,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 1908,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 1789,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 1,
+          "scene": "city street",
+          "timeofday": "undefined",
+          "weather": "snowy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 46,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 445,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 219,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 5,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 18,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 9,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 76,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 492,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 232,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 1,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "snowy"
+        },
+        {
+          "count": 8,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 10,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 396,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 5001,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 235,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 7,
+          "scene": "city street",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 67,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 891,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 99,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 8,
+          "scene": "highway",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 27,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 8,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 23,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 62,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 1063,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 25,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 1,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 29,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 13,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 72,
+          "scene": "tunnel",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 28,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 63,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 11,
+          "scene": "undefined",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        }
+      ],
+      "rare_classes": {
+        "scene": {
+          "gas stations": 25,
+          "tunnel": 11
+        },
+        "timeofday": {},
+        "weather": {}
+      },
+      "total_rows": 70000,
+      "unknown": {
+        "scene": {
+          "undefined": 366
+        },
+        "timeofday": {
+          "undefined": 139
+        },
+        "weather": {
+          "undefined": 8134
+        }
+      }
+    },
+    "val": {
+      "counts": {
+        "scene": {
+          "city street": 6171,
+          "gas stations": 87,
+          "highway": 2573,
+          "parking lot": 132,
+          "residential": 1324,
+          "tunnel": 85
+        },
+        "timeofday": {
+          "dawn/dusk": 896,
+          "daytime": 5392,
+          "night": 4044
+        },
+        "weather": {
+          "clear": 5422,
+          "foggy": 95,
+          "overcast": 1326,
+          "partly cloudy": 738,
+          "rainy": 814,
+          "snowy": 861
+        }
+      },
+      "fully_labelled_counts": {
+        "scene": {
+          "city street": 5343,
+          "gas stations": 57,
+          "highway": 2410,
+          "parking lot": 94,
+          "residential": 1119,
+          "tunnel": 40
+        },
+        "timeofday": {
+          "dawn/dusk": 793,
+          "daytime": 4359,
+          "night": 3911
+        },
+        "weather": {
+          "clear": 5366,
+          "foggy": 61,
+          "overcast": 1294,
+          "partly cloudy": 737,
+          "rainy": 782,
+          "snowy": 823
+        }
+      },
+      "fully_labelled_joint_counts": [
+        {
+          "count": 170,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 936,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 2134,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 5,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 89,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 516,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 889,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 4,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 15,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 54,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 317,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 220,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 5,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 2,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 4,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 1,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 7,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 8,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 4,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 5,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 5,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 110,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 600,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 13,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 7,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 54,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 281,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 10,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 28,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 158,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 7,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 4,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 53,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 311,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 3,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 36,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 231,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 4,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 5,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 91,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 41,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 244,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 198,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 6,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 4,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 14,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 89,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 72,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 6,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 9,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 7,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 64,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 14,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 5,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 4,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 48,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 270,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 204,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 5,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 15,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 75,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 33,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 9,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 6,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 18,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 80,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 44,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 7,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        }
+      ],
+      "fully_labelled_rows": 9063,
+      "joint_counts": [
+        {
+          "count": 170,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 936,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 2134,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "city street",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 5,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 89,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 516,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 889,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 4,
+          "scene": "highway",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 4,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 15,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 54,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 317,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 220,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 4,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 5,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 4,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "clear"
+        },
+        {
+          "count": 3,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "clear"
+        },
+        {
+          "count": 26,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "clear"
+        },
+        {
+          "count": 5,
+          "scene": "undefined",
+          "timeofday": "undefined",
+          "weather": "clear"
+        },
+        {
+          "count": 2,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 4,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 7,
+          "scene": "city street",
+          "timeofday": "undefined",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "undefined",
+          "weather": "foggy"
+        },
+        {
+          "count": 1,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 7,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "highway",
+          "timeofday": "undefined",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 8,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "foggy"
+        },
+        {
+          "count": 4,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 5,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 5,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "undefined",
+          "weather": "foggy"
+        },
+        {
+          "count": 6,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "foggy"
+        },
+        {
+          "count": 4,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "foggy"
+        },
+        {
+          "count": 4,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "foggy"
+        },
+        {
+          "count": 4,
+          "scene": "undefined",
+          "timeofday": "undefined",
+          "weather": "foggy"
+        },
+        {
+          "count": 110,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 600,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 13,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "city street",
+          "timeofday": "undefined",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 7,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 4,
+          "scene": "gas stations",
+          "timeofday": "undefined",
+          "weather": "overcast"
+        },
+        {
+          "count": 54,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 281,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 2,
+          "scene": "highway",
+          "timeofday": "undefined",
+          "weather": "overcast"
+        },
+        {
+          "count": 5,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 10,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 4,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "overcast"
+        },
+        {
+          "count": 28,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 158,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 7,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 1,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "overcast"
+        },
+        {
+          "count": 4,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "tunnel",
+          "timeofday": "undefined",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "overcast"
+        },
+        {
+          "count": 4,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "overcast"
+        },
+        {
+          "count": 3,
+          "scene": "undefined",
+          "timeofday": "undefined",
+          "weather": "overcast"
+        },
+        {
+          "count": 53,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 311,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 3,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 36,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 231,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 4,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 5,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 91,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "partly cloudy"
+        },
+        {
+          "count": 41,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 244,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 198,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "city street",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 6,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 4,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "gas stations",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 14,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 89,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 72,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 4,
+          "scene": "highway",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 6,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 9,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 7,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 64,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 14,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 3,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 5,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 4,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "rainy"
+        },
+        {
+          "count": 2,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "rainy"
+        },
+        {
+          "count": 9,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "rainy"
+        },
+        {
+          "count": 7,
+          "scene": "undefined",
+          "timeofday": "undefined",
+          "weather": "rainy"
+        },
+        {
+          "count": 48,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 270,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 204,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 5,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 5,
+          "scene": "gas stations",
+          "timeofday": "undefined",
+          "weather": "snowy"
+        },
+        {
+          "count": 15,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 75,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 33,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 5,
+          "scene": "highway",
+          "timeofday": "undefined",
+          "weather": "snowy"
+        },
+        {
+          "count": 3,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 9,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 6,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 6,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "snowy"
+        },
+        {
+          "count": 18,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 80,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 44,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 5,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "snowy"
+        },
+        {
+          "count": 1,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 7,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "undefined",
+          "weather": "snowy"
+        },
+        {
+          "count": 4,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "snowy"
+        },
+        {
+          "count": 3,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "snowy"
+        },
+        {
+          "count": 7,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "snowy"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "undefined",
+          "weather": "snowy"
+        },
+        {
+          "count": 48,
+          "scene": "city street",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 718,
+          "scene": "city street",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 39,
+          "scene": "city street",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 6,
+          "scene": "city street",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 3,
+          "scene": "gas stations",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 2,
+          "scene": "gas stations",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 7,
+          "scene": "gas stations",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 9,
+          "scene": "highway",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 112,
+          "scene": "highway",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 21,
+          "scene": "highway",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 3,
+          "scene": "highway",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 4,
+          "scene": "parking lot",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 8,
+          "scene": "parking lot",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 2,
+          "scene": "parking lot",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 9,
+          "scene": "parking lot",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 18,
+          "scene": "residential",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 167,
+          "scene": "residential",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 5,
+          "scene": "residential",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 2,
+          "scene": "residential",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 2,
+          "scene": "tunnel",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 4,
+          "scene": "tunnel",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 3,
+          "scene": "tunnel",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 26,
+          "scene": "tunnel",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        },
+        {
+          "count": 1,
+          "scene": "undefined",
+          "timeofday": "dawn/dusk",
+          "weather": "undefined"
+        },
+        {
+          "count": 5,
+          "scene": "undefined",
+          "timeofday": "daytime",
+          "weather": "undefined"
+        },
+        {
+          "count": 12,
+          "scene": "undefined",
+          "timeofday": "night",
+          "weather": "undefined"
+        },
+        {
+          "count": 6,
+          "scene": "undefined",
+          "timeofday": "undefined",
+          "weather": "undefined"
+        }
+      ],
+      "rare_classes": {
+        "scene": {
+          "gas stations": 57,
+          "parking lot": 94,
+          "tunnel": 40
+        },
+        "timeofday": {},
+        "weather": {
+          "foggy": 61
+        }
+      },
+      "total_rows": 10500,
+      "unknown": {
+        "scene": {
+          "undefined": 128
+        },
+        "timeofday": {
+          "undefined": 168
+        },
+        "weather": {
+          "undefined": 1244
+        }
+      }
+    }
+  }
+}

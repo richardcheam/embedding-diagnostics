@@ -1,3 +1,5 @@
+import os
+
 import pytest
 import torch
 
@@ -63,8 +65,12 @@ def test_wrong_scale_is_penalized():
 
 
 @pytest.mark.skipif(
+    os.environ.get("EMBEDDING_DIAGNOSTICS_ACCELERATOR_TESTS") != "1",
+    reason="CPU-only default suite; opt in with EMBEDDING_DIAGNOSTICS_ACCELERATOR_TESTS=1",
+)
+@pytest.mark.skipif(
     not torch.backends.mps.is_available() and not torch.cuda.is_available(),
-    reason="needs a non-CPU device to exercise the cross-device path",
+    reason="needs a usable non-CPU device to exercise the cross-device path",
 )
 def test_cpu_generator_works_with_accelerator_embeddings():
     """A CPU generator must not break training on GPU.

@@ -1,5 +1,62 @@
 # Development log
 
+## Phase-C C1-pilot (2026-10-07)
+
+Implemented metadata-only census and immutable uniform fully-labelled sampling,
+then held-out semantic endpoints and train-fitted versions of the existing five
+feature interventions. The sole C0 path adjustment parameterizes its sampling
+description: otherwise it would falsely record C0 lexicographic sampling for
+C1's random subset. Adapter, cache, Phase-B loader and shared diagnostics remain
+unchanged. No C1 dependency changes or training conditions were added.
+
+[measurement] The fixed 384/128 sample produced finite unit-normalized 768d
+vectors in 5706.03 s, CPU FP32 / batch 1 / four threads, 3.59 GiB peak RSS.
+Thirty stress records and their optimization diagnostics are retained in
+`experiments/phaseC_c1_pilot/`. The pinned mean-pooling/Normalize module sequence
+was checked against local configuration without SentenceTransformers.
+Completed-cache and analysis resumes used no-inference/no-endpoint sentinels.
+392 tests passed, one optional accelerator test skipped; Ruff and lock checks
+passed. Read-only review found no critical or important defect; its suggestions
+added held-out transform tests, analysis dependency-version checks and clearer
+sampling prose.
+
+[open] Severe positive scaling saturates the unscaled C grid; severe mean
+injection causes two unscaled final fits to hit max_iter. Results and warnings
+remain visible rather than changing the protocol after seeing outcomes. The
+rare-scene classes have insufficient training support. Main counts/IDs and
+probe calibration need a separate decision; C2–C4 are not started. This is an
+exploratory instrument pilot, not a new headline finding.
+
+## Phase-C C0 integration (2026-10-07)
+
+Added an external pretrained encoder path without changing the seven training
+conditions, shared Trainer, Phase-B filesystem loader, or diagnostics.
+Transformers 5.19.0 and pylance 0.39.0 are locked through the project workflow;
+existing package versions and the cu128 Torch policy remain unchanged.
+The model and dataset were already local; no download tooling was added.
+
+[ours] The pinned processor/configuration load offline with audio_config=None.
+The text+vision model contains 438,760,448 parameters. The MSI GPU is sm_61,
+which the locked Torch build does not support; C0 therefore runs CPU FP32.
+The ordinary suite exposed an existing accelerator test that treated visible
+CUDA as usable. It is now explicitly opt-in, keeping default CI CPU-only.
+
+Independent review caught a provenance defect: replacing a local Lance
+dataset could preserve path, version, row count, and selected metadata while
+changing its bytes. Optional repeat inference was insufficient to protect
+resume. Completed raw image hashes are now checked against source bytes on
+every resume before any new inference. A regression test first failed on
+the original implementation, then passed with mandatory source verification.
+Actual decoding/preprocessing dependency versions and concrete processor
+classes are also recorded, alongside lock/source and weight hashes.
+
+The C0 lexicographic sample is for integration only. The existing degradation
+helper's probes are in-sample; C1 must use the underlying probe implementation
+with separate train/validation vectors and train-fitted transformations.
+No semantic study, Matryoshka experiment, numerical study, or cross-modal
+retrieval was started. Measurements are recorded in
+`experiments/phaseC_c0/smoke.json`; protocol and commands in [phase-c.md](phase-c.md).
+
 This records defects found while building the harness, and process caveats a reader
 should know. It exists because several of these were caught only by review, and the
 same classes of mistake are easy to reintroduce.

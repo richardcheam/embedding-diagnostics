@@ -1,0 +1,13 @@
+{
+  "claim_label": "[measurement]",
+  "monitor_started_unix": 1791399656.6634042,
+  "note": "external monitor began after model loading; extraction report supplies full-process peak RSS",
+  "peak_kib": {
+    "VmHWM": 3767472,
+    "VmRSS": 2997208,
+    "VmSwap": 1256424
+  },
+  "pid": 506963,
+  "samples": 557,
+  "sampling_interval_seconds": 10
+}

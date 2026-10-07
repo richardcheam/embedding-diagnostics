@@ -203,14 +203,12 @@
     if (wantsPlayback) start(); else stop();
   });
 
-  // Only autoplay while the figure is open, on screen, and motion is welcome.
-  const details = figure.closest('details');
+  // Only autoplay while the figure is visible and motion is welcome.
   const canPlay = () =>
     visible && !document.hidden &&
     !reduced.matches &&
     !compact.matches &&
-    document.documentElement.classList.contains('motion-ready') &&
-    (!details || details.open);
+    document.documentElement.classList.contains('motion-ready');
 
   function syncPlayback() {
     document.documentElement.classList.toggle('motion-ready', !reduced.matches && !compact.matches);
@@ -223,7 +221,6 @@
       syncPlayback();
     }, { threshold: 0.35 }).observe(figure);
   }
-  details?.addEventListener('toggle', syncPlayback);
   reduced.addEventListener('change', syncPlayback);
   compact.addEventListener('change', syncPlayback);
   document.addEventListener('visibilitychange', syncPlayback);

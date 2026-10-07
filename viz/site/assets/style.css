@@ -14,39 +14,39 @@
   --focus-wash:#f4ead3;
   /* 利休白茶 rikyū-shiracha — inputs: a quiet tea-grey, deliberately the
      least assertive thing in the figure */
-  --pig-shiracha-fill:#e9e3d3;
-  --pig-shiracha-deep:#d9d0b9;
-  --pig-shiracha-line:#8c7f63;
+  --pig-shiracha-fill:#efede7;
+  --pig-shiracha-deep:#e3dfd5;
+  --pig-shiracha-line:#8b8375;
   /* 藍白 aijiro wash under a 勝色 kachi-iro line — the trained encoders */
-  --pig-ai-fill:#dfeaec;
-  --pig-ai-deep:#c3d6da;
-  --pig-ai-line:#1f3a4d;
+  --pig-ai-fill:#e7ebea;
+  --pig-ai-deep:#d3dcda;
+  --pig-ai-line:#4e6463;
   /* 二藍 futaai — indigo over safflower; the predictor, kin to the encoders
      but its own hue */
-  --pig-futaai-fill:#e4dce6;
-  --pig-futaai-deep:#d0c2d5;
-  --pig-futaai-line:#6b4a6e;
+  --pig-futaai-fill:#ebe8e9;
+  --pig-futaai-deep:#ddd5d8;
+  --pig-futaai-line:#6d6269;
   /* 白緑 byakuroku — finely ground malachite; the projector */
-  --pig-byakuroku-fill:#dee8d5;
-  --pig-byakuroku-deep:#c7d7b9;
-  --pig-byakuroku-line:#5b7351;
+  --pig-byakuroku-fill:#eaebe5;
+  --pig-byakuroku-deep:#dadfd3;
+  --pig-byakuroku-line:#73806a;
   /* 緑青 rokushō — the same malachite, coarser; SIGReg itself */
-  --pig-rokusho-fill:#d3e0d2;
-  --pig-rokusho-deep:#b9cdb7;
-  --pig-rokusho-line:#3e6b52;
+  --pig-rokusho-fill:#e7eae4;
+  --pig-rokusho-deep:#d3dbcf;
+  --pig-rokusho-line:#607461;
   /* 弁柄 bengara — red iron oxide; the objectives, and anything the
      gradient touches */
-  --pig-bengara-fill:#efdcd4;
-  --pig-bengara-deep:#e0c0b4;
-  --pig-bengara-line:#8f3a28;
+  --pig-bengara-fill:#eee8e4;
+  --pig-bengara-deep:#e0d5ce;
+  --pig-bengara-line:#86695a;
 
   /* Flow colours for the animated dashes. 朱 shu, the vermilion of seal ink,
      carries gradient; 黄土 ōdo is reserved for the EMA weight copy, which is
      a different kind of movement from either data or gradient. */
-  --flow-forward:#1f5c7a;
-  --flow-grad:#c4452a;
-  --flow-reg:#3e6b52;
-  --flow-ema:#a8762f;
+  --flow-forward:#4e6463;
+  --flow-grad:#98624b;
+  --flow-reg:#607461;
+  --flow-ema:#87734f;
 
   /* 鈍色 nibiiro — connectors, in place of the page's cooler --muted so the
      whole figure sits in one light. */
@@ -286,7 +286,7 @@ h3 {
   cursor:pointer;
   font-size:13px
 }
-.technical-method .pipeline {
+.architecture .pipeline {
   margin-top:30px
 }
 .dataset-comparison {
@@ -496,6 +496,11 @@ figcaption {
   font-size:16px;
   max-width:48ch;
   margin-top:5px
+}
+.architecture {
+  margin:32px 0;
+  padding-top:24px;
+  border-top:1px solid var(--line)
 }
 .pipeline {
   margin:0 0 35px

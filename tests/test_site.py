@@ -72,6 +72,8 @@ def test_pipeline_figure_is_static_readable(tmp_path):
     module = builder()
     module.build(ROOT / "experiments", tmp_path)
     page = (tmp_path / "index.html").read_text()
+    assert 'class="architecture" id="architecture"' in page
+    assert '<summary>Technical detail: shared architecture' not in page
     assert 'class="pipeline" id="pipeline"' in page
     for condition in module.CONDITIONS:
         assert f'value="{condition}"' in page

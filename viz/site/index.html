@@ -40,7 +40,7 @@
       <div class="section-intro"><h2 id="experiment-title">Create controlled failure modes.<br>Measure them the same way.</h2><p>Train seven variants of one image model, changing only the mechanisms intended to prevent degeneration. Compare their embeddings using the same data, training schedule, and evaluation procedure.</p></div>
       <div class="report-prose"><h3>How the model learns</h3><p>The model follows a <strong>Joint-Embedding Predictive Architecture (JEPA)</strong>: hide parts of an image and predict their internal representations from the visible parts. An <strong>encoder</strong> is the neural network that converts images into embeddings. A <strong>predictor</strong> is the training component that attempts the hidden-region prediction. <a class="citation" href="#ref-ijepa" aria-label="Reference 1: I-JEPA">[1]</a></p><p class="focus-line"><strong>All seven variants use the same training loop.</strong> One is an intentionally unprotected control: it removes the mechanisms being tested so the diagnostics can be examined on a representation that degenerates.</p></div>
       <dl class="method-definitions"><div><dt>Stop-gradient</dt><dd>Prevents the target side of a prediction from being updated through that prediction’s gradient.</dd></div><div><dt>EMA target</dt><dd>A separate target encoder updated by an exponential moving average, a slowly changing copy of the main encoder.</dd></div><div><dt>SIGReg</dt><dd>Sketched Isotropic Gaussian Regularization: a published loss that encourages the embedding distribution to resemble a standard Gaussian. <a class="citation" href="#ref-lejepa" aria-label="Reference 2: LeJEPA">[2]</a></dd></div><div><dt>Projector</dt><dd>A temporary neural-network layer between the encoder and SIGReg. Evaluation reads the encoder, not this layer.</dd></div></dl>
-      <details class="technical-method"><summary>Technical detail: shared architecture and seven-condition matrix</summary>
+      <section class="architecture" id="architecture" aria-labelledby="architecture-title"><h3 id="architecture-title">Shared architecture</h3>
       <figure class="pipeline" id="pipeline">
   <div class="pipeline-controls">
     <label for="pipeline-condition">Condition
@@ -159,7 +159,7 @@
         <tr><th scope="row">Projector + SIGReg</th><td>No</td><td>No</td><td>●</td><td>●</td></tr>
         <tr class="control-row"><th scope="row">Contracted control</th><td>No</td><td>No</td><td>No</td><td>No</td></tr>
       </tbody></table></div>
-      </details>
+      </section>
       <div class="protocol-strip"><div><strong>2</strong><span>CIFAR-10 + BDD100K</span></div><div><strong>70</strong><span>Completed training runs</span></div><div><strong>4,000</strong><span>Steps per campaign run</span></div><div><strong>5</strong><span>Paired seeds per condition</span></div></div>
       <p class="small">Seven variants × five random seeds × two datasets = 70 completed runs. A seed sets the random initialization and sampling; repeating seeds shows how much the measurements vary between runs. Results are taken at the final training checkpoint, not selected from the best checkpoint.</p>
     </section>

@@ -17,8 +17,8 @@ Generated output is ignored by Git.
 The page introduces the problem before the measurements: motivation, controlled approach,
 datasets and evaluation definitions, final results, and limits
 with next steps. Dataset names, JEPA, the interventions, linear probing, and retrieval P@10
-are explained before their results. Architecture details and rank formulas are optional
-expandable material. The portfolio page reports the final method; the linked research status preserves the evaluation history.
+are explained before their results. The architecture and condition matrix are directly visible in the Approach section;
+rank formulas remain optional expandable material. The portfolio page reports the final method; the linked research status preserves the evaluation history.
 
 ## Evidence and publication safeguards
 
@@ -37,7 +37,7 @@ expandable material. The portfolio page reports the final method; the linked res
 
 The architecture figure explores all seven conditions through Forward, Loss, Backward,
 and Update. It traces computation in one optimizer step, not measured training dynamics.
-Motion runs only while the open figure is visible on wider screens; explicit pause persists
+Motion runs only while the figure is visible on wider screens; explicit pause persists
 across scrolling. Reduced-motion and phone views retain manual phase selection. Without
 JavaScript, the controls are hidden and the labelled schematic remains readable.
 

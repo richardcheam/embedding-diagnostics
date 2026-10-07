@@ -245,6 +245,8 @@
   const entries = links.map(link => ({link, target:document.getElementById(link.hash.slice(1))}));
   const button = contents.querySelector('.contents-toggle');
   const current = contents.querySelector('.contents-current');
+  const initialHash = location.hash;
+  let alignInitialHash = Boolean(initialHash);
   let pending = false;
   let active;
   contents.dataset.interactive = 'true';
@@ -260,7 +262,10 @@
       if (entry.target.getBoundingClientRect().top <= position) selected = entry;
     }
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) {
-      selected = entries.at(-1);
+      // Closed disclosures are controls, not the content currently being read.
+      selected = entries.slice().reverse().find(entry =>
+        entry.target.tagName !== 'DETAILS' || entry.target.open
+      );
     }
     if (selected === active) return;
     active = selected;
@@ -278,11 +283,14 @@
     contents.dataset.open = String(open);
     button.setAttribute('aria-expanded', String(open));
   });
-  links.forEach(link => link.addEventListener('click', event => {
-    if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
-      const disclosure = document.getElementById(link.hash.slice(1)).closest('details');
-      if (disclosure) disclosure.open = true;
-    }
+  document.querySelectorAll('a[href="#uncertainty"], a[href="#rank"]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        document.getElementById(link.hash.slice(1)).open = true;
+      }
+    });
+  });
+  links.forEach(link => link.addEventListener('click', () => {
     close();
     if (innerWidth < 1200) button.focus({preventScroll:true});
   }));
@@ -292,13 +300,25 @@
   window.addEventListener('scroll', schedule, {passive:true});
   window.addEventListener('resize', schedule);
   function revealHash() {
+    if (location.hash !== initialHash) alignInitialHash = false;
     const target = document.getElementById(location.hash.slice(1));
     const disclosure = target?.closest('details');
     if (disclosure) disclosure.open = true;
     schedule();
   }
   window.addEventListener('hashchange', revealHash);
-  new ResizeObserver(schedule).observe(document.querySelector('main'));
+  // The measured figures load asynchronously and can move a deep-link target.
+  const keepUserPosition = () => { alignInitialHash = false; };
+  ['wheel', 'touchstart', 'keydown'].forEach(type => {
+    window.addEventListener(type, keepUserPosition, {passive:true, once:true});
+  });
+  new ResizeObserver(() => {
+    if (alignInitialHash && document.querySelector('.metric-chart')) {
+      alignInitialHash = false;
+      document.getElementById(initialHash.slice(1))?.scrollIntoView({behavior:'instant'});
+    }
+    schedule();
+  }).observe(document.querySelector('main'));
   close();
   revealHash();
   locate();

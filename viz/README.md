@@ -15,9 +15,9 @@ Generated output is ignored by Git.
 ## Report structure
 
 The page introduces the problem before the measurements: motivation, controlled approach,
-BDD100K and evaluation definitions, final results, and limits
-with next steps. BDD100K, JEPA, the interventions, linear probing, and retrieval P@10
+BDD100K and evaluation definitions, final results, limits with next steps, bibliography, and an appendix. BDD100K, JEPA, the interventions, linear probing, and retrieval P@10
 are explained before their results. The architecture and condition matrix are directly visible in the Approach section;
+The appendix follows the bibliography and keeps both technical sections expandable.
 The optional dimensionality section defines the matrix, derives the soft counts,
 and works a clearly labelled illustrative example. The portfolio page reports the final method; the linked research status preserves the evaluation history.
 

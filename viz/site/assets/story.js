@@ -1,45 +1,6 @@
-/* Measured figures and discrete audit states. No interpolated research results. */
+/* Measured final-checkpoint figures. */
 (() => {
   'use strict';
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const compact = window.matchMedia('(max-width: 700px)');
-  const stage = document.querySelector('.audit-stage');
-  const steps = [...document.querySelectorAll('.audit-step')];
-  const buttons = [...document.querySelectorAll('[data-step]')];
-  const notes = [
-    'Two protocols. One encoder. The original score is retained as an audit record.',
-    'The original optimizer settings underfit small-magnitude features. Test the instrument.',
-    'Corrected fitting changes the reading. The encoder and evaluation split remain fixed.',
-    'Label prediction and neighbour quality are separate endpoints. The Results section reports both.'
-  ];
-  function setStage(index) {
-    stage.dataset.state = steps[index].dataset.state;
-    document.getElementById('stage-count').textContent = `0${index + 1} / 04`;
-    document.getElementById('stage-note').textContent = notes[index];
-    buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
-  }
-  let observer;
-  function configureMotion() {
-    const enabled = !reduced.matches && !compact.matches;
-    document.documentElement.classList.toggle('motion-ready', enabled);
-    observer?.disconnect();
-    if (!enabled) return;
-    observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) setStage(steps.indexOf(entry.target));
-      });
-    }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });
-    steps.forEach(step => observer.observe(step));
-  }
-  configureMotion();
-  reduced.addEventListener('change', configureMotion);
-  compact.addEventListener('change', configureMotion);
-  buttons.forEach(button => button.addEventListener('click', () => {
-    const index = Number(button.dataset.step);
-    setStage(index);
-    steps[index].scrollIntoView({ block: 'center', behavior: reduced.matches ? 'instant' : 'smooth' });
-  }));
-
   const order = ['ema_stopgrad', 'none_stopgrad', 'none_nostopgrad'];
   const names = ['EMA reference', 'Stop-gradient only', 'Contracted control'];
   const palette = getComputedStyle(document.documentElement);
@@ -103,13 +64,13 @@
     const charts = document.getElementById('measured-charts');
     charts.replaceChildren(
       chart(data,'total_variance','Embedding spread / total variance',true),
-      chart(data,`probe_accuracy_unscaled_${attribute}`,'Label prediction / corrected probe accuracy',false,`probe_majority_${attribute}`),
+      chart(data,`probe_accuracy_unscaled_${attribute}`,'Label prediction / linear-probe accuracy',false,`probe_majority_${attribute}`),
       chart(data,`probe_balanced_accuracy_unscaled_${attribute}`,'Label prediction / balanced accuracy'),
       chart(data,`retrieval_p10_${attribute}`,'Neighbour label agreement / P@10',false,`retrieval_chance_${attribute}`)
     );
     const table = document.createElement('table');
     const caption = document.createElement('caption');
-    caption.textContent = `${attribute} · corrected raw probe and retrieval · paired differences A − B`;
+    caption.textContent = `${attribute} · linear probe and retrieval · paired differences A − B`;
     table.append(caption);
     const head = document.createElement('thead');
     const headerRow = document.createElement('tr');

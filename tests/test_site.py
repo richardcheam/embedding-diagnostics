@@ -22,7 +22,6 @@ def test_site_uses_corrected_phase_b_probes():
     data = builder().collect(ROOT / "experiments")
     control = data["conditions"]["none_nostopgrad"]
     assert control["probe_accuracy_unscaled_timeofday"][0] == pytest.approx(0.91325)
-    assert control["original_probe_timeofday"][0] < 0.5
     assert data["seeds"] == [0, 1, 2, 3, 4]
     assert data["step"] == 4000
     assert len(data["conditions"]) == 7
@@ -40,8 +39,9 @@ def test_build_publishes_data_and_static_evidence(tmp_path):
     page = (tmp_path / "index.html").read_text()
     assert data["conditions"]["none_nostopgrad"]["probe_accuracy_unscaled_timeofday"][0] > 0.9
     assert "91.37" in page  # Corrected evidence remains readable without JavaScript.
-    assert "48.32" in page
-    assert "Not corrected" in page
+    assert "48.32" not in page
+    assert 'id="audit"' not in page
+    assert "Classification remains unresolved" in page
     assert "convergence" in page.lower()
     assert len(data["phase_a_geometry"]["conditions"]) == 7
     assert "__CIFAR_TABLE__" not in page

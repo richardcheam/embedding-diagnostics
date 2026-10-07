@@ -15,10 +15,10 @@ Generated output is ignored by Git.
 ## Report structure
 
 The page introduces the problem before the measurements: motivation, controlled approach,
-datasets and evaluation definitions, corrected results, the measurement audit, and limits
+datasets and evaluation definitions, final results, and limits
 with next steps. Dataset names, JEPA, the interventions, linear probing, and retrieval P@10
 are explained before their results. Architecture details and rank formulas are optional
-expandable material. The scroll audit follows the results rather than acting as the introduction.
+expandable material. The portfolio page reports the final method; the linked research status preserves the evaluation history.
 
 ## Evidence and publication safeguards
 
@@ -35,9 +35,8 @@ expandable material. The scroll audit follows the results rather than acting as 
 - Phase-A geometry is published from final logs, separately from the corrected Phase-B evidence. Phase-A probe endpoints are uncorrected and excluded. The page does not claim a
   reproduction of the full LeJEPA system.
 
-The scroll scene changes emphasis between measured endpoints; it does not interpolate
-accuracy or simulate training. Mobile and reduced-motion views retain the full storyboard.
-The static table and audit remain readable without JavaScript.
+The static evidence tables remain readable without JavaScript. Interactive charts allow
+readers to compare the three BDD100K scenario attributes.
 
 ## GitHub Pages
 

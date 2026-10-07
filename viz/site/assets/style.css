@@ -10,7 +10,6 @@
   --control:#b4471b;
   --reference:#2454c6;
   --comparison:#7543a2;
-  --corrected:#006f62;
   font-family:Arial,Helvetica,sans-serif;
   color:var(--ink);
   background:var(--paper);
@@ -79,7 +78,7 @@ nav {
 .skip:focus {
   top:12px
 }
-.eyebrow,.chapter-label,.metric-label,.figure-heading,.stage-top,.step-number,.metric-foot {
+.eyebrow,.chapter-label,.metric-label,.figure-heading,.metric-foot {
   font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
   font-size:12px;
   letter-spacing:.04em
@@ -521,118 +520,6 @@ tbody td {
   font-size:10px;
   color:var(--muted)
 }
-.audit {
-  border-bottom:1px solid var(--line);
-  padding-bottom:45px
-}
-.skip-scene {
-  margin-bottom:35px
-}
-.audit-layout {
-  display:grid;
-  grid-template-columns:1.15fr .8fr;
-  gap:90px;
-  align-items:start
-}
-.audit-stage {
-  position:sticky;
-  top:70px;
-  border-top:1px solid var(--ink);
-  padding-top:18px;
-  transition:border-color .4s
-}
-.stage-top {
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  color:var(--muted);
-  font-size:10px
-}
-.audit-chart {
-  display:block;
-  width:100%;
-  height:auto;
-  margin:24px 0 5px
-}
-.chart-grid {
-  stroke:var(--line);
-  fill:none;
-  stroke-width:1
-}
-.axis-text {
-  text-anchor:end;
-  fill:var(--muted);
-  font:10px ui-monospace,monospace
-}
-.old-bar {
-  fill:var(--muted)
-}
-.new-bar {
-  fill:var(--corrected)
-}
-.audit-value {
-  font:25px Arial,sans-serif;
-  fill:var(--ink);
-  text-anchor:middle
-}
-.bar-label {
-  font:12px ui-monospace,monospace;
-  fill:var(--muted);
-  text-anchor:middle
-}
-.stage-note {
-  font-size:13px;
-  color:var(--muted);
-  min-height:44px;
-  max-width:50ch
-}
-.stage-control {
-  display:flex;
-  gap:8px;
-  margin:20px 0
-}
-.stage-control button {
-  border:1px solid var(--line);
-  background:transparent;
-  padding:8px 12px;
-  cursor:pointer;
-  font:11px ui-monospace,monospace;
-  border-radius:3px;
-  color:var(--muted)
-}
-.stage-control button[aria-pressed=true] {
-  background:var(--ink);
-  color:var(--paper);
-  border-color:var(--ink)
-}
-.audit-step {
-  min-height:66vh;
-  padding-top:15vh;
-  max-width:390px
-}
-.audit-step:last-child {
-  min-height:55vh
-}
-.step-number {
-  color:var(--accent);
-  text-transform:uppercase
-}
-.audit-step p {
-  font-size:16px;
-  color:var(--body)
-}
-.motion-ready .audit-stage[data-state=original] .old-bar,.motion-ready .audit-stage[data-state=optimizer] .old-bar {
-  stroke:var(--ink);
-  stroke-width:3
-}
-.motion-ready .audit-stage[data-state=corrected] .new-bar,.motion-ready .audit-stage[data-state=retrieval] .new-bar {
-  stroke:var(--ink);
-  stroke-width:3
-}
-.old-bar,.new-bar {
-  transition:stroke-width .3s;
-  stroke-width:0
-}
 .evidence-controls {
   display:flex;
   justify-content:space-between;
@@ -853,9 +740,6 @@ footer p {
   .section-intro {
     gap:40px
   }
-  .audit-layout {
-    gap:45px
-  }
   .edition {
     font-size:9px
   }
@@ -998,30 +882,6 @@ footer p {
     grid-template-columns:1fr 1fr;
     gap:25px
   }
-  .audit-layout {
-    grid-template-columns:1fr;
-    gap:20px
-  }
-  .audit-stage {
-    position:relative;
-    top:auto
-  }
-  .audit-step {
-    min-height:0!important;
-    padding-top:30px;
-    max-width:none;
-    border-top:1px solid var(--line);
-    margin-bottom:30px
-  }
-  .audit-chart {
-    max-width:600px
-  }
-  .stage-note {
-    min-height:0
-  }
-  .audit-step h3 {
-    font-size:25px
-  }
   .evidence-controls {
     display:block
   }
@@ -1066,9 +926,6 @@ footer p {
   figcaption,.small {
     font-size:12px
   }
-  .stage-control {
-    display:none
-  }
 }
 @media(prefers-reduced-motion:reduce) {
   :root {
@@ -1078,50 +935,18 @@ footer p {
     transition:none!important;
     animation:none!important
   }
-  .audit-stage {
-    position:relative;
-    top:auto
-  }
-  .audit-step {
-    min-height:0!important;
-    padding-top:30px;
-    margin-bottom:30px
-  }
-  .audit-layout {
-    align-items:start
-  }
-  .motion-ready .audit-stage .new-bar,.motion-ready .audit-stage .old-bar {
-    opacity:1!important
-  }
 }
 @media print {
-  nav,.stage-control,.skip-scene,.evidence-controls,.skip {
+  nav,.evidence-controls,.skip {
     display:none
-  }
-  .audit-stage {
-    position:relative;
-    top:auto
-  }
-  .audit-step {
-    min-height:0;
-    padding-top:15px
   }
   .chapter {
     padding-top:30px
   }
-  .motion-ready .audit-stage .new-bar,.motion-ready .audit-stage .old-bar {
-    opacity:1!important
-  }
   main,.masthead {
     width:100%
   }
-  .audit-layout {
-    gap:25px
-  }
   details {
     display:block
-  }
-  .audit-chart {
-    max-height:260px
   }
 }

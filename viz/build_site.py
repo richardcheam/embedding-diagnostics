@@ -89,7 +89,6 @@ def collect(experiments: Path) -> dict:
             ):
                 raise ValueError(f"Inconsistent remeasured variance: {directory}")
             values = {key: original[key] for key in GEOMETRY}
-            values["original_probe_timeofday"] = original["probe_accuracy_unscaled_timeofday"]
             for attribute in ATTRIBUTES:
                 for prefix in ("retrieval_p10", "retrieval_chance"):
                     key = f"{prefix}_{attribute}"
@@ -210,7 +209,6 @@ def build(experiments: Path, out: Path) -> None:
         for value in columns[f"probe_converged_unscaled_{attribute}"]
     )
     replacements = {
-        "__OLD__": f"{100 * mean(data, control, 'original_probe_timeofday'):.2f}",
         "__NEW__": f"{100 * mean(data, control, 'probe_accuracy_unscaled_timeofday'):.2f}",
         "__VARIANCE__": f"{mean(data, control, 'total_variance'):.7f}",
         "__REFERENCE_VARIANCE__": f"{mean(data, 'ema_stopgrad', 'total_variance'):.2f}",
@@ -228,12 +226,6 @@ def build(experiments: Path, out: Path) -> None:
             f"{100 * mean(data, 'ema_stopgrad', 'retrieval_p10_timeofday'):.2f}"
         ),
     }
-    for label, key in (("OLD", "original_probe_timeofday"),
-                       ("NEW", "probe_accuracy_unscaled_timeofday")):
-        height = 240 * mean(data, control, key)
-        replacements[f"__{label}_HEIGHT__"] = f"{height:.3f}"
-        replacements[f"__{label}_Y__"] = f"{295 - height:.3f}"
-        replacements[f"__{label}_LABEL_Y__"] = f"{279 - height:.3f}"
     page = (ROOT / "viz/site/index.html").read_text()
     for key, value in replacements.items():
         page = page.replace(key, value)

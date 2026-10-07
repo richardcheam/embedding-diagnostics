@@ -15,14 +15,18 @@ Generated output is ignored by Git.
 ## Report structure
 
 The page introduces the problem before the measurements: motivation, controlled approach,
-datasets and evaluation definitions, final results, and limits
-with next steps. Dataset names, JEPA, the interventions, linear probing, and retrieval P@10
+BDD100K and evaluation definitions, final results, and limits
+with next steps. BDD100K, JEPA, the interventions, linear probing, and retrieval P@10
 are explained before their results. The architecture and condition matrix are directly visible in the Approach section;
 rank formulas remain optional expandable material. The portfolio page reports the final method; the linked research status preserves the evaluation history.
 
 The contents list remains beside the report on desktop, with a scroll-tracked current
 section. Smaller screens use a sticky contents control; links work without JavaScript.
-Shared architecture and both dataset result sections have direct entries.
+Shared architecture and BDD100K results have direct entries.
+
+The interactive figures show all seven conditions for each driving attribute, with
+five seed markers and a mean per row. The table explanation is generated from the
+same endpoints. The case study presents BDD100K only; historical experiment records remain in the repository.
 
 ## Evidence and publication safeguards
 
@@ -36,8 +40,8 @@ Shared architecture and both dataset result sections have direct entries.
   split, without multiplicity correction or verdict language.
 - Convergence, iteration counts, selected regularization, and underfit flags are retained
   in the downloadable `data.json`. Corrected fitting is post-hoc; iteration caps remain disclosed.
-- Phase-A geometry is published from final logs, separately from the corrected Phase-B evidence. Phase-A probe endpoints are uncorrected and excluded. The page does not claim a
-  reproduction of the full LeJEPA system.
+- The public build requires only the 35 BDD100K runs and publishes no other dataset.
+  The page does not claim a reproduction of the full LeJEPA system.
 
 The architecture figure explores all seven conditions through Forward, Loss, Backward,
 and Update. It traces computation in one optimizer step, not measured training dynamics.
@@ -45,7 +49,7 @@ Motion runs only while the figure is visible on wider screens; explicit pause pe
 across scrolling. Reduced-motion and phone views retain manual phase selection. Without
 JavaScript, the controls are hidden and the labelled schematic remains readable.
 
-The static evidence tables remain readable without JavaScript. Interactive charts allow
+The static evidence table remain readable without JavaScript. Interactive charts allow
 readers to compare the three BDD100K scenario attributes.
 
 ## GitHub Pages

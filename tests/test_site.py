@@ -52,21 +52,29 @@ def test_build_publishes_data_and_static_evidence(tmp_path):
     assert "91.37" in page  # Corrected evidence remains readable without JavaScript.
     assert "48.32" not in page
     assert 'id="audit"' not in page
-    assert "Classification remains unresolved" in page
     assert "convergence" in page.lower()
-    assert len(data["phase_a_geometry"]["conditions"]) == 7
-    assert "__CIFAR_TABLE__" not in page
-    assert 'class="cifar-geometry"' in page
+    assert "phase_a_geometry" not in data
+    assert "CIFAR" not in page
+    assert "What the table shows" in page
     assert (tmp_path / "assets" / "story.js").exists()
     assert (tmp_path / "assets" / "style.css").exists()
 
 
-def test_phase_a_publishes_geometry_without_defective_probes():
+def test_public_report_builds_with_only_bdd_records(tmp_path):
     module = builder()
-    data = module.collect_phase_a_geometry(ROOT / "experiments")
-    for columns in data["conditions"].values():
-        assert set(columns) == set(module.GEOMETRY)
-        assert all(len(values) == 5 for values in columns.values())
+    records = tmp_path / "records"
+    for seed in module.SEEDS:
+        for condition in module.CONDITIONS:
+            source = ROOT / "experiments" / f"phaseB_s{seed}" / condition
+            dest = records / f"phaseB_s{seed}" / condition
+            dest.mkdir(parents=True)
+            for name in ("metrics.jsonl", "metrics_reprobed.jsonl", "config.json"):
+                (dest / name).write_text((source / name).read_text())
+    module.build(records, tmp_path / "site")
+    page = (tmp_path / "site" / "index.html").read_text()
+    assert "CIFAR" not in page
+    assert "Phase A" not in page and "Phase B" not in page
+    assert "35 completed runs" in page
 
 
 def test_pipeline_figure_is_static_readable(tmp_path):
@@ -102,18 +110,8 @@ def test_contents_links_have_static_targets(tmp_path):
     parser.feed(page)
     assert set(parser.anchors) <= parser.ids
     assert 'aria-controls="contents-links"' in page
-    for target in ("overview", "architecture", "bdd-results", "cifar-results"):
+    for target in ("overview", "architecture", "bdd-results"):
         assert f'href="#{target}"' in page
-
-
-def test_phase_a_nonfinal_endpoint_blocks_publication(tmp_path):
-    directory = tmp_path / "phaseA_s0" / "ema_stopgrad"
-    directory.mkdir(parents=True)
-    source = ROOT / "experiments" / "phaseA_s0" / "ema_stopgrad"
-    (directory / "config.json").write_text((source / "config.json").read_text())
-    (directory / "metrics.jsonl").write_text(json.dumps({"step": 200}))
-    with pytest.raises(ValueError, match="final matched Phase-A"):
-        builder().collect_phase_a_geometry(tmp_path)
 
 
 def test_corrected_record_with_wrong_seed_is_rejected(tmp_path):

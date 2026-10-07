@@ -132,29 +132,6 @@ def mean(data: dict, condition: str, key: str) -> float:
     return statistics.mean(data["conditions"][condition][key])
 
 
-def collect_phase_a_geometry(experiments: Path) -> dict:
-    """Read final CIFAR-10 geometry only; uncorrected probes are excluded."""
-    conditions = {}
-    for condition in CONDITIONS:
-        columns = {key: [] for key in GEOMETRY}
-        for seed in SEEDS:
-            directory = experiments / f"phaseA_s{seed}" / condition
-            config = json.loads((directory / "config.json").read_text())
-            record = max(read_records(directory / "metrics.jsonl"), key=lambda r: r["step"])
-            if (
-                config["seed"] != seed or config["data"]["dataset"] != "cifar10"
-                or config["strategy"]["name"] != condition or record["step"] != 4000
-            ):
-                raise ValueError(f"Not a final matched Phase-A endpoint: {directory}")
-            for key in GEOMETRY:
-                value = record[key]
-                if not isinstance(value, (float, int)) or not math.isfinite(value):
-                    raise ValueError(f"Invalid {key}: {directory}")
-                columns[key].append(value)
-        conditions[condition] = columns
-    return {"seeds": SEEDS, "step": 4000, "conditions": conditions}
-
-
 def highlighted_cells(values: list[str], columns: list[tuple[str, ...]]) -> str:
     """Mark displayed column extrema, including ties; do not assign quality verdicts."""
     cells = []
@@ -174,25 +151,6 @@ def highlighted_cells(values: list[str], columns: list[tuple[str, ...]]) -> str:
             content = value
         cells.append(f"<td>{content}</td>")
     return "".join(cells)
-
-
-def geometry_table(data: dict) -> str:
-    rows = []
-    values_by_condition = {
-        condition: [
-            f"{mean(data, condition, 'total_variance'):.3g}",
-            f"{mean(data, condition, 'mean_pairwise_cosine'):.4f}",
-            f"{mean(data, condition, 'rankme'):.2f}",
-        ]
-        for condition in CONDITIONS
-    }
-    columns = list(zip(*values_by_condition.values()))
-    for condition, values in values_by_condition.items():
-        rows.append(
-            f'<tr><th scope="row">{html.escape(LABELS[condition])}</th>'
-            + highlighted_cells(values, columns) + "</tr>"
-        )
-    return "\n".join(rows)
 
 
 def evidence_table(data: dict) -> str:
@@ -229,7 +187,6 @@ def evidence_table(data: dict) -> str:
 
 def build(experiments: Path, out: Path) -> None:
     data = collect(experiments)
-    data["phase_a_geometry"] = collect_phase_a_geometry(experiments)
     control = "none_nostopgrad"
     warnings = sum(
         value == 0
@@ -237,14 +194,33 @@ def build(experiments: Path, out: Path) -> None:
         for attribute in ATTRIBUTES
         for value in columns[f"probe_converged_unscaled_{attribute}"]
     )
+    probe_key = "probe_accuracy_unscaled_timeofday"
+    retrieval_key = "retrieval_p10_timeofday"
+    probe_gap = 100 * (mean(data, "ema_stopgrad", probe_key) - mean(data, control, probe_key))
+    retrieval_gap = 100 * (
+        mean(data, "ema_stopgrad", retrieval_key) - mean(data, control, retrieval_key)
+    )
+    projector_with_stop = 100 * (
+        mean(data, "proj_sigreg_stopgrad", retrieval_key)
+        - mean(data, "sigreg_stopgrad", retrieval_key)
+    )
+    projector_without_stop = 100 * (
+        mean(data, "sigreg_nostopgrad", retrieval_key)
+        - mean(data, "proj_sigreg_nostopgrad", retrieval_key)
+    )
     replacements = {
         "__NEW__": f"{100 * mean(data, control, 'probe_accuracy_unscaled_timeofday'):.2f}",
         "__VARIANCE__": f"{mean(data, control, 'total_variance'):.7f}",
         "__REFERENCE_VARIANCE__": f"{mean(data, 'ema_stopgrad', 'total_variance'):.2f}",
         "__RANKME__": f"{mean(data, control, 'rankme'):.2f}",
         "__WARNINGS__": str(warnings),
+        "__SIGREG_VARIANCE__": f"{mean(data, 'sigreg_stopgrad', 'total_variance'):.3g}",
+        "__SIGREG_RANKME__": f"{mean(data, 'sigreg_stopgrad', 'rankme'):.2f}",
+        "__PROBE_GAP__": f"{probe_gap:.2f}",
+        "__RETRIEVAL_GAP__": f"{retrieval_gap:.2f}",
+        "__PROJECTOR_WITH_STOP__": f"{projector_with_stop:.2f}",
+        "__PROJECTOR_WITHOUT_STOP__": f"{projector_without_stop:.2f}",
         "__TABLE__": evidence_table(data),
-        "__CIFAR_TABLE__": geometry_table(data["phase_a_geometry"]),
         "__REFERENCE_PROBE__": (
             f"{100 * mean(data, 'ema_stopgrad', 'probe_accuracy_unscaled_timeofday'):.2f}"
         ),
@@ -272,6 +248,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     build(args.experiments_dir, args.out)
     print(
-        "Built project page with CIFAR-10 geometry and corrected BDD100K probes: "
+        "Built BDD100K project page with final geometry and corrected probes: "
         f"{args.out / 'index.html'}"
     )

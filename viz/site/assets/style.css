@@ -282,22 +282,20 @@ h3 {
 .architecture .pipeline {
   margin-top:30px
 }
-.dataset-comparison {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:65px;
+.dataset-description {
+  max-width:85ch;
   border-top:1px solid var(--ink);
   padding-top:25px
 }
-.dataset-comparison h3 {
+.dataset-description h3 {
   margin-top:12px
 }
-.dataset-comparison p {
+.dataset-description p {
   color:var(--body);
   font-size:14px;
-  max-width:55ch
+  max-width:85ch
 }
-.dataset-comparison .small {
+.dataset-description .small {
   font-size:12px
 }
 .evaluation-heading {
@@ -782,7 +780,7 @@ select {
 }
 .next-grid {
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:42px;
   border-top:1px solid var(--ink);
   padding:25px 0
@@ -886,11 +884,11 @@ footer p {
   .problem-flow span:nth-child(even) {
     transform:rotate(90deg)
   }
-  .method-definitions,.dataset-comparison,.evaluation-grid,.result-findings {
+  .method-definitions,.dataset-description,.evaluation-grid,.result-findings {
     grid-template-columns:1fr;
     gap:25px
   }
-  .dataset-comparison article+article {
+  .dataset-description article+article {
     border-top:1px solid var(--line);
     padding-top:25px
   }
@@ -1412,3 +1410,10 @@ footer p {
   .contents { display:none }
   .reading-layout { display:block; width:100% }
 }
+
+.table-reading { margin:28px 0 20px; max-width:85ch }
+@media(max-width:1199px) {
+  .measured-charts { grid-template-columns:1fr }
+}
+
+.legend .regularized { background:var(--ink) }

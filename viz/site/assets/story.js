@@ -1,11 +1,11 @@
 /* Measured final-checkpoint figures. */
 (() => {
   'use strict';
-  const order = ['ema_stopgrad', 'none_stopgrad', 'none_nostopgrad'];
-  const names = ['EMA reference', 'Stop-gradient only', 'Contracted control'];
+  const order = ['ema_stopgrad', 'none_stopgrad', 'sigreg_stopgrad', 'sigreg_nostopgrad', 'proj_sigreg_stopgrad', 'proj_sigreg_nostopgrad', 'none_nostopgrad'];
+  const names = ['EMA reference', 'Stop-gradient only', 'SIGReg + stop-gradient', 'SIGReg', 'Projector + SIGReg + stop-gradient', 'Projector + SIGReg', 'Contracted control'];
   const palette = getComputedStyle(document.documentElement);
   const token = name => palette.getPropertyValue(`--${name}`).trim();
-  const colors = ['reference', 'comparison', 'control'].map(token);
+  const colors = ['reference', 'comparison', 'ink', 'ink', 'ink', 'ink', 'control'].map(token);
   const mean = values => values.reduce((a, b) => a + b, 0) / values.length;
   const ns = 'http://www.w3.org/2000/svg';
   function svgElement(name, attributes, text) {
@@ -14,14 +14,16 @@
     if (text !== undefined) node.textContent = text;
     return node;
   }
-  function chart(data, key, title, logarithmic = false, floorKey = null) {
+  function chart(data, key, title, logarithmic = false, floorKey = null, compact = false) {
     const figure = document.createElement('figure');
     figure.className = 'metric-chart';
     const heading = document.createElement('h3');
     heading.textContent = title;
     figure.append(heading);
-    const svg = svgElement('svg', {viewBox:'0 0 580 240', role:'img', 'aria-label':`${title}: five individual seeds and a mean marker per condition. Circle: EMA reference. Diamond: stop-gradient only. Square: contracted control.`});
-    const left = 140, right = 495, top = 40, row = 51;
+    const left = compact ? 25 : 225, right = compact ? 335 : 585;
+    const top = compact ? 65 : 45, row = compact ? 75 : 49;
+    const bottom = top + (order.length - 1) * row + 18;
+    const svg = svgElement('svg', {viewBox:`0 0 ${compact ? 360 : 680} ${bottom+48}`, role:'img', 'aria-label':`${title}: all seven conditions, five individual seeds and a mean marker per condition. ${names.join('; ')}.`});
     const all = order.flatMap(condition => data.conditions[condition][key]);
     const low = logarithmic ? Math.floor(Math.log10(Math.min(...all))) : 0;
     const high = logarithmic ? Math.ceil(Math.log10(Math.max(...all))) : 1;
@@ -29,44 +31,54 @@
     const ticks = logarithmic ? Array.from({length:high - low + 1}, (_, i) => low + i) : [0, .25, .5, .75, 1];
     ticks.forEach(tick => {
       const position = logarithmic ? x(10 ** tick) : x(tick);
-      svg.append(svgElement('line',{x1:position,y1:top-12,x2:position,y2:top+2*row+15,stroke:token('grid'),'stroke-width':1}));
-      svg.append(svgElement('text',{x:position,y:top+2*row+39,'text-anchor':'middle',fill:token('muted'),'font-size':12,'font-family':'monospace'}, logarithmic ? `10^${tick}` : `${tick*100}%`));
+      svg.append(svgElement('line',{x1:position,y1:top-12,x2:position,y2:bottom,stroke:token('grid'),'stroke-width':1}));
+      svg.append(svgElement('text',{x:position,y:bottom+26,'text-anchor':'middle',fill:token('muted'),'font-size':12,'font-family':'monospace'}, logarithmic ? `10^${tick}` : `${tick*100}%`));
     });
     if (floorKey) {
       const floor = mean(data.conditions[order[0]][floorKey]);
-      svg.append(svgElement('line',{x1:x(floor),y1:top-15,x2:x(floor),y2:top+2*row+15,stroke:token('muted'),'stroke-dasharray':'4 4'}));
+      svg.append(svgElement('line',{x1:x(floor),y1:top-15,x2:x(floor),y2:bottom,stroke:token('muted'),'stroke-dasharray':'4 4'}));
       svg.append(svgElement('text',{x:x(floor),y:18,'text-anchor':'middle',fill:token('muted'),'font-size':11,'font-family':'monospace'},`floor ${(floor*100).toFixed(1)}%`));
     }
     order.forEach((condition, i) => {
       const values = data.conditions[condition][key], y = top + i*row;
-      svg.append(svgElement('text',{x:0,y:y+4,fill:colors[i],'font-size':11,'font-family':'Arial'},names[i]));
+      const label = svgElement('text',{x:compact ? left : 0,y:compact ? y-30 : y+4,fill:colors[i],'font-size':compact ? 13 : 14,'font-family':'Arial',class:'chart-condition'});
+      if (names[i] === 'Projector + SIGReg + stop-gradient') {
+        label.append(svgElement('tspan',{x:compact ? left : 0,dy:compact ? 0 : -7},'Projector + SIGReg '));
+        label.append(svgElement('tspan',{x:compact ? left : 0,dy:16},'+ stop-gradient'));
+      } else label.textContent = names[i];
+      svg.append(label);
       values.forEach((value, seed) => {
         const px = x(value), py = y+(seed-2)*3;
-        const shape = i === 0 ? ['circle', {cx:px,cy:py,r:4}]
-          : i === 1 ? ['path', {d:`M${px},${py-5} l5,5 l-5,5 l-5,-5 Z`}]
-          : ['rect', {x:px-4,y:py-4,width:8,height:8}];
+        const shape = condition === 'ema_stopgrad' ? ['circle', {cx:px,cy:py,r:4}]
+          : condition === 'none_stopgrad' ? ['path', {d:`M${px},${py-5} l5,5 l-5,5 l-5,-5 Z`}]
+          : condition === 'none_nostopgrad' ? ['rect', {x:px-4,y:py-4,width:8,height:8}]
+          : ['circle', {cx:px,cy:py,r:4}];
         const dot = svgElement(shape[0],{...shape[1],fill:colors[i],class:'chart-dot'});
         dot.append(svgElement('title',{},`Seed ${seed}: ${logarithmic ? value.toPrecision(5) : (value*100).toFixed(3)+'%'}`));
         svg.append(dot);
       });
       const average = mean(values);
       svg.append(svgElement('line',{x1:x(average),x2:x(average),y1:y-13,y2:y+13,stroke:colors[i],class:'chart-mean'}));
-      svg.append(svgElement('text',{x:right+10,y:y+4,fill:colors[i],'font-size':10,'font-family':'monospace'},logarithmic ? average.toPrecision(3) : (average*100).toFixed(1)+'%'));
+      svg.append(svgElement('text',{x:compact ? right : right+12,y:compact ? y-30 : y+4,'text-anchor':compact ? 'end' : 'start',fill:colors[i],'font-size':compact ? 12 : 13,'font-family':'monospace'},logarithmic ? average.toPrecision(3) : (average*100).toFixed(2)+'%'));
     });
     figure.append(svg);
     const caption = document.createElement('figcaption');
-    caption.textContent = `${logarithmic ? 'Log axis.' : 'Linear axis.'} Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
+    caption.textContent = `${logarithmic ? 'Log axis.' : 'Linear axis.'} All seven conditions. Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
     figure.append(caption);
     return figure;
   }
+  let layout;
   function render(data) {
     const attribute = document.getElementById('attribute').value;
     const charts = document.getElementById('measured-charts');
+    const columns = getComputedStyle(charts).gridTemplateColumns.split(' ').length;
+    layout = `${charts.clientWidth}:${columns}`;
+    const compact = charts.clientWidth / columns < 480;
     charts.replaceChildren(
-      chart(data,'total_variance','Embedding spread / total variance',true),
-      chart(data,`probe_accuracy_unscaled_${attribute}`,'Label prediction / linear-probe accuracy',false,`probe_majority_${attribute}`),
-      chart(data,`probe_balanced_accuracy_unscaled_${attribute}`,'Label prediction / balanced accuracy'),
-      chart(data,`retrieval_p10_${attribute}`,'Neighbour label agreement / P@10',false,`retrieval_chance_${attribute}`)
+      chart(data,'total_variance','Embedding spread / total variance',true,null,compact),
+      chart(data,`probe_accuracy_unscaled_${attribute}`,'Label prediction / linear-probe accuracy',false,`probe_majority_${attribute}`,compact),
+      chart(data,`probe_balanced_accuracy_unscaled_${attribute}`,'Label prediction / balanced accuracy',false,null,compact),
+      chart(data,`retrieval_p10_${attribute}`,'Neighbour label agreement / P@10',false,`retrieval_chance_${attribute}`,compact)
     );
     const table = document.createElement('table');
     const caption = document.createElement('caption');
@@ -94,6 +106,11 @@
   }).then(data => {
     render(data);
     document.getElementById('attribute').addEventListener('change', () => render(data));
+    const charts = document.getElementById('measured-charts');
+    new ResizeObserver(() => {
+      const columns = getComputedStyle(charts).gridTemplateColumns.split(' ').length;
+      if (layout !== `${charts.clientWidth}:${columns}`) render(data);
+    }).observe(charts);
   }).catch(() => {document.getElementById('data-error').hidden=false;});
 })();
 

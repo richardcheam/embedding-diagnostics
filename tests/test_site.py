@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+from html.parser import HTMLParser
 from pathlib import Path
 
 import pytest
@@ -79,6 +80,30 @@ def test_pipeline_figure_is_static_readable(tmp_path):
         assert f'value="{condition}"' in page
     assert "One optimizer step" in page
     assert "encodes no measured quantity" in page
+
+
+def test_contents_links_have_static_targets(tmp_path):
+    class Targets(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.ids = set()
+            self.anchors = []
+
+        def handle_starttag(self, tag, attrs):
+            attrs = dict(attrs)
+            if "id" in attrs:
+                self.ids.add(attrs["id"])
+            if tag == "a" and attrs.get("href", "").startswith("#"):
+                self.anchors.append(attrs["href"][1:])
+
+    builder().build(ROOT / "experiments", tmp_path)
+    page = (tmp_path / "index.html").read_text()
+    parser = Targets()
+    parser.feed(page)
+    assert set(parser.anchors) <= parser.ids
+    assert 'aria-controls="contents-links"' in page
+    for target in ("overview", "architecture", "bdd-results", "cifar-results"):
+        assert f'href="#{target}"' in page
 
 
 def test_phase_a_nonfinal_endpoint_blocks_publication(tmp_path):

@@ -20,6 +20,10 @@ with next steps. Dataset names, JEPA, the interventions, linear probing, and ret
 are explained before their results. The architecture and condition matrix are directly visible in the Approach section;
 rank formulas remain optional expandable material. The portfolio page reports the final method; the linked research status preserves the evaluation history.
 
+The contents list remains beside the report on desktop, with a scroll-tracked current
+section. Smaller screens use a sticky contents control; links work without JavaScript.
+Shared architecture and both dataset result sections have direct entries.
+
 ## Evidence and publication safeguards
 
 - Geometry and retrieval: final step-4,000 records from `experiments/phaseB_s*/**/metrics.jsonl`.

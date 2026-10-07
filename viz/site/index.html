@@ -13,10 +13,26 @@
   <a class="skip" href="#evidence">Skip to measured evidence</a>
   <header class="masthead">
     <a class="wordmark" href="https://richardcheam.github.io/">Richard Cheam<span> / research</span></a>
-    <nav aria-label="Project navigation"><a href="#motivation">Problem</a><a href="#evidence">Results</a><a href="https://github.com/richardcheam/embedding-diagnostics">Source ↗</a></nav>
+    <nav aria-label="Project navigation"><a href="https://github.com/richardcheam/embedding-diagnostics">Source ↗</a></nav>
   </header>
+  <div class="reading-layout">
+    <aside class="contents" aria-label="Page contents">
+      <p class="contents-heading">Contents</p>
+      <button class="contents-toggle" type="button" aria-expanded="false" aria-controls="contents-links"><span>Contents</span><span class="contents-current">Summary</span><span class="contents-chevron" aria-hidden="true">⌄</span></button>
+      <nav id="contents-links" aria-label="Report sections">
+        <ol>
+          <li><a href="#overview">Summary</a></li>
+          <li><a href="#motivation">01 Problem</a></li>
+          <li><a href="#experiment">02 Approach</a><ol><li><a href="#architecture">Shared architecture</a></li></ol></li>
+          <li><a href="#data">03 Data & evaluation</a></li>
+          <li><a href="#evidence">04 Results</a><ol><li><a href="#bdd-results">BDD100K</a></li><li><a href="#cifar-results">CIFAR-10</a></li></ol></li>
+          <li><a href="#next">05 Limitations</a></li>
+          <li><a href="#bibliography">06 Bibliography</a></li>
+        </ol>
+      </nav>
+    </aside>
   <main>
-    <section class="hero" aria-labelledby="title">
+    <section class="hero" id="overview" aria-labelledby="title">
       <div class="eyebrow"><span class="signal"></span> Embedding diagnostics <span class="edition">Research case study / 2026</span></div>
       <h1 id="title">Evaluating image embeddings for driving-scene search.</h1>
       <div class="hero-bottom"><p>An embedding turns an image into a list of numbers so that similar images can be found nearby. This project tests whether simple measurements of those numbers tell us how useful the representation is.</p><a class="text-link" href="#motivation">Read the report <span>↓</span></a></div>
@@ -25,7 +41,7 @@
         <div><dt>Approach</dt><dd>Train seven controlled variants of the same image model. Compare measurements needing no labels with labeled classification and retrieval checks on object images and driving photographs.</dd></div>
         <div class="summary-finding"><dt>Main finding</dt><dd>In the driving-image experiment, <strong>embeddings that had shrunk sharply still supported high time-of-day classification accuracy.</strong> Their nearest-neighbour retrieval score was lower than the model trained with an EMA target and stop-gradient. CIFAR-10 classification results remain unresolved.</dd></div>
       </dl>
-      <nav class="report-contents" aria-label="Report contents"><a href="#motivation">01 Problem</a><a href="#experiment">02 Approach</a><a href="#data">03 Data & evaluation</a><a href="#evidence">04 Results</a><a href="#next">05 Limitations</a><a href="#bibliography">06 Bibliography</a></nav>
+
     </section>
 
     <section class="chapter" id="motivation" aria-labelledby="motivation-title">
@@ -177,7 +193,7 @@
       <div class="chapter-label">04 / Results</div>
       <p class="small">BDD100K: geometry, classification, and retrieval results. CIFAR-10: geometry results; classification remains unresolved.</p>
       <div class="section-intro"><h2 id="evidence-title">Geometry, classification,<br>and retrieval give different readings.</h2><p>The BDD100K example asks whether the image embeddings retain information about time of day. The comparison below uses the same two model variants across all three measurements. Each number is a final-checkpoint mean over five runs from this project’s recorded experiments. <a class="citation" href="#ref-project" aria-label="Reference 6: experiment data and protocol">[6]</a></p></div>
-      <h3 class="evaluation-heading">BDD100K: understand the comparison</h3>
+      <h3 class="evaluation-heading" id="bdd-results">BDD100K: understand the comparison</h3>
       <div class="report-prose result-setup">
         <p><strong>EMA reference:</strong> the comparison model uses a slowly updated target encoder and stop-gradient. <strong>Unprotected control:</strong> the same architecture and training loop, with both mechanisms removed and no SIGReg regularization.</p>
         <p><strong>Classification test:</strong> freeze each image encoder and fit a simple classifier, called a <strong>linear probe</strong>, to predict time of day from its embeddings. Select regularization on a training validation split and fit with a tight stopping tolerance and a high iteration limit. Accuracy is the percentage of held-out images classified correctly.</p>
@@ -225,5 +241,6 @@
     </section>
     <footer><div><a class="wordmark" href="https://richardcheam.github.io/">Richard Cheam</a><p>Embedding diagnostics / reproducible research case study</p></div><div class="footer-links"><a href="https://github.com/richardcheam/embedding-diagnostics">Repository ↗</a><a href="https://github.com/richardcheam/embedding-diagnostics/blob/main/docs/STATUS.md">Research status ↗</a><a href="data.json">Endpoint data ↗</a></div></footer>
   </main>
+  </div>
 </body>
 </html>

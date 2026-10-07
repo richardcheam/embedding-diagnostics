@@ -228,3 +228,60 @@
   apply();
   syncPlayback();
 })();
+
+/* Reading location and section navigation. Native anchors work without JavaScript. */
+(() => {
+  'use strict';
+  const contents = document.querySelector('.contents');
+  if (!contents) return;
+  const links = [...contents.querySelectorAll('a[href^="#"]')];
+  const entries = links.map(link => ({link, target:document.getElementById(link.hash.slice(1))}));
+  const button = contents.querySelector('.contents-toggle');
+  const current = contents.querySelector('.contents-current');
+  let pending = false;
+  let active;
+  contents.dataset.interactive = 'true';
+  function close() {
+    contents.dataset.open = 'false';
+    button.setAttribute('aria-expanded', 'false');
+  }
+  function locate() {
+    pending = false;
+    const position = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) + 20;
+    let selected = entries[0];
+    for (const entry of entries) {
+      if (entry.target.getBoundingClientRect().top <= position) selected = entry;
+    }
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) {
+      selected = entries.at(-1);
+    }
+    if (selected === active) return;
+    active = selected;
+    links.forEach(link => link.removeAttribute('aria-current'));
+    selected.link.setAttribute('aria-current', 'location');
+    current.textContent = selected.link.textContent;
+  }
+  function schedule() {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(locate);
+  }
+  button.addEventListener('click', () => {
+    const open = contents.dataset.open !== 'true';
+    contents.dataset.open = String(open);
+    button.setAttribute('aria-expanded', String(open));
+  });
+  links.forEach(link => link.addEventListener('click', () => {
+    close();
+    if (innerWidth < 1200) button.focus({preventScroll:true});
+  }));
+  contents.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { close(); button.focus(); }
+  });
+  window.addEventListener('scroll', schedule, {passive:true});
+  window.addEventListener('resize', schedule);
+  window.addEventListener('hashchange', schedule);
+  new ResizeObserver(schedule).observe(document.querySelector('main'));
+  close();
+  locate();
+})();

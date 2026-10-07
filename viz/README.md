@@ -75,3 +75,8 @@ Each row names both contrast arms. Classification and retrieval have separate ax
 kept fixed across attributes; the attribute selectors stay synchronized. The plots
 remain available for time of day without JavaScript. Narrative warnings use muted
 iron-oxide red; findings use malachite green. Interval signs carry no colour verdict.
+
+Controls share a warm-paper fill, pigment borders, ochre state marks and chevrons.
+Select elements retain native keyboard and phone pickers; disclosures remain
+native details/summary elements. Controls have visible focus and at least 44px
+hit targets, with two-by-two architecture step controls on narrow phones.

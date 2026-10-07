@@ -94,7 +94,7 @@
     });
     figure.append(svg);
     const caption = document.createElement('figcaption');
-    caption.textContent = `[ours] ${logarithmic ? 'Log axis.' : 'Linear axis.'} Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
+    caption.textContent = `${logarithmic ? 'Log axis.' : 'Linear axis.'} Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
     figure.append(caption);
     return figure;
   }
@@ -109,7 +109,7 @@
     );
     const table = document.createElement('table');
     const caption = document.createElement('caption');
-    caption.textContent = `[ours] ${attribute} · corrected raw probe and retrieval · paired differences A − B`;
+    caption.textContent = `${attribute} · corrected raw probe and retrieval · paired differences A − B`;
     table.append(caption);
     const head = document.createElement('thead');
     const headerRow = document.createElement('tr');

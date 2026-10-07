@@ -683,6 +683,33 @@ tbody td {
 .condition-reference { color:var(--reference) }
 .condition-comparison { color:var(--comparison) }
 .condition-control { color:var(--control) }
+.citation {
+  font:12px ui-monospace,SFMono-Regular,Consolas,monospace;
+  white-space:nowrap;
+  text-decoration:underline;
+  text-underline-offset:3px
+}
+.reference-list {
+  max-width:85ch;
+  padding-left:26px;
+  color:var(--body);
+  font-size:14px;
+  line-height:1.7
+}
+.reference-list li {
+  padding:14px 0 14px 8px;
+  border-bottom:1px solid var(--line);
+  scroll-margin-top:30px
+}
+.reference-list li::marker {
+  color:var(--ink);
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace
+}
+.reference-list a {
+  color:var(--ink);
+  text-decoration:underline;
+  text-underline-offset:3px
+}
 .evidence-controls label {
   font-size:11px;
   color:var(--muted);

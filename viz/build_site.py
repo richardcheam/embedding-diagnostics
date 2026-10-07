@@ -250,4 +250,7 @@ if __name__ == "__main__":
     parser.add_argument("--out", type=Path, default=ROOT / "viz/dist")
     args = parser.parse_args()
     build(args.experiments_dir, args.out)
-    print(f"Built project page with CIFAR-10 geometry and corrected BDD100K probes: {args.out / 'index.html'}")
+    print(
+        "Built project page with CIFAR-10 geometry and corrected BDD100K probes: "
+        f"{args.out / 'index.html'}"
+    )

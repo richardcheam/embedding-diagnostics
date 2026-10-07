@@ -68,6 +68,17 @@ def test_phase_a_publishes_geometry_without_defective_probes():
         assert all(len(values) == 5 for values in columns.values())
 
 
+def test_pipeline_figure_is_static_readable(tmp_path):
+    module = builder()
+    module.build(ROOT / "experiments", tmp_path)
+    page = (tmp_path / "index.html").read_text()
+    assert 'class="pipeline" id="pipeline"' in page
+    for condition in module.CONDITIONS:
+        assert f'value="{condition}"' in page
+    assert "One optimizer step" in page
+    assert "encodes no measured quantity" in page
+
+
 def test_phase_a_nonfinal_endpoint_blocks_publication(tmp_path):
     directory = tmp_path / "phaseA_s0" / "ema_stopgrad"
     directory.mkdir(parents=True)

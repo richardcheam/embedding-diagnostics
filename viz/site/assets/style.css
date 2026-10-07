@@ -12,6 +12,45 @@
   --comparison:#6f536d;
   --focus:#805b19;
   --focus-wash:#f4ead3;
+  /* 利休白茶 rikyū-shiracha — inputs: a quiet tea-grey, deliberately the
+     least assertive thing in the figure */
+  --pig-shiracha-fill:#e9e3d3;
+  --pig-shiracha-deep:#d9d0b9;
+  --pig-shiracha-line:#8c7f63;
+  /* 藍白 aijiro wash under a 勝色 kachi-iro line — the trained encoders */
+  --pig-ai-fill:#dfeaec;
+  --pig-ai-deep:#c3d6da;
+  --pig-ai-line:#1f3a4d;
+  /* 二藍 futaai — indigo over safflower; the predictor, kin to the encoders
+     but its own hue */
+  --pig-futaai-fill:#e4dce6;
+  --pig-futaai-deep:#d0c2d5;
+  --pig-futaai-line:#6b4a6e;
+  /* 白緑 byakuroku — finely ground malachite; the projector */
+  --pig-byakuroku-fill:#dee8d5;
+  --pig-byakuroku-deep:#c7d7b9;
+  --pig-byakuroku-line:#5b7351;
+  /* 緑青 rokushō — the same malachite, coarser; SIGReg itself */
+  --pig-rokusho-fill:#d3e0d2;
+  --pig-rokusho-deep:#b9cdb7;
+  --pig-rokusho-line:#3e6b52;
+  /* 弁柄 bengara — red iron oxide; the objectives, and anything the
+     gradient touches */
+  --pig-bengara-fill:#efdcd4;
+  --pig-bengara-deep:#e0c0b4;
+  --pig-bengara-line:#8f3a28;
+
+  /* Flow colours for the animated dashes. 朱 shu, the vermilion of seal ink,
+     carries gradient; 黄土 ōdo is reserved for the EMA weight copy, which is
+     a different kind of movement from either data or gradient. */
+  --flow-forward:#1f5c7a;
+  --flow-grad:#c4452a;
+  --flow-reg:#3e6b52;
+  --flow-ema:#a8762f;
+
+  /* 鈍色 nibiiro — connectors, in place of the page's cooler --muted so the
+     whole figure sits in one light. */
+  --wire:#74706a;
   font-family:Arial,Helvetica,sans-serif;
   color:var(--ink);
   background:var(--paper);
@@ -461,20 +500,10 @@ figcaption {
 .pipeline {
   margin:0 0 35px
 }
-.pipeline svg {
-  width:100%;
-  height:auto;
-  display:block
-}
 .wires {
   fill:none;
   stroke:var(--muted);
   stroke-width:1.5
-}
-.diagram-block rect {
-  fill:none;
-  stroke:var(--line);
-  stroke-width:1.2
 }
 .diagram-text {
   text-anchor:middle;
@@ -1010,4 +1039,275 @@ footer p {
   details {
     display:block
   }
+}
+
+
+
+
+/* --- controls ---
+   Hidden until the controller script marks the figure interactive, so a
+   no-JavaScript reader sees the static schematic and no dead buttons. */
+.pipeline-controls {
+  display:none
+}
+.pipeline[data-interactive=true] .pipeline-controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px 28px;
+  align-items:center;
+  margin-bottom:22px;
+  font-size:12px
+}
+.pipeline-controls label {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted)
+}
+.pipeline-controls select {
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  padding:6px 8px
+}
+.pipeline-phases {
+  display:flex;
+  gap:0
+}
+.pipeline-phases button {
+  border:1px solid var(--line);
+  border-right:0;
+  background:var(--paper);
+  color:var(--muted);
+  padding:7px 12px;
+  cursor:pointer;
+  font-size:11px;
+  letter-spacing:.02em
+}
+.pipeline-phases button:last-child {
+  border-right:1px solid var(--line)
+}
+.pipeline-phases button[aria-pressed=true] {
+  background:var(--ink);
+  border-color:var(--ink);
+  color:var(--paper)
+}
+.pipeline-play {
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  padding:7px 14px;
+  cursor:pointer;
+  font-size:11px
+}
+.pipeline-play[aria-pressed=true] {
+  border-color:var(--ink)
+}
+
+/* --- readout --- */
+.pipeline-readout {
+  font-size:13px;
+  color:var(--body);
+  margin:18px 0 0;
+  min-height:3.4em;
+  max-width:70ch
+}
+.pipeline-readout strong {
+  color:var(--ink)
+}
+
+/* --- base diagram state --- */
+.pipeline svg {
+  width:100%;
+  height:auto;
+  display:block
+}
+.pipeline .wires {
+  stroke:var(--wire)
+}
+.unit-note {
+  font-size:11px;
+  fill:var(--muted)
+}
+.ema-caption {
+  font-size:11px;
+  fill:var(--flow-ema);
+  text-anchor:end;
+  opacity:0
+}
+/* Each role class only names its pigment; the one rule below paints with it.
+   Qualified with .pipeline so it beats the original
+   `.diagram-block rect { fill:none }` whatever the source order. */
+.role-input     { --block:var(--pig-shiracha-fill);   --block-deep:var(--pig-shiracha-deep);   --block-line:var(--pig-shiracha-line) }
+.role-encoder   { --block:var(--pig-ai-fill);         --block-deep:var(--pig-ai-deep);         --block-line:var(--pig-ai-line) }
+.role-predictor { --block:var(--pig-futaai-fill);     --block-deep:var(--pig-futaai-deep);     --block-line:var(--pig-futaai-line) }
+.role-projector { --block:var(--pig-byakuroku-fill);  --block-deep:var(--pig-byakuroku-deep);  --block-line:var(--pig-byakuroku-line) }
+.role-sigreg    { --block:var(--pig-rokusho-fill);    --block-deep:var(--pig-rokusho-deep);    --block-line:var(--pig-rokusho-line) }
+.role-loss      { --block:var(--pig-bengara-fill);    --block-deep:var(--pig-bengara-deep);    --block-line:var(--pig-bengara-line) }
+
+.pipeline .diagram-block rect {
+  fill:var(--block);
+  stroke:var(--block-line);
+  stroke-width:1.6;
+  transition:fill .3s, stroke-width .25s
+}
+
+/* Elements switched off by the selected condition. Dimmed, never removed:
+   the figure must still read as one shared apparatus. */
+.pipeline[data-sigreg=off] .w-reg,
+.pipeline[data-sigreg=off] .b-reg,
+.pipeline[data-sigreg=off] #projector-label,
+.pipeline[data-sigreg=off] .diagram-accent {
+  opacity:.18
+}
+.pipeline[data-projector=off] [data-unit=projector] {
+  stroke-dasharray:4 4
+}
+.pipeline[data-ema=on] .ema-caption {
+  opacity:1
+}
+.wire-ema path {
+  fill:none;
+  stroke:var(--flow-ema);
+  stroke-width:1.5;
+  stroke-dasharray:5 4;
+  opacity:0
+}
+.pipeline[data-ema=on] .wire-ema path {
+  opacity:.55
+}
+.pipeline[data-ema=off] .wire-ema,
+.pipeline[data-ema=off] [marker-end="url(#arrow-ema)"] {
+  opacity:0
+}
+
+/* Stop-gradient barrier */
+.stopgrad-mark {
+  opacity:0;
+  transition:opacity .25s
+}
+.stopgrad-mark line {
+  stroke:var(--flow-grad);
+  stroke-width:2.5
+}
+.stopgrad-mark text {
+  font-size:10px;
+  fill:var(--flow-grad);
+  text-anchor:start
+}
+.pipeline[data-stopgrad=on][data-phase=backward] .stopgrad-mark {
+  opacity:1
+}
+/* With stop-gradient the target wire carries no gradient at all. */
+.pipeline[data-stopgrad=on] .w-grad-target {
+  display:none
+}
+
+/* --- flow overlays --- */
+.flow path {
+  fill:none;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-dasharray:14 86;
+  stroke-dashoffset:100;
+  opacity:0
+}
+.flow-forward path {
+  stroke:var(--flow-forward)
+}
+.flow-forward path.w-reg {
+  stroke:var(--flow-reg)
+}
+.flow-grad path {
+  stroke:var(--flow-grad)
+}
+
+/* A path only animates when its phase is the active one. Without
+   .motion-ready (reduced motion, small screens, no JS) nothing moves and the
+   static schematic is what remains. */
+.motion-ready .pipeline[data-phase=forward] .flow path[data-phase=forward],
+.motion-ready .pipeline[data-phase=loss] .flow path[data-phase=loss],
+.motion-ready .pipeline[data-phase=backward] .flow path[data-phase=backward] {
+  opacity:1;
+  animation:pipeline-flow 1.45s linear infinite
+}
+.motion-ready .pipeline[data-sigreg=off] .flow path.w-reg {
+  animation:none;
+  opacity:0
+}
+@keyframes pipeline-flow {
+  from { stroke-dashoffset:100 }
+  to   { stroke-dashoffset:0 }
+}
+
+/* Phase 4: the parameters that this step actually updates. */
+.motion-ready .pipeline[data-phase=update] [data-unit=context],
+.motion-ready .pipeline[data-phase=update] [data-unit=predictor],
+.motion-ready .pipeline[data-phase=update][data-projector=on] [data-unit=projector] {
+  fill:var(--block-deep);
+  stroke:var(--flow-grad);
+  stroke-width:3;
+  animation:pipeline-pulse 1.3s ease-in-out infinite
+}
+.motion-ready .pipeline[data-phase=update][data-ema=on] .wire-ema path {
+  opacity:1;
+  animation:pipeline-flow 1.3s linear infinite
+}
+@keyframes pipeline-pulse {
+  0%,100% { stroke-opacity:.35 }
+  50%     { stroke-opacity:1 }
+}
+.pipeline[data-playing=false] .flow path,
+.pipeline[data-playing=false] .wire-ema path,
+.pipeline[data-playing=false] .diagram-block rect {
+  animation-play-state:paused
+}
+:root:not(.motion-ready) .pipeline-play {
+  display:none
+}
+.pipeline[data-phase=update] [data-unit=context],
+.pipeline[data-phase=update] [data-unit=predictor],
+.pipeline[data-phase=update][data-projector=on] [data-unit=projector],
+.pipeline[data-phase=backward][data-projector=on] [data-unit=projector] {
+  fill:var(--block-deep);
+  stroke:var(--flow-grad);
+  stroke-width:3
+}
+
+/* Non-animated emphasis: which blocks are involved in the current phase.
+   This applies with or without motion, so the stepper stays useful under
+   prefers-reduced-motion. */
+/* Emphasis keeps each block's own pigment — a second wash of the same colour
+   plus a heavier line, rather than repainting everything one colour or
+   running a saturate() filter, which turns earth tones garish. */
+.pipeline[data-phase=forward] [data-unit=context],
+.pipeline[data-phase=forward] [data-unit=target],
+.pipeline[data-phase=forward] [data-unit=predictor],
+.pipeline[data-phase=loss] [data-unit=loss],
+.pipeline[data-phase=backward] [data-unit=predictor],
+.pipeline[data-phase=backward] [data-unit=context],
+.pipeline[data-phase=loss][data-sigreg=on] [data-unit=sigreg],
+.pipeline[data-phase=forward][data-projector=on] [data-unit=projector] {
+  fill:var(--block-deep);
+  stroke-width:3
+}
+/* No stop-gradient: the gradient reaches the target branch too, which is the
+   pathway the control condition leaves open. */
+.pipeline[data-phase=backward][data-stopgrad=off] [data-unit=target] {
+  fill:var(--block-deep);
+  stroke:var(--flow-grad);
+  stroke-width:3
+}
+
+@media(max-width:700px) {
+  .pipeline-controls {
+    gap:12px 16px
+  }
+  .pipeline-readout {
+    min-height:0
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .flow path { opacity:0 }
+  .wire-ema path { animation:none }
 }

@@ -96,3 +96,138 @@
     document.getElementById('attribute').addEventListener('change', () => render(data));
   }).catch(() => {document.getElementById('data-error').hidden=false;});
 })();
+
+/* ------------------------------------------------------------------
+   Animated architecture figure.
+
+   The condition table is the same one in training/strategy.py. The phases
+   trace Trainer.train_step: forward_pass, loss, backward, optimizer.step
+   plus post_step_update. Nothing here encodes a measured value.
+   ------------------------------------------------------------------ */
+(() => {
+  'use strict';
+  const figure = document.getElementById('pipeline');
+  if (!figure) return;
+  // Reveals the controls. Without this script the figure stays the static
+  // schematic and no inert buttons are shown.
+  figure.dataset.interactive = 'true';
+
+  const CONDITIONS = {
+    ema_stopgrad:          { stopgrad:'on',  ema:'on',  sigreg:'off', projector:'off' },
+    none_stopgrad:         { stopgrad:'on',  ema:'off', sigreg:'off', projector:'off' },
+    sigreg_stopgrad:       { stopgrad:'on',  ema:'off', sigreg:'on',  projector:'off' },
+    sigreg_nostopgrad:     { stopgrad:'off', ema:'off', sigreg:'on',  projector:'off' },
+    proj_sigreg_stopgrad:  { stopgrad:'on',  ema:'off', sigreg:'on',  projector:'on'  },
+    proj_sigreg_nostopgrad:{ stopgrad:'off', ema:'off', sigreg:'on',  projector:'on'  },
+    none_nostopgrad:       { stopgrad:'off', ema:'off', sigreg:'off', projector:'off' }
+  };
+
+  const PHASES = ['forward', 'loss', 'backward', 'update'];
+  const select = document.getElementById('pipeline-condition');
+  const readout = document.getElementById('pipeline-readout');
+  const targetNote = document.getElementById('target-note');
+  const projectorLabel = document.getElementById('projector-label');
+  const sigregLabel = document.getElementById('sigreg-label');
+  const playButton = document.getElementById('pipeline-play');
+  const phaseButtons = [...figure.querySelectorAll('.pipeline-phases button')];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const compact = window.matchMedia('(max-width: 700px)');
+
+  function describe(phase, flags) {
+    const reg = flags.projector === 'on' ? 'the projector output' : 'the pooled context embedding';
+    switch (phase) {
+      case 'forward':
+        return ['01 Forward.', `Masked images reach the context encoder and predictor; full images reach the ${
+          flags.ema === 'on' ? 'EMA target encoder' : 'shared encoder on the target side'}.`];
+      case 'loss':
+        return ['02 Loss.', `The predictor's output is compared with the masked target latents.${
+          flags.sigreg === 'on' ? ` SIGReg acts on ${reg} in the same step.` : ' No regularizer is active in this condition.'}`];
+      case 'backward':
+        return ['03 Backward.', (flags.stopgrad === 'on'
+          ? 'Gradient flows back through the predictor and the context encoder. The target latents are detached, so no gradient reaches the target branch.'
+          : 'Gradient also flows through the target branch. Both branches contribute gradients to the shared encoder.') +
+          (flags.sigreg === 'on' ? ` SIGReg contributes gradients through ${reg}.` : '')];
+      case 'update':
+        return ['04 Update.', `AdamW updates the context encoder${
+          flags.projector === 'on' ? ', the predictor and the projector' : ' and the predictor'}.${
+          flags.ema === 'on' ? ' The target encoder is then updated by exponential moving average; the optimizer never touches it.' : ' There is no separate target encoder to update.'}`];
+    }
+  }
+
+  let phaseIndex = 0;
+  let timer = null;
+  let visible = false;
+  let wantsPlayback = true;
+
+  function apply() {
+    const flags = CONDITIONS[select.value];
+    Object.entries(flags).forEach(([key, value]) => { figure.dataset[key] = value; });
+    const phase = PHASES[phaseIndex];
+    figure.dataset.phase = phase;
+    phaseButtons.forEach(button =>
+      button.setAttribute('aria-pressed', String(button.dataset.phase === phase)));
+    targetNote.textContent = flags.ema === 'on' ? 'EMA copy, frozen' : 'shared weights';
+    projectorLabel.textContent = flags.projector === 'on' ? 'Projector' : 'Bypass (no projector)';
+    sigregLabel.textContent = flags.sigreg === 'on' ? 'SIGReg' : 'SIGReg, not in this condition';
+    const [label, text] = describe(phase, flags);
+    readout.innerHTML = '';
+    const strong = document.createElement('strong');
+    strong.textContent = label;
+    readout.append(strong, ' ' + text);
+  }
+
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null; }
+    playButton.setAttribute('aria-pressed', 'false');
+    playButton.textContent = 'Play step';
+    figure.dataset.playing = 'false';
+  }
+
+  function start() {
+    if (timer || !canPlay()) return;
+    timer = setInterval(() => { phaseIndex = (phaseIndex + 1) % PHASES.length; apply(); }, 2600);
+    playButton.setAttribute('aria-pressed', 'true');
+    playButton.textContent = 'Pause';
+    figure.dataset.playing = 'true';
+  }
+
+  phaseButtons.forEach(button => button.addEventListener('click', () => {
+    wantsPlayback = false;
+    stop();
+    phaseIndex = PHASES.indexOf(button.dataset.phase);
+    apply();
+  }));
+  select.addEventListener('change', apply);
+  playButton.addEventListener('click', () => {
+    wantsPlayback = !timer;
+    if (wantsPlayback) start(); else stop();
+  });
+
+  // Only autoplay while the figure is open, on screen, and motion is welcome.
+  const details = figure.closest('details');
+  const canPlay = () =>
+    visible && !document.hidden &&
+    !reduced.matches &&
+    !compact.matches &&
+    document.documentElement.classList.contains('motion-ready') &&
+    (!details || details.open);
+
+  function syncPlayback() {
+    document.documentElement.classList.toggle('motion-ready', !reduced.matches && !compact.matches);
+    if (wantsPlayback && canPlay()) start(); else stop();
+  }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      visible = entries.some(entry => entry.isIntersecting);
+      syncPlayback();
+    }, { threshold: 0.35 }).observe(figure);
+  }
+  details?.addEventListener('toggle', syncPlayback);
+  reduced.addEventListener('change', syncPlayback);
+  compact.addEventListener('change', syncPlayback);
+  document.addEventListener('visibilitychange', syncPlayback);
+
+  apply();
+  syncPlayback();
+})();

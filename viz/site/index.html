@@ -41,17 +41,115 @@
       <div class="report-prose"><h3>How the model learns</h3><p>The model follows a <strong>Joint-Embedding Predictive Architecture (JEPA)</strong>: hide parts of an image and predict their internal representations from the visible parts. An <strong>encoder</strong> is the neural network that converts images into embeddings. A <strong>predictor</strong> is the training component that attempts the hidden-region prediction. <a class="citation" href="#ref-ijepa" aria-label="Reference 1: I-JEPA">[1]</a></p><p class="focus-line"><strong>All seven variants use the same training loop.</strong> One is an intentionally unprotected control: it removes the mechanisms being tested so the diagnostics can be examined on a representation that degenerates.</p></div>
       <dl class="method-definitions"><div><dt>Stop-gradient</dt><dd>Prevents the target side of a prediction from being updated through that prediction’s gradient.</dd></div><div><dt>EMA target</dt><dd>A separate target encoder updated by an exponential moving average, a slowly changing copy of the main encoder.</dd></div><div><dt>SIGReg</dt><dd>Sketched Isotropic Gaussian Regularization: a published loss that encourages the embedding distribution to resemble a standard Gaussian. <a class="citation" href="#ref-lejepa" aria-label="Reference 2: LeJEPA">[2]</a></dd></div><div><dt>Projector</dt><dd>A temporary neural-network layer between the encoder and SIGReg. Evaluation reads the encoder, not this layer.</dd></div></dl>
       <details class="technical-method"><summary>Technical detail: shared architecture and seven-condition matrix</summary>
-      <figure class="pipeline">
-        <svg viewBox="0 0 1000 250" role="img" aria-labelledby="pipeline-title pipeline-desc">
-          <title id="pipeline-title">The shared JEPA training apparatus</title>
-          <desc id="pipeline-desc">Masked images enter the context encoder and predictor. Full images enter the target branch. The predictor matches masked target latents. SIGReg, when enabled, acts on pooled context embeddings or projector outputs.</desc>
-          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="var(--muted)"/></marker></defs>
-          <g class="wires" marker-end="url(#arrow)"><path d="M135 50H215"/><path d="M385 50H455"/><path d="M620 50H695V100H730"/><path d="M300 80V115H430V155H455"/><path d="M620 155H675V190H730"/><path d="M135 180H215"/><path d="M385 180H410V235H705V120H730"/></g>
-          <g class="diagram-block"><rect x="0" y="20" width="135" height="60"/><rect x="215" y="20" width="170" height="60"/><rect x="455" y="20" width="165" height="60"/><rect x="730" y="80" width="230" height="60"/><rect x="0" y="150" width="135" height="60"/><rect x="215" y="150" width="170" height="60"/><rect x="455" y="125" width="165" height="60"/><rect x="730" y="160" width="230" height="60"/></g>
-          <g class="diagram-text"><text x="67" y="55">Masked input</text><text x="300" y="55">Context encoder</text><text x="537" y="55">Predictor</text><text x="845" y="115">Latent prediction loss</text><text x="67" y="185">Full input</text><text x="300" y="185">Target branch</text><text x="537" y="160">Projector / bypass</text><text x="848" y="195" class="diagram-accent">SIGReg, when enabled</text></g>
-        </svg>
-        <figcaption>Architecture schematic. Arrows show computation and loss inputs; spacing does not encode compute cost. Target detachment and EMA are controlled by the strategy. Evaluation always reads the context encoder.</figcaption>
-      </figure>
+      <figure class="pipeline" id="pipeline">
+  <div class="pipeline-controls">
+    <label for="pipeline-condition">Condition
+      <select id="pipeline-condition">
+        <option value="ema_stopgrad">EMA reference</option>
+        <option value="none_stopgrad">Stop-gradient only</option>
+        <option value="sigreg_stopgrad">SIGReg + stop-gradient</option>
+        <option value="sigreg_nostopgrad">SIGReg</option>
+        <option value="proj_sigreg_stopgrad">Projector + SIGReg + stop-gradient</option>
+        <option value="proj_sigreg_nostopgrad">Projector + SIGReg</option>
+        <option value="none_nostopgrad">Contracted control</option>
+      </select>
+    </label>
+    <div class="pipeline-phases" role="group" aria-label="Training step phases">
+      <button type="button" data-phase="forward" aria-pressed="true">01 Forward</button>
+      <button type="button" data-phase="loss" aria-pressed="false">02 Loss</button>
+      <button type="button" data-phase="backward" aria-pressed="false">03 Backward</button>
+      <button type="button" data-phase="update" aria-pressed="false">04 Update</button>
+    </div>
+    <button type="button" id="pipeline-play" class="pipeline-play" aria-pressed="false">Play step</button>
+  </div>
+
+  <svg viewBox="0 0 1000 250" role="img" aria-labelledby="pipeline-title pipeline-desc">
+    <title id="pipeline-title">The shared JEPA training apparatus</title>
+    <desc id="pipeline-desc">Masked images enter the context encoder and predictor. Full images enter the target branch. The predictor matches masked target latents. SIGReg, when enabled, acts on pooled context embeddings or projector outputs. The highlighting steps through the four phases of one training step for the selected condition; it shows which computations run, not any measured value.</desc>
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="var(--wire)"/></marker>
+      <marker id="arrow-ema" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="var(--flow-ema)"/></marker>
+    </defs>
+
+    <!-- static wires: unchanged geometry from the original schematic -->
+    <g class="wires" marker-end="url(#arrow)">
+      <path d="M135 50H215"/>
+      <path d="M385 50H455"/>
+      <path d="M620 50H695V100H730"/>
+      <path class="w-reg" d="M300 80V115H430V155H455"/>
+      <path class="w-reg" d="M620 155H675V190H730"/>
+      <path d="M135 180H215"/>
+      <path d="M385 180H410V235H705V120H730"/>
+    </g>
+
+    <!-- EMA weight copy: context encoder to target branch -->
+    <g class="wire-ema" marker-end="url(#arrow-ema)">
+      <path d="M250 80V150" pathLength="100"/>
+    </g>
+    <text class="ema-caption" x="242" y="118">EMA copy</text>
+
+    <!-- flow overlays: forward -->
+    <g class="flow flow-forward">
+      <path data-phase="forward" d="M135 50H215" pathLength="100"/>
+      <path data-phase="forward" d="M385 50H455" pathLength="100"/>
+      <path data-phase="forward" d="M135 180H215" pathLength="100"/>
+      <path data-phase="forward" class="w-reg" d="M300 80V115H430V155H455" pathLength="100"/>
+      <path data-phase="loss" d="M620 50H695V100H730" pathLength="100"/>
+      <path data-phase="loss" d="M385 180H410V235H705V120H730" pathLength="100"/>
+      <path data-phase="loss" class="w-reg" d="M620 155H675V190H730" pathLength="100"/>
+    </g>
+
+    <!-- flow overlays: backward (reversed paths, so the dash travels loss-to-encoder) -->
+    <g class="flow flow-grad">
+      <path data-phase="backward" d="M730 100H695V50H620" pathLength="100"/>
+      <path data-phase="backward" d="M455 50H385" pathLength="100"/>
+      <path data-phase="backward" class="w-reg" d="M730 190H675V155H620" pathLength="100"/>
+      <path data-phase="backward" class="w-reg" d="M455 155H430V115H300V80" pathLength="100"/>
+      <path data-phase="backward" class="w-grad-target" d="M730 120H705V235H410V180H385" pathLength="100"/>
+    </g>
+
+    <!-- stop-gradient barrier, on the vertical run of the target-to-loss wire.
+         Shown only in the backward phase: the target value does travel forward,
+         it is the gradient that is blocked. -->
+    <g class="stopgrad-mark">
+      <line x1="400" y1="208" x2="420" y2="208"/>
+      <text x="428" y="212">gradient stops here</text>
+    </g>
+
+    <!-- Shape carries the kind of node: data enters as a pill, parameterised
+         modules are rounded rectangles, objectives are square-shouldered.
+         Colour carries the role. Geometry is unchanged from the original. -->
+    <g class="diagram-block">
+      <rect class="role-input" x="0" y="20" width="135" height="60" rx="30"/>
+      <rect class="role-encoder" data-unit="context" x="215" y="20" width="170" height="60" rx="16"/>
+      <rect class="role-predictor" data-unit="predictor" x="455" y="20" width="165" height="60" rx="16"/>
+      <rect class="role-loss" data-unit="loss" x="730" y="80" width="230" height="60" rx="6"/>
+      <rect class="role-input" x="0" y="150" width="135" height="60" rx="30"/>
+      <rect class="role-encoder" data-unit="target" x="215" y="150" width="170" height="60" rx="16"/>
+      <rect class="role-projector b-reg" data-unit="projector" x="455" y="125" width="165" height="60" rx="16"/>
+      <rect class="role-sigreg b-reg" data-unit="sigreg" x="730" y="160" width="230" height="60" rx="6"/>
+    </g>
+
+    <g class="diagram-text">
+      <text x="67" y="55">Masked input</text>
+      <text x="300" y="48">Context encoder</text>
+      <text class="unit-note" x="300" y="68">trained</text>
+      <text x="537" y="55">Predictor</text>
+      <text x="845" y="115">Latent prediction loss</text>
+      <text x="67" y="185">Full input</text>
+      <text x="300" y="178">Target branch</text>
+      <text class="unit-note" id="target-note" x="300" y="198">EMA copy, frozen</text>
+      <text id="projector-label" x="537" y="160">Projector / bypass</text>
+      <text id="sigreg-label" x="848" y="195" class="diagram-accent">SIGReg, when enabled</text>
+    </g>
+  </svg>
+
+  <p class="pipeline-readout" id="pipeline-readout" aria-live="polite">
+    One optimizer step: the masked branch is encoded and predicted, the full branch supplies the target latents, and the prediction loss is formed from the two.
+  </p>
+
+  <figcaption>Architecture schematic. Arrows show computation and loss inputs; spacing does not encode compute cost. The phase highlighting traces one optimizer step of <code>Trainer.train_step</code> for the selected condition and encodes no measured quantity. Evaluation always reads the context encoder.</figcaption>
+</figure>
       <div class="table-scroll"><table class="condition-matrix"><caption>Intervention matrix · seven conditions</caption><thead><tr><th scope="col">Condition</th><th scope="col">Stop-gradient</th><th scope="col">EMA target</th><th scope="col">SIGReg</th><th scope="col">Projector</th></tr></thead><tbody>
         <tr><th scope="row">EMA reference</th><td>●</td><td>●</td><td>No</td><td>No</td></tr>
         <tr><th scope="row">Stop-gradient only</th><td>●</td><td>No</td><td>No</td><td>No</td></tr>

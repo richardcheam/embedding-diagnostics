@@ -35,6 +35,12 @@ expandable material. The portfolio page reports the final method; the linked res
 - Phase-A geometry is published from final logs, separately from the corrected Phase-B evidence. Phase-A probe endpoints are uncorrected and excluded. The page does not claim a
   reproduction of the full LeJEPA system.
 
+The architecture figure explores all seven conditions through Forward, Loss, Backward,
+and Update. It traces computation in one optimizer step, not measured training dynamics.
+Motion runs only while the open figure is visible on wider screens; explicit pause persists
+across scrolling. Reduced-motion and phone views retain manual phase selection. Without
+JavaScript, the controls are hidden and the labelled schematic remains readable.
+
 The static evidence tables remain readable without JavaScript. Interactive charts allow
 readers to compare the three BDD100K scenario attributes.
 

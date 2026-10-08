@@ -1,0 +1,15 @@
+{
+  "claim_label": "[ours]",
+  "stage": "tested implementation; no reduced-sample scientific endpoints",
+  "pytest": {
+    "passed": 458,
+    "skipped": 1,
+    "seconds": 30.76,
+    "command": "uv run pytest"
+  },
+  "ruff": "uv run ruff check . passed",
+  "lock": "uv lock --check passed",
+  "review": "Fresh reviewer found no scientific correctness blocker. Identical-fit reuse now rebinds each historical continuity record and includes configuration/eligibility in cache key.",
+  "no_inference_or_image_decoding": true,
+  "historical_results_unchanged": true
+}

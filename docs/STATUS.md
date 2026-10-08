@@ -41,6 +41,26 @@ unresolved. The pilot's six other appended-fragment IDs are separately unresolve
 The [current qualification](../experiments/phaseC_source_sensitivity/source_qualification.md)
 preserves that distinction. No inference, images, sampling, dependencies, ANN or C4.
 
+[ours] Original-source paired-data evaluation completed 2026-10-09 on the separate
+`phaseC-paired-replication` branch: 1,000 COCO2017 validation image groups, five
+captions each, the same pinned encoder, native768/MRL256/MRL128 only. Implementation
+`141ebce`, pre-inference source/input freeze `2eee895`, canonical-cache binding
+`b24bf28`. CPU FP32 extraction including the retained contract smoke took 4.106
+hours, peak RSS 3.49 GiB. Primary text→image Hit@10 was 97.160/96.960/93.820%;
+native-relative paired differences were −0.200 pp [−0.540,+0.140] and −3.340 pp
+[−4.060,−2.620]. See the [paired tables](../experiments/phaseC_paired_replication/results.md),
+[interpretation](../experiments/phaseC_paired_replication/interpretation.md) and
+[completed source checks](../experiments/phaseC_paired_replication/source_qualification.md).
+
+[interpretation] Category and paired-hit compression responses broadly agree;
+256d equivalence is unresolved and 128d loses more, especially in multiple-caption
+set recall. This is independent evaluation sampling with the same encoder, not
+independent encoder replication or a general rank predictor. Unknown pretraining
+overlap and incomplete relevance remain. Retrieval directions use different
+caption-role prefixes and cannot isolate modality asymmetry. The current 983-row
+BDD qualification and six unresolved pilot IDs remain unchanged. No ANN, precision
+extension, PCA control or additional experiment is started; stop for interpretation.
+
 This is the plain-language account of what the project asks, what it found, what it had to
 take back, and what is still open. If a term is unfamiliar, look it up in
 [`metrics.md`](metrics.md) (formulas and worked examples) or read [`primer.md`](primer.md)

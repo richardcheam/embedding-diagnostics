@@ -1,0 +1,91 @@
+{
+  "canonical_files_verified": 11003,
+  "endpoint_resume": {
+    "cache_preserved": true,
+    "endpoint_calls": 0,
+    "interval_calls": 0,
+    "protected_files": 1260,
+    "reference_rankings": 0
+  },
+  "extraction_resume": {
+    "forward_calls": 0,
+    "model_loaded": false,
+    "new_inferences": 0,
+    "peak_rss_mib": 744.67578125,
+    "repeat_checks": {},
+    "resource_gate_passed": true,
+    "roles": {
+      "document": {
+        "completed": 5000,
+        "new_rows": 0,
+        "seconds": 4.239524444914423,
+        "seconds_per_new_row": null
+      },
+      "image": {
+        "completed": 1000,
+        "new_rows": 0,
+        "seconds": 0.9455717279342934,
+        "seconds_per_new_row": null
+      },
+      "query": {
+        "completed": 5000,
+        "new_rows": 0,
+        "seconds": 4.218195630935952,
+        "seconds_per_new_row": null
+      }
+    },
+    "smoke": false,
+    "swap_windows": [],
+    "wall_seconds": 9.463741741958074
+  },
+  "pre_resume_artifact_count": 18,
+  "pre_resume_artifacts_unchanged": true,
+  "protected_files_verified": 1260,
+  "repository_checks": {
+    "git_diff_check": "passed",
+    "historical_campaign_diff_from_96a28b9": "empty",
+    "local_document_links": "passed",
+    "pytest": {
+      "passed": 497,
+      "seconds": 34.31,
+      "skipped": 1
+    },
+    "ruff": "passed",
+    "uv_lock_check": "passed"
+  },
+  "role_contracts": {
+    "document": {
+      "dtype": "float32",
+      "finite": true,
+      "norm_max": 1.000000180326819,
+      "norm_min": 0.9999998245976142,
+      "shape": [
+        5000,
+        768
+      ],
+      "storage_bytes": 21830293
+    },
+    "image": {
+      "dtype": "float32",
+      "finite": true,
+      "norm_max": 1.0000001346165075,
+      "norm_min": 0.9999998558045179,
+      "shape": [
+        1000,
+        768
+      ],
+      "storage_bytes": 4353465
+    },
+    "query": {
+      "dtype": "float32",
+      "finite": true,
+      "norm_max": 1.0000001761706572,
+      "norm_min": 0.999999802369066,
+      "shape": [
+        5000,
+        768
+      ],
+      "storage_bytes": 21775191
+    }
+  }
+}

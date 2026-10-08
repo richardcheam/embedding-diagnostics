@@ -70,3 +70,20 @@ caption prefix and five-positive retrieval. Directional differences cannot
 isolate modality asymmetry. Category image-only relevance differs from paired
 caption relevance; marginal geometry is descriptive, and three dimensions do
 not validate a general predictor of representation quality.
+
+## Completed execution
+
+[ours] Contract smoke passed at `7cd2c17`; complete canonical hashes were committed
+at `b24bf28` before endpoints. Shapes are image [1000,768], query [5000,768] and
+document [5000,768], finite unit-normalized FP32. Smoke plus remaining extraction
+wall time was 4.106 hours, peak RSS 3,571.05 MiB. Both caption roles were encoded
+separately without truncation. Resource gates passed; source inspection time is
+reported separately in [interpretation.md](interpretation.md).
+
+[ours] [results.md](results.md) includes all three conditions, directions,
+category supports, floors, paired intervals, geometry, ties and native pairing
+control. [final_verification.json](final_verification.json) records completed
+zero-inference/zero-endpoint resume, unchanged prior artifacts, role contracts and
+protected historical/cache hash checks. [source_qualification.md](source_qualification.md)
+separates completed authentication and content checks from residual limitations.
+Large source archives and canonical arrays remain local and untracked.

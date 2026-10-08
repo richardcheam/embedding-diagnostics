@@ -469,3 +469,52 @@ margin/turnover behavior remain visible. That does not establish equivalence or
 independent replication. The current retained-fragment qualification and pilot's
 six unresolved appended IDs remain explicit. See the separate
 [interpretation](../experiments/phaseC_source_sensitivity/interpretation.md).
+
+
+## Original COCO paired-data compression — 2026-10-09
+
+[ours] Starting accepted `96a28b9`, bounded implementation/final protocol `141ebce`,
+pre-inference source/sample/input freeze `2eee895`, passed offline contract
+`7cd2c17`, complete canonical binding `b24bf28` before endpoint execution.
+Original COCO2017 validation archives were acquired from the certificate-valid
+same publisher-named S3 bucket (documented alias TLS transport amendment).
+All 5K source image members and annotation joins validated; 1K selected contact-
+sheet/caption bundles inspected by the assistant, with full coverage and stated
+thumbnail limits. Original IDs/text, errors and repeated captions were retained.
+No accepted BDD artifact, canonical chunk or dependency was changed.
+
+[ours] CPU FP32/batch1/four threads, text+vision/no audio, pinned model and
+mean-pooling/L2; role-specific frozen caption prefixes. Contract smoke took
+272.823 s; remaining 984 image + 4920 query + 4920 document entries took
+14,507.062 s, combined 4.106 h, peak RSS 3,571.05 MiB. Image 12.980 s/new row;
+query/document 0.17736/0.17525 s/new row. No consecutive excessive swap windows;
+resource gate passed. Separate source validation 57.328 s and interleaved
+inspection window 1,312.352 s are not encoder extraction costs.
+
+[ours] Native/MRL256/MRL128 primary T2I Hit@10 97.160/96.960/93.820%; paired
+native-relative differences −0.200 pp [−0.540,+0.140], −3.340 pp
+[−4.060,−2.620]. I2T Hit@10 98.400/98.100/95.900%, set recall@10
+80.240/78.500/68.900%; category macro P@10 48.842/48.125/44.880%.
+Native pairing shift Hit@10 1.220% T2I and 0.200% I2T is retained, including
+its below-floor secondary result. Tables contain all supports, ties, raw and
+normalized descriptive ranks, overlaps and paired intervals. Recorded condition-
+evaluation/interval phase 11.348 s excludes preflight/loading/native references.
+
+[ours] Completed resume performs zero inference/model loads and zero endpoint,
+reference-ranking or interval calls. Protected 1,260 historical/cache files and
+11,003 paired canonical files verified; pre-resume artifacts unchanged. Full
+post-extraction verification: 497 passed, one optional skip (37.36 s), Ruff and
+lock check passed. Final documentation/results verification is recorded separately.
+
+[interpretation] Category and recorded-pair responses agree broadly rather than
+show a strong reversal; 256d equivalence remains unresolved, 128d loss is larger,
+especially when counting recovery of five captions. Three dimensions cannot
+validate a general geometry predictor; same-encoder transfer is not independent
+encoder replication. Unknown pretraining, incomplete relevance and near/event
+relationships remain. Preserve current 983-row BDD qualifications and six pilot
+IDs. Stop; any independent encoder replication requires new scope.
+
+[ours] Final verification: 497 tests passed, one optional skip (34.31 s);
+Ruff, lock check, whitespace check and local document links passed. Accepted
+C1/C2/C3/pilot/sensitivity artifact diffs from `96a28b9` are empty. Completed
+resume preserves all 18 pre-resume artifacts and verifies all protected hashes.

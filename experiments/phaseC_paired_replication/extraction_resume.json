@@ -1,0 +1,31 @@
+{
+  "forward_calls": 0,
+  "model_loaded": false,
+  "new_inferences": 0,
+  "peak_rss_mib": 744.67578125,
+  "repeat_checks": {},
+  "resource_gate_passed": true,
+  "roles": {
+    "document": {
+      "completed": 5000,
+      "new_rows": 0,
+      "seconds": 4.239524444914423,
+      "seconds_per_new_row": null
+    },
+    "image": {
+      "completed": 1000,
+      "new_rows": 0,
+      "seconds": 0.9455717279342934,
+      "seconds_per_new_row": null
+    },
+    "query": {
+      "completed": 5000,
+      "new_rows": 0,
+      "seconds": 4.218195630935952,
+      "seconds_per_new_row": null
+    }
+  },
+  "smoke": false,
+  "swap_windows": [],
+  "wall_seconds": 9.463741741958074
+}

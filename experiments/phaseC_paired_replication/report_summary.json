@@ -1,0 +1,42 @@
+{
+  "query_changes": {
+    "mrl_128": {
+      "i2t": {
+        "gain": 4,
+        "loss": 29,
+        "unchanged": 967
+      },
+      "t2i": {
+        "gain": 27,
+        "loss": 194,
+        "unchanged": 4779
+      }
+    },
+    "mrl_256": {
+      "i2t": {
+        "gain": 6,
+        "loss": 9,
+        "unchanged": 985
+      },
+      "t2i": {
+        "gain": 28,
+        "loss": 38,
+        "unchanged": 4934
+      }
+    }
+  },
+  "random_order_floors": {
+    "i2t": {
+      "hit@1": 0.0010000000000000009,
+      "hit@10": 0.009964050392777146,
+      "hit@5": 0.004992003201600204,
+      "set_recall@10": 0.002
+    },
+    "t2i": {
+      "hit@1": 0.001,
+      "hit@10": 0.01,
+      "hit@5": 0.005
+    }
+  },
+  "result_sha256": "85542bde13b1536f52f3bd32ce92a6ca34fc0bf271bdf80f5733b65b26c5a162"
+}

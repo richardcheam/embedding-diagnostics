@@ -1,0 +1,33 @@
+{
+  "accepted_head": "720df9e0297a02dad054fae96381daf8dd38c1e7",
+  "all_selected_source_metadata_hash_and_cache_alignment_checks_passed": true,
+  "baseline_file_hash_map_sha256": "dd5d19bbac5c254168eb9ea9482d20afb442dcb5a4390f4378027d18272540c9",
+  "canonical_cache_chunk_count": 750,
+  "canonical_chunks_unchanged": true,
+  "changed_protected_files": [
+    "experiments/phaseC_c3/source_qualification.md"
+  ],
+  "claim_label": "[ours]",
+  "decoded_source_image_count": 17,
+  "no_dependencies_modified": true,
+  "no_encoder_inference": true,
+  "no_other_source_images_decoded": true,
+  "no_scientific_endpoint_execution": true,
+  "original_disclosure_preserved_exact_prefix": true,
+  "original_disclosure_sha256": "c570f946afe1b2b1ec648f649009e42f84b74a3703ce6e8c8a71ba947955132e",
+  "protected_file_count": 1339,
+  "protected_files_unchanged_except_authorized_append": true,
+  "pytest": {
+    "command": "uv run pytest",
+    "exit_code": 0,
+    "passed": 441,
+    "seconds": 38.26,
+    "skipped": 1
+  },
+  "ruff": {
+    "command": "uv run ruff check .",
+    "exit_code": 0
+  },
+  "source_fragment2_id_range_verified": true,
+  "updated_qualification_sha256": "391315f10d025f78c0e431e499f421244f7b23b4a9c7a960c05999e84dc9d807"
+}

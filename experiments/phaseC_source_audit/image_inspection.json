@@ -1,0 +1,416 @@
+{
+  "decoded_count": 17,
+  "evidence_limit": "Graphic content is directly visible. This does not identify the creating program, creator, purpose, random seed, or attribute-label assignment procedure.",
+  "inspection_by": "Assistant visual inspection of a labelled contact sheet of precisely the 17 flagged source images.",
+  "purpose": "Source-content inspection only, no encoder or endpoint computation",
+  "rows": [
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "8a6dd864795bc687be174e81fb079c10296720b44fa0f8a6fb8c80e7c6477cbf",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000005",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        183,
+        154,
+        138
+      ],
+      "pixel_center": [
+        183,
+        154,
+        138
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 243
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "d70c7aa545173c013669ed44743bbb4d338c4fd2aa3c454ccd3a250e2a14ecf4",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000021",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        134,
+        174,
+        184
+      ],
+      "pixel_center": [
+        134,
+        174,
+        184
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 1642
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "82390b4614699870a3de0dc865533bcca9e35bf33a8d9e5e0b528367e2acb08a",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000029",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        176,
+        93,
+        123
+      ],
+      "pixel_center": [
+        176,
+        93,
+        123
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 1808
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "63254d165e3abb872bcbd2a393a6dafb80c24bbbc38d960faf15409c957d2de6",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000048",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        85,
+        121,
+        59
+      ],
+      "pixel_center": [
+        85,
+        121,
+        59
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 1989
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "bb01c54121a2036591e30a5c3ad8e239ca13c2fabad7032fd926ffd5165c9490",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000067",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        126,
+        166,
+        132
+      ],
+      "pixel_center": [
+        126,
+        166,
+        132
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 992
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "8ab5a4c8cf9add509f5fb0ea01d52be8d0a917213cac5aa56b00c936a0dd0ba4",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000116",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        82,
+        133,
+        150
+      ],
+      "pixel_center": [
+        82,
+        133,
+        150
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 318
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "2b81898ac6cc6462b9cfe540d360a42b7881eb106076d4b903cd3cc9750e8913",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000150",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        114,
+        92,
+        164
+      ],
+      "pixel_center": [
+        114,
+        92,
+        164
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 407
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "b01c1c1689b276bc55f4f6c9549cce18e2e72b7c47986af99ef8da447c82dd70",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000189",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        200,
+        70,
+        178
+      ],
+      "pixel_center": [
+        200,
+        70,
+        178
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 1277
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "98a5557d8270838e3bdc225cc76bda3758e71c3b39cb9e83b20824332797ec20",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000210",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        196,
+        132,
+        70
+      ],
+      "pixel_center": [
+        196,
+        132,
+        70
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 2117
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "bba31a20e6c73879c4cc5c585b9d212338bb2036060af401120a0fca2bad8341",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000228",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        90,
+        99,
+        154
+      ],
+      "pixel_center": [
+        90,
+        99,
+        154
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 1931
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "c09dc13b29bae32a3580b73f3889b22e8173a3e687c752e1bb82a50d2c217996",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000234",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        183,
+        53,
+        89
+      ],
+      "pixel_center": [
+        183,
+        53,
+        89
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 1144
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "4edb1175085c6a703636cab3d30871fca165d0e3eeafbdb570d78771d0f4f57e",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000361",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        172,
+        95,
+        89
+      ],
+      "pixel_center": [
+        172,
+        95,
+        89
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 887
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "333b675b565c2f0dc096c9bbeec255c53a4bc48060b49cfc020f95538156181e",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000362",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        147,
+        55,
+        80
+      ],
+      "pixel_center": [
+        147,
+        55,
+        80
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 2398
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "e64a2572497f7a29cc2db3dc3fc054073e41b5f1990d9149518416b0c8a1ea01",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000373",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        116,
+        129,
+        181
+      ],
+      "pixel_center": [
+        116,
+        129,
+        181
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 1756
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "f3bb3986c4082c5771a4738576c45c148ba7cac0242391005a8452bd3c37ef2c",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000375",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        151,
+        137,
+        154
+      ],
+      "pixel_center": [
+        151,
+        137,
+        154
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 1869
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "ce4f10a0684bcbfd323caeaa105a0a8d306d29e4451df4c15ecc71401c5d368f",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000437",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        195,
+        147,
+        125
+      ],
+      "pixel_center": [
+        195,
+        147,
+        125
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 2264
+    },
+    {
+      "classification_name": "Confirmed generated graphic content; upstream generator and label origin not recovered.",
+      "decoded_rgb_sha256": "d863a5054fafd1707f165afdcfda7c003c5dc10919f2fdfe7c93a6b270090e27",
+      "evidence_classification": 4,
+      "format": "JPEG",
+      "image_id": "synthetic_val_000481",
+      "inspection": "Uniform coloured background with one or more flat axis-aligned coloured rectangles; no depicted road scene.",
+      "mode": "RGB",
+      "pixel_0_0": [
+        133,
+        88,
+        69
+      ],
+      "pixel_center": [
+        82,
+        78,
+        41
+      ],
+      "size": [
+        640,
+        360
+      ],
+      "unique_rgb_colors": 274
+    }
+  ]
+}

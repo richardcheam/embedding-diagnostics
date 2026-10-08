@@ -1,0 +1,52 @@
+{
+  "claim_label": "[ours]",
+  "revision": "d82c5188d392714ba8091d68014f7b9838ceadf2",
+  "request_url": "https://huggingface.co/api/datasets/lance-format/BDD100K-enriched/tree/d82c5188d392714ba8091d68014f7b9838ceadf2/data/bdd100k.lance/data?expand=true",
+  "remote_file_record": {
+    "type": "file",
+    "oid": "de953f1f25862987e3a2f4390db7e27044610259",
+    "size": 2944032,
+    "lfs": {
+      "oid": "fb6dfdee886acaf76efbd6be9a1098038eac28004e8e15b38a221d62a84f3098",
+      "size": 2944032,
+      "pointerSize": 132
+    },
+    "xetHash": "33c1b77c600837a003656755af631bf08baf04906973d7156d0837d1bca25673",
+    "path": "data/bdd100k.lance/data/110000001111100001101101865e914eff978a1d8a58403292.lance",
+    "lastCommit": {
+      "id": "28f6f7b5cd1526ceec55082fcc2ef85f3ec9ad4a",
+      "title": "Add files using upload-large-folder tool",
+      "date": "2026-04-10T10:45:32.000Z"
+    },
+    "securityFileStatus": {
+      "status": "queued",
+      "protectAiScan": {
+        "status": "unscanned"
+      },
+      "avScan": {
+        "status": "unscanned"
+      },
+      "pickleImportScan": {
+        "status": "unscanned"
+      },
+      "virusTotalScan": {
+        "status": "queued",
+        "message": "QUEUED",
+        "reportLink": "https://www.virustotal.com/gui/file/fb6dfdee886acaf76efbd6be9a1098038eac28004e8e15b38a221d62a84f3098?utm_source=huggingface"
+      }
+    }
+  },
+  "local_file": "/mnt/hdd/data/datasets/BDD100K-enriched/data/bdd100k.lance/data/110000001111100001101101865e914eff978a1d8a58403292.lance",
+  "local_sha256": "fb6dfdee886acaf76efbd6be9a1098038eac28004e8e15b38a221d62a84f3098",
+  "local_matches_upstream_lfs_oid": true,
+  "readme_request_status": 404,
+  "remote_tree_root_files": [
+    ".gitattributes",
+    "data/"
+  ],
+  "download_metadata": [
+    "d82c5188d392714ba8091d68014f7b9838ceadf2",
+    "fb6dfdee886acaf76efbd6be9a1098038eac28004e8e15b38a221d62a84f3098",
+    "1791384386.6885805"
+  ]
+}

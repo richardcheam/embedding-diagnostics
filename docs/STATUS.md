@@ -24,6 +24,23 @@ stressed queries; no universal numerical-health verdict follows. See the
 [qualified interpretation](../experiments/phaseC_c3/interpretation.md).
 No inference, new sample, ANN or cross-modal experiment occurred.
 
+[ours] The source audit at `4343421` confirmed 17 generated graphics inherited
+from the enriched source. A separate post-audit exclusion sensitivity is complete
+under implementation `2feef78` and pre-execution freeze `97595f3`: unchanged 2,000
+training vectors, 983 validation queries/gallery rows, all 46 historical C1/C2/C3
+conditions. Historical records and canonical cache remain unchanged. See the
+[sensitivity tables](../experiments/phaseC_source_sensitivity/results.md),
+[absolute/effect comparisons](../experiments/phaseC_source_sensitivity/comparisons.md)
+and [interpretation](../experiments/phaseC_source_sensitivity/interpretation.md).
+
+[interpretation] Diagnostic dissociations remain visible on the retained subset,
+while absolute utility/floors and some effect sizes change. This is not independent
+replication or equivalence evidence. Retained enriched-source fragment provenance
+is verified; original-release image/label authentication and near-duplicates remain
+unresolved. The pilot's six other appended-fragment IDs are separately unresolved.
+The [current qualification](../experiments/phaseC_source_sensitivity/source_qualification.md)
+preserves that distinction. No inference, images, sampling, dependencies, ANN or C4.
+
 This is the plain-language account of what the project asks, what it found, what it had to
 take back, and what is still open. If a term is unfamiliar, look it up in
 [`metrics.md`](metrics.md) (formulas and worked examples) or read [`primer.md`](primer.md)

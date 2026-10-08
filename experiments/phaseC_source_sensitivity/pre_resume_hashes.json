@@ -1,0 +1,15 @@
+{
+  "experiments/phaseC_source_sensitivity/README.md": "f0f02198448a43789b09c6334a04020c6343fe9300bcf765ba25f1fe287b900b",
+  "experiments/phaseC_source_sensitivity/comparisons.json": "dcc6a9ee261b1be4bf7487e7fc7aee2c6f8a297d24bafca1b89b376304a0e2ad",
+  "experiments/phaseC_source_sensitivity/comparisons.md": "225d3a1b7b9a6f9435adcf757cd012f71b5db4d041279c8e0d1ed6e51d7ded6e",
+  "experiments/phaseC_source_sensitivity/fit_diagnostics.md": "8a528a83be067cf4be0b9cdbbbdc0929c54d5f6f9f6bdcc06d7525edc2a87b8a",
+  "experiments/phaseC_source_sensitivity/freeze.json": "e083fd6f246d6dec8bc001da7211f512f661762d391a28bd24d95bdab9a3ee59",
+  "experiments/phaseC_source_sensitivity/gallery_diagnostic.md": "62d3681377d2a43bf4652ade376e6e3480933d1377ffb7c9f5dec15b85d0ff9f",
+  "experiments/phaseC_source_sensitivity/implementation_verification.json": "bc1ee63f30c36a3a200907ab96d3c85bf1e31e1a21dffc9fececdad78073048e",
+  "experiments/phaseC_source_sensitivity/margin_analysis.md": "0a51e6aa3f10082644b0d5d3475e301e9a021841acdd2b84041f9aa0ab576c37",
+  "experiments/phaseC_source_sensitivity/results.json": "a368f7860ece1dab17a612bb3554bad3034166579115506d0f78d73ad211dac0",
+  "experiments/phaseC_source_sensitivity/results.md": "4e771616efd0e757a8a17528d7d2206cf6b51e96e052e422c695c2fb2da3b137",
+  "experiments/phaseC_source_sensitivity/sample_manifest.json": "5deeda31353cd2c027a6a0eb4e3acf53cc164a8ee1f1e25094c8aa3b588c7cb2",
+  "experiments/phaseC_source_sensitivity/source_qualification.md": "c7a2cede357224f30136af0b91b92c1dfb425ae63157e84bbe216142d338ed4c",
+  "experiments/phaseC_source_sensitivity/verification.json": "d860440bfbf594118f96844209e11acecb0dde104bce72ede3102949f2706346"
+}

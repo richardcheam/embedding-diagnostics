@@ -1,0 +1,130 @@
+{
+  "C3_gallery_record_inspection": {
+    "mean99_fp16_gallery": {
+      "historical_excluded_top10_candidates": 0,
+      "old_vs_reduced_gallery_set_changes": 0,
+      "retained_queries": 983
+    },
+    "mean99_ref": {
+      "historical_excluded_top10_candidates": 0,
+      "old_vs_reduced_gallery_set_changes": 0,
+      "retained_queries": 983
+    },
+    "native_fp16_both": {
+      "historical_excluded_top10_candidates": 0,
+      "old_vs_reduced_gallery_set_changes": 0,
+      "retained_queries": 983
+    },
+    "native_fp16_gallery": {
+      "historical_excluded_top10_candidates": 0,
+      "old_vs_reduced_gallery_set_changes": 0,
+      "retained_queries": 983
+    },
+    "native_fp32_arithmetic": {
+      "historical_excluded_top10_candidates": 0,
+      "old_vs_reduced_gallery_set_changes": 0,
+      "retained_queries": 983
+    },
+    "native_int8_both": {
+      "historical_excluded_top10_candidates": 0,
+      "old_vs_reduced_gallery_set_changes": 0,
+      "retained_queries": 983
+    },
+    "native_int8_gallery": {
+      "historical_excluded_top10_candidates": 0,
+      "old_vs_reduced_gallery_set_changes": 0,
+      "retained_queries": 983
+    },
+    "native_ref": {
+      "historical_excluded_top10_candidates": 0,
+      "old_vs_reduced_gallery_set_changes": 0,
+      "retained_queries": 983
+    }
+  },
+  "accepted_source_commit": "43434216c0fd169efea882cf496ea9ae49422cc6",
+  "canonical_and_training_preservation": {
+    "canonical_cache_preserved": true,
+    "claim_label": "[ours]",
+    "conditions": 46,
+    "endpoint_calls": 46,
+    "excluded_validation_count": 17,
+    "final_probe_fits_this_invocation": 174,
+    "guards": "network/image opening/encoder construction blocked",
+    "historical_files_preserved": 491,
+    "identity": {
+      "freeze_sha256": "e083fd6f246d6dec8bc001da7211f512f661762d391a28bd24d95bdab9a3ee59",
+      "implementation_commit": "2feef78208c41d2b3338631dbe022b005e1e9e9b"
+    },
+    "peak_rss_mib": 874.43359375,
+    "pilot_not_rerun": true,
+    "protocol_deviations": [],
+    "train_count": 2000,
+    "training_bytes_unchanged": true,
+    "validation_count": 983,
+    "wall_seconds": 731.692881628056
+  },
+  "claim_label": "[ours]",
+  "complete_conditions": 46,
+  "completed_resume": {
+    "canonical_cache_preserved": true,
+    "claim_label": "[ours]",
+    "conditions": 46,
+    "endpoint_calls": 0,
+    "excluded_validation_count": 17,
+    "final_probe_fits_this_invocation": 0,
+    "guards": "network/image opening/encoder construction blocked",
+    "historical_files_preserved": 491,
+    "identity": {
+      "freeze_sha256": "e083fd6f246d6dec8bc001da7211f512f661762d391a28bd24d95bdab9a3ee59",
+      "implementation_commit": "2feef78208c41d2b3338631dbe022b005e1e9e9b"
+    },
+    "peak_rss_mib": 752.9375,
+    "pilot_not_rerun": true,
+    "protocol_deviations": [],
+    "train_count": 2000,
+    "training_bytes_unchanged": true,
+    "validation_count": 983,
+    "wall_seconds": 3.721311099943705
+  },
+  "final_fit_score_records": 207,
+  "freeze_commit": "97595f32164ad0af3cb7f68af84f8cfaa9cfd1ff",
+  "frozen_implementation_and_protocol_unchanged": true,
+  "historical_unchanged": true,
+  "history_file_count": 491,
+  "identity": {
+    "freeze_sha256": "e083fd6f246d6dec8bc001da7211f512f661762d391a28bd24d95bdab9a3ee59",
+    "implementation_commit": "2feef78208c41d2b3338631dbe022b005e1e9e9b"
+  },
+  "implementation_commit": "2feef78208c41d2b3338631dbe022b005e1e9e9b",
+  "lock": "uv lock --check passed",
+  "new_artifact_sha256": {
+    "experiments/phaseC_source_sensitivity/README.md": "f0f02198448a43789b09c6334a04020c6343fe9300bcf765ba25f1fe287b900b",
+    "experiments/phaseC_source_sensitivity/comparisons.json": "dcc6a9ee261b1be4bf7487e7fc7aee2c6f8a297d24bafca1b89b376304a0e2ad",
+    "experiments/phaseC_source_sensitivity/comparisons.md": "225d3a1b7b9a6f9435adcf757cd012f71b5db4d041279c8e0d1ed6e51d7ded6e",
+    "experiments/phaseC_source_sensitivity/fit_diagnostics.md": "8a528a83be067cf4be0b9cdbbbdc0929c54d5f6f9f6bdcc06d7525edc2a87b8a",
+    "experiments/phaseC_source_sensitivity/freeze.json": "e083fd6f246d6dec8bc001da7211f512f661762d391a28bd24d95bdab9a3ee59",
+    "experiments/phaseC_source_sensitivity/gallery_diagnostic.md": "62d3681377d2a43bf4652ade376e6e3480933d1377ffb7c9f5dec15b85d0ff9f",
+    "experiments/phaseC_source_sensitivity/implementation_verification.json": "bc1ee63f30c36a3a200907ab96d3c85bf1e31e1a21dffc9fececdad78073048e",
+    "experiments/phaseC_source_sensitivity/interpretation.md": "da9888264c6c6d09cd0e4ba2a5366c4d3412f3c4eb0626caa227b599cf9f551e",
+    "experiments/phaseC_source_sensitivity/margin_analysis.md": "0a51e6aa3f10082644b0d5d3475e301e9a021841acdd2b84041f9aa0ab576c37",
+    "experiments/phaseC_source_sensitivity/pre_resume_hashes.json": "bd160096daf205f7a0af1a21c797f767ab33ccf2c6e2e1b7ec61bf53fae7a1cb",
+    "experiments/phaseC_source_sensitivity/results.json": "a368f7860ece1dab17a612bb3554bad3034166579115506d0f78d73ad211dac0",
+    "experiments/phaseC_source_sensitivity/results.md": "4e771616efd0e757a8a17528d7d2206cf6b51e96e052e422c695c2fb2da3b137",
+    "experiments/phaseC_source_sensitivity/resume_verification.json": "60997165df3f3e6910b67e1b2407ad9438ca845bb80a934437ee3ecdc530134c",
+    "experiments/phaseC_source_sensitivity/sample_manifest.json": "5deeda31353cd2c027a6a0eb4e3acf53cc164a8ee1f1e25094c8aa3b588c7cb2",
+    "experiments/phaseC_source_sensitivity/source_qualification.md": "c7a2cede357224f30136af0b91b92c1dfb425ae63157e84bbe216142d338ed4c",
+    "experiments/phaseC_source_sensitivity/verification.json": "d860440bfbf594118f96844209e11acecb0dde104bce72ede3102949f2706346"
+  },
+  "nonconverged_final_records": 4,
+  "pilot_six_ids_content_unresolved": true,
+  "pre_resume_artifacts_unchanged": true,
+  "protocol_deviations": [],
+  "ruff": "uv run ruff check . passed",
+  "tests": {
+    "command": "uv run pytest",
+    "passed": 458,
+    "seconds": 36.87,
+    "skipped": 1
+  },
+  "training_accuracy_iteration_convergence_match_historical": true
+}

@@ -444,3 +444,28 @@ The second audit also caught what the first could not: that the eval split moved
 training seed, and that the runner truncated `train.log` before the child's guard could
 refuse. Neither is visible from reading a metric; both needed someone to ask what the
 experiment was actually measuring and what the orchestration actually did.
+
+## Post-audit exclusion sensitivity — 2026-10-08
+
+[ours] Implementation/protocol `2feef78`, pre-execution sample/freeze `97595f3`.
+The audit's exact 17 generated validation graphics were removed from queries and
+galleries, with 2,000 unchanged training rows and 983 retained validation rows.
+All 46 original C1/C2/C3 conditions completed in 731.693 seconds, peak process
+RSS 874.43 MiB. C2 saved training PCA was reused; historical train-only C choices
+were reused and final models refitted because classifier files were unavailable.
+Refit training accuracy, iterations and convergence match historical diagnostics.
+No model inference, source-image access, sampling or dependencies were changed.
+
+[ours] 491 accepted historical experiment artifacts and all canonical chunks
+were preserved. Completed resume: zero endpoints/probe fits, 3.721 seconds,
+unchanged result/report/freeze/original verification bytes. Checks: 458 passed,
+one optional accelerator skip; Ruff/lock validation passed. Source and current
+status were updated separately; the historical source disclosure was not edited.
+
+[interpretation] Pristine absolute utility/floors shift with the cohort, and some
+weather BA contrasts change by over two points. Descriptive diagnostic invariances,
+noise rank/utility dissociation, compression construction differences and C3
+margin/turnover behavior remain visible. That does not establish equivalence or
+independent replication. The current retained-fragment qualification and pilot's
+six unresolved appended IDs remain explicit. See the separate
+[interpretation](../experiments/phaseC_source_sensitivity/interpretation.md).

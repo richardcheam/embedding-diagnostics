@@ -1,0 +1,21 @@
+{
+  "canonical_cache_preserved": true,
+  "claim_label": "[ours]",
+  "conditions": 46,
+  "endpoint_calls": 0,
+  "excluded_validation_count": 17,
+  "final_probe_fits_this_invocation": 0,
+  "guards": "network/image opening/encoder construction blocked",
+  "historical_files_preserved": 491,
+  "identity": {
+    "freeze_sha256": "e083fd6f246d6dec8bc001da7211f512f661762d391a28bd24d95bdab9a3ee59",
+    "implementation_commit": "2feef78208c41d2b3338631dbe022b005e1e9e9b"
+  },
+  "peak_rss_mib": 752.9375,
+  "pilot_not_rerun": true,
+  "protocol_deviations": [],
+  "train_count": 2000,
+  "training_bytes_unchanged": true,
+  "validation_count": 983,
+  "wall_seconds": 3.721311099943705
+}

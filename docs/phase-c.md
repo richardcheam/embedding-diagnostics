@@ -274,3 +274,24 @@ two severe mean-injection fits fail convergence. These limits must be considered
 before choosing the main probe protocol. Rare-class support and the small
 validation sample constrain interpretation. Main IDs remain unfrozen; C2–C4
 remain deferred. Existing Phase-A/B headline findings are unchanged.
+
+## Post-audit source exclusion sensitivity (2026-10-08)
+
+[ours] Audit `4343421` confirmed generated graphics in 17 main validation rows.
+The separately frozen [sensitivity protocol](source-sensitivity-protocol.md),
+implementation `2feef78` and freeze `97595f3` preserve all historical artifacts and
+canonical vectors, retain 2,000 training/983 validation rows in original order,
+and exclude the 17 explicit IDs from both queries and galleries. All 46 accepted
+C1/C2/C3 conditions completed. Final probes were refitted with historical
+train-only C selections; saved training PCA and INT8 calibration were reused.
+See [results](../experiments/phaseC_source_sensitivity/results.md) and
+[qualified interpretation](../experiments/phaseC_source_sensitivity/interpretation.md).
+
+[interpretation] Absolute endpoints and some contrasts change after exclusion;
+the central descriptive geometry/utility dissociations remain visible. This is
+post-audit sensitivity, not an independent new-sample replication. Retained source
+fragments do not authenticate original BDD image/label origins or rule out
+near-duplicates. Pilot IDs 000015/000052/000146/000220/000379/000415 (each prefixed
+synthetic_val_) remain separately unresolved; its historical record is unchanged.
+Independent replication needs separate scope. No ANN, C4 or further precision
+conditions were started.

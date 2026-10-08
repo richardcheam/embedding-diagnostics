@@ -272,3 +272,21 @@ regularizer was also producing almost no gradient. Both are now fixed; the condi
 - **The rarest scenario classes cannot be scored.** `gas stations` (7 val images), `foggy`
   (13), `tunnel` (27) fall below the 10-sample floor. For validation work, where rare
   conditions are the concern, that is a limitation of the evaluation protocol.
+
+## Phase-C source qualification after sensitivity (2026-10-08)
+
+[ours] The 17 content-confirmed main validation graphics were excluded in the
+separately frozen [source sensitivity](../experiments/phaseC_source_sensitivity/README.md),
+from both query and gallery roles. Historical C1/C2/C3 and the canonical cache
+remain unchanged; all 46 conditions were re-evaluated on the retained subset.
+
+[interpretation] Retained-fragment provenance is verified, but original-release
+image/label authentication, near-duplicates and independent population transfer
+remain unresolved. The upstream generator/label-assignment record for the appended
+fragment has not been recovered. The pilot's six different IDs from that append
+remain separately unresolved and were not decoded/rerun in this sensitivity.
+Historical probe coefficients/predictions were not saved; refitted training
+accuracy/iterations/convergence match the recorded diagnostics, but coefficient
+identity is not independently verifiable. Small point-effect changes do not
+establish equivalence. A clean independently frozen replication requires separate
+scope; no ANN/C4 or extra precision condition starts automatically.

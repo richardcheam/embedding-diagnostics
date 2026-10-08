@@ -1,0 +1,481 @@
+{
+  "acquisition_recorded_at": "2026-10-08T16:35:09.297757+00:00",
+  "annotation_zip_crc_verified": true,
+  "authentication_scope": "Original publisher-named AWS S3 bucket over certificate-verified HTTPS; publisher alias DNS resolves to same bucket. No independently signed publisher checksum was available/verified. Local hashes establish subsequent continuity.",
+  "caption_count": 25014,
+  "categories": [
+    {
+      "id": 1,
+      "name": "person",
+      "supercategory": "person"
+    },
+    {
+      "id": 2,
+      "name": "bicycle",
+      "supercategory": "vehicle"
+    },
+    {
+      "id": 3,
+      "name": "car",
+      "supercategory": "vehicle"
+    },
+    {
+      "id": 4,
+      "name": "motorcycle",
+      "supercategory": "vehicle"
+    },
+    {
+      "id": 5,
+      "name": "airplane",
+      "supercategory": "vehicle"
+    },
+    {
+      "id": 6,
+      "name": "bus",
+      "supercategory": "vehicle"
+    },
+    {
+      "id": 7,
+      "name": "train",
+      "supercategory": "vehicle"
+    },
+    {
+      "id": 8,
+      "name": "truck",
+      "supercategory": "vehicle"
+    },
+    {
+      "id": 9,
+      "name": "boat",
+      "supercategory": "vehicle"
+    },
+    {
+      "id": 10,
+      "name": "traffic light",
+      "supercategory": "outdoor"
+    },
+    {
+      "id": 11,
+      "name": "fire hydrant",
+      "supercategory": "outdoor"
+    },
+    {
+      "id": 13,
+      "name": "stop sign",
+      "supercategory": "outdoor"
+    },
+    {
+      "id": 14,
+      "name": "parking meter",
+      "supercategory": "outdoor"
+    },
+    {
+      "id": 15,
+      "name": "bench",
+      "supercategory": "outdoor"
+    },
+    {
+      "id": 16,
+      "name": "bird",
+      "supercategory": "animal"
+    },
+    {
+      "id": 17,
+      "name": "cat",
+      "supercategory": "animal"
+    },
+    {
+      "id": 18,
+      "name": "dog",
+      "supercategory": "animal"
+    },
+    {
+      "id": 19,
+      "name": "horse",
+      "supercategory": "animal"
+    },
+    {
+      "id": 20,
+      "name": "sheep",
+      "supercategory": "animal"
+    },
+    {
+      "id": 21,
+      "name": "cow",
+      "supercategory": "animal"
+    },
+    {
+      "id": 22,
+      "name": "elephant",
+      "supercategory": "animal"
+    },
+    {
+      "id": 23,
+      "name": "bear",
+      "supercategory": "animal"
+    },
+    {
+      "id": 24,
+      "name": "zebra",
+      "supercategory": "animal"
+    },
+    {
+      "id": 25,
+      "name": "giraffe",
+      "supercategory": "animal"
+    },
+    {
+      "id": 27,
+      "name": "backpack",
+      "supercategory": "accessory"
+    },
+    {
+      "id": 28,
+      "name": "umbrella",
+      "supercategory": "accessory"
+    },
+    {
+      "id": 31,
+      "name": "handbag",
+      "supercategory": "accessory"
+    },
+    {
+      "id": 32,
+      "name": "tie",
+      "supercategory": "accessory"
+    },
+    {
+      "id": 33,
+      "name": "suitcase",
+      "supercategory": "accessory"
+    },
+    {
+      "id": 34,
+      "name": "frisbee",
+      "supercategory": "sports"
+    },
+    {
+      "id": 35,
+      "name": "skis",
+      "supercategory": "sports"
+    },
+    {
+      "id": 36,
+      "name": "snowboard",
+      "supercategory": "sports"
+    },
+    {
+      "id": 37,
+      "name": "sports ball",
+      "supercategory": "sports"
+    },
+    {
+      "id": 38,
+      "name": "kite",
+      "supercategory": "sports"
+    },
+    {
+      "id": 39,
+      "name": "baseball bat",
+      "supercategory": "sports"
+    },
+    {
+      "id": 40,
+      "name": "baseball glove",
+      "supercategory": "sports"
+    },
+    {
+      "id": 41,
+      "name": "skateboard",
+      "supercategory": "sports"
+    },
+    {
+      "id": 42,
+      "name": "surfboard",
+      "supercategory": "sports"
+    },
+    {
+      "id": 43,
+      "name": "tennis racket",
+      "supercategory": "sports"
+    },
+    {
+      "id": 44,
+      "name": "bottle",
+      "supercategory": "kitchen"
+    },
+    {
+      "id": 46,
+      "name": "wine glass",
+      "supercategory": "kitchen"
+    },
+    {
+      "id": 47,
+      "name": "cup",
+      "supercategory": "kitchen"
+    },
+    {
+      "id": 48,
+      "name": "fork",
+      "supercategory": "kitchen"
+    },
+    {
+      "id": 49,
+      "name": "knife",
+      "supercategory": "kitchen"
+    },
+    {
+      "id": 50,
+      "name": "spoon",
+      "supercategory": "kitchen"
+    },
+    {
+      "id": 51,
+      "name": "bowl",
+      "supercategory": "kitchen"
+    },
+    {
+      "id": 52,
+      "name": "banana",
+      "supercategory": "food"
+    },
+    {
+      "id": 53,
+      "name": "apple",
+      "supercategory": "food"
+    },
+    {
+      "id": 54,
+      "name": "sandwich",
+      "supercategory": "food"
+    },
+    {
+      "id": 55,
+      "name": "orange",
+      "supercategory": "food"
+    },
+    {
+      "id": 56,
+      "name": "broccoli",
+      "supercategory": "food"
+    },
+    {
+      "id": 57,
+      "name": "carrot",
+      "supercategory": "food"
+    },
+    {
+      "id": 58,
+      "name": "hot dog",
+      "supercategory": "food"
+    },
+    {
+      "id": 59,
+      "name": "pizza",
+      "supercategory": "food"
+    },
+    {
+      "id": 60,
+      "name": "donut",
+      "supercategory": "food"
+    },
+    {
+      "id": 61,
+      "name": "cake",
+      "supercategory": "food"
+    },
+    {
+      "id": 62,
+      "name": "chair",
+      "supercategory": "furniture"
+    },
+    {
+      "id": 63,
+      "name": "couch",
+      "supercategory": "furniture"
+    },
+    {
+      "id": 64,
+      "name": "potted plant",
+      "supercategory": "furniture"
+    },
+    {
+      "id": 65,
+      "name": "bed",
+      "supercategory": "furniture"
+    },
+    {
+      "id": 67,
+      "name": "dining table",
+      "supercategory": "furniture"
+    },
+    {
+      "id": 70,
+      "name": "toilet",
+      "supercategory": "furniture"
+    },
+    {
+      "id": 72,
+      "name": "tv",
+      "supercategory": "electronic"
+    },
+    {
+      "id": 73,
+      "name": "laptop",
+      "supercategory": "electronic"
+    },
+    {
+      "id": 74,
+      "name": "mouse",
+      "supercategory": "electronic"
+    },
+    {
+      "id": 75,
+      "name": "remote",
+      "supercategory": "electronic"
+    },
+    {
+      "id": 76,
+      "name": "keyboard",
+      "supercategory": "electronic"
+    },
+    {
+      "id": 77,
+      "name": "cell phone",
+      "supercategory": "electronic"
+    },
+    {
+      "id": 78,
+      "name": "microwave",
+      "supercategory": "appliance"
+    },
+    {
+      "id": 79,
+      "name": "oven",
+      "supercategory": "appliance"
+    },
+    {
+      "id": 80,
+      "name": "toaster",
+      "supercategory": "appliance"
+    },
+    {
+      "id": 81,
+      "name": "sink",
+      "supercategory": "appliance"
+    },
+    {
+      "id": 82,
+      "name": "refrigerator",
+      "supercategory": "appliance"
+    },
+    {
+      "id": 84,
+      "name": "book",
+      "supercategory": "indoor"
+    },
+    {
+      "id": 85,
+      "name": "clock",
+      "supercategory": "indoor"
+    },
+    {
+      "id": 86,
+      "name": "vase",
+      "supercategory": "indoor"
+    },
+    {
+      "id": 87,
+      "name": "scissors",
+      "supercategory": "indoor"
+    },
+    {
+      "id": 88,
+      "name": "teddy bear",
+      "supercategory": "indoor"
+    },
+    {
+      "id": 89,
+      "name": "hair drier",
+      "supercategory": "indoor"
+    },
+    {
+      "id": 90,
+      "name": "toothbrush",
+      "supercategory": "indoor"
+    }
+  ],
+  "checks_completed": [
+    "Annotation archive CRC test",
+    "All 5000 image members CRC-read and RGB-decoded",
+    "JSON caption/instance image dictionaries equal",
+    "Unique numeric source IDs and foreign-key joins",
+    "Filename/ID, original dimensions and license joins",
+    "Raw-byte/RGB-pixel/original-Flickr-ID transitive grouping",
+    "Deterministic selection of 1000 groups; five smallest annotation IDs",
+    "Selected thumbnail/caption contact-sheet inspection separately recorded"
+  ],
+  "checks_not_completed": [
+    "Independent publisher-signed archive checksum",
+    "Independent human caption-relevance adjudication",
+    "Exhaustive near-duplicate/event comparison",
+    "Encoder pretraining-overlap exclusion",
+    "Redistribution-rights adjudication beyond original license/terms records"
+  ],
+  "documentation_sha256": {
+    "/mnt/hdd/data/datasets/COCO-original-2017/acquisition/download.htm": "62e500d3e7be567d97c295f5f56c95a416618d0770dd334a0ab943a4c1e6954b",
+    "/mnt/hdd/data/datasets/COCO-original-2017/acquisition/format-data.htm": "a15ea326fbb7a7d5adc349aa8bfd615e442886b0c5cccb819cc9d5bce3185897",
+    "/mnt/hdd/data/datasets/COCO-original-2017/acquisition/termsofuse.htm": "bd019f88ee44c29b2f19c5b99888cf5bc2e7c16f57b6e52af8ed3a60462e8bdd"
+  },
+  "files": {
+    "/mnt/hdd/data/datasets/COCO-original-2017/annotations_trainval2017.zip": {
+      "bytes": 252907541,
+      "sha256": "113a836d90195ee1f884e704da6304dfaaecff1f023f49b6ca93c4aaae470268"
+    },
+    "/mnt/hdd/data/datasets/COCO-original-2017/captions_val2017.json": {
+      "bytes": 3872473,
+      "sha256": "afe3b30e403dd7f228e2373023abbd60042a6e10ec6874d3652df034d289ebb9"
+    },
+    "/mnt/hdd/data/datasets/COCO-original-2017/instances_val2017.json": {
+      "bytes": 19987840,
+      "sha256": "e8c7f7908f1d7278341fae127d0da654f102f11bd7b21d8aeefa635b8c810b6f"
+    },
+    "/mnt/hdd/data/datasets/COCO-original-2017/val2017.zip": {
+      "bytes": 815585330,
+      "sha256": "4f7e2ccb2866ec5041993c9cf2a952bbed69647b115d0f74da7ce8f4bef82f05"
+    }
+  },
+  "image_members_crc_decode_verified": true,
+  "original_urls": [
+    "https://images.cocodataset.org/zips/val2017.zip",
+    "https://images.cocodataset.org/annotations/annotations_trainval2017.zip"
+  ],
+  "publisher_bucket": "images.cocodataset.org",
+  "publisher_checksum_verified": false,
+  "publisher_dns": [
+    "16.15.160.127",
+    "16.15.213.238",
+    "16.15.229.171",
+    "16.15.236.249",
+    "16.15.236.81",
+    "16.15.254.250",
+    "54.231.161.90",
+    "54.231.201.58"
+  ],
+  "selected_caption_exact_duplicates": {
+    "cross_parent_string_types": 17,
+    "duplicate_rows_beyond_first": 24,
+    "duplicate_string_types": 18,
+    "handling": "preserve every annotation ID and only its recorded parent positive; no text-based invented positives"
+  },
+  "source_header_sha256": {
+    "/mnt/hdd/data/datasets/COCO-original-2017/acquisition/annotations.headers": "780f3aed84672724e68e2fea4b688d850c5ec7b949de1ca650e67afa67e23295",
+    "/mnt/hdd/data/datasets/COCO-original-2017/acquisition/val2017.headers": "48d85034c6d9fd558e565de13aa3566280eaa1809261c139f07ca3b550938743"
+  },
+  "source_validation_seconds": 57.328168487991206,
+  "tls": "certificate verified S3 path-style endpoint; publisher alias hostname mismatch",
+  "used_urls": [
+    "https://s3.amazonaws.com/images.cocodataset.org/zips/val2017.zip",
+    "https://s3.amazonaws.com/images.cocodataset.org/annotations/annotations_trainval2017.zip"
+  ]
+}

@@ -1,5 +1,13 @@
 # Phase C: an external pretrained reference
 
+[ours] Current extension status (2026-10-08): C1-main, C2 and bounded C3 are
+complete; C4 is deferred. C3 uses only the fixed 3,000×768 canonical cache,
+separating storage precision, similarity arithmetic and a fixed mean-injection
+control. See [protocol](c3-protocol.md),
+[tables](../experiments/phaseC_c3/results.md) and
+[interpretation](../experiments/phaseC_c3/interpretation.md).
+The dated integration/pilot protocols below remain historical records.
+
 [measurement] Update 2026-10-08: C1-main and the cache-only C2 comparison are
 complete. See the [C2 tables](../experiments/phaseC_c2/results.md) and
 [qualified assessment](../experiments/phaseC_c2/interpretation.md). C3/C4 remain

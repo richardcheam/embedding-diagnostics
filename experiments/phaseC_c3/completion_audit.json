@@ -1,0 +1,51 @@
+{
+  "ANN_started": false,
+  "C4_started": false,
+  "all_attribute_count_bounds_hold": true,
+  "all_condition_query_ids_aligned": true,
+  "claim_label": "[ours]",
+  "completed_resume_endpoint_calls": 0,
+  "historical_file_hashes_preserved": 40,
+  "identity": {
+    "C3_code_commit": "443459fda0467896d04b12b2b5391ec2f9f0095b",
+    "canonical_matrix_sha256": "6feb8fee1851da3e7b8ef45066d4ad0c6a6b56a3010621792d5cf2f8af980a4e",
+    "freeze_sha256": "ba3e6db606fc0852d8d38b22f38a5a9adbc0ff99725b12f5a84c3082cdcee44d"
+  },
+  "image_decodes": 0,
+  "neural_inference_calls": 0,
+  "pre_resume_hashes_preserved": true,
+  "protocol_deviations": [],
+  "pytest": {
+    "passed": 441,
+    "skipped": 1
+  },
+  "results_sha256": "b2682222054092e7f3c8a4c385df2f4de2f896e3e9732f1a1cbe98e8ed258c21",
+  "ruff": "passed",
+  "source_qualification": {
+    "image_ids": [
+      "synthetic_val_000005",
+      "synthetic_val_000021",
+      "synthetic_val_000029",
+      "synthetic_val_000048",
+      "synthetic_val_000067",
+      "synthetic_val_000116",
+      "synthetic_val_000150",
+      "synthetic_val_000189",
+      "synthetic_val_000210",
+      "synthetic_val_000228",
+      "synthetic_val_000234",
+      "synthetic_val_000361",
+      "synthetic_val_000362",
+      "synthetic_val_000373",
+      "synthetic_val_000375",
+      "synthetic_val_000437",
+      "synthetic_val_000481"
+    ],
+    "inherited_from_accepted_C1_sample": true,
+    "no_rows_removed_or_endpoints_changed": true,
+    "status": "origin unresolved from repository records; prefix alone does not establish image fabrication",
+    "training_synthetic_prefix_ids": 0,
+    "validation_synthetic_prefix_ids": 17
+  },
+  "uv_lock_check": "passed"
+}

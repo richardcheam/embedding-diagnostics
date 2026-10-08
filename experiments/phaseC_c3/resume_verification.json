@@ -1,0 +1,112 @@
+{
+  "C4_started": false,
+  "arithmetic_audit": {
+    "fp32_accumulation_witness": 448.0,
+    "fp64_accumulation_witness": 766.0,
+    "normalization": [
+      "float32",
+      "float64"
+    ],
+    "score_output": [
+      "float32",
+      "float64"
+    ],
+    "verification": "explicit FP32 reductions and BLAS FP32 dot; cancellation witness; no rigorous floating-point certification"
+  },
+  "canonical_cache_preserved": true,
+  "claim_label": "[ours]",
+  "condition_records": 8,
+  "historical_files_preserved": 40,
+  "historical_reference_p10_deltas": {
+    "mean99_ref": {
+      "scene": 0.0,
+      "timeofday": 1.1102230246251565e-16,
+      "weather": 0.0
+    },
+    "native_ref": {
+      "scene": 0.0,
+      "timeofday": 0.0,
+      "weather": 0.0
+    }
+  },
+  "identity": {
+    "C3_code_commit": "443459fda0467896d04b12b2b5391ec2f9f0095b",
+    "canonical_matrix_sha256": "6feb8fee1851da3e7b8ef45066d4ad0c6a6b56a3010621792d5cf2f8af980a4e",
+    "freeze_sha256": "ba3e6db606fc0852d8d38b22f38a5a9adbc0ff99725b12f5a84c3082cdcee44d"
+  },
+  "network_model_image_guards": true,
+  "peak_rss_mib": 686.34765625,
+  "protocol_deviations": [],
+  "support": {
+    "train": {
+      "scene": {
+        "city street": 1243,
+        "gas stations": 1,
+        "highway": 537,
+        "parking lot": 7,
+        "residential": 212,
+        "tunnel": 0
+      },
+      "timeofday": {
+        "dawn/dusk": 146,
+        "daytime": 960,
+        "night": 894
+      },
+      "weather": {
+        "clear": 1172,
+        "foggy": 3,
+        "overcast": 309,
+        "partly cloudy": 164,
+        "rainy": 182,
+        "snowy": 170
+      }
+    },
+    "val": {
+      "scene": {
+        "city street": 577,
+        "gas stations": 4,
+        "highway": 254,
+        "parking lot": 5,
+        "residential": 156,
+        "tunnel": 4
+      },
+      "timeofday": {
+        "dawn/dusk": 78,
+        "daytime": 489,
+        "night": 433
+      },
+      "weather": {
+        "clear": 588,
+        "foggy": 1,
+        "overcast": 152,
+        "partly cloudy": 81,
+        "rainy": 92,
+        "snowy": 86
+      }
+    }
+  },
+  "this_run_endpoint_calls": 0,
+  "threadpools": [
+    {
+      "architecture": "Haswell",
+      "filepath": "/home/richard/projects/embedding-diagnostics/.venv/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-017048f4.so",
+      "internal_api": "openblas",
+      "num_threads": 4,
+      "prefix": "libscipy_openblas",
+      "threading_layer": "pthreads",
+      "user_api": "blas",
+      "version": "0.3.33.112.0"
+    },
+    {
+      "filepath": "/home/richard/projects/embedding-diagnostics/.venv/lib/python3.12/site-packages/torch/lib/libgomp.so.1",
+      "internal_api": "openmp",
+      "num_threads": 4,
+      "prefix": "libgomp",
+      "user_api": "openmp",
+      "version": null
+    }
+  ],
+  "training_rows": 2000,
+  "validation_rows": 1000,
+  "wall_seconds": 1.8971305689774454
+}

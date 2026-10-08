@@ -11,8 +11,18 @@ sample, comparing native 768d, learned MRL and centered train-fitted PCA at
 See the [C1 report](../experiments/phaseC_c1_main/results.md),
 [C2 tables](../experiments/phaseC_c2/results.md) and
 [qualified C2 assessment](../experiments/phaseC_c2/interpretation.md).
-C3/C4 remain deferred. Existing Phase-A/B findings below are unchanged;
+C4 remains deferred. Existing Phase-A/B findings below are unchanged;
 Phase-C scope and uncertainty are stated separately in the frozen protocols.
+
+[ours] Bounded C3 is complete under implementation `443459f` and freeze `50f6659`.
+It separates FP16/INT8 storage from FP32 arithmetic on native cached vectors,
+with one fixed mean-injection rounding control. Identity turnover concentrates
+at smaller reference margins while aggregate attribute P@10 changes much less.
+Prospective bounds are informative for some FP16 cases but cover no INT8 or
+stressed queries; no universal numerical-health verdict follows. See the
+[C3 tables](../experiments/phaseC_c3/results.md) and
+[qualified interpretation](../experiments/phaseC_c3/interpretation.md).
+No inference, new sample, ANN or cross-modal experiment occurred.
 
 This is the plain-language account of what the project asks, what it found, what it had to
 take back, and what is still open. If a term is unfamiliar, look it up in

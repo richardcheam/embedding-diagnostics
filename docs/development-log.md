@@ -1,5 +1,38 @@
 # Development log
 
+## Phase-C C3: bounded numerical instrument study (2026-10-08)
+
+[ours] Final protocol and tested implementation `443459f` preceded freeze
+`50f6659` and all eight new endpoint records. Native 768d is primary; only
+the existing training-fitted mean-injection .99 reference and FP16-gallery
+condition provide a supporting stress. Canonical vectors, sample, dependencies
+and 40 accepted historical files remain unchanged. No encoder/image/ANN/C4 work.
+
+Read-only review caught a backend witness running too late and outside the
+execution thread limit, missing per-row clipping context, and unchecked report
+provenance/completion. Fixed before freezing, with synthetic regression tests.
+Actual normalization/scoring dtypes, backend identity and a matrix cancellation
+witness are checked before endpoints. Ties have an explicit ID ordering; bins
+keep equal reference margins together. Attribute turnover uses entering and
+departing label counts, not arbitrary neighbour pairs.
+
+[ours] Initial invocation 6.226 seconds, peak RSS 744.38 MiB; native FP16 changes
+five neighbour sets, INT8 60/75, FP32 arithmetic zero. Fixed stressed FP16 changes
+195 sets. Attribute P@10 responds much less. No sufficient-check exceptions;
+the prospective bound covers 592/412 native FP16 queries and no INT8/stress
+queries. Completed resume performs zero endpoint calls and preserves record
+bytes. 441 tests pass, one optional accelerator test skips; Ruff/lock pass.
+
+[interpretation] These are conditional numerical responses on a previously
+examined sample. Loose bounds, clipping, coarse labels and unknown sequence
+dependence limit transfer claims. See `experiments/phaseC_c3/interpretation.md`;
+independent replication or a multimodal extension requires a separate decision.
+
+[ours] Final record review additionally identified 17 inherited `synthetic_val_`
+validation IDs with unexplained origins. The prefix is not proof of fabrication;
+no rows or accepted/frozen endpoints were changed. Source qualification is
+explicit in the C3 record and open questions rather than hidden by filtering.
+
 ## Phase-C C2: cache-only matched-dimensional comparison (2026-10-08)
 
 [measurement] Accepted C1 source `0c19a85` was audited before C2 freeze. Its

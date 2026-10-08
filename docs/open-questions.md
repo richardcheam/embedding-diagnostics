@@ -1,5 +1,23 @@
 # Open questions
 
+## After bounded C3 (2026-10-08)
+
+[interpretation] C3 separates neighbour identities from attribute utility on the
+fixed C1 cache, but not instance semantics. Do the small aggregate P@10 changes
+hide meaningful scenario replacements under finer relevance judgments? Does the
+margin/turnover response transfer to independent caches or larger galleries?
+Can a less conservative prospective bound be useful without fitting a new
+threshold after outcomes? Unknown driving-sequence dependence still constrains
+population uncertainty. See the [qualified C3 record](../experiments/phaseC_c3/interpretation.md).
+Independent replication, new inference/data, ANN and C4 remain separate decisions.
+
+[ours] Final C3 record review found 17 accepted validation IDs prefixed
+`synthetic_val_`; their origin is unexplained in repository records. Prefixes
+alone do not establish image fabrication. [interpretation] Audit enriched-source
+image/label provenance before stronger original-BDD claims or independent
+replication; preserve frozen endpoints and do not silently filter afterward.
+See [source qualification](../experiments/phaseC_c3/source_qualification.md).
+
 ## Phase C: after C2 (2026-10-08)
 
 [open] Does the MRL/PCA difference depend on centering, coordinate-wise probe

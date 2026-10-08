@@ -1,0 +1,1661 @@
+{
+  "claim_label": "[measurement]",
+  "paired_effects": [
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        },
+        "val": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        }
+      },
+      "hypothesis": "H1",
+      "severity": 0.0,
+      "status": "predeclared",
+      "transform": "scale_contraction",
+      "variance_ratio": {
+        "train": 1.0,
+        "val": 1.0
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.01200000000000001,
+          "unscaled_balanced_delta": 0.046463766919149885
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0020000000000000018,
+          "unscaled_balanced_delta": -0.0022285144984530714
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.0020000000000000018,
+          "unscaled_balanced_delta": -0.018131616496905312
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -3.552713678800501e-14,
+          "mean_feature_std": -0.004523050274042786,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.0030546720047737227,
+          "participation_ratio": -3.552713678800501e-14,
+          "rankme": -5.115907697472721e-13,
+          "std_pairwise_cosine": -1.3877787807814457e-17,
+          "total_variance": -0.11385117426635405
+        },
+        "val": {
+          "effective_rank": 1.4210854715202004e-14,
+          "mean_feature_std": -0.004520636553056654,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.0030059859958522037,
+          "participation_ratio": 1.4210854715202004e-14,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": -0.11377489754744907
+        }
+      },
+      "hypothesis": "H1",
+      "severity": 0.25,
+      "status": "predeclared",
+      "transform": "scale_contraction",
+      "variance_ratio": {
+        "train": 0.5624999999999999,
+        "val": 0.5625000000000001
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.006000000000000005,
+          "unscaled_balanced_delta": 0.024288945784190052
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.009000000000000008,
+          "unscaled_balanced_delta": 0.00622312900752664
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.007000000000000006,
+          "unscaled_balanced_delta": 0.0098367390917522
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 0.0,
+          "mean_feature_std": -0.009046100548085573,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.006109344009547427,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": -0.19517344159946404
+        },
+        "val": {
+          "effective_rank": 0.0,
+          "mean_feature_std": -0.00904127310611331,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.0060119719917044135,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": -0.19504268150991277
+        }
+      },
+      "hypothesis": "H1",
+      "severity": 0.5,
+      "status": "predeclared",
+      "transform": "scale_contraction",
+      "variance_ratio": {
+        "train": 0.25,
+        "val": 0.25
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.009000000000000008,
+          "unscaled_balanced_delta": -0.024552777623234268
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0010000000000000009,
+          "unscaled_balanced_delta": -0.002910177756803578
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.0020000000000000018,
+          "unscaled_balanced_delta": -0.016002616748857945
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 0.0,
+          "mean_feature_std": -0.01356915082212836,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.00916401601432114,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": -0.24396680199933005
+        },
+        "val": {
+          "effective_rank": 0.0,
+          "mean_feature_std": -0.013561909659169966,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.00901795798755662,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": -0.24380335188739094
+        }
+      },
+      "hypothesis": "H1",
+      "severity": 0.75,
+      "status": "predeclared",
+      "transform": "scale_contraction",
+      "variance_ratio": {
+        "train": 0.0625,
+        "val": 0.0625
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -1.4210854715202004e-14,
+          "mean_feature_std": -0.016282980986554032,
+          "mean_pairwise_cosine": -1.1102230246251565e-16,
+          "min_feature_std": -0.01099681921718537,
+          "participation_ratio": -1.4210854715202004e-14,
+          "rankme": -7.389644451905042e-13,
+          "std_pairwise_cosine": -1.3877787807814457e-17,
+          "total_variance": -0.2576289429112925
+        },
+        "val": {
+          "effective_rank": 5.684341886080802e-14,
+          "mean_feature_std": -0.016274291591003957,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.010821549585067945,
+          "participation_ratio": 5.684341886080802e-14,
+          "rankme": 2.2737367544323206e-13,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": -0.25745633959308484
+        }
+      },
+      "hypothesis": "H1",
+      "severity": 0.9,
+      "status": "predeclared",
+      "transform": "scale_contraction",
+      "variance_ratio": {
+        "train": 0.009999999999999993,
+        "val": 0.009999999999999998
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -2.1316282072803006e-14,
+          "mean_feature_std": -0.017911279085209435,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.012096501138903905,
+          "participation_ratio": -2.1316282072803006e-14,
+          "rankme": -7.389644451905042e-13,
+          "std_pairwise_cosine": -1.3877787807814457e-17,
+          "total_variance": -0.26020523234040543
+        },
+        "val": {
+          "effective_rank": 2.842170943040401e-14,
+          "mean_feature_std": -0.017901720750104353,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": -0.011903704543574738,
+          "participation_ratio": 2.842170943040401e-14,
+          "rankme": 2.2737367544323206e-13,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": -0.2600309029890157
+        }
+      },
+      "hypothesis": "H1",
+      "severity": 0.99,
+      "status": "predeclared",
+      "transform": "scale_contraction",
+      "variance_ratio": {
+        "train": 0.00010000000000000018,
+        "val": 0.00010000000000000021
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        },
+        "val": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        }
+      },
+      "hypothesis": "H4",
+      "severity": 0.0,
+      "status": "predeclared",
+      "transform": "rank_truncation",
+      "variance_ratio": {
+        "train": 1.0,
+        "val": 1.0
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -2.5579538487363607e-13,
+          "mean_feature_std": 2.1163626406917047e-16,
+          "mean_pairwise_cosine": 4.440892098500626e-16,
+          "min_feature_std": -2.0602790307133745e-13,
+          "participation_ratio": -2.5579538487363607e-13,
+          "rankme": -0.0001215521135122799,
+          "std_pairwise_cosine": 2.3592239273284576e-16,
+          "total_variance": -7.216449660063518e-16
+        },
+        "val": {
+          "effective_rank": -4.121147867408581e-13,
+          "mean_feature_std": 2.310651670001107e-13,
+          "mean_pairwise_cosine": 7.771561172376096e-16,
+          "min_feature_std": 8.613561426618066e-11,
+          "participation_ratio": -4.121147867408581e-13,
+          "rankme": -9.502102574288074e-05,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": -1.609823385706477e-15
+        }
+      },
+      "hypothesis": "H4",
+      "severity": 0.25,
+      "status": "predeclared",
+      "transform": "rank_truncation",
+      "variance_ratio": {
+        "train": 0.9999999999999972,
+        "val": 0.9999999999999938
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 9.999999999998899e-05,
+          "standardized_accuracy_delta": 0.006000000000000005,
+          "standardized_balanced_delta": 0.004290620684812785,
+          "unscaled_accuracy_delta": -0.0020000000000000018,
+          "unscaled_balanced_delta": -0.0027144528877631746
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0020000000000000018,
+          "standardized_accuracy_delta": 0.0010000000000000009,
+          "standardized_balanced_delta": 0.004273504273504258,
+          "unscaled_accuracy_delta": -0.0040000000000000036,
+          "unscaled_balanced_delta": -0.006494813413301825
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.0008000000000000229,
+          "standardized_accuracy_delta": -0.006000000000000005,
+          "standardized_balanced_delta": -0.004169816074578003,
+          "unscaled_accuracy_delta": -0.0020000000000000018,
+          "unscaled_balanced_delta": -0.0036673954266849274
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -0.9885456851479475,
+          "mean_feature_std": -0.00012201943655418962,
+          "mean_pairwise_cosine": 0.0023974754755926586,
+          "min_feature_std": -0.00011234779766147035,
+          "participation_ratio": -0.9885456851479475,
+          "rankme": -54.37750077804276,
+          "std_pairwise_cosine": -0.0001422091760265587,
+          "total_variance": -0.003276562576374986
+        },
+        "val": {
+          "effective_rank": -1.9507286645641173,
+          "mean_feature_std": -0.00028651590602616836,
+          "mean_pairwise_cosine": 0.005672878000622328,
+          "min_feature_std": -0.00012707268085209757,
+          "participation_ratio": -1.9507286645641173,
+          "rankme": -50.91535776446682,
+          "std_pairwise_cosine": -0.001981913277678854,
+          "total_variance": -0.007885374294848702
+        }
+      },
+      "hypothesis": "H4",
+      "severity": 0.5,
+      "status": "predeclared",
+      "transform": "rank_truncation",
+      "variance_ratio": {
+        "train": 0.9874090352040603,
+        "val": 0.9696782741328546
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0031999999999999806,
+          "standardized_accuracy_delta": -0.006000000000000005,
+          "standardized_balanced_delta": -0.014200002262748646,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": -0.0016488323574938013
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.009199999999999986,
+          "standardized_accuracy_delta": -0.0010000000000000009,
+          "standardized_balanced_delta": -0.0006816632583502846,
+          "unscaled_accuracy_delta": 0.010000000000000009,
+          "unscaled_balanced_delta": 0.003401110933096252
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.0040000000000000036,
+          "standardized_accuracy_delta": -0.01100000000000001,
+          "standardized_balanced_delta": -0.01727231669674978,
+          "unscaled_accuracy_delta": -0.0030000000000000027,
+          "unscaled_balanced_delta": -0.009131768491745795
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -7.206453432208143,
+          "mean_feature_std": -0.0009471946519228024,
+          "mean_pairwise_cosine": 0.018696151702931374,
+          "min_feature_std": -0.0010801290621460253,
+          "participation_ratio": -7.206453432208143,
+          "rankme": -166.35969744243326,
+          "std_pairwise_cosine": -0.0024655072850032628,
+          "total_variance": -0.025083228706058308
+        },
+        "val": {
+          "effective_rank": -9.552780079693285,
+          "mean_feature_std": -0.0014252493385769616,
+          "mean_pairwise_cosine": 0.028511919370770578,
+          "min_feature_std": -0.0015126120292314124,
+          "participation_ratio": -9.552780079693285,
+          "rankme": -153.72158084532606,
+          "std_pairwise_cosine": -0.007391486379838469,
+          "total_variance": -0.03771174764785287
+        }
+      },
+      "hypothesis": "H4",
+      "severity": 0.75,
+      "status": "predeclared",
+      "transform": "rank_truncation",
+      "variance_ratio": {
+        "train": 0.9036117753759209,
+        "val": 0.8549865572143902
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.010599999999999943,
+          "standardized_accuracy_delta": 0.0020000000000000018,
+          "standardized_balanced_delta": -0.013919054012395904,
+          "unscaled_accuracy_delta": -0.0020000000000000018,
+          "unscaled_balanced_delta": -0.003449088094757413
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.018299999999999983,
+          "standardized_accuracy_delta": 0.008000000000000007,
+          "standardized_balanced_delta": 0.02350067082494567,
+          "unscaled_accuracy_delta": 0.015000000000000013,
+          "unscaled_balanced_delta": 0.01758495027031004
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.007500000000000062,
+          "standardized_accuracy_delta": -0.0050000000000000044,
+          "standardized_balanced_delta": -0.02220742498281636,
+          "unscaled_accuracy_delta": -0.020000000000000018,
+          "unscaled_balanced_delta": -0.04419359295623515
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -19.030113174953858,
+          "mean_feature_std": -0.0029406250439214677,
+          "mean_pairwise_cosine": 0.05860824330437975,
+          "min_feature_std": -0.003278263207058353,
+          "participation_ratio": -19.030113174953858,
+          "rankme": -243.8873986144021,
+          "std_pairwise_cosine": -0.010178561161551393,
+          "total_variance": -0.0741544728857503
+        },
+        "val": {
+          "effective_rank": -20.585325685504486,
+          "mean_feature_std": -0.003484030288081504,
+          "mean_pairwise_cosine": 0.07013742638359999,
+          "min_feature_std": -0.0035577674940426556,
+          "participation_ratio": -20.585325685504486,
+          "rankme": -226.0385867496343,
+          "std_pairwise_cosine": -0.015202755973379584,
+          "total_variance": -0.08685181498891573
+        }
+      },
+      "hypothesis": "H4",
+      "severity": 0.9,
+      "status": "predeclared",
+      "transform": "rank_truncation",
+      "variance_ratio": {
+        "train": 0.7150439413860012,
+        "val": 0.666027657446987
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.03579999999999994,
+          "standardized_accuracy_delta": 0.0040000000000000036,
+          "standardized_balanced_delta": -0.010963396773110312,
+          "unscaled_accuracy_delta": 0.008000000000000007,
+          "unscaled_balanced_delta": 0.04259391252936473
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0262,
+          "standardized_accuracy_delta": -0.0050000000000000044,
+          "standardized_balanced_delta": -0.05710961215431365,
+          "unscaled_accuracy_delta": 0.0020000000000000018,
+          "unscaled_balanced_delta": -0.0523379693458611
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.051000000000000045,
+          "standardized_accuracy_delta": -0.17100000000000004,
+          "standardized_balanced_delta": -0.3023495575221832,
+          "unscaled_accuracy_delta": -0.18000000000000005,
+          "unscaled_balanced_delta": -0.2969781743668559
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -35.14073770849528,
+          "mean_feature_std": -0.008564348880262208,
+          "mean_pairwise_cosine": 0.16277711901173164,
+          "min_feature_std": -0.009882607791524651,
+          "participation_ratio": -35.14073770849528,
+          "rankme": -287.323488053857,
+          "std_pairwise_cosine": -0.01842175002456639,
+          "total_variance": -0.1788543779839003
+        },
+        "val": {
+          "effective_rank": -34.93369867312665,
+          "mean_feature_std": -0.008718916008620932,
+          "mean_pairwise_cosine": 0.16619556840005356,
+          "min_feature_std": -0.009655326425850057,
+          "participation_ratio": -34.93369867312665,
+          "rankme": -267.29227856433687,
+          "std_pairwise_cosine": -0.02153279399963067,
+          "total_variance": -0.1813596034413078
+        }
+      },
+      "hypothesis": "H4",
+      "severity": 0.99,
+      "status": "predeclared",
+      "transform": "rank_truncation",
+      "variance_ratio": {
+        "train": 0.31270985238242793,
+        "val": 0.3026157068391831
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        },
+        "val": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        }
+      },
+      "hypothesis": "H2",
+      "severity": 0.0,
+      "status": "predeclared",
+      "transform": "mean_injection",
+      "variance_ratio": {
+        "train": 1.0,
+        "val": 1.0
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0012999999999999678,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.00029999999999996696,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0006999999999999229,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.019893194439052242,
+          "min_feature_std": -1.0408340855860843e-17,
+          "participation_ratio": 0.0,
+          "rankme": -4.786232114488655,
+          "std_pairwise_cosine": -0.005953934837688496,
+          "total_variance": 0.0
+        },
+        "val": {
+          "effective_rank": 1.4210854715202004e-14,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.019852360253911905,
+          "min_feature_std": -1.734723475976807e-18,
+          "participation_ratio": 1.4210854715202004e-14,
+          "rankme": -4.613244898237497,
+          "std_pairwise_cosine": -0.005916751670519707,
+          "total_variance": 5.551115123125783e-17
+        }
+      },
+      "hypothesis": "H2",
+      "severity": 0.25,
+      "status": "predeclared",
+      "transform": "mean_injection",
+      "variance_ratio": {
+        "train": 1.0,
+        "val": 1.0000000000000002
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0023999999999999577,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.000500000000000056,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.000500000000000056,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -4.973799150320701e-14,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.12439166009017211,
+          "min_feature_std": 3.469446951953614e-18,
+          "participation_ratio": -4.973799150320701e-14,
+          "rankme": -41.984813940243384,
+          "std_pairwise_cosine": -0.034706185193741565,
+          "total_variance": 5.551115123125783e-17
+        },
+        "val": {
+          "effective_rank": 1.4210854715202004e-14,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.12427910096237549,
+          "min_feature_std": 3.469446951953614e-18,
+          "participation_ratio": 1.4210854715202004e-14,
+          "rankme": -40.144801054941155,
+          "std_pairwise_cosine": -0.0354298979013504,
+          "total_variance": 5.551115123125783e-17
+        }
+      },
+      "hypothesis": "H2",
+      "severity": 0.5,
+      "status": "predeclared",
+      "transform": "mean_injection",
+      "variance_ratio": {
+        "train": 1.0000000000000002,
+        "val": 1.0000000000000002
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0019000000000000128,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0008000000000000229,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0009000000000000119,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -7.105427357601002e-15,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.2335599691189304,
+          "min_feature_std": -6.938893903907228e-18,
+          "participation_ratio": -7.105427357601002e-15,
+          "rankme": -157.29139705068184,
+          "std_pairwise_cosine": -0.0644090145820751,
+          "total_variance": 0.0
+        },
+        "val": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.2333988107739441,
+          "min_feature_std": -6.938893903907228e-18,
+          "participation_ratio": 0.0,
+          "rankme": -148.61674682452798,
+          "std_pairwise_cosine": -0.06607476130291244,
+          "total_variance": 0.0
+        }
+      },
+      "hypothesis": "H2",
+      "severity": 0.75,
+      "status": "predeclared",
+      "transform": "mean_injection",
+      "variance_ratio": {
+        "train": 1.0,
+        "val": 1.0
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0015999999999999348,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 9.999999999998899e-05,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.0008000000000000229,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -4.973799150320701e-14,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.2570325233667877,
+          "min_feature_std": -5.204170427930421e-18,
+          "participation_ratio": -4.973799150320701e-14,
+          "rankme": -257.74385580374025,
+          "std_pairwise_cosine": -0.0708259348273896,
+          "total_variance": 5.551115123125783e-17
+        },
+        "val": {
+          "effective_rank": 2.842170943040401e-14,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.25685996040336845,
+          "min_feature_std": -6.938893903907228e-18,
+          "participation_ratio": 2.842170943040401e-14,
+          "rankme": -240.74091754083787,
+          "std_pairwise_cosine": -0.07268079171951752,
+          "total_variance": 5.551115123125783e-17
+        }
+      },
+      "hypothesis": "H2",
+      "severity": 0.9,
+      "status": "predeclared",
+      "transform": "mean_injection",
+      "variance_ratio": {
+        "train": 1.0000000000000002,
+        "val": 1.0000000000000002
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0010000000000000009,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.0007000000000000339,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.0007000000000000339,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0010000000000000009,
+          "unscaled_balanced_delta": 0.0013157894736842701
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -1.4210854715202004e-14,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.2602047230810499,
+          "min_feature_std": -1.734723475976807e-18,
+          "participation_ratio": -1.4210854715202004e-14,
+          "rankme": -289.9128583401517,
+          "std_pairwise_cosine": -0.07169750261217184,
+          "total_variance": -5.551115123125783e-17
+        },
+        "val": {
+          "effective_rank": 2.842170943040401e-14,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.2600303925328875,
+          "min_feature_std": -1.214306433183765e-17,
+          "participation_ratio": 2.842170943040401e-14,
+          "rankme": -269.88435137000283,
+          "std_pairwise_cosine": -0.07357618915069757,
+          "total_variance": 5.551115123125783e-17
+        }
+      },
+      "hypothesis": "H2",
+      "severity": 0.99,
+      "status": "predeclared",
+      "transform": "mean_injection",
+      "variance_ratio": {
+        "train": 0.9999999999999998,
+        "val": 1.0000000000000002
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        },
+        "val": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        }
+      },
+      "hypothesis": "H3",
+      "severity": 0.0,
+      "status": "predeclared",
+      "transform": "isotropic_noise",
+      "variance_ratio": {
+        "train": 1.0,
+        "val": 1.0
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": -0.008500000000000063,
+          "standardized_accuracy_delta": -0.017000000000000015,
+          "standardized_balanced_delta": -0.019977009772858434,
+          "unscaled_accuracy_delta": -0.0030000000000000027,
+          "unscaled_balanced_delta": -0.008793723974744427
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.0040999999999999925,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": -0.010687363363088398,
+          "unscaled_accuracy_delta": 0.01100000000000001,
+          "unscaled_balanced_delta": 0.00040277349391959483
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.006300000000000083,
+          "standardized_accuracy_delta": -0.016000000000000014,
+          "standardized_balanced_delta": -0.028672164372068765,
+          "unscaled_accuracy_delta": -0.02200000000000002,
+          "unscaled_balanced_delta": -0.03943649468254706
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 35.67097569841148,
+          "mean_feature_std": 0.003699898405633069,
+          "mean_pairwise_cosine": -0.07391152266368695,
+          "min_feature_std": 0.004663452903561486,
+          "participation_ratio": 35.67097569841148,
+          "rankme": 247.3395932236677,
+          "std_pairwise_cosine": -0.006060474598871685,
+          "total_variance": 0.1108724529456025
+        },
+        "val": {
+          "effective_rank": 33.55446288504767,
+          "mean_feature_std": 0.003700150316788574,
+          "mean_pairwise_cosine": -0.0735852895458049,
+          "min_feature_std": 0.004527167607232025,
+          "participation_ratio": 33.55446288504767,
+          "rankme": 218.56645767580585,
+          "std_pairwise_cosine": -0.006580048895965501,
+          "total_variance": 0.11095101780151279
+        }
+      },
+      "hypothesis": "H3",
+      "severity": 0.25,
+      "status": "predeclared",
+      "transform": "isotropic_noise",
+      "variance_ratio": {
+        "train": 1.426053560503645,
+        "val": 1.4266413008011551
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": -0.09120000000000006,
+          "standardized_accuracy_delta": -0.06000000000000005,
+          "standardized_balanced_delta": -0.09004701968579742,
+          "unscaled_accuracy_delta": -0.03500000000000003,
+          "unscaled_balanced_delta": -0.05306577379067445
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.0927,
+          "standardized_accuracy_delta": -0.014000000000000012,
+          "standardized_balanced_delta": -0.04581433449793715,
+          "unscaled_accuracy_delta": -0.016000000000000014,
+          "unscaled_balanced_delta": -0.10131975528906634
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.06610000000000005,
+          "standardized_accuracy_delta": -0.134,
+          "standardized_balanced_delta": -0.20315285414224615,
+          "unscaled_accuracy_delta": -0.12,
+          "unscaled_balanced_delta": -0.23251138664064308
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 318.8828420283297,
+          "mean_feature_std": 0.022362061550310296,
+          "mean_pairwise_cosine": -0.37014551014493063,
+          "min_feature_std": 0.025214960352019845,
+          "participation_ratio": 318.8828420283297,
+          "rankme": 379.73798941670606,
+          "std_pairwise_cosine": -0.02648174259610943,
+          "total_variance": 0.9989778876511615
+        },
+        "val": {
+          "effective_rank": 263.1080059009713,
+          "mean_feature_std": 0.022367904193840066,
+          "mean_pairwise_cosine": -0.36893375957148916,
+          "min_feature_std": 0.02444256565999252,
+          "participation_ratio": 263.1080059009713,
+          "rankme": 344.2967296522714,
+          "std_pairwise_cosine": -0.02769202809014963,
+          "total_variance": 0.9993611066646189
+        }
+      },
+      "hypothesis": "H3",
+      "severity": 0.5,
+      "status": "predeclared",
+      "transform": "isotropic_noise",
+      "variance_ratio": {
+        "train": 4.838808239473237,
+        "val": 4.8428554416709595
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": -0.19030000000000002,
+          "standardized_accuracy_delta": -0.17800000000000005,
+          "standardized_balanced_delta": -0.23566236662758172,
+          "unscaled_accuracy_delta": -0.14,
+          "unscaled_balanced_delta": -0.21623838897887387
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.3033,
+          "standardized_accuracy_delta": -0.15700000000000003,
+          "standardized_balanced_delta": -0.18818017223350247,
+          "unscaled_accuracy_delta": -0.129,
+          "unscaled_balanced_delta": -0.18504783934302627
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.15220000000000006,
+          "standardized_accuracy_delta": -0.26,
+          "standardized_balanced_delta": -0.3620123020086528,
+          "unscaled_accuracy_delta": -0.19600000000000006,
+          "unscaled_balanced_delta": -0.4069458025229025
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 509.830358479481,
+          "mean_feature_std": 0.09166577601561182,
+          "mean_pairwise_cosine": -0.6662299957778788,
+          "min_feature_std": 0.09239682267607086,
+          "participation_ratio": 509.830358479481,
+          "rankme": 424.76350593471983,
+          "std_pairwise_cosine": -0.035328117337000524,
+          "total_variance": 8.994178422282669
+        },
+        "val": {
+          "effective_rank": 391.0300084879962,
+          "mean_feature_std": 0.09167462950082005,
+          "mean_pairwise_cosine": -0.6651431522765106,
+          "min_feature_std": 0.0898868392646153,
+          "participation_ratio": 391.0300084879962,
+          "rankme": 388.1063809035251,
+          "std_pairwise_cosine": -0.03718251403635193,
+          "total_variance": 8.996655799334581
+        }
+      },
+      "hypothesis": "H3",
+      "severity": 0.75,
+      "status": "predeclared",
+      "transform": "isotropic_noise",
+      "variance_ratio": {
+        "train": 35.56225274008042,
+        "val": 35.59495017842033
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": -0.201,
+          "standardized_accuracy_delta": -0.252,
+          "standardized_balanced_delta": -0.3217393119820827,
+          "unscaled_accuracy_delta": -0.18400000000000005,
+          "unscaled_balanced_delta": -0.2867393125652654
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.36350000000000005,
+          "standardized_accuracy_delta": -0.39,
+          "standardized_balanced_delta": -0.3673044801709135,
+          "unscaled_accuracy_delta": -0.3360000000000001,
+          "unscaled_balanced_delta": -0.33417466491752046
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.17380000000000007,
+          "standardized_accuracy_delta": -0.30600000000000005,
+          "standardized_balanced_delta": -0.4022958659079421,
+          "unscaled_accuracy_delta": -0.20400000000000007,
+          "unscaled_balanced_delta": -0.4077155841197518
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 514.9608512850212,
+          "mean_feature_std": 0.30706510967576606,
+          "mean_pairwise_cosine": -0.7309286472314834,
+          "min_feature_std": 0.2986093363587522,
+          "participation_ratio": 514.9608512850212,
+          "rankme": 433.40349144821795,
+          "std_pairwise_cosine": -0.0356122641015581,
+          "total_variance": 80.95773810081072
+        },
+        "val": {
+          "effective_rank": 394.6268681402807,
+          "mean_feature_std": 0.30707253016851715,
+          "mean_pairwise_cosine": -0.7305702520198006,
+          "min_feature_std": 0.29177634798332747,
+          "participation_ratio": 394.6268681402807,
+          "rankme": 396.66073394812867,
+          "std_pairwise_cosine": -0.03750099016228952,
+          "total_variance": 80.97711971207032
+        }
+      },
+      "hypothesis": "H3",
+      "severity": 0.9,
+      "status": "predeclared",
+      "transform": "isotropic_noise",
+      "variance_ratio": {
+        "train": 312.0992104151878,
+        "val": 312.3823052159282
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": -0.20350000000000001,
+          "standardized_accuracy_delta": -0.269,
+          "standardized_balanced_delta": -0.3428490957694413,
+          "unscaled_accuracy_delta": -0.303,
+          "unscaled_balanced_delta": -0.2702437866843767
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.37420000000000003,
+          "standardized_accuracy_delta": -0.47300000000000003,
+          "standardized_balanced_delta": -0.42829051473265756,
+          "unscaled_accuracy_delta": -0.48600000000000004,
+          "unscaled_balanced_delta": -0.4196337304273093
+        },
+        "weather": {
+          "retrieval_p10_delta": -0.17860000000000004,
+          "standardized_accuracy_delta": -0.326,
+          "standardized_balanced_delta": -0.42504931318135963,
+          "unscaled_accuracy_delta": -0.453,
+          "unscaled_balanced_delta": -0.41002672694383013
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 514.925548090763,
+          "mean_feature_std": 3.553050709546612,
+          "mean_pairwise_cosine": -0.7397198281337565,
+          "min_feature_std": 3.404285640878281,
+          "participation_ratio": 514.925548090763,
+          "rankme": 434.45980772919035,
+          "std_pairwise_cosine": -0.035613811175340127,
+          "total_variance": 9796.44358671274
+        },
+        "val": {
+          "effective_rank": 394.70409377151867,
+          "mean_feature_std": 3.553015607395446,
+          "mean_pairwise_cosine": -0.7397896529377959,
+          "min_feature_std": 3.330770057371094,
+          "participation_ratio": 394.70409377151867,
+          "rankme": 397.77172757882846,
+          "std_pairwise_cosine": -0.0375024692782085,
+          "total_variance": 9798.628448653733
+        }
+      },
+      "hypothesis": "H3",
+      "severity": 0.99,
+      "status": "predeclared",
+      "transform": "isotropic_noise",
+      "variance_ratio": {
+        "train": 37646.14592673315,
+        "val": 37679.785379685214
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        },
+        "val": {
+          "effective_rank": 0.0,
+          "mean_feature_std": 0.0,
+          "mean_pairwise_cosine": 0.0,
+          "min_feature_std": 0.0,
+          "participation_ratio": 0.0,
+          "rankme": 0.0,
+          "std_pairwise_cosine": 0.0,
+          "total_variance": 0.0
+        }
+      },
+      "hypothesis": null,
+      "severity": 0.0,
+      "status": "exploratory",
+      "transform": "mean_interpolation",
+      "variance_ratio": {
+        "train": 1.0,
+        "val": 1.0
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": -0.00019999999999997797,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.01200000000000001,
+          "unscaled_balanced_delta": 0.046463766919149885
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -9.999999999998899e-05,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0020000000000000018,
+          "unscaled_balanced_delta": -0.0022285144984530714
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0009000000000000119,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.0020000000000000018,
+          "unscaled_balanced_delta": -0.018131616496905312
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -3.552713678800501e-14,
+          "mean_feature_std": -0.004523050274042786,
+          "mean_pairwise_cosine": 0.09462714761482616,
+          "min_feature_std": -0.0030546720047737123,
+          "participation_ratio": -3.552713678800501e-14,
+          "rankme": -29.010610146109173,
+          "std_pairwise_cosine": -0.024635671247578747,
+          "total_variance": -0.11385117426635405
+        },
+        "val": {
+          "effective_rank": 4.263256414560601e-14,
+          "mean_feature_std": -0.004520636553056654,
+          "mean_pairwise_cosine": 0.09452481723072637,
+          "min_feature_std": -0.0030059859958522055,
+          "participation_ratio": 4.263256414560601e-14,
+          "rankme": -27.73489060853194,
+          "std_pairwise_cosine": -0.025215930338819248,
+          "total_variance": -0.1137748975474491
+        }
+      },
+      "hypothesis": null,
+      "severity": 0.25,
+      "status": "exploratory",
+      "transform": "mean_interpolation",
+      "variance_ratio": {
+        "train": 0.5624999999999999,
+        "val": 0.5625
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0008000000000000229,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.006000000000000005,
+          "unscaled_balanced_delta": 0.024288945784190052
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.0016000000000000458,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.009000000000000008,
+          "unscaled_balanced_delta": 0.00622312900752664
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0017999999999999128,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.007000000000000006,
+          "unscaled_balanced_delta": 0.0098367390917522
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 7.105427357601002e-15,
+          "mean_feature_std": -0.009046100548085573,
+          "mean_pairwise_cosine": 0.17919835345256585,
+          "min_feature_std": -0.006109344009547431,
+          "participation_ratio": 7.105427357601002e-15,
+          "rankme": -78.61688510683572,
+          "std_pairwise_cosine": -0.048369732743607105,
+          "total_variance": -0.19517344159946404
+        },
+        "val": {
+          "effective_rank": 7.105427357601002e-15,
+          "mean_feature_std": -0.00904127310611331,
+          "mean_pairwise_cosine": 0.17905470370305965,
+          "min_feature_std": -0.006011971991704414,
+          "participation_ratio": 7.105427357601002e-15,
+          "rankme": -74.83518014024767,
+          "std_pairwise_cosine": -0.04959019641588927,
+          "total_variance": -0.19504268150991277
+        }
+      },
+      "hypothesis": null,
+      "severity": 0.5,
+      "status": "exploratory",
+      "transform": "mean_interpolation",
+      "variance_ratio": {
+        "train": 0.25,
+        "val": 0.25
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.0006999999999999229,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.009000000000000008,
+          "unscaled_balanced_delta": -0.024552777623234268
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.0019000000000000128,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0010000000000000009,
+          "unscaled_balanced_delta": -0.002910177756803578
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0009000000000000119,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.0020000000000000018,
+          "unscaled_balanced_delta": -0.016002616748857945
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": 7.105427357601002e-15,
+          "mean_feature_std": -0.01356915082212836,
+          "mean_pairwise_cosine": 0.23875120205806943,
+          "min_feature_std": -0.009164016014321145,
+          "participation_ratio": 7.105427357601002e-15,
+          "rankme": -171.65816651365532,
+          "std_pairwise_cosine": -0.06559682884127242,
+          "total_variance": -0.24396680199933005
+        },
+        "val": {
+          "effective_rank": 2.842170943040401e-14,
+          "mean_feature_std": -0.013561909659169966,
+          "mean_pairwise_cosine": 0.23858961202609152,
+          "min_feature_std": -0.00901795798755662,
+          "participation_ratio": 2.842170943040401e-14,
+          "rankme": -161.91969302217305,
+          "std_pairwise_cosine": -0.06730660902521443,
+          "total_variance": -0.24380335188739094
+        }
+      },
+      "hypothesis": null,
+      "severity": 0.75,
+      "status": "exploratory",
+      "transform": "mean_interpolation",
+      "variance_ratio": {
+        "train": 0.0625,
+        "val": 0.06250000000000001
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": 0.00039999999999995595,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.0015000000000000568,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0004999999999999449,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -7.105427357601002e-15,
+          "mean_feature_std": -0.016282980986554032,
+          "mean_pairwise_cosine": 0.25674610627487426,
+          "min_feature_std": -0.01099681921718537,
+          "participation_ratio": -7.105427357601002e-15,
+          "rankme": -255.40524533085775,
+          "std_pairwise_cosine": -0.07073506624697024,
+          "total_variance": -0.2576289429112925
+        },
+        "val": {
+          "effective_rank": 1.4210854715202004e-14,
+          "mean_feature_std": -0.016274291591003957,
+          "mean_pairwise_cosine": 0.25657473720759316,
+          "min_feature_std": -0.010821549585067945,
+          "participation_ratio": 1.4210854715202004e-14,
+          "rankme": -238.62269199648512,
+          "std_pairwise_cosine": -0.07258798257014239,
+          "total_variance": -0.25745633959308484
+        }
+      },
+      "hypothesis": null,
+      "severity": 0.9,
+      "status": "exploratory",
+      "transform": "mean_interpolation",
+      "variance_ratio": {
+        "train": 0.009999999999999995,
+        "val": 0.009999999999999998
+      }
+    },
+    {
+      "attributes": {
+        "scene": {
+          "retrieval_p10_delta": -9.999999999998899e-05,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "timeofday": {
+          "retrieval_p10_delta": -0.0013000000000000789,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": 0.0,
+          "unscaled_balanced_delta": 0.0
+        },
+        "weather": {
+          "retrieval_p10_delta": 0.0007999999999999119,
+          "standardized_accuracy_delta": 0.0,
+          "standardized_balanced_delta": 0.0,
+          "unscaled_accuracy_delta": -0.0010000000000000009,
+          "unscaled_balanced_delta": -0.0023255813953488857
+        }
+      },
+      "geometry_delta": {
+        "train": {
+          "effective_rank": -5.684341886080802e-14,
+          "mean_feature_std": -0.017911279085209435,
+          "mean_pairwise_cosine": 0.260196388824693,
+          "min_feature_std": -0.012096501138903905,
+          "participation_ratio": -5.684341886080802e-14,
+          "rankme": -289.7221231171371,
+          "std_pairwise_cosine": -0.07169528195893139,
+          "total_variance": -0.26020523234040543
+        },
+        "val": {
+          "effective_rank": 1.4210854715202004e-14,
+          "mean_feature_std": -0.017901720750104353,
+          "mean_pairwise_cosine": 0.2600220790078023,
+          "min_feature_std": -0.011903704543574738,
+          "participation_ratio": 1.4210854715202004e-14,
+          "rankme": -269.70662487989165,
+          "std_pairwise_cosine": -0.07357391304208057,
+          "total_variance": -0.2600309029890157
+        }
+      },
+      "hypothesis": null,
+      "severity": 0.99,
+      "status": "exploratory",
+      "transform": "mean_interpolation",
+      "variance_ratio": {
+        "train": 0.00010000000000000018,
+        "val": 0.00010000000000000021
+      }
+    }
+  ],
+  "uncertainty": {
+    "confidence_intervals": null,
+    "method": "repository paired training-seed Student-t",
+    "status": "not estimable for one fixed pretrained encoder",
+    "training_seed_replicates": 0
+  }
+}

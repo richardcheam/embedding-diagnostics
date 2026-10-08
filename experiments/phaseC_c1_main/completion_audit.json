@@ -1,0 +1,54 @@
+{
+  "C2_started": false,
+  "all_finite": true,
+  "cache_provenance_verified": true,
+  "claim_label": "[measurement]",
+  "committed_freeze_verified": true,
+  "exact_sample_alignment": true,
+  "fit_count_convention": "Counts are saved fit records, including five severity-zero copies of pristine fits; not independent fits or replications.",
+  "fit_summary": {
+    "probe_standardized_final": {
+      "boundary": 90,
+      "fits": 93,
+      "max_iter_reached": 0,
+      "nonconverged": 0
+    },
+    "probe_standardized_inner_C_selection": {
+      "boundary": 186,
+      "fits": 744,
+      "max_iter_reached": 34,
+      "nonconverged": 34
+    },
+    "probe_unscaled_final": {
+      "boundary": 9,
+      "fits": 93,
+      "max_iter_reached": 4,
+      "nonconverged": 4
+    },
+    "probe_unscaled_inner_C_selection": {
+      "boundary": 186,
+      "fits": 837,
+      "max_iter_reached": 80,
+      "nonconverged": 80
+    }
+  },
+  "norm_range": [
+    0.9999998211860657,
+    1.0000001192092896
+  ],
+  "pilot_unchanged": true,
+  "protocol_deviations": [],
+  "ruff": "passed",
+  "shape": [
+    3000,
+    768
+  ],
+  "stress_evaluation_seconds": 6425.288367468282,
+  "stress_records": 30,
+  "tests": {
+    "passed": 401,
+    "skipped": 1
+  },
+  "uncertainty": "training-seed intervals unavailable; descriptive paired effects",
+  "unique_image_byte_hashes": 3000
+}

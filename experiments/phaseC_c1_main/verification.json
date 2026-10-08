@@ -1,0 +1,33 @@
+{
+  "claim_label": "[measurement]",
+  "eligible_probe_classes": {
+    "scene": [
+      "city street",
+      "highway",
+      "residential"
+    ],
+    "timeofday": [
+      "dawn/dusk",
+      "daytime",
+      "night"
+    ],
+    "weather": [
+      "clear",
+      "overcast",
+      "partly cloudy",
+      "rainy",
+      "snowy"
+    ]
+  },
+  "main_freeze_sha256": "ee1b93e7f39787a608ec008903dab45c2e6e3a3f9401428c917ceb3ae40d9beb",
+  "phase_b_thresholds_applied": false,
+  "pilot_ID_overlap": 0,
+  "primary_probe": "standardized",
+  "shape": [
+    3000,
+    768
+  ],
+  "stress_records": 30,
+  "train_count": 2000,
+  "validation_count": 1000
+}

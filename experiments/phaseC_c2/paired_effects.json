@@ -1,0 +1,261 @@
+{
+  "128_minus_larger": {
+    "mrl": {
+      "256": {
+        "scene": {
+          "accuracy_delta": -0.016000000000000014,
+          "balanced_accuracy_delta": -0.026925223035295542,
+          "retrieval_p10_delta": -0.013999999999999901
+        },
+        "timeofday": {
+          "accuracy_delta": 0.01200000000000001,
+          "balanced_accuracy_delta": -0.027562131686588054,
+          "retrieval_p10_delta": -0.017300000000000093
+        },
+        "weather": {
+          "accuracy_delta": -0.027000000000000024,
+          "balanced_accuracy_delta": -0.05931499997472567,
+          "retrieval_p10_delta": -0.00990000000000002
+        }
+      },
+      "512": {
+        "scene": {
+          "accuracy_delta": -0.014000000000000012,
+          "balanced_accuracy_delta": -0.03420993269722106,
+          "retrieval_p10_delta": -0.01429999999999998
+        },
+        "timeofday": {
+          "accuracy_delta": -0.006000000000000005,
+          "balanced_accuracy_delta": -0.029321026338552714,
+          "retrieval_p10_delta": -0.01970000000000005
+        },
+        "weather": {
+          "accuracy_delta": -0.03500000000000003,
+          "balanced_accuracy_delta": -0.07602739381180679,
+          "retrieval_p10_delta": -0.014100000000000001
+        }
+      }
+    },
+    "pca": {
+      "256": {
+        "scene": {
+          "accuracy_delta": 0.019000000000000017,
+          "balanced_accuracy_delta": 0.014829052247685048,
+          "retrieval_p10_delta": 0.0024000000000000687
+        },
+        "timeofday": {
+          "accuracy_delta": -0.0030000000000000027,
+          "balanced_accuracy_delta": 0.02660157866380697,
+          "retrieval_p10_delta": 0.006099999999999994
+        },
+        "weather": {
+          "accuracy_delta": 0.01100000000000001,
+          "balanced_accuracy_delta": 0.03426417703515905,
+          "retrieval_p10_delta": 0.0015000000000000568
+        }
+      },
+      "512": {
+        "scene": {
+          "accuracy_delta": 0.025000000000000022,
+          "balanced_accuracy_delta": 0.014352737803521753,
+          "retrieval_p10_delta": 0.0040999999999999925
+        },
+        "timeofday": {
+          "accuracy_delta": 0.0010000000000000009,
+          "balanced_accuracy_delta": 0.02941639137958163,
+          "retrieval_p10_delta": 0.008700000000000041
+        },
+        "weather": {
+          "accuracy_delta": 0.04300000000000004,
+          "balanced_accuracy_delta": 0.06890144401668408,
+          "retrieval_p10_delta": 0.0043000000000000815
+        }
+      }
+    }
+  },
+  "MRL_minus_PCA": {
+    "128": {
+      "scene": {
+        "accuracy_delta": -0.01200000000000001,
+        "balanced_accuracy_delta": -0.013078833583343608,
+        "retrieval_p10_delta": -0.014100000000000001
+      },
+      "timeofday": {
+        "accuracy_delta": 0.0,
+        "balanced_accuracy_delta": -0.03942209148431974,
+        "retrieval_p10_delta": -0.03270000000000006
+      },
+      "weather": {
+        "accuracy_delta": -0.028000000000000025,
+        "balanced_accuracy_delta": -0.07303580792491393,
+        "retrieval_p10_delta": 0.0011999999999999789
+      }
+    },
+    "256": {
+      "scene": {
+        "accuracy_delta": 0.02300000000000002,
+        "balanced_accuracy_delta": 0.028675441699636983,
+        "retrieval_p10_delta": 0.0022999999999999687
+      },
+      "timeofday": {
+        "accuracy_delta": -0.015000000000000013,
+        "balanced_accuracy_delta": 0.014741618866075279,
+        "retrieval_p10_delta": -0.009299999999999975
+      },
+      "weather": {
+        "accuracy_delta": 0.010000000000000009,
+        "balanced_accuracy_delta": 0.020543369084970786,
+        "retrieval_p10_delta": 0.012600000000000056
+      }
+    },
+    "512": {
+      "scene": {
+        "accuracy_delta": 0.027000000000000024,
+        "balanced_accuracy_delta": 0.0354838369173992,
+        "retrieval_p10_delta": 0.0042999999999999705
+      },
+      "timeofday": {
+        "accuracy_delta": 0.007000000000000006,
+        "balanced_accuracy_delta": 0.0193153262338146,
+        "retrieval_p10_delta": -0.0042999999999999705
+      },
+      "weather": {
+        "accuracy_delta": 0.050000000000000044,
+        "balanced_accuracy_delta": 0.07189302990357693,
+        "retrieval_p10_delta": 0.019600000000000062
+      }
+    }
+  },
+  "identity": {
+    "C2_code_commit": "5e3f3a51592187a74f5baccb5f1103a16b83c964",
+    "PCA_parameter_sha256": {
+      "components": "d20158d2c8ad975b0e0a5082f2a5844fd816fb76269e7d2715c1f1ba56d6eb89",
+      "explained_variance": "6205993531ee24465c960fba2d07a2cd4d7795f8a46769797763702a3813a2ad",
+      "mean": "e6265be5814b2e355c6622d3fce1b1300c0bde9ca6aebdc901fb9030e18196b5"
+    },
+    "canonical_matrix_sha256": "6feb8fee1851da3e7b8ef45066d4ad0c6a6b56a3010621792d5cf2f8af980a4e",
+    "freeze_sha256": "9791d04fd60c20336dccdd5ee7db99964d89b170af122718e709ec02fd560d26"
+  },
+  "native_relative": {
+    "mrl_128": {
+      "scene": {
+        "accuracy_delta": -0.0050000000000000044,
+        "balanced_accuracy_delta": -0.028275990731127854,
+        "retrieval_p10_delta": -0.01629999999999998
+      },
+      "timeofday": {
+        "accuracy_delta": -0.0010000000000000009,
+        "balanced_accuracy_delta": -0.022144549666900493,
+        "retrieval_p10_delta": -0.020500000000000074
+      },
+      "weather": {
+        "accuracy_delta": -0.031000000000000028,
+        "balanced_accuracy_delta": -0.07857377969133594,
+        "retrieval_p10_delta": -0.015000000000000013
+      }
+    },
+    "mrl_256": {
+      "scene": {
+        "accuracy_delta": 0.01100000000000001,
+        "balanced_accuracy_delta": -0.0013507676958323112,
+        "retrieval_p10_delta": -0.0023000000000000798
+      },
+      "timeofday": {
+        "accuracy_delta": -0.013000000000000012,
+        "balanced_accuracy_delta": 0.005417582019687561,
+        "retrieval_p10_delta": -0.0031999999999999806
+      },
+      "weather": {
+        "accuracy_delta": -0.0040000000000000036,
+        "balanced_accuracy_delta": -0.019258779716610275,
+        "retrieval_p10_delta": -0.005099999999999993
+      }
+    },
+    "mrl_512": {
+      "scene": {
+        "accuracy_delta": 0.009000000000000008,
+        "balanced_accuracy_delta": 0.005933941966093204,
+        "retrieval_p10_delta": -0.0020000000000000018
+      },
+      "timeofday": {
+        "accuracy_delta": 0.0050000000000000044,
+        "balanced_accuracy_delta": 0.007176476671652221,
+        "retrieval_p10_delta": -0.0008000000000000229
+      },
+      "weather": {
+        "accuracy_delta": 0.0040000000000000036,
+        "balanced_accuracy_delta": -0.002546385879529156,
+        "retrieval_p10_delta": -0.0009000000000000119
+      }
+    },
+    "native_768": {
+      "scene": {
+        "accuracy_delta": 0.0,
+        "balanced_accuracy_delta": 0.0,
+        "retrieval_p10_delta": 0.0
+      },
+      "timeofday": {
+        "accuracy_delta": 0.0,
+        "balanced_accuracy_delta": 0.0,
+        "retrieval_p10_delta": 0.0
+      },
+      "weather": {
+        "accuracy_delta": 0.0,
+        "balanced_accuracy_delta": 0.0,
+        "retrieval_p10_delta": 0.0
+      }
+    },
+    "pca_128": {
+      "scene": {
+        "accuracy_delta": 0.007000000000000006,
+        "balanced_accuracy_delta": -0.015197157147784246,
+        "retrieval_p10_delta": -0.0021999999999999797
+      },
+      "timeofday": {
+        "accuracy_delta": -0.0010000000000000009,
+        "balanced_accuracy_delta": 0.01727754181741925,
+        "retrieval_p10_delta": 0.012199999999999989
+      },
+      "weather": {
+        "accuracy_delta": -0.0030000000000000027,
+        "balanced_accuracy_delta": -0.005537971766422012,
+        "retrieval_p10_delta": -0.016199999999999992
+      }
+    },
+    "pca_256": {
+      "scene": {
+        "accuracy_delta": -0.01200000000000001,
+        "balanced_accuracy_delta": -0.030026209395469294,
+        "retrieval_p10_delta": -0.0046000000000000485
+      },
+      "timeofday": {
+        "accuracy_delta": 0.0020000000000000018,
+        "balanced_accuracy_delta": -0.009324036846387718,
+        "retrieval_p10_delta": 0.006099999999999994
+      },
+      "weather": {
+        "accuracy_delta": -0.014000000000000012,
+        "balanced_accuracy_delta": -0.03980214880158106,
+        "retrieval_p10_delta": -0.01770000000000005
+      }
+    },
+    "pca_512": {
+      "scene": {
+        "accuracy_delta": -0.018000000000000016,
+        "balanced_accuracy_delta": -0.029549894951306,
+        "retrieval_p10_delta": -0.006299999999999972
+      },
+      "timeofday": {
+        "accuracy_delta": -0.0020000000000000018,
+        "balanced_accuracy_delta": -0.01213884956216238,
+        "retrieval_p10_delta": 0.0034999999999999476
+      },
+      "weather": {
+        "accuracy_delta": -0.04600000000000004,
+        "balanced_accuracy_delta": -0.07443941578310609,
+        "retrieval_p10_delta": -0.020500000000000074
+      }
+    }
+  },
+  "uncertainty": "descriptive paired effects; training-seed intervals not estimable"
+}

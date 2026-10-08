@@ -1,0 +1,98 @@
+{
+  "C1_native_geometry_retrieval_continuity": {
+    "geometry_max_abs": 0.0,
+    "retrieval_p10_delta": {
+      "scene": 0.0,
+      "timeofday": 0.0,
+      "weather": 0.0
+    }
+  },
+  "C1_native_probe_deltas": {
+    "scene": {
+      "accuracy": 0.0,
+      "balanced_accuracy": 0.0
+    },
+    "timeofday": {
+      "accuracy": 0.0,
+      "balanced_accuracy": 0.0
+    },
+    "weather": {
+      "accuracy": 0.0,
+      "balanced_accuracy": 0.0
+    }
+  },
+  "C3_C4_started": false,
+  "canonical_cache_and_matrix_provenance_verified": true,
+  "claim_label": "[measurement]",
+  "comparison_uncertainty": "descriptive paired effects; training-seed intervals not estimable",
+  "endpoint_effect_parameter_hashes_unchanged": true,
+  "fit_summary": {
+    "final": {
+      "fit_records": 21,
+      "grid_boundary": {
+        "interior": 3,
+        "lower": 18
+      },
+      "max_iter_reached": 0,
+      "nonconverged": 0
+    },
+    "inner_C_selection": {
+      "fit_records": 168,
+      "grid_boundary": {
+        "boundary": 42,
+        "interior": 126
+      },
+      "max_iter_reached": 19,
+      "nonconverged": 19
+    }
+  },
+  "frozen_source_hashes_verified": true,
+  "image_decodes": 0,
+  "initial_run_wall_seconds": 336.92672903696075,
+  "network_model_construction_image_decode_guards_passed": true,
+  "neural_inference_calls": 0,
+  "norm_ranges": {
+    "mrl_128": [
+      0.9999999999999998,
+      1.0000000000000002
+    ],
+    "mrl_256": [
+      0.9999999999999998,
+      1.0000000000000002
+    ],
+    "mrl_512": [
+      0.9999999999999998,
+      1.0000000000000002
+    ],
+    "native_768": [
+      0.9999998211860657,
+      1.0000001192092896
+    ],
+    "pca_128": [
+      0.9999999999999997,
+      1.0000000000000002
+    ],
+    "pca_256": [
+      0.9999999999999997,
+      1.0000000000000002
+    ],
+    "pca_512": [
+      0.9999999999999997,
+      1.0000000000000002
+    ]
+  },
+  "offline_execution_wrapper_sha256": "76245d659e52e35f69c26654678e551a12e8fdaa6d4f149b9e2f74b8c961d12d",
+  "pilot_unchanged": true,
+  "protocol_deviations": [],
+  "report_generator_sha256": "ba54db797b5d20a88d43993c2b8ebc53eda0197b288a1a042b79b1ec510b33ee",
+  "result_sha256": "86415cf13c78caf68da3ed4d448ed5615af9baba0172f2a386c3ece949c192ec",
+  "resume_semantic_endpoint_calls": 0,
+  "resume_wall_seconds": 0.5407577210571617,
+  "ruff": "passed",
+  "selected_inner_candidate_nonconverged": 0,
+  "tests": {
+    "passed": 415,
+    "skipped": 1
+  },
+  "uv_lock_check": "passed"
+}

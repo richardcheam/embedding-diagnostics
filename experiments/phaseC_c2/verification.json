@@ -1,0 +1,38 @@
+{
+  "C1_native_probe_deltas": {
+    "scene": {
+      "accuracy": 0.0,
+      "balanced_accuracy": 0.0
+    },
+    "timeofday": {
+      "accuracy": 0.0,
+      "balanced_accuracy": 0.0
+    },
+    "weather": {
+      "accuracy": 0.0,
+      "balanced_accuracy": 0.0
+    }
+  },
+  "C3_C4_started": false,
+  "PCA_shared_projection": true,
+  "PCA_training_rows": 2000,
+  "all_finite": true,
+  "claim_label": "[measurement]",
+  "identity": {
+    "C2_code_commit": "5e3f3a51592187a74f5baccb5f1103a16b83c964",
+    "PCA_parameter_sha256": {
+      "components": "d20158d2c8ad975b0e0a5082f2a5844fd816fb76269e7d2715c1f1ba56d6eb89",
+      "explained_variance": "6205993531ee24465c960fba2d07a2cd4d7795f8a46769797763702a3813a2ad",
+      "mean": "e6265be5814b2e355c6622d3fce1b1300c0bde9ca6aebdc901fb9030e18196b5"
+    },
+    "canonical_matrix_sha256": "6feb8fee1851da3e7b8ef45066d4ad0c6a6b56a3010621792d5cf2f8af980a4e",
+    "freeze_sha256": "9791d04fd60c20336dccdd5ee7db99964d89b170af122718e709ec02fd560d26"
+  },
+  "image_decodes": 0,
+  "neural_inference_calls": 0,
+  "protocol_deviations": [],
+  "representations": 7,
+  "this_run_wall_seconds": 0.5407577210571617,
+  "train_count": 2000,
+  "validation_count": 1000
+}

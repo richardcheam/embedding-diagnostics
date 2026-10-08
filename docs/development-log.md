@@ -1,5 +1,34 @@
 # Development log
 
+## Phase-C C2: cache-only matched-dimensional comparison (2026-10-08)
+
+[measurement] Accepted C1 source `0c19a85` was audited before C2 freeze. Its
+raw training SVD defines the shared train/validation projector; severe cached
+validation output and geometry match exactly. No H4 replacement was needed.
+C1 results and pilot records remain unchanged.
+
+C2 implementation `5e3f3a5`, freeze `6206cb0`: exact native 768 copy; official
+learned MRL 512/256/128 with mandatory L2 normalization; centered training-only
+full PCA, nested shared basis and L2 normalization at matching dimensions.
+Canonical cache/matrix/sample, source files and runtime versions are bound.
+No dependency changes, encoder inference, BDD image decoding or new sampling.
+
+Review caught missing transitive cache-validator source coverage, absent
+balanced floors, and an overwrite-before-resume-check hazard for PCA parameters.
+These were fixed before freezing endpoints. All project Python sources are
+hashed; parameters are validated/reused or atomically created; mismatches fail.
+The existing RankMe epsilon can put a capacity fraction just above one, so the
+new fractions preserve that definition and do not silently clamp it.
+
+[measurement] Seven endpoint records completed in 336.93 seconds with guards
+forbidding network connections, model construction and image decoding. Native
+probe scores exactly reproduce C1. Completed resume made zero endpoint calls
+and preserved endpoint/effect/parameter hashes. All 21 final standardized fits
+converged, 18 at the lower C boundary; 19 inner candidates did not converge.
+All warnings remain tracked. See `experiments/phaseC_c2/results.md` and the
+separate qualified hypothesis assessment; no C3/C4 work began.
+
+
 ## Phase-C C1-pilot (2026-10-07)
 
 Implemented metadata-only census and immutable uniform fully-labelled sampling,

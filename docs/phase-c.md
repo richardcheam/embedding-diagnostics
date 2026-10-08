@@ -1,5 +1,10 @@
 # Phase C: an external pretrained reference
 
+[measurement] Update 2026-10-08: C1-main and the cache-only C2 comparison are
+complete. See the [C2 tables](../experiments/phaseC_c2/results.md) and
+[qualified assessment](../experiments/phaseC_c2/interpretation.md). C3/C4 remain
+deferred; the staged design and historical C0/pilot record below are preserved.
+
 Phase A/B ask what happened in our controlled SSL training systems. Phase C
 asks whether their diagnostic conclusions generalize to a strong externally
 pretrained representation. EmbeddingGemma 2 is an external reference encoder;

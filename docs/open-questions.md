@@ -1,11 +1,24 @@
 # Open questions
 
-## Phase C: external pretrained reference (2026-10-07)
+## Phase C: after C2 (2026-10-08)
+
+[open] Does the MRL/PCA difference depend on centering, coordinate-wise probe
+regularization, or nonlinear row normalization? C2 compares declared mechanisms
+and does not isolate these factors. Final fits converge but 18/21 select the
+lower C boundary; no post-result grid change was made. Rare classes remain
+outside frozen balanced-probe eligibility. This is the previously examined C1
+sample, with no independent encoder training-seed intervals. A future control
+needs a specific ambiguity; no random projection, C3 or C4 was added automatically.
+See [C2 interpretation](../experiments/phaseC_c2/interpretation.md).
+
+
+## Phase C: pilot-era questions, historical (2026-10-07)
 
 C0 and the exploratory C1-pilot are complete. The uniform 384/128 selection,
 train-fitted transformations and held-out endpoints are frozen and measured;
-see the [pilot report](../experiments/phaseC_c1_pilot/README.md). C1-main is not
-frozen and no confirmatory external-validity conclusion exists.
+see the [pilot report](../experiments/phaseC_c1_pilot/README.md). At that pilot-era stage, C1-main was not frozen and no confirmatory
+external-validity conclusion existed. The hardening/main/C2 records now resolve
+some of these items; the original pilot measurements remain unchanged.
 
 [open] Before main, decide how to handle the finite C-grid ceiling under severe
 positive scaling and the 5000-iteration failures of unscaled weather/scene

@@ -194,11 +194,14 @@ it until steps/sec stops improving, then stop. Check `nproc` before going high, 
 C0 adds local BDD Lance image-byte extraction through pinned EmbeddingGemma 2,
 an FP32 resumable canonical cache, and the existing geometry diagnostics.
 EmbeddingGemma is an external reference encoder; the seven training conditions
-are unchanged. C1-pilot is complete and exploratory; C1-main is not frozen,
-and C2–C4 remain deferred. See
+are unchanged. C1-pilot is complete and exploratory; C1-main is complete, and
+C2 compares learned MRL with train-fitted PCA using the same cached vectors.
+C3/C4 remain deferred. See the [C2 tables](experiments/phaseC_c2/results.md),
+[qualified interpretation](experiments/phaseC_c2/interpretation.md), and
 [`docs/phase-c.md`](docs/phase-c.md) for the offline command, provenance, and
 integration record, and the [pilot report](experiments/phaseC_c1_pilot/README.md).
-No confirmatory Phase-C scientific conclusion is available.
+Phase-C assessments are restricted to the predeclared hypotheses, frozen
+representation sample, and documented instrument limitations.
 
 ## Sweeping the SIGReg weight
 

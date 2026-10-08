@@ -2,15 +2,17 @@
 
 Last updated: 2026-08-17, after the Phase-B reprobe.
 
-[measurement] Phase-C extension updated 2026-10-07: C0 integration infrastructure is
-implemented and smoke-verified, with local pinned EmbeddingGemma 2 image extraction, validated
-resumable FP32 caching, and unchanged geometry diagnostics. C1-pilot is
-complete and exploratory: 384 train / 128 validation, frozen uniform sampling,
-held-out probes and a cached-vector stress sweep. C1-main is not frozen;
-C2–C4 remain deferred. The [pilot report](../experiments/phaseC_c1_pilot/README.md)
-records measurements and unresolved probe calibration/convergence limits. See [phase-c.md](phase-c.md) and the compact smoke record
-at `experiments/phaseC_c0/smoke.json`. Existing Phase-A/B findings below are
-unchanged; no Phase-C research conclusion has been drawn.
+[measurement] Phase-C extension updated 2026-10-08: C0 and the exploratory
+C1-pilot are complete. C1-main was accepted at `0c19a85`; the C2 audit verifies
+its rank transform uses one training-only common projector. C2 is complete as a
+predeclared cache-only analysis on the same frozen 2000 train / 1000 validation
+sample, comparing native 768d, learned MRL and centered train-fitted PCA at
+512/256/128. No further model inference or sample enlargement occurred.
+See the [C1 report](../experiments/phaseC_c1_main/results.md),
+[C2 tables](../experiments/phaseC_c2/results.md) and
+[qualified C2 assessment](../experiments/phaseC_c2/interpretation.md).
+C3/C4 remain deferred. Existing Phase-A/B findings below are unchanged;
+Phase-C scope and uncertainty are stated separately in the frozen protocols.
 
 This is the plain-language account of what the project asks, what it found, what it had to
 take back, and what is still open. If a term is unfamiliar, look it up in

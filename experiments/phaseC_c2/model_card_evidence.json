@@ -1,0 +1,16 @@
+{
+  "card_sha256": "b677a0ee2818c36f091b65fd3d9b4baea9f04d53b02b49cae916c74bf9682037",
+  "local_card_path": "/mnt/hdd/data/hf/hub/models--google--embeddinggemma-2/snapshots/914f7f89142e33e77833254d9c9b90c3cef7303b/README.md",
+  "model_id": "google/embeddinggemma-2",
+  "model_loaded": false,
+  "native_identity": "keep canonical FP32 near-unit rounding at D=768",
+  "prior_expectation": "card warns 128d has greater multimodal degradation; BDD transfer untested",
+  "revision": "914f7f89142e33e77833254d9c9b90c3cef7303b",
+  "semantics": "learned leading D coordinates then L2 renormalization",
+  "supported_dimensions": [
+    768,
+    512,
+    256,
+    128
+  ]
+}

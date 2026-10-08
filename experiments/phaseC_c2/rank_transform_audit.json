@@ -1,0 +1,25 @@
+{
+  "C1_source_commit": "0c19a85",
+  "H1_H3_changed": false,
+  "canonical_manifest_sha256": "c358c13999fefb49b7c3458e27231b9fe7e56834c2ec0df22d0eb73731fd04ad",
+  "claim_label": "[measurement]",
+  "failure_A_independent_validation_fit": false,
+  "failure_B_train_validation_fit": false,
+  "fitting": "raw uncentered TRAIN only; train reconstruction and validation projection in common ambient 768-space",
+  "image_decodes": 0,
+  "neural_inference_calls": 0,
+  "numerical_checks": {
+    "train_max_abs_vs_shared_projector": 8.826273045769994e-15,
+    "validation_geometry_max_abs_vs_historical": 0.0,
+    "validation_max_abs_vs_shared_projector": 0.0
+  },
+  "retained_directions": 8,
+  "same_fixed_projector_verified": true,
+  "severity_checked": 0.99,
+  "source_sha256": {
+    "scripts/run_c1_main.py": "375977d7d27dba6781084cf4463c5265b30724ed82e55ab2a8d8ff32e4d1a39c",
+    "src/embedding_diagnostics/degradation.py": "3c189f1115b206957eb9862e7e971272d2f7f9581a90f851b31793535ff2ca11",
+    "src/embedding_diagnostics/phase_c_pilot.py": "e6a0e815d917dba78c2b07acc0c4bbf8a9d496ac0374c9b2d88e355b6221c104"
+  },
+  "status": "VALID: train-only common raw SVD projector; H4 not superseded"
+}

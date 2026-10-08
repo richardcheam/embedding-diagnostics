@@ -28,3 +28,5 @@ experiments/**/embedding-cache/
 # Personal design profile and visual review artifacts; never publish these.
 harness/
 design-audit/
+# Reproducible C2 train-fitted projection parameters.
+experiments/**/transform-cache/

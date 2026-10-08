@@ -1,0 +1,20 @@
+{
+  "checks": {
+    "document": {
+      "equivalent": true,
+      "independent_repeat_count": 1,
+      "max_abs_difference": 0.0
+    },
+    "image": {
+      "equivalent": true,
+      "independent_repeat_count": 1,
+      "max_abs_difference": 0.0
+    },
+    "query": {
+      "equivalent": true,
+      "independent_repeat_count": 1,
+      "max_abs_difference": 0.0
+    }
+  },
+  "freeze_sha256": "409eb1f4b9934cc941a1c90a796ec787ba2a0b7e8034c8e5d08f2e754e68b373"
+}

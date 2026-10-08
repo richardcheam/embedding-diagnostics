@@ -1,0 +1,279 @@
+{
+  "attention_implementation": "eager",
+  "audio_excluded": true,
+  "device": "cpu",
+  "dtype": "float32",
+  "enabled_modalities": [
+    "text",
+    "vision"
+  ],
+  "image_processor_class": "Gemma4ImageProcessor",
+  "input_modality": "image",
+  "model_configuration": {
+    "_name_or_path": "",
+    "architectures": [
+      "EmbeddingGemma2Model"
+    ],
+    "audio_config": null,
+    "audio_token_id": 258881,
+    "boa_token_id": 256000,
+    "boi_token_id": 255999,
+    "chunk_size_feed_forward": 0,
+    "dtype": "bfloat16",
+    "eoa_token_index": 258883,
+    "eoi_token_id": 258882,
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1"
+    },
+    "image_token_id": 258880,
+    "initializer_range": 0.02,
+    "is_encoder_decoder": false,
+    "label2id": {
+      "LABEL_0": 0,
+      "LABEL_1": 1
+    },
+    "model_type": "embedding_gemma2",
+    "output_attentions": false,
+    "output_hidden_states": false,
+    "problem_type": null,
+    "return_dict": true,
+    "text_config": {
+      "_name_or_path": "",
+      "architectures": null,
+      "attention_bias": false,
+      "attention_dropout": 0.0,
+      "bos_token_id": 2,
+      "chunk_size_feed_forward": 0,
+      "dtype": "bfloat16",
+      "embedding_dim": 768,
+      "eos_token_id": 1,
+      "head_dim": 256,
+      "hidden_activation": "gelu_pytorch_tanh",
+      "hidden_size": 512,
+      "hidden_size_per_layer_input": 512,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "initializer_range": 0.02,
+      "intermediate_size": 2048,
+      "is_encoder_decoder": false,
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "layer_types": [
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "full_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "full_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "full_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "sliding_attention",
+        "full_attention"
+      ],
+      "max_position_embeddings": 262144,
+      "model_type": "embedding_gemma2_text",
+      "num_attention_heads": 4,
+      "num_hidden_layers": 24,
+      "num_key_value_heads": 2,
+      "output_attentions": false,
+      "output_hidden_states": false,
+      "pad_token_id": 0,
+      "per_layer_config": {
+        "05": {
+          "head_dim": 512,
+          "num_key_value_heads": 1
+        },
+        "11": {
+          "head_dim": 512,
+          "num_key_value_heads": 1
+        },
+        "17": {
+          "head_dim": 512,
+          "num_key_value_heads": 1
+        },
+        "23": {
+          "head_dim": 512,
+          "num_key_value_heads": 1
+        }
+      },
+      "problem_type": null,
+      "return_dict": true,
+      "rms_norm_eps": 1e-06,
+      "rope_parameters": {
+        "full_attention": {
+          "rope_theta": 1000000.0,
+          "rope_type": "default"
+        },
+        "sliding_attention": {
+          "rope_theta": 10000.0,
+          "rope_type": "default"
+        }
+      },
+      "sliding_window": 512,
+      "vocab_size": 262144
+    },
+    "transformers_version": "5.19.0",
+    "video_token_id": 258884,
+    "vision_config": {
+      "_name_or_path": "",
+      "architectures": null,
+      "attention_bias": false,
+      "attention_dropout": 0.0,
+      "chunk_size_feed_forward": 0,
+      "default_output_length": 280,
+      "dtype": "bfloat16",
+      "global_head_dim": 64,
+      "head_dim": 64,
+      "hidden_activation": "gelu_pytorch_tanh",
+      "hidden_size": 768,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "initializer_range": 0.02,
+      "intermediate_size": 3072,
+      "is_encoder_decoder": false,
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "max_position_embeddings": 131072,
+      "model_type": "gemma4_vision",
+      "num_attention_heads": 12,
+      "num_hidden_layers": 16,
+      "num_key_value_heads": 12,
+      "output_attentions": false,
+      "output_hidden_states": false,
+      "patch_size": 16,
+      "pooling_kernel_size": 3,
+      "position_embedding_size": 10240,
+      "problem_type": null,
+      "return_dict": true,
+      "rms_norm_eps": 1e-06,
+      "rope_parameters": {
+        "rope_theta": 100.0,
+        "rope_type": "axial"
+      },
+      "standardize": false,
+      "use_clipped_linears": false
+    },
+    "vision_soft_tokens_per_image": 280
+  },
+  "model_id": "google/embeddinggemma-2",
+  "model_revision": "914f7f89142e33e77833254d9c9b90c3cef7303b",
+  "model_source": "/mnt/hdd/data/hf/hub/models--google--embeddinggemma-2/snapshots/914f7f89142e33e77833254d9c9b90c3cef7303b",
+  "native_embedding_dimension": 768,
+  "normalization_policy": "attention-mask mean pooling; L2 unit norm",
+  "parameter_count": 438760448,
+  "processor_class": "EmbeddingGemma2Processor",
+  "processor_configuration": {
+    "audio_ms_per_token": 40,
+    "audio_seq_length": 280,
+    "feature_extractor": {
+      "dither": 0.0,
+      "feature_extractor_type": "Gemma4AudioFeatureExtractor",
+      "feature_size": 128,
+      "fft_length": 512,
+      "fft_overdrive": false,
+      "frame_length": 320,
+      "hop_length": 160,
+      "input_scale_factor": 1.0,
+      "max_frequency": 8000.0,
+      "mel_floor": 0.001,
+      "min_frequency": 0.0,
+      "padding_side": "right",
+      "padding_value": 0.0,
+      "per_bin_mean": null,
+      "per_bin_stddev": null,
+      "preemphasis": 0.0,
+      "preemphasis_htk_flavor": true,
+      "return_attention_mask": true,
+      "sampling_rate": 16000
+    },
+    "image_processor": {
+      "do_convert_rgb": true,
+      "do_normalize": false,
+      "do_rescale": true,
+      "do_resize": true,
+      "image_mean": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_processor_type": "Gemma4ImageProcessor",
+      "image_seq_length": 280,
+      "image_std": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "max_soft_tokens": 280,
+      "patch_size": 16,
+      "pooling_kernel_size": 3,
+      "resample": 3,
+      "rescale_factor": 0.00392156862745098
+    },
+    "image_seq_length": 280,
+    "processor_class": "EmbeddingGemma2Processor",
+    "video_processor": {
+      "add_timestamps": false,
+      "do_convert_rgb": true,
+      "do_normalize": false,
+      "do_rescale": true,
+      "do_resize": true,
+      "do_sample_frames": true,
+      "fps": 1,
+      "image_mean": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "image_std": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "max_frames": 32,
+      "max_soft_tokens": 140,
+      "overflow_strategy": "uniform",
+      "patch_size": 16,
+      "pooling_kernel_size": 3,
+      "resample": 3,
+      "rescale_factor": 0.00392156862745098,
+      "return_metadata": false,
+      "video_processor_type": "EmbeddingGemma2VideoProcessor"
+    }
+  },
+  "revision_verification": "HF snapshot directory",
+  "source_configuration_sha256": {
+    "1_Pooling/config.json": "8759bdf7c77efc7df7723f64856a593c8943b71ee38baf2a88771fbaf78438f9",
+    "config.json": "b8f1e9931b57fbc054acdb445c41765d55b0074c58d145fa82839941ad1b5bb3",
+    "modules.json": "3d02572a0455b832de67fb8e63a54981bc7e8b46e337c95e917bd8122a533bfd",
+    "preprocessor_config.json": "ea2ae257e901064abdd98dceb19f2b0da06af600bed15e0f99f5c85c37ee9d78",
+    "processor_config.json": "168f6a08522f3ce5dea596d94d003af2fd691742d4f41fe1f9d8cce76bfbf69c",
+    "tokenizer.json": "4d777ef5bdc1aa36227abdfb77c3e49e7b9c892d16e1b6bda41c393504828be4",
+    "tokenizer_config.json": "17bd5d6e9364ca49a534e1502076593317c298d4a663623091ed45388f004874"
+  },
+  "weights_sha256": {
+    "model.safetensors": "197a32965d4b1105faf060417baa899e193fb73cd401f42ec9295234d5553d79"
+  }
+}

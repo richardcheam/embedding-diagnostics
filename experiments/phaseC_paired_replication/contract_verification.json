@@ -1,0 +1,43 @@
+{
+  "historical_hashes_unchanged": 1260,
+  "roles": {
+    "document": {
+      "completed": 80,
+      "dtype": "float32",
+      "finite": true,
+      "norm_max": 1.0000001192092896,
+      "norm_min": 0.9999998807907104,
+      "row_identity_validated": true,
+      "shape": [
+        80,
+        768
+      ]
+    },
+    "image": {
+      "completed": 16,
+      "dtype": "float32",
+      "finite": true,
+      "norm_max": 1.0,
+      "norm_min": 0.9999998807907104,
+      "row_identity_validated": true,
+      "shape": [
+        16,
+        768
+      ]
+    },
+    "query": {
+      "completed": 80,
+      "dtype": "float32",
+      "finite": true,
+      "norm_max": 1.0000001192092896,
+      "norm_min": 0.9999998807907104,
+      "row_identity_validated": true,
+      "shape": [
+        80,
+        768
+      ]
+    }
+  },
+  "scientific_endpoints": 0,
+  "status": "passed frozen 16-group contract"
+}

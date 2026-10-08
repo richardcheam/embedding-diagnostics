@@ -6,7 +6,7 @@
 
 **Goal:** Implement only the reviewable three-representation paired-data protocol
 in [image-text-replication-proposal.md](image-text-replication-proposal.md), after
-separate execution authorization. **Status: proposed, not implemented.**
+separate execution authorization. **Status: implementation authorized; pre-inference execution gates required.**
 
 **Architecture:** Authenticate original release files and freeze joined IDs;
 produce separate resumable image/query-caption/document-caption canonical
@@ -32,8 +32,9 @@ units, caption roles sharing a cache identity, cross-modal positives mistakenly
 self-excluded, and caption-level resampling overstating independence. Tasks 1–3
 include explicit tests for each; no success threshold is chosen from results.
 
-> Execution is not authorized by this preparation task. Future workers must read
-> the proposal and the authorization scope before changing code or fetching data.
+> The original preparation did not authorize execution. The subsequent user
+> request authorizes this bounded implementation and execution; the source/sample
+> freeze and cache-binding gates below remain mandatory.
 
 ## Proposed files and responsibilities
 

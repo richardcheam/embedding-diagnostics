@@ -1,7 +1,7 @@
 # Independent paired-data evaluation: proposed protocol
 
 2026-10-08. Accepted starting commit: `5f5f991062f117726e5212813d46b1c689b100a8`.
-**Preparation only; not an executed experiment or a frozen sample.**
+**Execution authorized; final protocol and source/sample freeze precede inference.**
 Implementation plan: [image–text plan](image-text-replication-plan.md).
 
 ## Recommendation and exact question
@@ -69,6 +69,15 @@ These are future checks, **not completed authentication**. Dataset authenticatio
 links an original release and its annotation joins to local files; a local SHA256
 alone only supplies byte continuity after acquisition.
 
+Transport clarification before implementation: certificate validation for
+`https://images.cocodataset.org` fails hostname verification on this machine.
+Its DNS resolves through `images.cocodataset.org.s3.amazonaws.com`. Use the
+certificate-verified path-style endpoint
+`https://s3.amazonaws.com/images.cocodataset.org/` for the same named publisher
+bucket and original archive paths; record DNS evidence, headers and this deviation.
+Do not disable TLS verification or substitute a repackaged mirror. Authentication
+remains source-chain evidence, not independently signed archive certification.
+
 - [ ] Obtain `val2017.zip` and `annotations_trainval2017.zip` through the publisher
   links in the official download page, using HTTPS at `images.cocodataset.org`.
   Save referring documentation, acquisition time, final URLs/redirects, byte
@@ -85,9 +94,9 @@ alone only supplies byte continuity after acquisition.
   source identity stops selection; no guessed ID rewriting or placeholder path.
 - [ ] Census caption counts and categories on the release metadata. Inventory
   all 5K validation image bytes, retaining SHA256 separately from identifiers.
-  At later authorized source validation, decode to validate dimensions and hash
+  At authorized source validation, decode to validate dimensions and hash
   contiguous RGB pixels with shape, without EXIF reorientation. This distinguishes
-  byte-identical and pixel-identical content. Decoding is not authorized now.
+  byte-identical and pixel-identical content.
 - [ ] Group images by shared original Flickr photo ID where recoverable, equal
   raw-byte hash or equal decoded-pixel hash (transitive closure). Retain aliases
   and group reasons. Unresolved source-photo IDs remain explicit; no guessed
@@ -166,6 +175,13 @@ and pooling semantics; fail rather than silently truncate an over-context captio
 The existing adapter exposes images only; text processing still needs model-free
 wiring tests and a later authorized contract smoke. No prompt-quality search.
 
+[interpretation] **Retrieval directions use different caption-role prefixes.**
+Text→image uses SearchQuery; image→text uses Document. Directional differences
+therefore combine query/gallery roles, candidate populations, positive counts
+and instruction differences. They cannot isolate modality asymmetry. Geometry
+comparisons across these three dimensionalities remain descriptive; neither
+co-movement nor disagreement validates a general predictor of representation quality.
+
 [established] The [official model card](https://ai.google.dev/gemma/docs/embeddinggemma/model_card_2)
 describes text task instructions, mean pooling, supported learned prefixes and
 mandatory post-slice normalization; it warns of greater multimodal degradation
@@ -211,7 +227,7 @@ identity diagnostic in both cross-modal directions, distinct from positive hits.
 Uniform-order reference floors: text→image Hit@K = K/1,000;
 image→text Hit@K = `1 - choose(4995,K)/choose(5000,K)`;
 image→text positive-set recall@10 = 10/5,000. They follow the fixed IDs/positives,
-not BDD class-frequency floors. Report observed ties and gallery denominators.
+not BDD class-frequency floors. Report exact-score ties at the 1/5/10 boundaries and gallery denominators.
 
 One native-only instrument control: circularly shift caption **parent relevance
 bundles** by one image in ascending ID order, leaving vectors, rankings and
@@ -276,12 +292,28 @@ on prior observations; text/RGB decode peaks remain unmeasured. Log process RSS,
 swap and wall time; stop/checkpoint on allocation failure or sustained swapping,
 without substituting examples or changing precision. CPU FP32 remains mandatory.
 
+Operational gate fixed before smoke: peak process RSS must be at most 4,608 MiB
+(the 4 GiB planning target plus 512 MiB headroom); checkpoint on allocation failure
+or two consecutive measured windows of at least 60 seconds each with at least
+256 MiB total system swap-in plus swap-out per window. Existing swap occupancy
+alone is not active pressure. Record window durations and counters; this
+conservative system-wide gate may also detect unrelated processes. A gate failure
+requires resource review, not a changed sample, model precision or scientific grid.
+
 FP32 canonical payload: `(1000 + 5000 + 5000) × 768 × 4` = 33,792,000 bytes
 (32.23 MiB), excluding metadata. Each 64×5,000 FP64 score block is 2.44 MiB.
 Compressed arrays are trivially derivable and need not be stored redundantly.
 Original val image plus annotation downloads are listed around 1.24 GB; reserve
 5 GB for archives/extraction/ledgers/caches pending actual sizes. No training
 image archive or dataset-wide encoder extraction is proposed.
+
+Contract smoke independently repeats the first selected image and first caption
+in each role, checks FP32 agreement at rtol=1e-5/atol=1e-6, and reports repeat time
+as part of smoke overhead. Primary smoke entries remain in their canonical
+caches. Source content review is assistant visual inspection of labelled original
+image/caption contact sheets; it is not independent human relevance adjudication
+or validation of every caption's factual accuracy. Record thumbnails/full-resolution
+coverage and any incomplete display explicitly.
 
 [interpretation] Source inspection also requires human time: an illustrative
 15–30 seconds per selected image/caption bundle is 4.2–8.3 hours for 1,000 groups,

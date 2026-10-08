@@ -90,6 +90,7 @@ class EmbeddingGemma2:
         if not path.is_dir():
             path = Path(snapshot_download(source, revision=revision, local_files_only=True))
         path = path.absolute()
+        self.snapshot_path = path
         if path.parent.name == "snapshots" and path.name != revision:
             raise ValueError("local snapshot revision does not match requested revision")
         pooling = json.loads((path / "1_Pooling" / "config.json").read_text())
@@ -157,3 +158,35 @@ class EmbeddingGemma2:
         with torch.autocast(device_type=self.device, enabled=False):
             output = self.model(**inputs)
         return pool_embeddings(output.last_hidden_state, inputs["attention_mask"])
+
+    @torch.inference_mode()
+    def encode_text(self, captions: list[str], *, role: str) -> np.ndarray:
+        """Pinned query/document instructions, masked prompt-inclusive pooling.
+
+        Roles are distinct extraction inputs, not interchangeable caption vectors.
+        No inference precision or image-path behavior changes are introduced.
+        """
+        if role not in ("query", "document") or not captions or any(
+            not isinstance(c, str) or not c.strip() for c in captions
+        ):
+            raise ValueError("nonempty captions and query/document role required")
+        if not hasattr(self, "text_prefixes"):
+            path = self.snapshot_path / "config_sentence_transformers.json"
+            config = json.loads(path.read_text())
+            self.text_prefixes = {"query": config["prompts"]["SearchQuery"],
+                                  "document": config["prompts"]["Document"]}
+        expected = {"query": "task: search result | query: ",
+                    "document": "title: none | text: "}
+        if self.text_prefixes != expected:
+            raise ValueError("pinned text instructions differ from supported protocol")
+        inputs = self.processor(text=[self.text_prefixes[role] + c for c in captions],
+                                return_tensors="pt", truncation=False)
+        if inputs["input_ids"].shape[-1] > 8192:
+            raise ValueError("caption exceeds context; silent truncation forbidden")
+        inputs = {k: v.to(device=self.device, dtype=torch.float32) if v.is_floating_point()
+                  else v.to(self.device) for k, v in inputs.items()}
+        with torch.autocast(device_type=self.device, enabled=False):
+            output = self.model(**inputs)
+        return validate_embeddings(
+            pool_embeddings(output.last_hidden_state, inputs["attention_mask"]), len(captions)
+        )

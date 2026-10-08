@@ -50,6 +50,52 @@ def test_empty_attention_mask_rejected():
         pool_embeddings(torch.ones(1, 3, 768), torch.zeros(1, 3))
 
 
+@pytest.mark.parametrize("role,prefix", [
+    ("query", "task: search result | query: "),
+    ("document", "title: none | text: "),
+])
+def test_text_role_contract_with_prompt_pooling(role, prefix):
+    from types import SimpleNamespace
+
+    model = EmbeddingGemma2.__new__(EmbeddingGemma2)
+    model.device = "cpu"
+    model.text_prefixes = {"query": "task: search result | query: ",
+                           "document": "title: none | text: "}
+
+    class Processor:
+        def __call__(self, *, text, return_tensors, **kwargs):
+            assert text == [prefix + "Human caption."]
+            assert return_tensors == "pt" and kwargs.get("truncation") is False
+            return {"input_ids": torch.tensor([[1, 2, 0]]),
+                    "attention_mask": torch.tensor([[1, 1, 0]])}
+
+    model.processor = Processor()
+    hidden = torch.zeros(1, 3, 768)
+    hidden[0, 0, 0] = 1
+    hidden[0, 1, 1] = 1
+    hidden[0, 2, :] = float("nan")
+    model.model = lambda **kw: SimpleNamespace(last_hidden_state=hidden)
+    result = model.encode_text(["Human caption."], role=role)
+    assert result.dtype == np.float32 and result.shape == (1, 768)
+    np.testing.assert_allclose(result[0, :2], [2**-0.5, 2**-0.5], rtol=1e-6)
+    with pytest.raises(ValueError):
+        model.encode_text([" "], role=role)
+    with pytest.raises(ValueError):
+        model.encode_text(["Human caption."], role="other")
+
+
+def test_text_context_is_not_silently_truncated():
+    model = EmbeddingGemma2.__new__(EmbeddingGemma2)
+    model.device = 'cpu'
+    model.text_prefixes = {'query':'task: search result | query: ',
+                           'document':'title: none | text: '}
+    model.processor = lambda **kwargs: {
+        'input_ids':torch.ones((1,8193),dtype=torch.long),
+        'attention_mask':torch.ones((1,8193),dtype=torch.long)}
+    with pytest.raises(ValueError,match='context'):
+        model.encode_text(['Caption'],role='query')
+
+
 def test_adapter_load_and_inference_contract(tmp_path, monkeypatch):
     """Mock only heavyweight weights/processor; run the real adapter."""
     import json

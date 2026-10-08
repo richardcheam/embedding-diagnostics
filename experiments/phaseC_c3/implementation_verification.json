@@ -1,0 +1,15 @@
+{
+  "before_endpoint_computation": true,
+  "canonical_endpoints_computed": 0,
+  "claim_label": "[ours]",
+  "pytest": {
+    "passed": 441,
+    "skipped": 1,
+    "wall_seconds": 31.36
+  },
+  "read_only_review": "important pre-freeze findings fixed and re-reviewed",
+  "ruff": "passed",
+  "scope": "tested protocol/implementation, no inference/images/ANN/C4",
+  "synthetic_C3_tests": 26,
+  "uv_lock_check": "passed"
+}

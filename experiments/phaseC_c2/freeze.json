@@ -1,0 +1,117 @@
+{
+  "C1_source_commit": "0c19a85",
+  "C2_code_commit": "5e3f3a51592187a74f5baccb5f1103a16b83c964",
+  "PCA": "centered train-only full SVD; nested shared basis; no whitening",
+  "arithmetic": "canonical FP32; both compression paths FP64",
+  "canonical_cache_manifest_sha256": "c358c13999fefb49b7c3458e27231b9fe7e56834c2ec0df22d0eb73731fd04ad",
+  "canonical_matrix_sha256": "6feb8fee1851da3e7b8ef45066d4ad0c6a6b56a3010621792d5cf2f8af980a4e",
+  "created_at": "2026-10-08T11:21:54.760110+00:00",
+  "dimensions": [
+    768,
+    512,
+    256,
+    128
+  ],
+  "eligibility_rule": {
+    "training_support": 20,
+    "validation_support": 10
+  },
+  "eligible_classes": {
+    "scene": [
+      "city street",
+      "highway",
+      "residential"
+    ],
+    "timeofday": [
+      "dawn/dusk",
+      "daytime",
+      "night"
+    ],
+    "weather": [
+      "clear",
+      "overcast",
+      "partly cloudy",
+      "rainy",
+      "snowy"
+    ]
+  },
+  "files_sha256": {
+    "docs/c2-protocol.md": "a574006cf95e65b6fb351d5112e68f3351de47cf4bfcc8c3bc979b0d7b3cc3a9",
+    "experiments/phaseC_c1_main/pristine_metrics.json": "4e1f3fe08e6d59fbd7baa9a7944ece4b9b0c7df6cf07830581cf67df7d663e40",
+    "experiments/phaseC_c1_main/sample_manifest.json": "62c62eec085ba09f4a056a4451e37391f680a89becc480c55b40f90cc85f6aaf",
+    "experiments/phaseC_c1_main/stress_results.json": "99277ea4a9017f75f4a336cb64e9570d9781f484cc0b507fbe4947c445708979",
+    "experiments/phaseC_c2/model_card_evidence.json": "dd67219e942d180b31cfcc872a4806115b7ca8012fea11de6ab1989dab7be6b3",
+    "experiments/phaseC_c2/rank_transform_audit.json": "6b03249ebe5b1d7428463dbf4bed44cf35488464483ccc9c0cfbe60da0347e11",
+    "pyproject.toml": "0beddff18172f6de073422a19513a439067280e0f7c347d92e37a279cd29fcc0",
+    "scripts/run_c2.py": "e45f6dc2bc0181e4aed0b0de90b4a5249a3444c50d3d377e03604586fb913838",
+    "src/embedding_diagnostics/__init__.py": "c6105729f49c48057f809e79e0c65da6b290cec3ca1be1748b60f2dfbe301e90",
+    "src/embedding_diagnostics/bdd100k.py": "2758ce4eeec948d64a047165c3b8b42eef9a48bdde7f9282ccba97807824dec2",
+    "src/embedding_diagnostics/bdd_lance.py": "ad5e7d431bfd156ce4e04996d85ed659b52721e450026f7ce84f71cc4fba58c9",
+    "src/embedding_diagnostics/config.py": "dcaa7a334d18d786e1f448ade059289f8aeb066f69a0d79b45008b3bf0ac8423",
+    "src/embedding_diagnostics/data.py": "b6bc66871b0217c3f10ccce22c4ccb5754fad59d55b70ad671b8f4c019d19507",
+    "src/embedding_diagnostics/degradation.py": "3c189f1115b206957eb9862e7e971272d2f7f9581a90f851b31793535ff2ca11",
+    "src/embedding_diagnostics/diagnostics/__init__.py": "941066815cf5c1b8e1a9f0d7eade7478cb8ff97040b0b7c0b9fc985e2c4e7d94",
+    "src/embedding_diagnostics/diagnostics/metrics.py": "30fc90c6aaba130c87a366aaacc456e470ca2bac53b4a01a023c4406928ddd99",
+    "src/embedding_diagnostics/diagnostics/probe.py": "0b665854f231987dd8c82e563f057f1ed3fcfc2c727f82cc12b9b1271f4222ce",
+    "src/embedding_diagnostics/diagnostics/projection.py": "029c3528a99dde141f97efa15a5ebc7f96fd413c171ce863ba0e3af469eafeed",
+    "src/embedding_diagnostics/diagnostics/retrieval.py": "5d6927bba13639b55bf105baca905b53d9259daec1ff7574a23039b566f57f2e",
+    "src/embedding_diagnostics/embedding_cache.py": "1ea5685592ceb44d51003fd74aee2a4163d4fbad64eb821b8cebc654475ec635",
+    "src/embedding_diagnostics/figures.py": "ce6b8911a721db16bdbd087dea8b9c3c746ffa6916a52759cfd7a97c779abf53",
+    "src/embedding_diagnostics/hardware.py": "f23e567ac9cbdf772cfd6105226c75871eece3a2a93ed4da6b467eaf1cc34372",
+    "src/embedding_diagnostics/logging_utils.py": "11066568e017552717ce6c803d954865809f5d5bc270c62c874b72f7db0fe478",
+    "src/embedding_diagnostics/models/__init__.py": "29a1fa7ac5cb4401ed807e876e4434e3e537d18d627d8e543e17c92294bfe56e",
+    "src/embedding_diagnostics/models/embeddinggemma2.py": "e4b8c876bb90f548acacc0a747abee0fcbddf11f0b6d2f2908b7d8ac3e1533f2",
+    "src/embedding_diagnostics/models/predictor.py": "8e04a5b475910ba4173ce7d8b8ddc0f6b7852666f8a796e25add721388f50a82",
+    "src/embedding_diagnostics/models/projector.py": "8fb90057776e932764ca6fd3589ab4a8422e50e55bbe09a395360aa86bf6d544",
+    "src/embedding_diagnostics/models/vit.py": "f31999e2aea32fa1af23f91f7d3f2f20a37e698784575c527311aa3c95f74fc3",
+    "src/embedding_diagnostics/panel.py": "2fecb3ced5c9d133fcd7028f98be13abc1554db7bd937343be09e71522fe7fd1",
+    "src/embedding_diagnostics/phase_c.py": "bcdde36c0acf3c179218b1fd4c981632e6fd550198f7348694204991cea439ef",
+    "src/embedding_diagnostics/phase_c_compression.py": "890fd7f42c239b6eca7ebfa56cc95383c1d534c3ec94db141cd675214ae097cd",
+    "src/embedding_diagnostics/phase_c_evaluation.py": "4a3da32c9307516ba669516b311406302c53e450473fbd56bd17fdce9d47c6bf",
+    "src/embedding_diagnostics/phase_c_main.py": "24c4fc92beed8b1a69ded80bb84a9638b810287692a5c2bd70b29830c00837dc",
+    "src/embedding_diagnostics/phase_c_pilot.py": "e6a0e815d917dba78c2b07acc0c4bbf8a9d496ac0374c9b2d88e355b6221c104",
+    "src/embedding_diagnostics/planning.py": "5bfd715705948a3233b3b4f26ed4832ce5a46103bb4a273f75f5e7545ab4cd7e",
+    "src/embedding_diagnostics/report_html.py": "8bdd762c5275c8ee56de2f4bf2cd42241fc85e300de1f1e74bf23c88b4f39ef4",
+    "src/embedding_diagnostics/runs.py": "dbc8cd2d709e62097f12ebcbdbfa2a376e0b12dbb1565752325eb738dbce39d6",
+    "src/embedding_diagnostics/stats.py": "c047dcd96e80a738f0a3580e5d93d578e5eb9bfe9e3d6d45e42f69de4195870b",
+    "src/embedding_diagnostics/training/__init__.py": "958f48cb3bbde78cf4fe9607164af4a7f83adb412c6124a81639fa32a6dcb421",
+    "src/embedding_diagnostics/training/sigreg.py": "55a78ea8d13cbfe121d7becda21f2112e694729f5145879aa6d1303a1c733d80",
+    "src/embedding_diagnostics/training/strategy.py": "1c59429db87527f37ac9da57911488a9203d920bb0e69a881be056d10da5d10c",
+    "src/embedding_diagnostics/training/trainer.py": "53c070e3cff043494d9321907fe3eb0e3e1209c9f0f78fd2ddb0794cc4a31137",
+    "uv.lock": "a2229fda36115780e0c226383ba8b9eb14b707a5a93c86a80e4e3a6c7885c78a"
+  },
+  "geometry_endpoints": "all canonical metrics plus RankMe/D and participation_ratio/D",
+  "hypotheses": [
+    "C2-H1",
+    "C2-H2",
+    "C2-H3",
+    "C2-H4"
+  ],
+  "normalization": "native exact canonical copy; compressed per-row L2; zero fails",
+  "representations": [
+    "native_768",
+    "mrl_512",
+    "pca_512",
+    "mrl_256",
+    "pca_256",
+    "mrl_128",
+    "pca_128"
+  ],
+  "runtime_versions": {
+    "numpy": "2.5.1",
+    "pillow": "12.3.0",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.18.0",
+    "threadpoolctl": "3.6.0",
+    "torch": "2.11.0+cu128",
+    "torchvision": "0.26.0+cu128"
+  },
+  "sample_manifest_sha256": "62c62eec085ba09f4a056a4451e37391f680a89becc480c55b40f90cc85f6aaf",
+  "sample_status": "previously examined C1 sample; not independent replication",
+  "semantic_endpoints": [
+    "standardized accuracy",
+    "eligible balanced accuracy",
+    "P@10"
+  ],
+  "uncertainty": "descriptive paired effects; training-seed intervals not estimable"
+}

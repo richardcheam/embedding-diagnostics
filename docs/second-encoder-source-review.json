@@ -20,6 +20,14 @@
   },
   "branch": "phaseC-paired-replication",
   "checked_date": "2026-10-09",
+  "corrections": [
+    {
+      "action": "Moved to upstream_transformers_sources; actual upstream repository/path/tagged URL and reverified hashes recorded. Original incorrect URLs retained here for transparency. No Jina source or scientific result changed.",
+      "date": "2026-10-09",
+      "finding": "Two locally renamed Transformers research copies were incorrectly attributed to the Jina checkpoint repo by the ledger generator.",
+      "original_commit": "ebe17fb"
+    }
+  ],
   "historical_preservation_checks": {
     "accepted_paired_cache_files": 11003,
     "endpoints_executed": false,
@@ -149,16 +157,6 @@
           "bytes": 1148,
           "sha256": "e1bc77da5b90ba65b47aa8bd776c6317f47d50dc6717e92b10177686b3b8f161",
           "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/tokenizer_config.json"
-        },
-        "v4.49.0-configuration_utils.py": {
-          "bytes": 58190,
-          "sha256": "dd8b6704051b55a24820344d4b5987646613c51518331e6e12eeb721d1eaf90b",
-          "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/v4.49.0-configuration_utils.py"
-        },
-        "v4.49.0-modeling_clip.py": {
-          "bytes": 74256,
-          "sha256": "382acb208bdab45dd7e99d5be09b325d5696feedfa3c511b8c7b9561a0c07bf9",
-          "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/v4.49.0-modeling_clip.py"
         }
       },
       "last_modified": "2026-04-08T14:03:45.000Z",
@@ -315,5 +313,29 @@
       "clip_loss": "absent from installed CLIP module"
     }
   },
-  "status": "proposal/research only; no checkpoint download or inference"
+  "status": "proposal/research only; no checkpoint download or inference",
+  "upstream_transformers_sources": {
+    "src/transformers/configuration_utils.py": {
+      "bytes": 58190,
+      "incorrect_previous_url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/v4.49.0-configuration_utils.py",
+      "local_research_copy_name": "v4.49.0-configuration_utils.py",
+      "repository": "huggingface/transformers",
+      "sha256": "dd8b6704051b55a24820344d4b5987646613c51518331e6e12eeb721d1eaf90b",
+      "tag": "v4.49.0",
+      "tagged_url": "https://raw.githubusercontent.com/huggingface/transformers/v4.49.0/src/transformers/configuration_utils.py",
+      "upstream_filename": "configuration_utils.py",
+      "upstream_path": "src/transformers/configuration_utils.py"
+    },
+    "src/transformers/models/clip/modeling_clip.py": {
+      "bytes": 74256,
+      "incorrect_previous_url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/v4.49.0-modeling_clip.py",
+      "local_research_copy_name": "v4.49.0-modeling_clip.py",
+      "repository": "huggingface/transformers",
+      "sha256": "382acb208bdab45dd7e99d5be09b325d5696feedfa3c511b8c7b9561a0c07bf9",
+      "tag": "v4.49.0",
+      "tagged_url": "https://raw.githubusercontent.com/huggingface/transformers/v4.49.0/src/transformers/models/clip/modeling_clip.py",
+      "upstream_filename": "modeling_clip.py",
+      "upstream_path": "src/transformers/models/clip/modeling_clip.py"
+    }
+  }
 }

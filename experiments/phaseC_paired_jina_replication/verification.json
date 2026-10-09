@@ -1,0 +1,27 @@
+{
+  "blocker_sha256": "a851fe1213dff40356d1bb5c78fb6478536c287caeb1bbc2ee80dc3742cee63b",
+  "canonical_historical_cache_preserved": true,
+  "canonical_rows": 0,
+  "completed_scientific_resume": "not applicable: no completed extraction/evaluation",
+  "forward_calls": 0,
+  "freeze_commit": "8557b78",
+  "historical_scientific_artifact_diff": "empty from ebe17fb",
+  "implementation_commit": "35bdf751b331f3a4a5074409149eaea6a0f5ed0d",
+  "isolated_lock_check": "passed",
+  "model_files_verified": 39,
+  "protected_files_verified": 12289,
+  "push_status": "not pushed; no remote phaseC-paired-replication branch at final remote check",
+  "root_lock_check": "passed",
+  "root_lock_sha256": "a2229fda36115780e0c226383ba8b9eb14b707a5a93c86a80e4e3a6c7885c78a",
+  "root_pyproject_sha256": "0beddff18172f6de073422a19513a439067280e0f7c347d92e37a279cd29fcc0",
+  "ruff": "passed",
+  "scientific_endpoint_calls": 0,
+  "source_files_verified": 9,
+  "status": "blocked before encoder forward",
+  "tests": {
+    "isolated_passed": 27,
+    "root_passed": 529,
+    "root_seconds": 34.24,
+    "root_skipped": 1
+  }
+}

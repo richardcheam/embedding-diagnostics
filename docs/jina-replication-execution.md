@@ -33,3 +33,22 @@ resumes, executed-source mutation and interval corruption/recovery.
 27 isolated-runtime model-free tests passed. Ruff, root/isolated lock checks and
 `git diff --check` passed. Historical protected hashes and accepted canonical
 cache hashes were verified. No encoder forward or scientific endpoint has run.
+
+[ours] Implementation `35bdf75`; separate pre-forward freeze `8557b78`. Offline
+smoke invocation failed during nested tokenizer construction, encoder forwards0,
+20.623s extraction-stage time, partial-process peakRSS736.785MiB. The pinned
+nested constructor at `modeling_xlm_roberta.py:479` initiates another tokenizer
+lookup without code revision. Offline mode rejects it before checkpoint loading
+completes. See the [preserved blocker](../experiments/phaseC_paired_jina_replication/interpretation.md).
+No scientific endpoint, image decode, full cache extraction/binding or fallback
+was executed. Native/prefix repeat, throughput and full-wrapper resource gates
+remain untested. Completed scientific zero-work resumes are not applicable to
+this blocked attempt; their model-free regression tests pass.
+
+[ours] Final blocked-attempt verification:529 root tests passed, one optional
+skip (34.24s);27 isolated unit tests passed. Ruff, both lock checks, whitespace
+and new local document links passed. Frozen model/source/code/runtime/input
+identities and all protected historical/cache files verified; accepted scientific
+artifact and root dependency diffs from `ebe17fb` are empty. Complete canonical
+rows0. Remote check finds no `phaseC-paired-replication` branch; commits remain
+local and no push occurred. No full-model resource or scientific success claimed.

@@ -518,3 +518,34 @@ IDs. Stop; any independent encoder replication requires new scope.
 Ruff, lock check, whitespace check and local document links passed. Accepted
 C1/C2/C3/pilot/sensitivity artifact diffs from `96a28b9` are empty. Completed
 resume preserves all 18 pre-resume artifacts and verifies all protected hashes.
+
+## 2026-10-09 — Jina paired replication stops at its offline loading gate
+
+[ours] Starting `ebe17fb` on `phaseC-paired-replication`, source correction
+`b4c2c97` separates tagged upstream Transformers files from locally renamed
+research copies. Tested implementation `35bdf75` uses a separate locked4.49.0
+extraction environment; root environment/lock unchanged. Four exact repository
+revisions acquired selectively; advertised CLIP safetensors digest verified;
+no nested text weights. Two recorded resolution-only wrapper amendments bind
+nested config/code revisions. Original source snapshots remain unchanged.
+
+[ours] Pre-forward freeze `8557b78` binds inputs, versions, source/code/model/cache
+hashes, unchanged conditions and resource limits. Offline model construction
+fails at the pinned nested model's internal tokenizer lookup without code-revision
+propagation (`modeling_xlm_roberta.py:479`). Encoder forwards0; scientific
+endpoints0; extraction-stage20.623s, partial peakRSS736.785MiB. Neither full-wrapper
+fit nor numerical/throughput agreement was tested. Error and traceback retained
+in the new namespace; no alternate loading, precision, resolution or revised
+freeze was attempted. Accepted BDD/COCO results and qualifications are preserved.
+
+[interpretation] This is a source-resolution compatibility failure, not a failed
+compression replication or an encoder-quality finding. A separately reviewed
+resolution-only remedy and new pre-forward freeze would be needed to retry;
+no further execution is authorized by this checkpoint. Next reporting deliverable
+is synthesis of completed evidence with this blocker stated plainly.
+
+[ours] Final verification:529 root tests passed, one optional skip (34.24s);
+27 isolated tests, Ruff, root/isolated lock checks, whitespace and new document
+links passed. Frozen input/code/source/model/runtime and historical/cache hashes
+verified; historical scientific artifacts and root dependency files have empty
+diffs from `ebe17fb`. The branch remains local; no push occurred.

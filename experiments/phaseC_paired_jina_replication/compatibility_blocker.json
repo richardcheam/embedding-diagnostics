@@ -1,0 +1,7 @@
+{
+  "elapsed_seconds": 20.623009466100484,
+  "error": "We couldn't connect to 'https://huggingface.co' to load this file, couldn't find it in the cached files and it looks like jinaai/xlm-roberta-flash-implementation is not the path to a directory containing a file named configuration_xlm_roberta.py.\nCheckout your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.",
+  "forward_calls": 0,
+  "peak_rss_mib": 736.78515625,
+  "type": "OSError"
+}

@@ -61,6 +61,16 @@ caption-role prefixes and cannot isolate modality asymmetry. The current 983-row
 BDD qualification and six unresolved pilot IDs remain unchanged. No ANN, precision
 extension, PCA control or additional experiment is started; stop for interpretation.
 
+[ours] Jina second-encoder execution was attempted under implementation `35bdf75`
+and pre-forward freeze `8557b78`, after source correction `b4c2c97`. The isolated
+runtime and checkpoint digest pass preparation checks, but the offline contract
+stops during the pinned nested text model's internal tokenizer construction:
+an unpinned config/code lookup is correctly rejected. Encoder forwards and
+scientific endpoints: zero. No compression response or full-wrapper resource
+fit can be inferred. See the [blocked attempt](../experiments/phaseC_paired_jina_replication/interpretation.md)
+and [execution record](jina-replication-execution.md). No fallback, revised freeze
+or further experimental expansion was executed; accepted qualified results stand.
+
 This is the plain-language account of what the project asks, what it found, what it had to
 take back, and what is still open. If a term is unfamiliar, look it up in
 [`metrics.md`](metrics.md) (formulas and worked examples) or read [`primer.md`](primer.md)

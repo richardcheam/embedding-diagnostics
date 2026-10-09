@@ -1,0 +1,77 @@
+Could not locate the configuration_xlm_roberta.py inside jinaai/xlm-roberta-flash-implementation.
+Traceback (most recent call last):
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/utils/hub.py", line 342, in cached_file
+    resolved_file = hf_hub_download(
+                    ^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1121, in _hf_hub_download_to_cache_dir
+    _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1653, in _raise_on_head_call_error
+    raise LocalEntryNotFoundError(
+huggingface_hub.errors.LocalEntryNotFoundError: Cannot find the requested files in the disk cache and outgoing traffic has been disabled. To enable hf.co look-ups and downloads online, set 'local_files_only' to False.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/richard/projects/embedding-diagnostics/scripts/run_jina_paired_replication.py", line 446, in <module>
+    extract(smoke=args.stage == "smoke")
+  File "/home/richard/projects/embedding-diagnostics/scripts/run_jina_paired_replication.py", line 176, in extract
+    model = JinaCLIPv2(
+            ^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/src/embedding_diagnostics/models/jinaclipv2.py", line 117, in __init__
+    self.model, info = model_class.from_pretrained(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/modeling_clip.py", line 230, in from_pretrained
+    return super().from_pretrained(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 262, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4185, in from_pretrained
+    model = cls(config, *model_args, **model_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/modeling_clip.py", line 312, in __init__
+    self.text_model = _build_text_tower(text_config)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/modeling_clip.py", line 70, in _build_text_tower
+    return HFTextEncoder(
+           ^^^^^^^^^^^^^^
+  File "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/hf_model.py", line 153, in __init__
+    self.transformer = AutoModel.from_config(
+                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 437, in from_config
+    return model_class._from_config(config, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 262, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1501, in _from_config
+    model = cls(config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/modeling_lora.py", line 256, in __init__
+    self.roberta = XLMRobertaModel(config, add_pooling_layer=add_pooling_layer)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/modeling_xlm_roberta.py", line 479, in __init__
+    self.tokenizer = AutoTokenizer.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/models/auto/tokenization_auto.py", line 901, in from_pretrained
+    config = AutoConfig.from_pretrained(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/models/auto/configuration_auto.py", line 1084, in from_pretrained
+    config_class = get_class_from_dynamic_module(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/dynamic_module_utils.py", line 541, in get_class_from_dynamic_module
+    final_module = get_cached_module_file(
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/dynamic_module_utils.py", line 345, in get_cached_module_file
+    resolved_module_file = cached_file(
+                           ^^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/tools/jina_extraction/.venv/lib/python3.12/site-packages/transformers/utils/hub.py", line 385, in cached_file
+    raise EnvironmentError(
+OSError: We couldn't connect to 'https://huggingface.co' to load this file, couldn't find it in the cached files and it looks like jinaai/xlm-roberta-flash-implementation is not the path to a directory containing a file named configuration_xlm_roberta.py.
+Checkout your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.

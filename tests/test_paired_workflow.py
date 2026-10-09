@@ -122,6 +122,7 @@ def test_saved_contract_repeat_survives_interruption_and_binds_freeze(tmp_path):
 
 def test_actual_completed_extraction_loads_no_model_and_preserves_chunks(tmp_path,monkeypatch):
     import zipfile
+    from types import SimpleNamespace
 
     import numpy as np
 
@@ -138,6 +139,10 @@ def test_actual_completed_extraction_loads_no_model_and_preserves_chunks(tmp_pat
     monkeypatch.setitem(context,'ROOT',root)
     monkeypatch.setitem(context,'SOURCE',tmp_path)
     monkeypatch.setitem(context,'checked_freeze',lambda:freeze)
+    # This synthetic resume test checks model/cache behavior, not Linux telemetry.
+    monkeypatch.setitem(context,'swap_counters',lambda:0)
+    monkeypatch.setitem(context,'resource',SimpleNamespace(
+        RUSAGE_SELF=0,getrusage=lambda _:SimpleNamespace(ru_maxrss=128*1024)))
     def forbidden(*args,**kwargs):
         raise AssertionError('completed extraction loaded model')
     monkeypatch.setitem(context,'EmbeddingGemma2',forbidden)

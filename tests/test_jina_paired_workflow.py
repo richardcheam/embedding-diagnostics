@@ -1,7 +1,9 @@
 import importlib.util
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
+import pytest
 
 from embedding_diagnostics.jina_paired_cache import JinaPairedCache
 from embedding_diagnostics.jina_protocol import cache_provenance
@@ -16,8 +18,19 @@ def runner():
     return module
 
 
-def test_completed_extraction_has_zero_model_calls(tmp_path, monkeypatch):
-    m = runner()
+@pytest.fixture
+def extraction_runner(monkeypatch):
+    """Resume/contract tests isolate Linux telemetry from the host machine."""
+    module = runner()
+    monitor = module.SwapMonitor
+    monkeypatch.setattr(module, "SwapMonitor", lambda: monitor(counter=lambda: 0))
+    monkeypatch.setattr(module, "resource", SimpleNamespace(
+        RUSAGE_SELF=0, getrusage=lambda _: SimpleNamespace(ru_maxrss=128*1024)))
+    return module
+
+
+def test_completed_extraction_has_zero_model_calls(tmp_path, monkeypatch, extraction_runner):
+    m = extraction_runner
     monkeypatch.setattr(m, "ROOT", tmp_path)
     freeze = {"repositories": {"jinaai/jina-clip-v2": "frozen"}}
     (tmp_path / "freeze.json").write_text("{}")
@@ -86,10 +99,8 @@ def test_completed_endpoint_resume_does_no_ranking_or_interval(tmp_path, monkeyp
     assert report["endpoint_calls"] == report["interval_calls"] == report["reference_rankings"] == 0
 
 
-def test_saved_failed_smoke_cannot_be_promoted_by_resume(tmp_path, monkeypatch):
-    import pytest
-
-    m = runner()
+def test_saved_failed_smoke_cannot_be_promoted_by_resume(tmp_path, monkeypatch, extraction_runner):
+    m = extraction_runner
     monkeypatch.setattr(m, "ROOT", tmp_path)
     monkeypatch.setattr(m, "checked_freeze", lambda *a, **k: {})
     (tmp_path / "freeze.json").write_text("{}")

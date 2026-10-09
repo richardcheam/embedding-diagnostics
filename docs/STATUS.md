@@ -22,7 +22,8 @@ contract failed before any forward. Neither attempt supports Jina quality claims
 Training-seed intervals, fixed-sample BDD effects and conditional fixed-gallery COCO
 bootstrap intervals are distinct uncertainty scopes. See the [final synthesis](final-synthesis.md),
 [source audit](source-provenance-audit.md), and [current sensitivity](../experiments/phaseC_source_sensitivity/interpretation.md).
-The final site preview is built locally; this closure does not publish or deploy it.
+The final page is built from committed records and published using GitHub Pages.
+Publication does not reopen experimental scope.
 
 
 Historical status entries below are retained in their original chronological scope;

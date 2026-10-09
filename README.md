@@ -22,7 +22,8 @@ contract failed before any forward. Neither attempt supports Jina quality claims
 Training-seed intervals, fixed-sample BDD effects and conditional fixed-gallery COCO
 bootstrap intervals are distinct uncertainty scopes. See the [final synthesis](docs/final-synthesis.md),
 [source audit](docs/source-provenance-audit.md), and [current sensitivity](experiments/phaseC_source_sensitivity/interpretation.md).
-The final site preview is built locally; this closure does not publish or deploy it.
+The final page is built from committed records; publication uses the repository's
+GitHub Pages workflow. Building a local preview alone does not publish it.
 
 
 Can you trust a self-supervised scenario embedding? This project manufactures known modes
@@ -32,9 +33,8 @@ actually detect each mode, first on a CIFAR-10 calibration bench and then on BDD
 driving scenarios, where the semantic endpoint is scenario-attribute retrieval.
 
 **[Project page](https://richardcheam.github.io/embedding-diagnostics/)** — a visual case
-study. The existing deployed version predates this final wrap-up. The local review
-preview adds the four-question synthesis, checked source records, and qualified BDD
-and COCO tables. Publication by GitHub Actions is a separately authorized action.
+study organized around four questions, with checked source records and qualified BDD
+and COCO tables. Publication uses the validated GitHub Actions Pages workflow.
 
 **Metric definitions** — formula, worked example and blind spot for every measure used
 here (RankMe, participation ratio, P@10, balanced accuracy, chance floors, paired

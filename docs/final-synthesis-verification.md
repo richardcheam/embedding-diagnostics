@@ -1,6 +1,7 @@
 # Wrap-up verification and review
 
-Baseline: `e902aa0`. Experimental scope closed; no endpoints recomputed.
+Pre-publication verification recorded for wrap-up `994937b`, based on `e902aa0`.
+Experimental scope closed; no endpoints recomputed.
 
 | Check | Observed result |
 |---|---|
@@ -28,7 +29,9 @@ Browser measurements, external-link statuses and screenshots remain there for
 review. The page keeps its existing typography, paper/pigment palette, responsive
 contents, shared-architecture illustration and training uncertainty appendix.
 
-The new page is not live. No push, publication or deployment was performed.
+At the pre-publication verification stage, the new page was not live and no push,
+publication or deployment had been performed. The subsequent user-authorized release
+uses GitHub Pages; this historical verification record remains preserved.
 Historical scientific records, failed attempts and canonical arrays are unchanged.
 Experimental expansion is closed; maintenance and transparent corrections remain
 possible. The audio–visual project is separate.

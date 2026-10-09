@@ -627,3 +627,12 @@ packages were installed to mask this limitation. The site builds with the
 standard library and is ready for local review; it was not pushed, published or
 deployed. Experiments are closed, with maintenance and transparent corrections
 still possible. Audio–visual post-training belongs to a separately scoped project.
+
+
+## 2026-10-09 — User-authorized publication of the closed study
+
+The user authorized pushing and publishing the reviewed wrap-up `994937b`.
+Release wording distinguishes the preserved pre-publication verification from
+the GitHub Pages publication stage. The research branch and `main` receive the
+accepted history by fast-forward; no scientific records, source code, caches or
+root dependency files are changed. Experimental scope remains closed.

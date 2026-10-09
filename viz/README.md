@@ -21,7 +21,7 @@ same values, without recomputing endpoints. Legacy design/build notes follow.
 
 ## Historical page design/build notes (pre-synthesis)
 
-The previously deployed case study is hosted at
+The project page is hosted at
 [richardcheam.github.io/embedding-diagnostics/](https://richardcheam.github.io/embedding-diagnostics/).
 
 ```sh

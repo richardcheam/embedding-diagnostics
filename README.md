@@ -1,5 +1,30 @@
 # embedding-diagnostics
 
+
+## Experimental scope closed — 2026-10-09
+
+[interpretation] The completed study compares geometric diagnostics with label
+prediction, neighbour identity and paired-caption utility. It establishes no general
+quality predictor or independent encoder replication. Maintenance and transparent
+corrections remain possible; no further experiments or Jina repair are planned here.
+Audio–visual post-training is a separate project.
+
+[ours] Current qualified BDD evidence uses the source-exclusion sensitivity:
+2,000 unchanged training rows and 983 validation queries/gallery candidates after
+removing 17 confirmed generated graphics. Historical C1/C2/C3 results and caches
+remain preserved. Verified enriched-fragment continuity is not original-BDD
+authentication; the six pilot IDs remain historically unresolved.
+
+[ours] Original-source COCO paired evaluation is complete for native 768d and MRL
+256/128d. Jina's constructor resolution was repaired, but the subsequent CPU FP32
+contract failed before any forward. Neither attempt supports Jina quality claims.
+
+Training-seed intervals, fixed-sample BDD effects and conditional fixed-gallery COCO
+bootstrap intervals are distinct uncertainty scopes. See the [final synthesis](docs/final-synthesis.md),
+[source audit](docs/source-provenance-audit.md), and [current sensitivity](experiments/phaseC_source_sensitivity/interpretation.md).
+The final site preview is built locally; this closure does not publish or deploy it.
+
+
 Can you trust a self-supervised scenario embedding? This project manufactures known modes
 of representation degeneration in masked JEPA training — via stop-gradient, SIGReg, and a
 disposable projector as controlled interventions — and tests which label-free diagnostics
@@ -7,16 +32,17 @@ actually detect each mode, first on a CIFAR-10 calibration bench and then on BDD
 driving scenarios, where the semantic endpoint is scenario-attribute retrieval.
 
 **[Project page](https://richardcheam.github.io/embedding-diagnostics/)** — a visual case
-study of the experiment and probe correction, rebuilt from tracked Phase-B records and
-published by GitHub Actions. Includes per-seed figures and downloadable paired intervals.
+study. The existing deployed version predates this final wrap-up. The local review
+preview adds the four-question synthesis, checked source records, and qualified BDD
+and COCO tables. Publication by GitHub Actions is a separately authorized action.
 
 **Metric definitions** — formula, worked example and blind spot for every measure used
 here (RankMe, participation ratio, P@10, balanced accuracy, chance floors, paired
 intervals): [`docs/metrics.md`](docs/metrics.md).
 
-**New to this? Start with [`docs/primer.md`](docs/primer.md)** — builds the whole chain from
+**Historical training primer: start with [`docs/primer.md`](docs/primer.md)** — builds the whole chain from
 scratch (what an embedding is, why models collapse, how representations are evaluated) and
-ends on the finding. Read it before the report.
+ends on its historical training findings. Read the final synthesis for current scope.
 
 **Already have the background: [`docs/STATUS.md`](docs/STATUS.md)** — the plain-language
 story of what we set out to test, what actually happened, and what is still open.
@@ -33,7 +59,10 @@ against the reference implementation and matches it bit-for-bit — validation t
 real bug in our version (see `docs/open-questions.md`). But the *system* around it is not
 LeJEPA: we pair SIGReg with masked latent prediction rather than multi-view invariance, and
 our projector is a project-specific MLP, not a reproduction of theirs. No result here is
-evidence about LeJEPA's claim. Full accounting in the report's contributions section.
+evidence about LeJEPA's claim. Full accounting in [the final synthesis](docs/final-synthesis.md).
+
+Commands below document completed campaigns and maintenance workflows. Their
+presence does not reopen experimental scope.
 
 ## Setup
 
@@ -191,17 +220,12 @@ it until steps/sec stops improving, then stop. Check `nproc` before going high, 
 
 ## Phase C (external pretrained reference)
 
-C0 adds local BDD Lance image-byte extraction through pinned EmbeddingGemma 2,
-an FP32 resumable canonical cache, and the existing geometry diagnostics.
-EmbeddingGemma is an external reference encoder; the seven training conditions
-are unchanged. C1-pilot is complete and exploratory; C1-main is complete, and
-C2 compares learned MRL with train-fitted PCA using the same cached vectors.
-C3/C4 remain deferred. See the [C2 tables](experiments/phaseC_c2/results.md),
-[qualified interpretation](experiments/phaseC_c2/interpretation.md), and
-[`docs/phase-c.md`](docs/phase-c.md) for the offline command, provenance, and
-integration record, and the [pilot report](experiments/phaseC_c1_pilot/README.md).
-Phase-C assessments are restricted to the predeclared hypotheses, frozen
-representation sample, and documented instrument limitations.
+[ours] C0, C1, C2, bounded C3, source audit/exclusion sensitivity and original-source
+COCO paired evaluation are complete. Current BDD evidence uses 983 validation rows;
+COCO uses 1,000 image groups with five captions each. Both Jina attempts are preserved
+as incomplete feasibility attempts with zero forwards. ANN and experimental expansion
+are closed. See [final synthesis](docs/final-synthesis.md) for the four questions,
+qualified evidence and uncertainty; historical protocols/results remain in `experiments/`.
 
 ## Sweeping the SIGReg weight
 
@@ -222,7 +246,7 @@ stop-gradient still matters at that setting.
 uv run python scripts/make_figures.py --tag phaseA_s0   # -> report/figures/*.pdf
 make -C report                                          # -> report/main.pdf
 
-# Current public case study: standard-library build, corrected Phase-B endpoints
+# Final public synthesis: standard-library build, checksummed accepted endpoints
 python3 viz/build_site.py                   # -> viz/dist/index.html + data.json
 python3 -m http.server 8080 --directory viz/dist
 ```
@@ -301,112 +325,17 @@ Development happens without a GPU; training happens elsewhere. Run logs are smal
 tracked in git, so results move back by `git pull` — no separate sync tooling. Checkpoints
 (`*.pt`) are gitignored and are not needed to rebuild any output.
 
-## Results
+## Accepted evidence and historical qualifications
 
-Summarised in [`docs/STATUS.md`](docs/STATUS.md); written up in `report/`.
+The [final synthesis](docs/final-synthesis.md) and `report/main.tex` are the current
+conclusions. Historical draft report sections remain in the repository, outside the
+final report build. [Corrected Phase-B provenance](docs/development-log.md) explains
+the withdrawn raw-probe claim and remaining convergence warnings. Phase-A probe
+endpoints remain provisional; no LeJEPA system reproduction is claimed.
 
-**Supporting evidence, from controlled degradations (no training required):** applying
-*known* transformations to embedding matrices maps out which diagnostic is invariant to
-which change. Contracting 10,000x, or driving mean pairwise cosine to 1.000, leaves
-retrieval P@10 at exactly 1.000 — but note these transformations are **invertible by
-construction**, so they are designed to preserve information while changing geometry. They
-establish each metric's *invariances*; they do not by themselves show that geometry can
-never track semantics. The training results above are what show the dissociation arising on
-its own.
-
-**Phase B (BDD100K driving scenarios, 7 conditions × 5 paired seeds).** The control has no
-collapse prevention. Every geometric measure says it is destroyed:
-
-| geometric measure | healthy | **contracted control** | weakest run that trains |
-| --- | --- | --- | --- |
-| total variance | 107.71 | **0.0001** | 39.61 |
-| mean pairwise cosine | 0.256 | **1.0000** | 0.676 |
-| RankMe | 78.36 | **1.06** | 7.45 |
-
-Measured with a working probe, it is nearly as decodable as a condition that genuinely
-trained:
-
-| attribute | healthy | **contracted** | weakest real | majority floor |
-| --- | --- | --- | --- | --- |
-| weather | 0.7271 | **0.6680** | 0.6778 | 0.6041 |
-| scene | 0.6560 | **0.6381** | 0.6333 | 0.6034 |
-| timeofday | 0.9271 | **0.9137** | 0.9167 | 0.4833 |
-
-Guessing scores 0.483 on timeofday. A healthy encoder scores 0.927. An encoder with a
-millionth of normal variance, every output pointing the same direction, scores **0.914**.
-
-> **Geometric degeneration does not imply loss of decodable information.**
-
-**Second finding: the two semantic evaluations disagree.** Linear decodability survives;
-neighbourhood structure does not.
-
-| | healthy | contracted | weakest real | chance |
-| --- | --- | --- | --- | --- |
-| linear probe (timeofday) | 0.9271 | 0.9137 | 0.9167 | 0.483 |
-| **retrieval P@10** | 0.6750 | **0.5664** | 0.6329 | 0.429 |
-
-The probe says fine; retrieval says clearly worse, by more than the seed noise. A linear
-classifier only needs *some* separating direction; retrieval needs the *ordering of
-neighbours*, and squashing the cloud scrambles that. **For scenario mining this is the half
-that matters** — the application is retrieval, and it is the endpoint that degrades.
-
-**Third finding: two "effective rank" measures invert.** The participation ratio reads
-**25.45** on the contracted encoder against **10.99** on the healthy one — paired 95%
-interval [−32.70, −15.36], in the wrong direction. It subtracts the mean before measuring,
-which deletes exactly the failure; RankMe does not, and gets it right.
-
-### What we withdrew
-
-An earlier version of this README claimed the standard evaluation was blind to collapse
-while the unstandardized probe detected it. **That was wrong.** The unstandardized probe's
-optimiser stops when the objective's slope goes shallow, the slope scales with feature
-magnitude, and at ~0.001 it stopped before fitting — predicting the majority class and
-returning chance, with no warning. Re-measuring Phase B from its saved encoders moved the
-contracted encoder's timeofday score from 0.4832 to 0.9137 while every other condition moved
-by ≤0.01. There was no information loss for the standard protocol to be blind to.
-
-⚠️ **Phase A (CIFAR-10) probe numbers are not corrected** — that campaign saved no encoders
-and needs a re-run. Do not quote them. Its geometric numbers are unaffected.
-
-Full account: [`docs/STATUS.md`](docs/STATUS.md); provenance and commit references in
-`report/sections/provenance.tex`.
-
-**The prescription.** No single label-free diagnostic covers every collapse mode — that is
-an exhaustive search over subsets, not a preference. Two do: **total variance + RankMe**.
-The argument is that the *scale-invariant* metrics (cosine, RankMe, participation ratio)
-cannot see pure scale contraction, while the *centered* metrics (total variance,
-participation ratio) cannot see the cloud shifting off the origin, so a sufficient panel
-needs one from each family. Exactly four pairs qualify and **the participation ratio is in
-none of them**. Reproduce with:
-
-```bash
-uv run python scripts/validate_panel.py
-```
-
-Two things there were surprises. Drift-based alarms — "flag when a metric moves far from
-its init value" — give 5 false alarms out of 6 on CIFAR-10 and 4 out of 6 on BDD100K,
-including on the only condition that actually learns; healthy SSL training legitimately
-reshapes geometry. Absolute limits near each metric's degenerate floor instead give **zero
-misclassifications across all 14 condition-dataset pairs**, with margins of 9x (RankMe) to
-41,716x (total variance).
-
-A tripped check means scale-invariant metrics are untrustworthy on that embedding — not
-that it carries no information. Three of five controlled degradations leave retrieval P@10
-at exactly 1.000 while wrecking the geometry.
-
-Two further results:
-
-- **Geometry and semantics fail to resolve in opposite places.** Across the SIGReg
-  contrasts every geometric comparison clears the claim rule and is enormous (169 units of
-  variance, 0.84 of cosine) while the probe moves at most 0.035. In the one contrast whose
-  semantic difference is unambiguous (+0.210 probe accuracy), *neither* geometric endpoint
-  clears the rule. Absolute detection of total collapse still works; what fails is using
-  these diagnostics to rank or compare configurations.
-- **RankMe and the participation ratio are not interchangeable**, despite both being called
-  effective-rank measures. Each is blind to the collapse mode the other detects — PR uses
-  the centered covariance spectrum and cannot see collapse to a non-zero constant; RankMe
-  uses raw singular values and can, but reads high when a shrinking residual stays isotropic.
-
-Only `ema_stopgrad` beat its own random initialisation (+0.161); every SIGReg arm finished
-below it. That is a statement about SIGReg paired with masked latent prediction, **not**
-about LeJEPA, which pairs it with multi-view invariance and no predictor.
+[ours] The current qualified C1/C2/C3 numbers are in the
+[source-exclusion sensitivity](experiments/phaseC_source_sensitivity/results.md).
+The [paired COCO evaluation](experiments/phaseC_paired_replication/results.md) uses
+original-source image–caption groups with the same pretrained encoder. Every
+historical campaign, source qualification and failed Jina attempt is preserved.
+Their original future-work recommendations are historical, superseded by closure.

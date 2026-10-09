@@ -1,79 +1,179 @@
 \documentclass[11pt]{article}
-
 \usepackage[margin=1in]{geometry}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{amsmath}
-\usepackage{hyperref}
-\usepackage{natbib}
-
+\usepackage{graphicx,booktabs,amsmath,hyperref,natbib}
 \input{macros}
-
-\graphicspath{{figures/}}
-
-\title{Can You Trust a Self-Supervised Scenario Embedding?\\
-\large Diagnosing Representation Degeneration in Masked JEPA Training}
-\author{}
-\date{\today}
-
+\title{Embedding Geometry and Downstream Utility\\\large A Closed Diagnostic Study with Qualified Sources}
+\author{Richard Cheam}
+\date{9 October 2026}
 \begin{document}
 \maketitle
-
 \begin{abstract}
-Scenario mining for ADAS validation embeds millions of unlabelled driving clips and asks
-geometric questions of them. That rests entirely on label-free diagnostics, so we ask which
-of them can be trusted. Collapse-prevention mechanisms --- stop-gradient, EMA, SIGReg and a
-disposable projector --- are used as instruments to manufacture known degeneration, including
-a control designed to fail outright, across seven conditions and five paired seeds on
-CIFAR-10 and BDD100K.
-
-\ours{} Our central result is a dissociation. The control degenerates on every geometric
-measure: total variance $10^{-4}$ against a healthy $107.7$, mean pairwise cosine exactly
-$1.0000$, RankMe $1.06$ out of 192 dimensions. Yet measured with a correctly optimised linear
-probe it remains nearly as decodable as a condition that genuinely trained --- on BDD100K's
-\texttt{timeofday} attribute it scores $0.914$ against a healthy $0.927$ and a majority floor
-of $0.483$, and on balanced accuracy it is indistinguishable from the weakest
-genuinely-training arm on all three attributes. Geometric degeneration does not imply loss of
-decodable information.
-
-\ours{} A second dissociation sits inside the semantic endpoints themselves. Linear
-decodability survives contraction; nearest-neighbour structure does not. Retrieval P@10 falls
-from $0.675$ to $0.566$ against a $0.429$ chance floor, a gap that clears across-seed noise
-where the probe comparison does not. For scenario mining this is the consequential half: the
-application \emph{is} retrieval, and it is the endpoint that degrades while the commonly
-reported one does not.
-
-\ours{} We also report a reproducible inversion between two measures both described in the
-literature as effective rank. The covariance participation ratio reads $25.45$ on the
-contracted control against $10.99$ on the healthy baseline --- paired 95\% interval
-$[-32.70, -15.36]$, in the wrong direction --- because it subtracts the mean and so removes
-precisely the degeneracy, while RankMe, computed from raw singular values, correctly reports
-$1.06$. The underlying algebra is known; the reproducible inversion in real training is what
-we contribute.
-
-\interp{} This report also records a claim we withdrew. An earlier version argued that
-standardized probing is blind to collapse while unstandardized probing detects it. That
-rested on a defective probe: on features of magnitude $10^{-3}$, lbfgs satisfies its
-gradient-norm stopping criterion before taking a useful step, returns the majority-class
-prediction, and reports chance while raising no warning. Recomputing from saved encoders
-moved the affected endpoint from $0.483$ to $0.914$ while every other condition moved by at
-most $0.01$. Section~\ref{sec:provenance} records what was fixed before the experiments, what
-was withdrawn, and what was chosen after seeing results.
+\ours{} This diagnostic study combines controlled JEPA training, pretrained
+EmbeddingGemma interventions, learned versus post-hoc compression, numerical
+neighbourhood checks and an original-source COCO image--caption evaluation.
+The current qualified BDD analysis retains 2,000 training and 983 validation
+rows after excluding 17 source-confirmed generated graphics. Historical records
+are preserved. Corrected training probes, fixed-sample pretrained comparisons
+and conditional COCO intervals have different uncertainty scopes.
+\interp{} Geometry, label decodability, neighbour identity, recorded-positive
+hits and multiple-caption coverage measure different properties. Familiar
+compression behavior is distinct from these diagnostic comparisons. No universal
+quality predictor, novel compression method or independent encoder replication
+is established. A Jina replication attempt failed its CPU FP32 contract before
+any forward; it supplies no embedding-quality evidence. Experiments are closed.
 \end{abstract}
 
-\input{sections/introduction}
-\input{sections/contributions}
-\input{sections/related_work}
-\input{sections/method}
-\input{sections/experiments}
-\input{sections/instrument_validation}
-\input{sections/stress_test}
-\input{sections/results}
-\input{sections/provenance}
-\input{sections/limitations}
-\input{sections/conclusion}
+\section{Design and evidence scope}
+\ours{} Phase A/B used one Trainer and seven collapse-prevention strategies,
+including EMA, stop-gradient and SIGReg variants with and without a projector.
+The masked prediction architecture follows I-JEPA \citep{assran2023ijepa}; the
+regularizer follows SIGReg \citep{lejepa2025}.
+Phase B used five paired seeds on a fixed driving-image evaluation split.
+The corrected probes supersede defective fixed-C/raw-feature fits: the earlier
+near-majority control score was a solver artifact. Some corrected raw fits still
+reach the iteration limit. Phase-A probe endpoints remain provisional.
+\interp{} The SIGReg loss passed reference checks; the surrounding masked
+prediction system is not LeJEPA and supports no system-level reproduction claim.
 
+\ours{} Phase C used pinned \texttt{google/embeddinggemma-2}, revision
+\texttt{914f7f89142e33e77833254d9c9b90c3cef7303b}, text plus vision with audio
+excluded, CPU FP32, masked mean pooling and L2 normalization. C1 uses five
+controlled feature-space interventions; C2 compares native 768d, learned MRL
+512/256/128 and centered training-fitted PCA at the same budgets. Shared
+training-fitted projections were verified for C1 rank loss and C2 PCA.
+C3 separates vector storage precision from similarity arithmetic, with exact
+search and one frozen mean-offset stress. No model quantization or ANN was tested.
+
+\section{What do geometry diagnostics reveal and miss?}
+\established{} Total variance is centered spread. Mean pairwise cosine describes
+directional agreement. RankMe \citep{garrido2023rankme} uses the raw singular spectrum; participation
+ratio uses centered covariance eigenvalues. Positive scaling preserves cosine
+ordering and both rank ratios, while variance contracts quadratically. A common
+offset preserves centered variance. These responses follow from definitions.
+
+\ours{} In corrected Phase B, time-of-day probe accuracy is approximately
+91.37\% for the contracted control and 92.71\% for the EMA reference; P@10 is
+approximately 56.57\% versus 67.47\%. Decodable labels survive pronounced
+geometric degeneration, but the retrieval endpoints differ. Five paired
+training-seed Student-t intervals and convergence qualifications are retained
+in the public page's training appendix and recorded reprobe tables.
+
+\ours{} Qualified pretrained C1 reproduces the expected scaling and offset
+invariances of standardized probing. Severe isotropic noise raises RankMe while
+weather P@10 approaches chance. \interp{} These are manufactured mathematical
+interventions, not naturally observed training trajectories. Raw versus centered
+rank can disagree without either furnishing a universal quality verdict.
+Absolute variance thresholds from unnormalized Phase-B vectors do not transfer.
+
+\input{sections/final_geometry}
+
+\section{How does compression affect different utility endpoints?}
+\ours{} The qualified seven-condition C2 comparison retains much of the measured
+utility at MRL 512/256; 128 has larger costs on several endpoints. Neither MRL
+nor PCA is uniformly better. PCA 128 exceeds MRL 128 on weather balanced accuracy,
+while MRL 128 has slightly higher weather P@10. The full 983-row tables and
+per-class support are linked from the accompanying synthesis.
+\interp{} Lower nominal dimension does not imply proportional semantic loss.
+This is familiar compression behavior, with task-specific diagnostic comparisons;
+centering and coordinate construction prevent isolating mechanism causes.
+Raw RankMe and participation ratio remain distinct from dimension-normalized
+capacity fractions. Three dimensions do not validate a general quality predictor.
+
+\input{sections/final_compression}
+
+\section{When does numerical perturbation change neighbour identity?}
+\ours{} Native FP16 gallery storage changes five of 983 top-10 sets; native INT8
+gallery storage changes 60. FP32 normalization/scoring changes none. The frozen
+mean-offset FP16 stress changes 195 sets despite smaller absolute score error.
+All native FP16 changes fall in the lowest reference-margin bin; INT8 gallery
+changes distribute 55/5/0/0 across four deterministic bins.
+\established{} Reference margins exceeding bounded score perturbations can
+sufficiently guarantee set preservation mathematically. \ours{} Prospective
+reconstruction-based conditions cover 576 native FP16-gallery queries with no
+empirical exception, and cover no INT8 or stressed queries.
+\interp{} This is not rigorous floating-point certification; retrospective
+observed errors must not be confused with prospective bounds.
+
+\ours{} Among 195 stressed identity changes, weather/scene/time P@10 is unchanged
+for 131/119/149 queries. \interp{} Entering/departing label counts distinguish
+attribute turnover from identity turnover without arbitrary pairings. Unmeasured
+instance semantics remain unknown. FP64 reconstructed working arrays do not
+establish production storage/search performance.
+
+\input{sections/final_numerics}
+
+\section{Does preserving a positive preserve ranking and caption coverage?}
+\ours{} The accepted COCO study sampled 1,000 original-release validation image
+groups with five human-authored captions each, using the same encoder and exactly
+native 768d, MRL 256d and MRL 128d. Prefixes are L2 renormalized. Text-to-image
+uses query-role text; image-to-text uses document-role text. Directional differences
+cannot isolate modality asymmetry. Independent evaluation sampling is not an
+independent encoder replication.
+\input{sections/final_tables}
+
+\ours{} At 128d, image-to-text Hit@10 declines 2.50 percentage points, Hit@1
+10.60 points, and fraction of five captions retrieved at ten 11.34 points.
+At 256d the differences are $-0.30$, $-0.70$ and $-1.74$ points.
+Top-10 identity overlap is approximately .84 and .65 at 256d and 128d in both
+directions. \interp{} At least one recorded positive is a weaker endpoint than
+first-rank recovery or multiple-caption coverage; these are not interchangeable
+with coarse image-category P@10.
+
+\ours{} Conditional paired 95\% intervals for Hit@10 differences are:
+text-to-image 256, $-0.20\ [-0.54,+0.14]$ points; image-to-text 256,
+$-0.30\ [-1.10,+0.50]$; text-to-image 128, $-3.34\ [-4.06,-2.62]$;
+image-to-text 128, $-2.50\ [-3.60,-1.40]$.
+\interp{} Intervals crossing zero are not equivalence claims.
+\ours{} A native circular pairing control preserves all vector geometry but
+reduces Hit@10 to 1.22\% and .20\% in the two directions.
+\interp{} Marginal distributions cannot establish paired alignment. Category
+and paired utility broadly decline under stronger compression here; there is
+no strong reversal between preserved coarse utility and destroyed pairing.
+
+\section{Source correction, uncertainty and limitations}
+\ours{} Seventeen confirmed generated graphics inherited from the enriched BDD
+validation fragment were excluded in a separately frozen post-audit sensitivity,
+as both queries and gallery candidates. All 2,000 training rows remain unchanged.
+The 983-row validation analysis is current; original caches and campaigns remain
+historical. Verified source-fragment byte continuity does not authenticate original
+BDD images or labels. Tunnel, gas stations and foggy have zero validation support;
+six pilot appended-fragment IDs remain separately unresolved.
+
+\interp{} Phase-B paired Student-t intervals describe five training seeds on one
+fixed split, not population uncertainty. Pretrained BDD effects are descriptive
+fixed-sample measurements. COCO's 5,000 paired parent-group bootstrap draws hold
+the gallery fixed and carry all five captions together. They do not measure
+encoder training variability or independent sampling of the gallery.
+Original COCO acquisition, annotation joins and content inspections support
+original-release provenance; they do not resolve unknown pretraining overlap,
+residual near/event duplicates or incomplete recorded relevance.
+
+\ours{} Jina-CLIP-v2 remains an incomplete replication: constructor resolution
+was repaired, then the full-wrapper CPU FP32 parameter contract failed before
+any forward. Both failed attempts, freezes and reports remain intact. The exact
+parameter-level cause was not persisted. No Jina quality or compression claim
+is supported, and no further repair is undertaken.
+
+\section{Conclusion and evidence access}
+\interp{} The study supports reading diagnostic definitions, numerical behavior
+and task endpoints together before interpreting surprising geometry. It supports
+no new universal quality predictor, novel compression algorithm, deployment
+performance claim or independent encoder replication. \ours{} The Jina replication failed its CPU FP32 contract before any forward and
+supports no quality or compression claim. Experimental scope is closed;
+maintenance and documented corrections remain possible. Audio--visual post-training
+belongs to a separate project.
+
+The locally built review preview packages accepted evidence and checksums.
+The existing public page is at
+\url{https://richardcheam.github.io/embedding-diagnostics/}; this wrap-up has not
+been published or deployed.
+The reviewable source synthesis is \texttt{docs/final-synthesis.md}; the artifact
+lock is \texttt{viz/evidence-lock.json}. Site figures and tables and this report's
+COCO table are generated from accepted JSON values, not recomputed endpoints.
+Legacy draft sections other than the updated provenance appendix remain in the repository for development history and are
+not included in this final report.
 \bibliographystyle{plainnat}
 \bibliography{refs}
-
+\appendix
+\input{sections/provenance}
 \end{document}

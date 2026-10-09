@@ -1,6 +1,32 @@
 # Where this project stands
 
-Last updated: 2026-08-17, after the Phase-B reprobe.
+
+## Experimental scope closed — 2026-10-09
+
+[interpretation] The completed study compares geometric diagnostics with label
+prediction, neighbour identity and paired-caption utility. It establishes no general
+quality predictor or independent encoder replication. Maintenance and transparent
+corrections remain possible; no further experiments or Jina repair are planned here.
+Audio–visual post-training is a separate project.
+
+[ours] Current qualified BDD evidence uses the source-exclusion sensitivity:
+2,000 unchanged training rows and 983 validation queries/gallery candidates after
+removing 17 confirmed generated graphics. Historical C1/C2/C3 results and caches
+remain preserved. Verified enriched-fragment continuity is not original-BDD
+authentication; the six pilot IDs remain historically unresolved.
+
+[ours] Original-source COCO paired evaluation is complete for native 768d and MRL
+256/128d. Jina's constructor resolution was repaired, but the subsequent CPU FP32
+contract failed before any forward. Neither attempt supports Jina quality claims.
+
+Training-seed intervals, fixed-sample BDD effects and conditional fixed-gallery COCO
+bootstrap intervals are distinct uncertainty scopes. See the [final synthesis](final-synthesis.md),
+[source audit](source-provenance-audit.md), and [current sensitivity](../experiments/phaseC_source_sensitivity/interpretation.md).
+The final site preview is built locally; this closure does not publish or deploy it.
+
+
+Historical status entries below are retained in their original chronological scope;
+the closure summary above supersedes their next-step recommendations.
 
 [measurement] Phase-C extension updated 2026-10-08: C0 and the exploratory
 C1-pilot are complete. C1-main was accepted at `0c19a85`; the C2 audit verifies

@@ -1,0 +1,19 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Condition & Max score error & Changed queries / 983 & Overlap@10 & $\Delta$ weather P@10 pp & $\Delta$ scene pp & $\Delta$ time pp \\
+\midrule
+native\_ref & 8.88e-16 & 0 & 1.00000 & +0.000 & +0.000 & +0.000 \\
+native\_fp16\_gallery & 5.78e-05 & 5 & 0.99949 & -0.020 & +0.020 & -0.010 \\
+native\_fp16\_both & 8.16e-05 & 5 & 0.99949 & -0.020 & +0.020 & -0.010 \\
+native\_int8\_gallery & 0.00395 & 60 & 0.99390 & -0.041 & -0.010 & +0.000 \\
+native\_int8\_both & 0.00482 & 75 & 0.99237 & -0.020 & -0.010 & -0.031 \\
+native\_fp32\_arithmetic & 7.12e-07 & 0 & 1.00000 & +0.000 & +0.000 & +0.000 \\
+mean99\_ref & 8.88e-16 & 0 & 1.00000 & +0.000 & +0.000 & +0.000 \\
+mean99\_fp16\_gallery & 2.95e-07 & 195 & 0.97996 & +0.041 & +0.020 & +0.183 \\
+\bottomrule
+\end{tabular}}
+\caption{\ours{} Qualified BDD: storage and arithmetic conditions; deltas use each condition's reference}
+\end{table}

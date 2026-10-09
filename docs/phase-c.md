@@ -1,5 +1,12 @@
 # Phase C: an external pretrained reference
 
+
+Current scope (2026-10-09): experiments are closed. Maintenance and transparent
+corrections remain possible. Historical planned stages and next-step suggestions
+below do not authorize expansion. See [final synthesis](final-synthesis.md);
+audio–visual post-training belongs to a separate project.
+
+
 [ours] Current extension status (2026-10-08): C1-main, C2 and bounded C3 are
 complete; C4 is deferred. C3 uses only the fixed 3,000×768 canonical cache,
 separating storage precision, similarity arithmetic and a fixed mean-injection

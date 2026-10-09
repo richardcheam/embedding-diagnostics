@@ -1642,3 +1642,12 @@ summary::-webkit-details-marker { display:none }
   }
   .pipeline-phases button[aria-pressed=true] { border-bottom-color:Highlight }
 }
+
+/* Final synthesis: retain the paper/pigment palette and readable native tables. */
+.paired-summary svg { width: 100%; height: auto; font: 12px Arial, sans-serif; fill: var(--ink); }
+.paired-summary { margin: 2rem 0; }
+.evidence-document { max-width: 78rem; margin: 3rem auto; padding: 1.5rem; }
+.evidence-document pre { white-space: pre-wrap; overflow-wrap: anywhere; font: .9rem/1.7 monospace; }
+.evidence-document p { overflow-wrap: anywhere; }
+.table-scroll:focus-visible { outline: 2px solid var(--reference); outline-offset: 4px; }
+@media (max-width: 600px) { .paired-summary { overflow-x: auto; } .paired-summary svg { min-width: 650px; } }

@@ -1,0 +1,16 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Condition & Variance & Cosine & RankMe & PR & Weather BA \% & Weather P@10 \% \\
+\midrule
+pristine & 0.25703 & 0.742967 & 270.81 & 38.26 & 63.02 & 57.86 \\
+scale\_contraction\_0.99 & 2.5703e-05 & 0.742967 & 270.81 & 38.26 & 63.02 & 57.86 \\
+rank\_truncation\_0.99 & 0.079585 & 0.905020 & 4.62 & 4.39 & 30.75 & 52.73 \\
+mean\_injection\_0.99 & 0.25703 & 0.999974 & 2.01 & 38.26 & 63.02 & 57.79 \\
+isotropic\_noise\_0.99 & 9799 & 0.000156 & 667.31 & 430.99 & 18.85 & 40.05 \\
+\bottomrule
+\end{tabular}}
+\caption{\ours{} Qualified BDD: pristine and severe C1 interventions; 983 validation rows}
+\end{table}

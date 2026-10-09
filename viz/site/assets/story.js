@@ -63,7 +63,7 @@
     });
     figure.append(svg);
     const caption = document.createElement('figcaption');
-    caption.textContent = `${logarithmic ? 'Log axis.' : 'Linear axis.'} All seven conditions. Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
+    caption.textContent = `[ours] ${logarithmic ? 'Log axis.' : 'Linear axis.'} All seven conditions. Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
     figure.append(caption);
     return figure;
   }

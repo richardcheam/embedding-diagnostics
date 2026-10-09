@@ -1,5 +1,12 @@
 # Open questions
 
+
+Current scope (2026-10-09): experiments are closed. Maintenance and transparent
+corrections remain possible. Historical planned stages and next-step suggestions
+below do not authorize expansion. See [final synthesis](final-synthesis.md);
+audio–visual post-training belongs to a separate project.
+
+
 ## After bounded C3 (2026-10-08)
 
 [interpretation] C3 separates neighbour identities from attribute utility on the

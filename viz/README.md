@@ -1,6 +1,27 @@
-# Public project page
+# Final project-page preview
 
-The current case study is hosted at
+The page retains the existing paper/pigment visual language and training appendix,
+and now leads with four questions about geometry, compression, numerical identity
+and paired-positive coverage. Experimental scope is closed.
+
+```bash
+python3 viz/build_site.py --report-out report/sections/final_tables.tex
+python3 -m http.server 8080 --directory viz/dist --bind 127.0.0.1
+```
+
+Preview: http://127.0.0.1:8080/ . No publication/deployment is performed by these commands.
+`viz/dist/` is ignored. The build uses the standard library only, corrected Phase-B
+records, and the checksum-pinned accepted sensitivity/COCO sources in
+`evidence-lock.json`. It reads no model, images or embedding arrays. A changed source
+fails the build; changing the lock requires an explicit documented correction.
+`synthesis.json` is a compact display export; `data.json` preserves the training data
+contract. Evidence documents are packaged verbatim as readable HTML records so preview
+links do not depend on an unpublished branch. The LaTeX table is generated from the
+same values, without recomputing endpoints. Legacy design/build notes follow.
+
+## Historical page design/build notes (pre-synthesis)
+
+The previously deployed case study is hosted at
 [richardcheam.github.io/embedding-diagnostics/](https://richardcheam.github.io/embedding-diagnostics/).
 
 ```sh

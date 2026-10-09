@@ -169,3 +169,88 @@ def test_uncertainty_plots_preserve_paired_endpoints_without_javascript(tmp_path
         assert float(bar["data-mean"]) == pytest.approx(100 * item["mean"])
     assert "How uncertain are these differences?" in page
     assert 'id="interval-table"' not in page
+
+
+def test_synthesis_exports_qualified_sample_and_recorded_coco_values():
+    module = builder()
+    lock, _, records = module.synthesis_sources()
+    data = module.synthesis_data(records)
+    native = next(p for p in data['bdd'] if p['condition'] == 'c1_pristine')
+    assert sum(v['val'] for v in native['attributes']['weather']['support'].values()) == 983
+    assert sum(v['train'] for v in native['attributes']['weather']['support'].values()) == 2000
+    assert data['coco'][0]['retrieval']['i2t']['hit@1'] == .843
+    assert data['coco'][2]['retrieval']['i2t']['set_recall@10'] == .689
+    assert lock['source_commit'].startswith('e902aa0')
+    assert '68.90' in module.report_tables(data)
+
+
+def test_modified_accepted_evidence_blocks_synthesis(tmp_path, monkeypatch):
+    module = builder()
+    (tmp_path / 'viz').mkdir()
+    evidence = tmp_path / 'accepted.json'
+    evidence.write_text('changed')
+    (tmp_path / 'viz/evidence-lock.json').write_text(json.dumps({
+        'files': {'accepted.json': '0' * 64}}))
+    monkeypatch.setattr(module, 'ROOT', tmp_path)
+    with pytest.raises(ValueError, match='checksum mismatch'):
+        module.synthesis_sources()
+
+
+def test_generated_report_table_matches_checked_in_artifact():
+    module = builder()
+    _, _, records = module.synthesis_sources()
+    generated = module.report_tables(module.synthesis_data(records))
+    assert (ROOT / 'report/sections/final_tables.tex').read_text() == generated
+    for name, table in module.report_evidence_tables(module.synthesis_data(records)).items():
+        assert (ROOT / f'report/sections/final_{name}.tex').read_text() == table
+
+
+def test_all_packaged_links_and_fragments_resolve(tmp_path):
+    from urllib.parse import unquote, urlsplit
+
+    class Links(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.targets = set()
+            self.links = []
+
+        def handle_starttag(self, tag, attrs):
+            values = dict(attrs)
+            if 'id' in values:
+                assert values['id'] not in self.targets, 'duplicate HTML id'
+                self.targets.add(values['id'])
+            for key in ('href', 'src'):
+                if key in values:
+                    self.links.append(values[key])
+
+    builder().build(ROOT / 'experiments', tmp_path)
+    documents = {}
+    for path in tmp_path.rglob('*.html'):
+        parser = Links()
+        parser.feed(path.read_text())
+        documents[path] = parser
+    for path, document in documents.items():
+        for link in document.links:
+            parsed = urlsplit(link)
+            if parsed.scheme or parsed.netloc:
+                continue  # Network links are checked separately, not claimed here.
+            target = path.parent / unquote(parsed.path) if parsed.path else path
+            target = target.resolve()
+            assert target.is_file(), (path, link)
+            if parsed.fragment:
+                assert unquote(parsed.fragment) in documents[target].targets, (path, link)
+    page = (tmp_path / 'index.html').read_text()
+    assert 'Experiments closed' in page
+    assert '__C1_TABLE__' not in page
+    assert 'before any encoder forward' in page
+
+
+def test_generated_latex_alignment_rows_have_valid_terminators():
+    module = builder()
+    _, _, records = module.synthesis_sources()
+    data = module.synthesis_data(records)
+    tables = [module.report_tables(data), *module.report_evidence_tables(data).values()]
+    for table in tables:
+        for line in table.splitlines():
+            if ' & ' in line:
+                assert line.endswith(chr(92) * 2), line

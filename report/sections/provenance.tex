@@ -1,139 +1,49 @@
 \section{Provenance of the analysis}
 \label{sec:provenance}
 
-This section exists because an earlier version of this report described a withdrawn
-decision rule as pre-registered. Rather than quietly correct the text, we record what was
-fixed when, so a reader can separate what the design committed to in advance from what was
-chosen after seeing results. Commit hashes refer to the project repository.
+\subsection{Fixed before training campaigns}
+\ours{} The seven training conditions, final-checkpoint endpoints, independent
+evaluation split and five paired Student-t contrasts were fixed before Phase A.
+The twice-standard-deviation heuristic was withdrawn before the first run
+(\texttt{96184e2}); later starred cells and early three-verdict panels carry no
+inferential weight. The corrected Phase-B probe protocol was selected after
+results existed and is not a new preregistration of those data.
 
-\subsection{Fixed before any Phase-A run existed}
+\subsection{Withdrawn measurement claim}
+\ours{} The earlier claim that the unstandardized probe detects degeneration
+where the standardized probe does not is withdrawn as refuted. On tiny features,
+lbfgs could satisfy its gradient tolerance before fitting and return a majority
+prediction without a warning. Correcting regularization selection and solver
+settings moved Phase-B control time-of-day accuracy from .4832 to .9137.
+Convergence limits remain recorded. Phase-A probe endpoints were not corrected
+because that campaign saved no encoders; they remain provisional, with no rerun
+undertaken in this closure.
 
-\begin{itemize}
-  \item Seven conditions and their definitions, including the \texttt{none\_stopgrad} cell
-        and the projector arms (\texttt{16565af}, 2026-08-14 10:10).
-  \item Budget of 4{,}000 steps, checkpoints every 200.
-  \item Endpoints read at the \emph{final} checkpoint, fixed a priori, with
-        best-over-checkpoints reported only as selection-biased.
-  \item The evaluation split, fixed by \texttt{eval\_split\_seed} independently of the
-        training seed, so across-seed spread measures training variability alone.
-  \item Paired Student-t analysis over five pre-declared contrasts, with EMA excluded as a
-        contrast arm; explicit statements of what the interval covers, the power available
-        at $n=5$, and that no multiplicity correction is applied (\texttt{96184e2},
-        2026-08-14 12:44).
-  \item An explicit prohibition on verdict language --- no result to be labelled
-        significant, real, learned, or collapsed (same commit).
-\end{itemize}
+\subsection{Confirmatory scope and exploratory observations}
+\ours{} C1 hypotheses were frozen before main extraction, but attribute-specific
+severity optima and metric orderings remain exploratory. C2 was a predeclared
+analysis on the already examined C1 sample, not an independent replication.
+C3's implementation and condition freeze preceded endpoint computation.
+The source-exclusion sensitivity was separately frozen after discovery of the
+17 generated graphics; it is a post-audit sensitivity, not an independent sample
+or retroactive preregistration. Its 983-row results are current qualified evidence.
+The original 3,000-row cache, results, exclusions, and source qualifications remain
+preserved. Six pilot-fragment IDs remain separately unresolved.
 
-\subsection{Changed before the runs, and why}
+\ours{} COCO source/sample/input identity was frozen before inference and complete
+canonical cache hashes were bound before endpoints. Native 768d and learned
+256/128d were the fixed grid. Its original-source evaluation sampling is independent
+of BDD, with the same encoder; unknown pretraining overlap remains.
+Conditional bootstrap intervals retain the fixed gallery and parent-caption units.
+The frozen Jina attempts produced no forwards or semantic endpoints. Neither
+supplies independent encoder replication.
 
-\begin{itemize}
-  \item Seeds raised from three to five. Three was redesignated an exploratory pilot and
-        may not be reported as claim-grade (\texttt{96184e2}).
-  \item The heuristic ``claim a difference only if it clears twice the across-seed SD and
-        the probe's binomial SE'' was \textbf{withdrawn} (\texttt{d566e72} in code,
-        \texttt{96184e2} in the specification) on the grounds that it was not a paired
-        analysis and functioned as an arbitrary decision threshold.
-\end{itemize}
-
-Phase-A data was first committed at 16:36 on the same day, roughly four hours after the
-withdrawal. The paired Student-t protocol was therefore the one in force for every result
-in this report.
-
-\subsection{Introduced after results were seen --- exploratory}
-
-None of the following was pre-registered. Each was constructed after inspecting Phase-A
-outcomes and is labelled exploratory wherever it appears.
-
-\begin{itemize}
-  \item \textbf{The reintroduced 2$\times$SD heuristic itself.} It was mistakenly
-        reinstated in the results section and described as pre-registered
-        (\texttt{5d1e47f}). The starred cells in Table~\ref{tab:phasea} are its residue and
-        carry no inferential weight.
-  \item \textbf{The diagnostic panel} and its absolute thresholds. Thresholds were
-        calibrated on the observed separation between the collapsed control and the other
-        conditions; they are descriptive of these runs and are not a validated detector.
-  \item \textbf{The comparator choice} of \texttt{none\_stopgrad} as ``the weakest run that
-        genuinely trains''. Selected after seeing which conditions trained.
-  \item \textbf{The three-verdict scheme} (correct / cannot separate / blind) used in the
-        interactive report.
-  \item \textbf{The controlled degradation suite's severity grid} and the choice of which
-        five transformations to include.
-\end{itemize}
-
-\subsection{Confirmatory versus exploratory}
-
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{p{7.4cm} p{6.4cm}}
-\toprule
-\textbf{Confirmatory} & \textbf{Exploratory} \\
-\midrule
-Paired intervals on the five pre-declared contrasts, at the pre-registered final-checkpoint
-endpoints &
-Everything in the preceding subsection, plus all BDD100K results (a three-seed pilot) \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{A measurement defect found after both campaigns}
-\label{sec:probe-defect}
-
-The probe protocol used during training was defective, and the defect is not visible in the
-accuracy it reports. \texttt{scikit-learn}'s lbfgs solver stops when the gradient norm falls
-below \texttt{tol}; the gradient scales with feature magnitude; so on embeddings whose
-per-dimension standard deviation is around $10^{-3}$, the default $\texttt{tol}=10^{-4}$ is
-satisfied almost immediately. The solver takes two or three steps, never fits, returns the
-majority-class prediction, and scores at chance --- while raising \emph{no} convergence
-warning.
-
-On synthetic data whose label signal is present by construction, at the dimensionality and
-scale of this project's most contracted run, the unstandardized probe scored $0.096$ against
-a $0.100$ chance floor while the standardized probe scored $1.000$. Under a corrected
-protocol both score $1.000$. The gap measured the optimiser, not the representation.
-
-That this reached the reported runs is evident in the numbers themselves: on both datasets
-the collapsed control's unstandardized accuracy sits exactly at its majority floor
-(CIFAR-10 $0.1066$ against $0.1088$; BDD100K $0.5635$ against $0.5636$), which is what a
-classifier that only ever predicts the majority class returns.
-
-\ours{} The claim that ``the unstandardized probe correctly detects collapse where the
-standardized one does not'' is therefore \textbf{withdrawn as refuted}, not merely
-unverified. Recomputing Phase~B from its saved encoders under the corrected protocol moved
-the contracted control's \texttt{timeofday} accuracy from $0.4832$ to $0.9137$, while every
-other condition moved by at most $0.01$ and the standardized probe moved by $0.0035$. The
-defect was specific to exactly the condition the claim depended on. There was no loss of
-decodable information for the standard protocol to be blind to.
-
-\interp{} The corrected protocol selects regularisation on a validation split carved from
-the training set, tightens the optimiser tolerance, and records convergence, iteration
-count, and whether the probe beat the trivial predictor on its own training data --- the
-last of these being the only reliable indicator, since lbfgs reports two or three iterations
-rather than zero and raises no warning.
-
-\subsection{Status of each result after the correction}
-
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{p{6.6cm} p{7.2cm}}
-\toprule
-\textbf{Result} & \textbf{Status} \\
-\midrule
-Geometry on Phase~B (variance, cosine, RankMe, participation ratio), 5 paired seeds &
-Unaffected. No optimiser is involved. Confirmatory. \\
-Retrieval P@10, all attributes &
-Unaffected by the probe defect. Confirmatory, subject to the precision caveat below. \\
-Corrected probe endpoints on Phase~B &
-Recomputed from saved encoders on the fixed evaluation split. Endpoints pre-registered;
-the probe protocol itself is post-hoc. \\
-All Phase~A (CIFAR-10) probe endpoints &
-\textbf{Not corrected.} That campaign saved no encoders and requires a re-run. Not quoted. \\
-``Standard evaluation is blind to collapse'' &
-\textbf{Refuted by our own data.} \\
-``Standardization and $L^2$-normalization both rescale floating-point noise'' &
-\textbf{Withdrawn.} Different operations; never derived. Whether the surviving retrieval
-signal is angular structure or numerical fragility is untested. \\
-\bottomrule
-\end{tabular}
-\end{table}
+\subsection{Display provenance and closure}
+The final public preview and LaTeX table read checksummed accepted records using
+\texttt{viz/evidence-lock.json}, whose source baseline is \texttt{e902aa0}.
+Record checksums are verified before display. No scientific endpoints, inference
+or source images were recomputed during synthesis. Existing training plots
+summarize corrected committed endpoints with their established paired protocol.
+Detailed freezes and diagnostic histories are linked in the evidence index.
+Experiments are closed; preservation, maintenance and transparent corrections
+remain possible. Publication or deployment requires separate authorization.

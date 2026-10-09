@@ -1,0 +1,18 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Representation & Weather BA \% & Scene BA \% & Time BA \% & Weather P@10 \% & Scene P@10 \% & Time P@10 \% \\
+\midrule
+native\_768 & 63.02 & 69.52 & 76.44 & 57.86 & 62.44 & 82.73 \\
+mrl\_512 & 62.82 & 70.56 & 76.73 & 57.77 & 62.23 & 82.64 \\
+pca\_512 & 55.36 & 65.89 & 75.10 & 55.78 & 61.79 & 83.07 \\
+mrl\_256 & 61.07 & 69.80 & 77.03 & 57.33 & 62.20 & 82.41 \\
+pca\_256 & 58.85 & 66.27 & 75.46 & 56.04 & 61.97 & 83.34 \\
+mrl\_128 & 54.91 & 66.70 & 74.19 & 56.33 & 60.78 & 80.66 \\
+pca\_128 & 62.36 & 68.37 & 78.17 & 56.19 & 62.25 & 84.00 \\
+\bottomrule
+\end{tabular}}
+\caption{\ours{} Qualified BDD: standardized probe and attribute retrieval, 983 validation rows}
+\end{table}

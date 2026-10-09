@@ -1,0 +1,14 @@
+\begin{table}[ht]
+\centering\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrr}
+\toprule
+Representation & T$\to$I Hit@1 & T$\to$I Hit@10 & I$\to$T Hit@1 & I$\to$T Hit@10 & Caption recall@10 \\
+\midrule
+native\_768 & 73.86 & 97.16 & 84.30 & 98.40 & 80.24 \\
+mrl\_256 & 72.14 & 96.96 & 83.60 & 98.10 & 78.50 \\
+mrl\_128 & 62.50 & 93.82 & 73.70 & 95.90 & 68.90 \\
+\bottomrule
+\end{tabular}}
+\caption{\ours{} Recorded COCO endpoints (percent). One thousand image groups, five captions each. Role-specific text inputs differ by direction.}
+\end{table}

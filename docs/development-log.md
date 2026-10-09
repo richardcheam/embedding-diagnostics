@@ -582,3 +582,48 @@ original failed manifest/freeze and exact original inputs verified. Closed-attem
 re-entry guard rejects before a forbidden model loader; completed scientific
 resumes are not applicable. Accepted artifact/dependency diffs from `56e9765`
 are empty. Remote check finds no paired-replication branch; no push occurred.
+
+## 2026-10-09 — Experimental scope closed; final synthesis and local preview
+
+[ours] The wrap-up starts from `e902aa0` and changes presentation and documentation
+only. The public story answers four questions: geometry versus utility, compression
+responses across endpoints, numerical neighbour identity, and recorded positives
+versus first-rank recovery and multiple-caption coverage. The current BDD tables
+use the 983-row exclusion sensitivity. The source correction, retained fragment
+provenance, unresolved six pilot IDs, corrected Phase-B probing and separate
+uncertainty scopes remain explicit. Original C1/C2/C3 and both failed Jina attempts
+are preserved. No new scientific endpoints, inference, image decoding or experiment
+were executed. No Jina quality or compression claim is supported.
+
+[ours] `viz/evidence-lock.json` binds accepted committed artifacts at `e902aa0`;
+the site reader validates file and record checksums and emits static tables,
+a COCO endpoint figure, compact display JSON and locally readable evidence records.
+LaTeX tables use the same reader and displayed values. The final report replaces
+stale draft placeholders; the provenance appendix explicitly separates frozen,
+post-hoc and exploratory decisions. Legacy draft sections remain in Git history
+and the repository, outside the current report build.
+
+[ours] Verification:539 CPU/model-free tests passed, one optional accelerator skip;
+Ruff and `uv lock --check` passed. Site build, internal file/fragment links,
+updated Markdown links, generated LaTeX-table consistency and whitespace checks
+passed. All six unique external page links returned HTTP200 at inspection.
+11,003 COCO canonical file hashes,750 BDD canonical chunk hashes and491 frozen
+historical artifact hashes matched. Scientific artifact/source/dependency diffs
+from `e902aa0` are empty. The older sensitivity freeze's execution-code hash is
+not expected to match subsequently accepted adapter revisions; it is not used
+as a current-code identity check.
+
+[ours] Firefox157.0.1 headless checks covered1440,768 and500 CSS-pixel layouts,
+plus a390px same-origin frame for the phone viewport (headless outer windows have
+a500px minimum). No overall horizontal overflow was observed; all four historical
+charts loaded. Keyboard checks covered skip navigation, mobile contents expansion,
+Tab/activation/closure, attribute selection and horizontal table scrolling.
+Local preview screenshots and browser/link ledgers are in ignored `viz/dist/`.
+No automated comprehensive assistive-technology audit is claimed.
+
+[open] `latexmk`, `pdflatex` and `tectonic` are unavailable on this host. Report
+inputs and generated tables were checked, but the PDF was not compiled. No
+packages were installed to mask this limitation. The site builds with the
+standard library and is ready for local review; it was not pushed, published or
+deployed. Experiments are closed, with maintenance and transparent corrections
+still possible. Audio–visual post-training belongs to a separately scoped project.

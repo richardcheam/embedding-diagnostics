@@ -5,6 +5,10 @@ on:
     branches: [main]
     paths:
       - 'viz/build_site.py'
+      - 'viz/evidence-lock.json'
+      - 'experiments/phaseC_source_sensitivity/**'
+      - 'experiments/phaseC_paired_replication/**'
+      - 'docs/**'
       - 'viz/site/**'
       - 'experiments/phaseA_s*/**'
       - 'experiments/phaseB_s*/**'
@@ -13,6 +17,10 @@ on:
   pull_request:
     paths:
       - 'viz/build_site.py'
+      - 'viz/evidence-lock.json'
+      - 'experiments/phaseC_source_sensitivity/**'
+      - 'experiments/phaseC_paired_replication/**'
+      - 'docs/**'
       - 'viz/site/**'
       - 'experiments/phaseA_s*/**'
       - 'experiments/phaseB_s*/**'

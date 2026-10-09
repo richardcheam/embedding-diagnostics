@@ -1,0 +1,37 @@
+{
+  "configuration_clip.py": {
+    "diff": "",
+    "original_sha256": "ad1165756bab9366d7aa05bf1d83fd63bb4b0b40217908629b1c6443165d6b9d",
+    "resolved_sha256": "ad1165756bab9366d7aa05bf1d83fd63bb4b0b40217908629b1c6443165d6b9d"
+  },
+  "eva_model.py": {
+    "diff": "",
+    "original_sha256": "deb7d6faf743e05dd7ab7b718b79f954313d49d487b359c7a717a300eefb874f",
+    "resolved_sha256": "deb7d6faf743e05dd7ab7b718b79f954313d49d487b359c7a717a300eefb874f"
+  },
+  "hf_model.py": {
+    "diff": "--- upstream/hf_model.py\n+++ resolved/hf_model.py\n@@ -145,6 +145,7 @@\n             else:\n                 self.config = AutoConfig.from_pretrained(\n                     model_name_or_path,\n+                    revision=revision,\n                     trust_remote_code=trust_remote_code,\n                     code_revision=code_revision,\n                 )\n",
+    "original_sha256": "9a38635ca45056a96b6f617716351d8f20ed4f351ca23cd43f4ce38295f3c96d",
+    "resolved_sha256": "7f7e11032c605b51d655dec03493dd740dc6d041769d04fdaac1fbe161d57c0c"
+  },
+  "modeling_clip.py": {
+    "diff": "--- upstream/modeling_clip.py\n+++ resolved/modeling_clip.py\n@@ -78,7 +78,8 @@\n         pretrained=False,\n         output_tokens=False,\n         trust_remote_code=True,\n-        revision=None,\n+        revision=config.jina_text_config_revision,\n+        code_revision=config.jina_text_code_revision,\n         model_config_kwargs=config.hf_model_config_kwargs,\n     )\n \n",
+    "original_sha256": "a9cd07ff6c97e3baaa2de2724f9ff1c56d78add4cbd81a7cc8636b770607b1a3",
+    "resolved_sha256": "7c7f23f0c5ad3246c76a714ec6646aea0ce9c503294889e7ce7bd58b0f3c8f38"
+  },
+  "processing_clip.py": {
+    "diff": "",
+    "original_sha256": "4e876fe55882f664bf59e354fb0cf29ac6b542f35cafaa4b681b506730c4ed92",
+    "resolved_sha256": "4e876fe55882f664bf59e354fb0cf29ac6b542f35cafaa4b681b506730c4ed92"
+  },
+  "rope_embeddings.py": {
+    "diff": "",
+    "original_sha256": "960698db4a1ce96cb6ab9ae0f6611e00cadd16cee4d63fb50aed8e04af358521",
+    "resolved_sha256": "960698db4a1ce96cb6ab9ae0f6611e00cadd16cee4d63fb50aed8e04af358521"
+  },
+  "transform.py": {
+    "diff": "",
+    "original_sha256": "3dbae796192429c203db6840ade96f4a57397e47719675fd28266f7c301906ca",
+    "resolved_sha256": "3dbae796192429c203db6840ade96f4a57397e47719675fd28266f7c301906ca"
+  }
+}

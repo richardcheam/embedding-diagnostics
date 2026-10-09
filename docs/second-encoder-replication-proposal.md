@@ -302,3 +302,49 @@ Ruff and `uv lock --check` passed. Local document links resolve. All protected
 historical files and paired cache hashes were checked again after preparation;
 all 24 accepted paired ledgers/results are byte-identical. Only these proposal,
 plan and read-only evidence-ledger documents are changed.
+
+## Authorized execution amendment (before input/runtime freeze)
+
+[ours] Execution is authorized on `phaseC-paired-replication` from `ebe17fb`.
+The original preparation account above remains historical. Source correction
+`b4c2c97` attributes the two locally renamed Transformers research copies to
+`huggingface/transformers`, tag `v4.49.0`; their upstream URLs and matching hashes
+are recorded separately from the Jina checkpoint files.
+
+[ours] The separate `tools/jina_extraction` project resolves Transformers4.49.0,
+timm1.0.15, einops0.8.1 and accelerate1.5.2 with the accepted Torch2.11.0+cu128,
+torchvision0.26.0+cu128, NumPy2.5.1 and Pillow12.3.0. No root dependency or lock
+changes are required. Offline author imports, tokenizer and official512 processor
+construction succeed without encoder construction. Actual transitive versions
+are recorded in `isolated_runtime.json` and the separate lock.
+
+[ours] All four immutable repository snapshots have been acquired selectively;
+no nested text weights, alternate checkpoint format or ONNX file was acquired.
+The CLIP safetensors SHA256 matches the advertised
+`eff4c0a13ab4de71a9927a56968fef44e626920ff935e503f1bd3e6ec797062d`.
+Its header contains999 tensors and865,278,477 FP16 stored elements; the model's
+metadata reports865,278,476 parameters. This one-element discrepancy is disclosed,
+not used to relax checkpoint coverage. Actual loaded parameters and loading
+coverage will be recorded during the frozen contract.
+
+[ours] A separate local copy of pinned author sources passes nested config/code
+revisions into `HFTextEncoder` and config revision into `AutoConfig`. These two
+resolution-only changes, original/resolved hashes and exact diffs are recorded in
+`resolution_patch.json`; all numerical source files remain identical. Nested
+resolution is offline. The original snapshots remain unchanged.
+
+[interpretation] The unchanged numerical and resource gates govern continuation.
+Loading RSS is checked before the first forward; active swap is sampled through
+loading and inference. A failed gate produces a checkpointed blocker, not a
+revised resolution, smaller sample, lower precision or another loading mode.
+One shared plain-caption cache is used for both retrieval directions. Actual
+pooler, identity projection, processor size/resize/interpolation, LoRA, attention,
+parameter and activation-output dtypes are inspected; the smoke checks native
+and official direct prefixes without scientific endpoints.
+
+[ours] Execution records are isolated under
+`experiments/phaseC_paired_jina_replication/`; accepted evaluator functions and
+historical scientific files remain unchanged. The final implementation and inputs
+will be committed first, followed by a distinct input/runtime-freeze commit
+before any encoder forward. Complete native cache binding must be committed
+before semantic or geometric endpoints.

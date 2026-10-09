@@ -182,3 +182,14 @@ or endpoint recomputation.
 inspection. No future file or experiment above has been implemented, no model
 weights acquired, no dependency changed and no endpoint computed. Review the
 feasibility gate and isolated-runtime choice before authorizing execution.
+
+## Authorized execution record
+
+[ours] The user authorized this plan after the historical preparation handoff.
+Implementation uses the exact proposed isolated direct dependency versions;
+compatibility details, source correction and review fixes are recorded in
+[jina-replication-execution.md](jina-replication-execution.md). The proposal's
+execution amendment is the finalized pre-freeze contract. The root environment,
+accepted endpoint definitions and all historical artifacts remain unchanged.
+Implementation, input/runtime freeze, contract, extraction binding and evaluation
+remain separate ordered gates; a failed resource/contract gate ends execution.

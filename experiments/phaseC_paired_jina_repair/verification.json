@@ -1,0 +1,33 @@
+{
+  "accepted_artifact_dependency_diffs": "empty from56e9765",
+  "blocked_resume_guard": "verified with already-checked freeze and forbidden loader; zero model/encoder/endpoint calls",
+  "blocker_sha256": "7751ae40e2407cfbd98a3ef5dfef6b20c02f26daeda641535e8ef674ab6bc40e",
+  "canonical_rows": 0,
+  "completed_extraction_endpoint_resume": "not applicable: closed before canonical extraction",
+  "exact_original_inputs_preserved": true,
+  "forward_calls": 0,
+  "implementation_commit": "4d0b322",
+  "inventory_reconciliation": "999 tensors;865278477 parameters including scalarlogit_scale",
+  "isolated_lock_check": "passed",
+  "isolated_lock_sha256": "22ca36f651c5650087ee4440723bdea5c2bf8d99ff5d10512667a2ae926e28e1",
+  "model_files_verified": 42,
+  "original_attempt_and_historical_caches_preserved": true,
+  "original_attempt_commit": "56e9765",
+  "original_freeze_commit": "8557b78",
+  "protected_files_verified": 12301,
+  "push_status": "not pushed; no remote phaseC-paired-replication branch at final check",
+  "root_lock_check": "passed",
+  "root_lock_sha256": "a2229fda36115780e0c226383ba8b9eb14b707a5a93c86a80e4e3a6c7885c78a",
+  "root_pyproject_sha256": "0beddff18172f6de073422a19513a439067280e0f7c347d92e37a279cd29fcc0",
+  "ruff": "passed",
+  "scientific_endpoint_calls": 0,
+  "source_files_verified": 9,
+  "status": "closed: second compatibility blocker before forward",
+  "superseding_freeze_commit": "2079de9",
+  "tests": {
+    "isolated_focused_passed": 16,
+    "root_passed": 534,
+    "root_seconds": 27.84,
+    "root_skipped": 1
+  }
+}

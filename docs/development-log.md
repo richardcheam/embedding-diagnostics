@@ -549,3 +549,36 @@ is synthesis of completed evidence with this blocker stated plainly.
 links passed. Frozen input/code/source/model/runtime and historical/cache hashes
 verified; historical scientific artifacts and root dependency files have empty
 diffs from `ebe17fb`. The branch remains local; no push occurred.
+
+## 2026-10-09 — One bounded Jina tokenizer repair, second compatibility stop
+
+[ours] From `56e9765`, tested repair `4d0b322` and separately committed
+superseding pre-forward freeze `2079de9`. The old attempt/freeze remain unchanged.
+The constructor failure was reproduced from its exact expression; original three
+v3 tokenizer files at its pinned revision resolve it offline without author
+numeric changes or outer substitution. All5000 nested-helper inputs and original
+outer frozen tokens checked. Root/isolated locks and scientific rules unchanged.
+
+[ours] Metadata-only full architecture verifies999 state keys,865,278,477
+parameters with no missing/unexpected/shape-mismatched tensors. The non-scalar
+sum matches the published865,278,476 exactly; the extra trained `logit_scale`
+scalar is preserved. Actual loader/key/shape/tokenizer/source/pooling checks
+proceed, then the all-CPU-FP32 parameter guard fails before any forward.
+51.199s extraction-stage time, partial-process peakRSS4295.492MiB; no image
+decode, canonical row, scientific endpoint or completed16-group contract.
+Offending parameter details were not persisted; no exact dtype/device cause is
+claimed. See the [closed outcome](../experiments/phaseC_paired_jina_repair/interpretation.md).
+
+[interpretation] The declared second-blocker stop is respected: no alternative
+loading, precision, architecture, limits or further model load. This attempt
+establishes a compatibility failure, not a failed scientific compression finding.
+Retain accepted BDD/COCO qualifications and prepare the completed-study synthesis;
+audio–visual post-training belongs to its separate project.
+
+[ours] Final verification:534 root tests passed, one optional skip (27.84s);
+16 focused isolated tests passed. Ruff, root/isolated lock checks, whitespace and
+new document links passed. Superseding frozen identities, all protected history,
+original failed manifest/freeze and exact original inputs verified. Closed-attempt
+re-entry guard rejects before a forbidden model loader; completed scientific
+resumes are not applicable. Accepted artifact/dependency diffs from `56e9765`
+are empty. Remote check finds no paired-replication branch; no push occurred.

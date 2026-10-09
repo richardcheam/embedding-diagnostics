@@ -71,6 +71,16 @@ fit can be inferred. See the [blocked attempt](../experiments/phaseC_paired_jina
 and [execution record](jina-replication-execution.md). No fallback, revised freeze
 or further experimental expansion was executed; accepted qualified results stand.
 
+[ours] One bounded Jina repair from `56e9765` is closed under implementation
+`4d0b322` and superseding pre-forward freeze `2079de9`. Original nested tokenizer
+files resolve the first blocker without numeric author changes;999-key metadata
+coverage reconciles the extra `logit_scale` scalar. Real loading then fails the
+all-CPU-FP32 parameter guard before any encoder forward. Peak partial-process RSS
+4295.492MiB; no complete numerical/resource contract or scientific endpoint.
+See the [repair outcome](../experiments/phaseC_paired_jina_repair/interpretation.md).
+No fallback or further compatibility expansion was executed. Accepted evidence
+and both failed-attempt records stand; synthesis is the next reporting step.
+
 This is the plain-language account of what the project asks, what it found, what it had to
 take back, and what is still open. If a term is unfamiliar, look it up in
 [`metrics.md`](metrics.md) (formulas and worked examples) or read [`primer.md`](primer.md)

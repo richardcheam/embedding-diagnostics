@@ -1,0 +1,7 @@
+{
+  "elapsed_seconds": 51.19865282496903,
+  "error": "all parameters must be CPU float32",
+  "forward_calls": 0,
+  "peak_rss_mib": 4295.4921875,
+  "type": "ValueError"
+}

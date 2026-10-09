@@ -18,3 +18,15 @@ checkpoint tensors, including the extra scalarlogit_scale element.
 checks passed. No encoder forward or scientific endpoint ran before the
 superseding committed freeze. Execution must satisfy the unchanged contract and
 resource gates in [the protocol](../../docs/jina-tokenizer-repair-protocol.md).
+
+[ours] Outcome: the tokenizer resolution succeeds, but frozen real loading
+fails the all-CPU-FP32 parameter contract before any forward. The bounded attempt
+is closed without fallback. Read [interpretation.md](interpretation.md),
+[compatibility_blocker.json](compatibility_blocker.json) and
+[contract_failure.log](contract_failure.log). No scientific results/cache binding
+were produced; the presence of inputs is not completed extraction evidence.
+
+[ours] Final verification:534 tests passed, one optional skip (27.84s);16 focused
+isolated tests passed;Ruff/both locks/links/whitespace passed. All frozen identities
+and protected history verified. Re-entry guard rejects before model loading;
+complete extraction/evaluation resumes are not applicable. No push occurred.

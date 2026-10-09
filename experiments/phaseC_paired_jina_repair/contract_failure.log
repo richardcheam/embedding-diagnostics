@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/richard/projects/embedding-diagnostics/scripts/run_jina_paired_replication.py", line 448, in <module>
+    extract(smoke=args.stage == "smoke")
+  File "/home/richard/projects/embedding-diagnostics/scripts/run_jina_paired_replication.py", line 178, in extract
+    model = JinaCLIPv2(
+            ^^^^^^^^^^^
+  File "/home/richard/projects/embedding-diagnostics/src/embedding_diagnostics/models/jinaclipv2.py", line 174, in __init__
+    verify_settings(self.model)
+  File "/home/richard/projects/embedding-diagnostics/src/embedding_diagnostics/models/jinaclipv2.py", line 106, in verify_settings
+    raise ValueError("all parameters must be CPU float32")
+ValueError: all parameters must be CPU float32

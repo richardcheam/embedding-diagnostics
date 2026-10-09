@@ -1,8 +1,25 @@
 # Final project-page preview
 
-The page retains the existing paper/pigment visual language and training appendix,
-and now leads with four questions about geometry, compression, numerical identity
-and paired-positive coverage. Experimental scope is closed.
+The report introduces the problem, study designs, datasets, and measurement definitions
+before the results. Controlled training and the fixed-encoder extension form one story:
+geometry versus utility, dimensional compression, neighbour stability, and paired
+caption retrieval. Experimental scope is closed.
+
+`figures.py` generates static, accessible SVG from the accepted records. Compression
+plots show percentage-point changes from native, with common axes across attributes.
+Numerical plots separate changed-neighbour counts from absolute score error. Caption
+plots separate any-positive hits, first-rank recovery, and five-caption coverage;
+conditional bootstrap intervals come directly from the locked interval artifact.
+Each measured extension mark retains its exact source identity and value. Conceptual
+illustrations explain operations and metric definitions, rather than inventing data.
+
+The main results remain readable without JavaScript. The appendix holds full tables,
+both retrieval directions, all seven interactive training variants, mathematical
+definitions, and paired training uncertainty. Contents and prose links open the
+targeted disclosure before scrolling, including repeated links to the same anchor.
+Public prose omits research claim labels and phase codes; verbatim evidence documents
+retain the original conventions. The existing architecture motion and native controls
+keep their reduced-motion, keyboard, pause, and phone behavior.
 
 ```bash
 python3 viz/build_site.py --report-out report/sections/final_tables.tex

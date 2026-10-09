@@ -254,3 +254,79 @@ def test_generated_latex_alignment_rows_have_valid_terminators():
         for line in table.splitlines():
             if ' & ' in line:
                 assert line.endswith(chr(92) * 2), line
+
+
+def test_extension_figures_use_accepted_endpoints_and_bootstrap_intervals(tmp_path):
+    """Changing a plotted endpoint or interval must break the publication contract."""
+    class Marks(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.values = []
+            self.intervals = []
+
+        def handle_starttag(self, tag, attrs):
+            values = dict(attrs)
+            if 'data-source-metric' in values:
+                self.values.append(values)
+            if values.get('class') == 'paired-ci':
+                self.intervals.append(values)
+
+    module = builder()
+    module.build(ROOT / 'experiments', tmp_path)
+    page = (tmp_path / 'index.html').read_text()
+    parser = Marks()
+    parser.feed(page)
+    assert parser.values, 'Accepted extension endpoints need static measured figures'
+    _, _, records = module.synthesis_sources()
+    data = module.synthesis_data(records)
+    lookup = {p['condition']: p for p in data['bdd'] + data['coco']}
+    for mark in parser.values:
+        value = lookup[mark['data-source-condition']]
+        for key in mark['data-source-metric'].split('.'):
+            value = value[key]
+        assert float(mark['data-source-value']) == pytest.approx(value)
+    accepted = json.loads((ROOT / 'experiments/phaseC_paired_replication/paired_intervals.json')
+                          .read_text())
+    assert len(parser.intervals) == 4
+    for mark in parser.intervals:
+        record = accepted[mark['data-condition']][mark['data-direction']]
+        for key in ('delta', 'lower', 'upper'):
+            assert float(mark[f'data-{key}']) == pytest.approx(100 * record[key])
+    assert 'conditional on the fixed gallery' in page
+
+
+def test_integrated_story_defines_methods_before_showing_results(tmp_path):
+    module = builder()
+    module.build(ROOT / 'experiments', tmp_path)
+    page = (tmp_path / 'index.html').read_text()
+    positions = [page.index(f'id="{target}"') for target in (
+        'motivation', 'experiment', 'data', 'evidence', 'geometry', 'compression',
+        'numerics', 'paired', 'qualification', 'bibliography', 'appendix')]
+    assert positions == sorted(positions)
+    for label in ('[ours]', '[established]', '[interpretation]', '[replication]', '—'):
+        assert label not in page
+    assert 'id="ref-mrl"' in page and 'id="ref-coco"' in page
+
+
+def test_static_training_figures_preserve_five_seed_means(tmp_path):
+    class TrainingMarks(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.marks = []
+
+        def handle_starttag(self, tag, attrs):
+            values = dict(attrs)
+            if 'data-training-metric' in values:
+                self.marks.append(values)
+
+    module = builder()
+    data = module.collect(ROOT / 'experiments')
+    module.build(ROOT / 'experiments', tmp_path)
+    parser = TrainingMarks()
+    parser.feed((tmp_path / 'index.html').read_text())
+    assert len(parser.marks) == 6
+    metrics = {'total_variance', 'probe_accuracy_unscaled_timeofday', 'retrieval_p10_timeofday'}
+    assert {p['data-training-metric'] for p in parser.marks} == metrics
+    for mark in parser.marks:
+        values = data['conditions'][mark['data-training-condition']][mark['data-training-metric']]
+        assert float(mark['data-training-value']) == pytest.approx(sum(values)/5)

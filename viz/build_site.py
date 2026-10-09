@@ -11,8 +11,10 @@ from __future__ import annotations
 import argparse
 import ast
 import html
+import importlib.util
 import json
 import math
+import re
 import shutil
 import statistics
 from pathlib import Path
@@ -34,6 +36,39 @@ LABELS = {
     "proj_sigreg_stopgrad": "Projector + SIGReg + stop-gradient",
     "proj_sigreg_nostopgrad": "Projector + SIGReg",
 }
+
+_figure_spec = importlib.util.spec_from_file_location("site_figures", ROOT / "viz/figures.py")
+figures = importlib.util.module_from_spec(_figure_spec)
+_figure_spec.loader.exec_module(figures)
+
+
+def public_table(markup):
+    """Readable display names; research table generation retains its original contract."""
+    names = {
+        'scale_contraction_0.99': 'Shrink magnitude (.99)',
+        'mean_injection_0.99': 'Common offset (.99)',
+        'isotropic_noise_0.99': 'Severe noise (.99)',
+        'rank_truncation_0.99': 'Eight directions (.99)',
+        'pristine': 'Unchanged embeddings',
+        'native_fp16_gallery': 'FP16 gallery', 'native_fp16_both': 'FP16 queries + gallery',
+        'native_int8_gallery': 'INT8 gallery', 'native_int8_both': 'INT8 queries + gallery',
+        'native_fp32_arithmetic': 'FP32 arithmetic', 'native_ref': 'Native reference',
+        'mean99_fp16_gallery': 'Offset + FP16 gallery', 'mean99_ref': 'Common-offset reference',
+        'native_768': 'Native 768d', 'mrl_512': 'MRL 512d', 'pca_512': 'PCA 512d',
+        'mrl_256': 'MRL 256d', 'pca_256': 'PCA 256d',
+        'mrl_128': 'MRL 128d', 'pca_128': 'PCA 128d',
+        'severe C1 interventions': 'severe interventions',
+    }
+    for old, new in names.items():
+        markup = markup.replace(old, new)
+    rows = re.findall(r'<tr><th scope="row">(.*?)</th>((?:<td>.*?</td>)+)</tr>', markup)
+    values = [re.findall(r'<td>(.*?)</td>', row[1]) for row in rows]
+    columns = list(zip(*values))
+    for (label, cells), numbers in zip(rows, values):
+        markup = markup.replace(
+            f'<th scope="row">{label}</th>{cells}',
+            f'<th scope="row">{label}</th>' + highlighted_cells(numbers, columns))
+    return markup
 
 
 def read_records(path: Path) -> list[dict]:
@@ -586,8 +621,8 @@ def build(experiments: Path, out: Path) -> None:
         - mean(data, "proj_sigreg_nostopgrad", retrieval_key)
     )
     replacements = {
-        "__C1_TABLE__": tables[0], "__C2_TABLE__": tables[1],
-        "__C3_TABLE__": tables[2], "__COCO_TABLE__": tables[3],
+        "__C1_TABLE__": public_table(tables[0]), "__C2_TABLE__": public_table(tables[1]),
+        "__C3_TABLE__": public_table(tables[2]), "__COCO_TABLE__": public_table(tables[3]),
         "__COCO_FIGURE__": paired_figure(synthesis),
         "__NEW__": f"{100 * mean(data, control, 'probe_accuracy_unscaled_timeofday'):.2f}",
         "__VARIANCE__": f"{mean(data, control, 'total_variance'):.7f}",
@@ -612,9 +647,15 @@ def build(experiments: Path, out: Path) -> None:
             f"{100 * mean(data, 'ema_stopgrad', 'retrieval_p10_timeofday'):.2f}"
         ),
     }
+    replacements.update(figures.extension_figures(synthesis, json.loads(
+        sources['experiments/phaseC_paired_replication/paired_intervals.json'])))
+    replacements['__TRAINING_FIGURES__'] = figures.training_figures(data)
     page = (ROOT / "viz/site/index.html").read_text()
     for key, value in replacements.items():
         page = page.replace(key, value)
+    # Public-page naming exception: labels remain in the research artifacts.
+    for label in ('[ours] ', '[established] ', '[interpretation] ', '[replication] '):
+        page = page.replace(label, '')
     out.mkdir(parents=True, exist_ok=True)
     shutil.copytree(ROOT / "viz/site/assets", out / "assets", dirs_exist_ok=True)
     (out / "index.html").write_text(page)

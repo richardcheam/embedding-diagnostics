@@ -63,7 +63,7 @@
     });
     figure.append(svg);
     const caption = document.createElement('figcaption');
-    caption.textContent = `[ours] ${logarithmic ? 'Log axis.' : 'Linear axis.'} All seven conditions. Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
+    caption.textContent = `${logarithmic ? 'Log axis.' : 'Linear axis.'} All seven conditions. Symbols: seeds 0–4. Vertical marker: mean. Values at right: means.`;
     figure.append(caption);
     return figure;
   }
@@ -283,16 +283,27 @@
     contents.dataset.open = String(open);
     button.setAttribute('aria-expanded', String(open));
   });
-  document.querySelectorAll('a[href="#uncertainty"], a[href="#rank"]').forEach(link => {
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', event => {
-      if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
-        document.getElementById(link.hash.slice(1)).open = true;
+      const target = document.getElementById(link.hash.slice(1));
+      const disclosure = target?.closest('details');
+      if (disclosure && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        event.preventDefault();
+        alignInitialHash = false;
+        disclosure.open = true;
+        if (location.hash !== link.hash) history.pushState(null, '', link.hash);
+        close();
+        target.scrollIntoView({behavior:'auto'});
+        disclosure.querySelector('summary').focus({preventScroll:true});
+        schedule();
       }
     });
   });
   links.forEach(link => link.addEventListener('click', () => {
     close();
-    if (innerWidth < 1200) button.focus({preventScroll:true});
+    if (innerWidth < 1200 && !document.getElementById(link.hash.slice(1))?.closest('details')) {
+      button.focus({preventScroll:true});
+    }
   }));
   contents.addEventListener('keydown', event => {
     if (event.key === 'Escape') { close(); button.focus(); }

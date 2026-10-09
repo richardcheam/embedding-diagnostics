@@ -1,0 +1,319 @@
+{
+  "accepted_commit": "82d7086",
+  "accepted_identities": {
+    "cache_binding.json": "3519a6fa0dbccdc6ca990952a8e0afd0d4de3d8a1fc1754e030843527d6a68ca",
+    "freeze.json": "409eb1f4b9934cc941a1c90a796ec787ba2a0b7e8034c8e5d08f2e754e68b373",
+    "input_manifest.json": "957c98007c07142c4722f3624a5b0948d22c88ba2d6877439eae31d5155d5162",
+    "interpretation.md": "54c537b9447047cbeafca49218171af61df2e90d3014811bb49b722ab7bea5c4",
+    "results.json": "85542bde13b1536f52f3bd32ce92a6ca34fc0bf271bdf80f5733b65b26c5a162",
+    "results.md": "43aaf59bb33004dc612eb48fb2cef46cbe2f382315fffbed692309ecbbee6293",
+    "sample_manifest.json": "e209bd3b342018b7eff73211075fa84280c1f3d387a1419487a06e11ef58fea0",
+    "source_qualification.md": "b81d599faf49c3043b00853b456b2718510630348d965161ce94079f99cabe9c"
+  },
+  "advertised_checkpoint": {
+    "bytes": 1730688642,
+    "file": "model.safetensors",
+    "lfs_sha256": "eff4c0a13ab4de71a9927a56968fef44e626920ff935e503f1bd3e6ec797062d",
+    "locally_verified": false,
+    "stored_dtype": "F16",
+    "stored_parameters": 865278476
+  },
+  "branch": "phaseC-paired-replication",
+  "checked_date": "2026-10-09",
+  "historical_preservation_checks": {
+    "accepted_paired_cache_files": 11003,
+    "endpoints_executed": false,
+    "images_decoded": false,
+    "matrices_loaded": false,
+    "protected_prior_files": 1260,
+    "verified": true
+  },
+  "installed_versions": {
+    "einops": null,
+    "flash-attn": null,
+    "huggingface_hub": "1.33.0",
+    "numpy": "2.5.1",
+    "pillow": "12.3.0",
+    "sentencepiece": null,
+    "timm": null,
+    "torch": "2.11.0+cu128",
+    "torchvision": "0.26.0+cu128",
+    "transformers": "5.19.0",
+    "xformers": null
+  },
+  "machine_observation": {
+    "free_hdd_gib_rounded": 732,
+    "ram_available_mib": 4213,
+    "ram_total_mib": 7779,
+    "scope": "transient inventory, not active-swap or candidate RSS measurement",
+    "swap_occupied_mib": 3215
+  },
+  "paper": {
+    "first_submitted": "2024-12-11",
+    "publication_status": "preprint; peer-reviewed venue not verified",
+    "read_scope": [
+      "methods sections 3-4",
+      "compression Table 5",
+      "COCO compression Table 23",
+      "training-data and evaluation-scope limitations"
+    ],
+    "revision_date": "2025-04-24",
+    "url": "https://arxiv.org/html/2412.08802v2"
+  },
+  "pre_commit_checks": {
+    "accepted_paired_ledgers_results_unchanged": 24,
+    "historical_protected_and_paired_cache_rechecked": true,
+    "local_document_links": "passed",
+    "pytest": {
+      "passed": 497,
+      "seconds": 34.17,
+      "skipped": 1
+    },
+    "ruff": "passed",
+    "uv_lock_check": "passed"
+  },
+  "proposed_isolated_versions": {
+    "accelerate": "1.5.2",
+    "einops": "0.8.1",
+    "status": "PyPI metadata read; not installed, resolved or tested",
+    "timm": "1.0.15",
+    "transformers": "4.49.0"
+  },
+  "repositories": {
+    "jinaai/jina-clip-implementation": {
+      "declared_license": "cc-by-nc-4.0",
+      "inspected_text_files": {
+        "README.md": {
+          "bytes": 846,
+          "sha256": "7c986c6f6462a48c638b1ec661567e822c1745a60b0f2daf97e6513e169cb4b8",
+          "url": "https://huggingface.co/jinaai/jina-clip-implementation/resolve/39e6a55ae971b59bea6e44675d237c99762e7ee2/README.md"
+        },
+        "configuration_clip.py": {
+          "bytes": 12626,
+          "sha256": "ad1165756bab9366d7aa05bf1d83fd63bb4b0b40217908629b1c6443165d6b9d",
+          "url": "https://huggingface.co/jinaai/jina-clip-implementation/resolve/39e6a55ae971b59bea6e44675d237c99762e7ee2/configuration_clip.py"
+        },
+        "eva_model.py": {
+          "bytes": 26535,
+          "sha256": "deb7d6faf743e05dd7ab7b718b79f954313d49d487b359c7a717a300eefb874f",
+          "url": "https://huggingface.co/jinaai/jina-clip-implementation/resolve/39e6a55ae971b59bea6e44675d237c99762e7ee2/eva_model.py"
+        },
+        "hf_model.py": {
+          "bytes": 12950,
+          "sha256": "9a38635ca45056a96b6f617716351d8f20ed4f351ca23cd43f4ce38295f3c96d",
+          "url": "https://huggingface.co/jinaai/jina-clip-implementation/resolve/39e6a55ae971b59bea6e44675d237c99762e7ee2/hf_model.py"
+        },
+        "modeling_clip.py": {
+          "bytes": 25495,
+          "sha256": "a9cd07ff6c97e3baaa2de2724f9ff1c56d78add4cbd81a7cc8636b770607b1a3",
+          "url": "https://huggingface.co/jinaai/jina-clip-implementation/resolve/39e6a55ae971b59bea6e44675d237c99762e7ee2/modeling_clip.py"
+        },
+        "processing_clip.py": {
+          "bytes": 2668,
+          "sha256": "4e876fe55882f664bf59e354fb0cf29ac6b542f35cafaa4b681b506730c4ed92",
+          "url": "https://huggingface.co/jinaai/jina-clip-implementation/resolve/39e6a55ae971b59bea6e44675d237c99762e7ee2/processing_clip.py"
+        },
+        "rope_embeddings.py": {
+          "bytes": 5714,
+          "sha256": "960698db4a1ce96cb6ab9ae0f6611e00cadd16cee4d63fb50aed8e04af358521",
+          "url": "https://huggingface.co/jinaai/jina-clip-implementation/resolve/39e6a55ae971b59bea6e44675d237c99762e7ee2/rope_embeddings.py"
+        },
+        "transform.py": {
+          "bytes": 12743,
+          "sha256": "3dbae796192429c203db6840ade96f4a57397e47719675fd28266f7c301906ca",
+          "url": "https://huggingface.co/jinaai/jina-clip-implementation/resolve/39e6a55ae971b59bea6e44675d237c99762e7ee2/transform.py"
+        }
+      },
+      "last_modified": "2025-07-10T11:55:58.000Z",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2"
+    },
+    "jinaai/jina-clip-v2": {
+      "declared_license": "cc-by-nc-4.0",
+      "inspected_text_files": {
+        "README.md": {
+          "bytes": 17522,
+          "sha256": "d2e467259a6bb9aa6c60ec071a8b20f84f7983aa80b64a8d35f1c32765bb1877",
+          "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/README.md"
+        },
+        "config.json": {
+          "bytes": 2152,
+          "sha256": "b5466de03392479d778745bbdb1905e297cd07ca76694703bd7d7b84d58aa853",
+          "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/config.json"
+        },
+        "preprocessor_config.json": {
+          "bytes": 584,
+          "sha256": "920bc482e3dad0de2bffe4e534181a1f61a4a6baefa1aee53b75849557786301",
+          "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/preprocessor_config.json"
+        },
+        "tokenizer_config.json": {
+          "bytes": 1148,
+          "sha256": "e1bc77da5b90ba65b47aa8bd776c6317f47d50dc6717e92b10177686b3b8f161",
+          "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/tokenizer_config.json"
+        },
+        "v4.49.0-configuration_utils.py": {
+          "bytes": 58190,
+          "sha256": "dd8b6704051b55a24820344d4b5987646613c51518331e6e12eeb721d1eaf90b",
+          "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/v4.49.0-configuration_utils.py"
+        },
+        "v4.49.0-modeling_clip.py": {
+          "bytes": 74256,
+          "sha256": "382acb208bdab45dd7e99d5be09b325d5696feedfa3c511b8c7b9561a0c07bf9",
+          "url": "https://huggingface.co/jinaai/jina-clip-v2/resolve/e10d47f5691d0454a0fb5d13f46f2199b74cb436/v4.49.0-modeling_clip.py"
+        }
+      },
+      "last_modified": "2026-04-08T14:03:45.000Z",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436"
+    },
+    "jinaai/jina-embeddings-v3": {
+      "declared_license": "cc-by-nc-4.0",
+      "inspected_text_files": {
+        "README.md": {
+          "bytes": 734278,
+          "sha256": "e573f7395798fe3d78d2e3e92da64814a6ec130494280f7b91ea8b0acb0284ed",
+          "url": "https://huggingface.co/jinaai/jina-embeddings-v3/resolve/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/README.md"
+        },
+        "config.json": {
+          "bytes": 1799,
+          "sha256": "556941599709401b3dc94acf775526f1c4670abe5e123cb53cca8eb5250b0cb5",
+          "url": "https://huggingface.co/jinaai/jina-embeddings-v3/resolve/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/config.json"
+        },
+        "custom_st.py": {
+          "bytes": 8877,
+          "sha256": "a2e02dd7d02efcfd19f8249a440999f6441dfccfe1200fac7c508fe148d9f50a",
+          "url": "https://huggingface.co/jinaai/jina-embeddings-v3/resolve/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/custom_st.py"
+        }
+      },
+      "last_modified": "2026-04-08T14:04:08.000Z",
+      "revision": "ab036b023d30b4d1138c4c3bfa9f0c445ab455d6"
+    },
+    "jinaai/xlm-roberta-flash-implementation": {
+      "declared_license": "cc-by-nc-4.0",
+      "inspected_text_files": {
+        "README.md": {
+          "bytes": 1466,
+          "sha256": "7d892d6ad704df02df33211f75c92131b40cbc7912a526877db8a967c1d04cf5",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/README.md"
+        },
+        "block.py": {
+          "bytes": 17796,
+          "sha256": "780b08f908042eb3cbc2819d41fb2bf5b65836e5ca0c23328735f02f7b59a74f",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/block.py"
+        },
+        "configuration_xlm_roberta.py": {
+          "bytes": 6542,
+          "sha256": "c9f89c2fca97b2495c2cc0f348c6b4133b0d164760291ac4549a0eeb7b650e4d",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/configuration_xlm_roberta.py"
+        },
+        "convert_roberta_weights_to_flash.py": {
+          "bytes": 6944,
+          "sha256": "61dc3ee4ec5d492ff6fb07aa917ec987b199636e5e7ee93b7f3d5afe7fe58e1e",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/convert_roberta_weights_to_flash.py"
+        },
+        "embedding.py": {
+          "bytes": 4442,
+          "sha256": "df66c8d738b3bd348fb4b497ffcddc7ef6d3d2ffca19d1e1d6c3e5d2518454ad",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/embedding.py"
+        },
+        "mha.py": {
+          "bytes": 34368,
+          "sha256": "5277540434395421637a68791c297dc0a1195afe37cb27fcaed2922ff0248916",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/mha.py"
+        },
+        "mlp.py": {
+          "bytes": 7619,
+          "sha256": "f7f2dde3508d1c40b42e2f82237190ce1d9a6310cc5204ce85ade2659b829d2b",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/mlp.py"
+        },
+        "modeling_lora.py": {
+          "bytes": 15447,
+          "sha256": "356365b8602a63e0a542fdadc1e72d6a02efdce4e47edfb15a43ad4da7539732",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/modeling_lora.py"
+        },
+        "modeling_xlm_roberta.py": {
+          "bytes": 51134,
+          "sha256": "6506a289df8e24df87fac121f2d45045cf1967db628d1c6eb8e0c3bd72d43851",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/modeling_xlm_roberta.py"
+        },
+        "rotary.py": {
+          "bytes": 24758,
+          "sha256": "7fd9c5347553737af7ca631ff8745f0ede50917a3aa90c76e285d94ffb9496b8",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/rotary.py"
+        },
+        "stochastic_depth.py": {
+          "bytes": 3761,
+          "sha256": "6e352eab354052edc5a8eeba2a5e4f713312f790295230875d80f2eaf3bc0345",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/stochastic_depth.py"
+        },
+        "xlm_padding.py": {
+          "bytes": 10032,
+          "sha256": "df78bb408fb3bbbeb31ea471655b075b8628d0634c7a6416a22950c145ae7d41",
+          "url": "https://huggingface.co/jinaai/xlm-roberta-flash-implementation/resolve/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/xlm_padding.py"
+        }
+      },
+      "last_modified": "2026-08-20T10:42:05.000Z",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3"
+    }
+  },
+  "scope_exclusions": [
+    "weights/model snapshots",
+    "remote code execution",
+    "tokenizer execution",
+    "new image decoding",
+    "inference",
+    "scientific endpoints",
+    "dependency changes",
+    "scientific artifact changes",
+    "alternative encoder assessment"
+  ],
+  "source_ranges": {
+    "configuration_clip.py": [
+      "47-67: modality-config compatibility",
+      "288-303: CPU dtype selection"
+    ],
+    "eva_model.py": [
+      "288-339: native attention fallback",
+      "628-645: norm/identity head",
+      "745-772: CLS return"
+    ],
+    "hf_model.py": [
+      "MeanPooler",
+      "HFTextEncoder.__init__",
+      "get_instruction_from_task",
+      "get_loraid_from_task",
+      "forward"
+    ],
+    "modeling_clip.py": [
+      "29-34: removed import",
+      "69-83: nested unpinned config",
+      "122-192: attention resolver",
+      "226-229: default dtype",
+      "288-343: both towers and lazy processor loads",
+      "345-373: independent features and prefix slicing",
+      "382-509: image encoding",
+      "511-635: text encoding/task/no-prefix/truncation/normalization"
+    ],
+    "modeling_lora.py": [
+      "trained adapter map and mask paths"
+    ],
+    "processing_clip.py": [
+      "JinaCLIPImageProcessor._build_transform",
+      "preprocess"
+    ],
+    "transform.py": [
+      "image_transform: deterministic resize/crop/RGB/tensor/normalization"
+    ]
+  },
+  "static_compatibility_checks": {
+    "complete_stack_validated": false,
+    "runtime_import_or_execution_of_author_code": false,
+    "transformers_4_49_0": {
+      "PretrainedConfig._set_token_in_kwargs": "present in official tagged source",
+      "clip_loss": "present in official tagged source"
+    },
+    "transformers_5_19_0": {
+      "PretrainedConfig._set_token_in_kwargs": "absent",
+      "clip_loss": "absent from installed CLIP module"
+    }
+  },
+  "status": "proposal/research only; no checkpoint download or inference"
+}

@@ -58,6 +58,7 @@ def public_table(markup):
         'mrl_256': 'MRL 256d', 'pca_256': 'PCA 256d',
         'mrl_128': 'MRL 128d', 'pca_128': 'PCA 128d',
         'severe C1 interventions': 'severe interventions',
+        'Qualified BDD': 'BDD driving-scene subset',
     }
     for old, new in names.items():
         markup = markup.replace(old, new)

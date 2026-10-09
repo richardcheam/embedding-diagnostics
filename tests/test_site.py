@@ -240,9 +240,8 @@ def test_all_packaged_links_and_fragments_resolve(tmp_path):
             if parsed.fragment:
                 assert unquote(parsed.fragment) in documents[target].targets, (path, link)
     page = (tmp_path / 'index.html').read_text()
-    assert 'Experiments closed' in page
     assert '__C1_TABLE__' not in page
-    assert 'before any encoder forward' in page
+    assert 'second-encoder replication with Jina-CLIP-v2 could not be completed' in page
 
 
 def test_generated_latex_alignment_rows_have_valid_terminators():

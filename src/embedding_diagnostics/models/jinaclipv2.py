@@ -19,6 +19,11 @@ import numpy as np
 import torch
 
 from embedding_diagnostics.jina_compression import validate_jina
+from embedding_diagnostics.jina_resolution import (
+    bind_nested_tokenizer,
+    tensor_coverage,
+    verify_nested_tokenizer,
+)
 
 TEXT_CODE_REVISION = "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3"
 TEXT_CONFIG_REVISION = "ab036b023d30b4d1138c4c3bfa9f0c445ab455d6"
@@ -101,19 +106,25 @@ def verify_settings(model):
         raise ValueError("all parameters must be CPU float32")
 
 
+def author_config(snapshot, code_roots, config_class):
+    config = config_class.from_pretrained(snapshot, local_files_only=True)
+    config.use_text_flash_attn = False
+    config.use_vision_xformers = False
+    config.text_config.hf_model_name_or_path = str(code_roots["jinaai/jina-embeddings-v3"])
+    config.text_config.jina_text_config_revision = TEXT_CONFIG_REVISION
+    config.text_config.jina_text_code_revision = TEXT_CODE_REVISION
+    config.text_config.hf_model_config_kwargs["use_flash_attn"] = False
+    config.vision_config.x_attention = False
+    return config
+
+
 class JinaCLIPv2:
     def __init__(self, snapshot: Path, code_roots: dict[str, Path]):
         if any(os.environ.get(k) != "1" for k in ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE")):
             raise ValueError("explicit offline nested resolution required before model imports")
+        intended_nested = bind_nested_tokenizer(code_roots["jinaai/jina-embeddings-v3"])
         config_class, model_class, _ = author_classes(code_roots["resolved_clip"])
-        config = config_class.from_pretrained(snapshot, local_files_only=True)
-        config.use_text_flash_attn = False
-        config.use_vision_xformers = False
-        config.text_config.hf_model_name_or_path = str(code_roots["jinaai/jina-embeddings-v3"])
-        config.text_config.jina_text_config_revision = TEXT_CONFIG_REVISION
-        config.text_config.jina_text_code_revision = TEXT_CODE_REVISION
-        config.text_config.hf_model_config_kwargs["use_flash_attn"] = False
-        config.vision_config.x_attention = False
+        config = author_config(snapshot, code_roots, config_class)
         self.model, info = model_class.from_pretrained(
             snapshot,
             config=config,
@@ -128,6 +139,19 @@ class JinaCLIPv2:
             for k in ("missing_keys", "unexpected_keys", "mismatched_keys", "error_msgs")
         ):
             raise ValueError(f"checkpoint loading coverage failure: {info}")
+        inventory_path = Path(snapshot) / "model.safetensors"
+        from safetensors import safe_open
+
+        with safe_open(inventory_path, framework="pt", device="cpu") as stored:
+            inventory = {
+                k: {
+                    "shape": list(stored.get_slice(k).get_shape()),
+                    "dtype": stored.get_slice(k).get_dtype(),
+                }
+                for k in stored.keys()
+            }
+        coverage = tensor_coverage(self.model, inventory)
+        nested_identity = verify_nested_tokenizer(self.model, intended_nested)
         self.model.eval()
         if type(self.model.text_model.pooler).__name__ != "MeanPooler":
             raise ValueError("official pad-masked mean text pooler required")
@@ -169,6 +193,8 @@ class JinaCLIPv2:
             "device": "cpu",
             "dtype": "float32",
             "executed_source_sha256": executed,
+            "tensor_coverage": coverage,
+            "nested_tokenizer_identity": nested_identity,
             "parameters": sum(p.numel() for p in self.model.parameters()),
             "load_mode": "official full wrapper; low_cpu_mem_usage safetensors",
             "loading_info": info,

@@ -1,0 +1,217 @@
+{
+  "checkpoint_digest_verified": true,
+  "files": {
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2/README.md": {
+      "bytes": 846,
+      "repository": "jinaai/jina-clip-implementation",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2",
+      "sha256": "7c986c6f6462a48c638b1ec661567e822c1745a60b0f2daf97e6513e169cb4b8"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2/configuration_clip.py": {
+      "bytes": 12626,
+      "repository": "jinaai/jina-clip-implementation",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2",
+      "sha256": "ad1165756bab9366d7aa05bf1d83fd63bb4b0b40217908629b1c6443165d6b9d"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2/eva_model.py": {
+      "bytes": 26535,
+      "repository": "jinaai/jina-clip-implementation",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2",
+      "sha256": "deb7d6faf743e05dd7ab7b718b79f954313d49d487b359c7a717a300eefb874f"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2/hf_model.py": {
+      "bytes": 12950,
+      "repository": "jinaai/jina-clip-implementation",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2",
+      "sha256": "9a38635ca45056a96b6f617716351d8f20ed4f351ca23cd43f4ce38295f3c96d"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2/modeling_clip.py": {
+      "bytes": 25495,
+      "repository": "jinaai/jina-clip-implementation",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2",
+      "sha256": "a9cd07ff6c97e3baaa2de2724f9ff1c56d78add4cbd81a7cc8636b770607b1a3"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2/processing_clip.py": {
+      "bytes": 2668,
+      "repository": "jinaai/jina-clip-implementation",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2",
+      "sha256": "4e876fe55882f664bf59e354fb0cf29ac6b542f35cafaa4b681b506730c4ed92"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2/rope_embeddings.py": {
+      "bytes": 5714,
+      "repository": "jinaai/jina-clip-implementation",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2",
+      "sha256": "960698db4a1ce96cb6ab9ae0f6611e00cadd16cee4d63fb50aed8e04af358521"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2/transform.py": {
+      "bytes": 12743,
+      "repository": "jinaai/jina-clip-implementation",
+      "revision": "39e6a55ae971b59bea6e44675d237c99762e7ee2",
+      "sha256": "3dbae796192429c203db6840ade96f4a57397e47719675fd28266f7c301906ca"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436/README.md": {
+      "bytes": 17522,
+      "repository": "jinaai/jina-clip-v2",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+      "sha256": "d2e467259a6bb9aa6c60ec071a8b20f84f7983aa80b64a8d35f1c32765bb1877"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436/config.json": {
+      "bytes": 2152,
+      "repository": "jinaai/jina-clip-v2",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+      "sha256": "b5466de03392479d778745bbdb1905e297cd07ca76694703bd7d7b84d58aa853"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436/custom_st.py": {
+      "bytes": 12133,
+      "repository": "jinaai/jina-clip-v2",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+      "sha256": "f47e57a1696831c779897e88b4fffef72e1c3ab8b5694edec9735d331de5a784"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436/model.safetensors": {
+      "bytes": 1730688642,
+      "repository": "jinaai/jina-clip-v2",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+      "sha256": "eff4c0a13ab4de71a9927a56968fef44e626920ff935e503f1bd3e6ec797062d"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436/preprocessor_config.json": {
+      "bytes": 584,
+      "repository": "jinaai/jina-clip-v2",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+      "sha256": "920bc482e3dad0de2bffe4e534181a1f61a4a6baefa1aee53b75849557786301"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436/special_tokens_map.json": {
+      "bytes": 964,
+      "repository": "jinaai/jina-clip-v2",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436/tokenizer.json": {
+      "bytes": 17082997,
+      "repository": "jinaai/jina-clip-v2",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+      "sha256": "6601c4120779a1a3863897ba332fe3481d548e363bec2c91eba10ef8640a5e93"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436/tokenizer_config.json": {
+      "bytes": 1148,
+      "repository": "jinaai/jina-clip-v2",
+      "revision": "e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+      "sha256": "e1bc77da5b90ba65b47aa8bd776c6317f47d50dc6717e92b10177686b3b8f161"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-embeddings-v3/snapshots/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/README.md": {
+      "bytes": 734278,
+      "repository": "jinaai/jina-embeddings-v3",
+      "revision": "ab036b023d30b4d1138c4c3bfa9f0c445ab455d6",
+      "sha256": "e573f7395798fe3d78d2e3e92da64814a6ec130494280f7b91ea8b0acb0284ed"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-embeddings-v3/snapshots/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/config.json": {
+      "bytes": 1799,
+      "repository": "jinaai/jina-embeddings-v3",
+      "revision": "ab036b023d30b4d1138c4c3bfa9f0c445ab455d6",
+      "sha256": "556941599709401b3dc94acf775526f1c4670abe5e123cb53cca8eb5250b0cb5"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-embeddings-v3/snapshots/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/custom_st.py": {
+      "bytes": 8877,
+      "repository": "jinaai/jina-embeddings-v3",
+      "revision": "ab036b023d30b4d1138c4c3bfa9f0c445ab455d6",
+      "sha256": "a2e02dd7d02efcfd19f8249a440999f6441dfccfe1200fac7c508fe148d9f50a"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-embeddings-v3/snapshots/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/special_tokens_map.json": {
+      "bytes": 964,
+      "repository": "jinaai/jina-embeddings-v3",
+      "revision": "ab036b023d30b4d1138c4c3bfa9f0c445ab455d6",
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-embeddings-v3/snapshots/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/tokenizer.json": {
+      "bytes": 17082756,
+      "repository": "jinaai/jina-embeddings-v3",
+      "revision": "ab036b023d30b4d1138c4c3bfa9f0c445ab455d6",
+      "sha256": "f59925fcb90c92b894cb93e51bb9b4a6105c5c249fe54ce1c704420ac39b81af"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--jina-embeddings-v3/snapshots/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6/tokenizer_config.json": {
+      "bytes": 1148,
+      "repository": "jinaai/jina-embeddings-v3",
+      "revision": "ab036b023d30b4d1138c4c3bfa9f0c445ab455d6",
+      "sha256": "e1bc77da5b90ba65b47aa8bd776c6317f47d50dc6717e92b10177686b3b8f161"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/README.md": {
+      "bytes": 1466,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "7d892d6ad704df02df33211f75c92131b40cbc7912a526877db8a967c1d04cf5"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/block.py": {
+      "bytes": 17796,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "780b08f908042eb3cbc2819d41fb2bf5b65836e5ca0c23328735f02f7b59a74f"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/configuration_xlm_roberta.py": {
+      "bytes": 6542,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "c9f89c2fca97b2495c2cc0f348c6b4133b0d164760291ac4549a0eeb7b650e4d"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/convert_roberta_weights_to_flash.py": {
+      "bytes": 6944,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "61dc3ee4ec5d492ff6fb07aa917ec987b199636e5e7ee93b7f3d5afe7fe58e1e"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/embedding.py": {
+      "bytes": 4442,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "df66c8d738b3bd348fb4b497ffcddc7ef6d3d2ffca19d1e1d6c3e5d2518454ad"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/mha.py": {
+      "bytes": 34368,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "5277540434395421637a68791c297dc0a1195afe37cb27fcaed2922ff0248916"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/mlp.py": {
+      "bytes": 7619,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "f7f2dde3508d1c40b42e2f82237190ce1d9a6310cc5204ce85ade2659b829d2b"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/modeling_lora.py": {
+      "bytes": 15447,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "356365b8602a63e0a542fdadc1e72d6a02efdce4e47edfb15a43ad4da7539732"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/modeling_xlm_roberta.py": {
+      "bytes": 51134,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "6506a289df8e24df87fac121f2d45045cf1967db628d1c6eb8e0c3bd72d43851"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/rotary.py": {
+      "bytes": 24758,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "7fd9c5347553737af7ca631ff8745f0ede50917a3aa90c76e285d94ffb9496b8"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/stochastic_depth.py": {
+      "bytes": 3761,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "6e352eab354052edc5a8eeba2a5e4f713312f790295230875d80f2eaf3bc0345"
+    },
+    "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/xlm_padding.py": {
+      "bytes": 10032,
+      "repository": "jinaai/xlm-roberta-flash-implementation",
+      "revision": "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+      "sha256": "df78bb408fb3bbbeb31ea471655b075b8628d0634c7a6416a22950c145ae7d41"
+    }
+  },
+  "nested_weights_acquired": false,
+  "roots": {
+    "jinaai/jina-clip-implementation": "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-implementation/snapshots/39e6a55ae971b59bea6e44675d237c99762e7ee2",
+    "jinaai/jina-clip-v2": "/mnt/hdd/data/hf/hub/models--jinaai--jina-clip-v2/snapshots/e10d47f5691d0454a0fb5d13f46f2199b74cb436",
+    "jinaai/jina-embeddings-v3": "/mnt/hdd/data/hf/hub/models--jinaai--jina-embeddings-v3/snapshots/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6",
+    "jinaai/xlm-roberta-flash-implementation": "/mnt/hdd/data/hf/hub/models--jinaai--xlm-roberta-flash-implementation/snapshots/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3",
+    "resolved_clip": "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55"
+  }
+}

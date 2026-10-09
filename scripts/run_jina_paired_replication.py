@@ -22,7 +22,6 @@ from embedding_diagnostics.jina_paired_cache import JinaPairedCache, load_jina_c
 from embedding_diagnostics.jina_protocol import (
     ACCEPTED,
     CONDITIONS,
-    ROOT,
     SwapMonitor,
     atomic_json,
     cache_provenance,
@@ -32,6 +31,9 @@ from embedding_diagnostics.jina_protocol import (
     read,
     resource_gate,
     verify_hashes,
+)
+from embedding_diagnostics.jina_protocol import (
+    REPAIR_ROOT as ROOT,
 )
 from embedding_diagnostics.models.jinaclipv2 import JinaCLIPv2
 

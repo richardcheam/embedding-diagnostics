@@ -188,6 +188,12 @@ def test_constructor_enforces_fp32_full_wrapper_and_checkpoint_coverage(tmp_path
     )
     monkeypatch.setattr(module, "executed_source_hashes", lambda *a: {})
     roots = {"resolved_clip": tmp_path, "jinaai/jina-embeddings-v3": tmp_path}
+    monkeypatch.setattr(module, "bind_nested_tokenizer", lambda *a: "intended")
+    monkeypatch.setattr(module, "verify_nested_tokenizer", lambda *a: {})
+    monkeypatch.setattr(module, "tensor_coverage", lambda *a, **k: {})
+    from safetensors.torch import save_file
+
+    save_file({"weight": torch.ones(2)}, str(tmp_path / "model.safetensors"))
     a = JinaCLIPv2(tmp_path, roots)
     assert calls[0]["torch_dtype"] == torch.float32
     assert calls[0]["low_cpu_mem_usage"] and calls[0]["local_files_only"]

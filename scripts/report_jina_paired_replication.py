@@ -12,7 +12,7 @@ from embedding_diagnostics.embedding_cache import atomic_json
 from embedding_diagnostics.phase_c_numerics import resume_results
 from embedding_diagnostics.source_sensitivity import digest, verify_hashes
 
-ROOT = Path("experiments/phaseC_paired_jina_replication")
+ROOT = Path("experiments/phaseC_paired_jina_repair")
 
 
 def floors(images, captions, positives):

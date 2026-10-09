@@ -1,0 +1,57 @@
+{
+  "component_elements": {
+    "logit_scale": 1,
+    "text_model": 560895564,
+    "vision_model": 304382912
+  },
+  "executed_source_sha256": {
+    "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/__init__.py": "0cb3ebc50e0d2f4d3f6b41d63676335ac94506b375ecf69b4646bbd8fad4cf31",
+    "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/configuration_clip.py": "ad1165756bab9366d7aa05bf1d83fd63bb4b0b40217908629b1c6443165d6b9d",
+    "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/eva_model.py": "deb7d6faf743e05dd7ab7b718b79f954313d49d487b359c7a717a300eefb874f",
+    "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/hf_model.py": "7f7e11032c605b51d655dec03493dd740dc6d041769d04fdaac1fbe161d57c0c",
+    "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/modeling_clip.py": "7c7f23f0c5ad3246c76a714ec6646aea0ce9c503294889e7ce7bd58b0f3c8f38",
+    "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/processing_clip.py": "4e876fe55882f664bf59e354fb0cf29ac6b542f35cafaa4b681b506730c4ed92",
+    "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/rope_embeddings.py": "960698db4a1ce96cb6ab9ae0f6611e00cadd16cee4d63fb50aed8e04af358521",
+    "/mnt/hdd/data/hf/jina-clip-v2-resolved-39e6a55/transform.py": "3dbae796192429c203db6840ade96f4a57397e47719675fd28266f7c301906ca",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/block.py": "780b08f908042eb3cbc2819d41fb2bf5b65836e5ca0c23328735f02f7b59a74f",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/configuration_xlm_roberta.py": "c9f89c2fca97b2495c2cc0f348c6b4133b0d164760291ac4549a0eeb7b650e4d",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/embedding.py": "df66c8d738b3bd348fb4b497ffcddc7ef6d3d2ffca19d1e1d6c3e5d2518454ad",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/mha.py": "5277540434395421637a68791c297dc0a1195afe37cb27fcaed2922ff0248916",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/mlp.py": "f7f2dde3508d1c40b42e2f82237190ce1d9a6310cc5204ce85ade2659b829d2b",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/modeling_lora.py": "356365b8602a63e0a542fdadc1e72d6a02efdce4e47edfb15a43ad4da7539732",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/modeling_xlm_roberta.py": "6506a289df8e24df87fac121f2d45045cf1967db628d1c6eb8e0c3bd72d43851",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/rotary.py": "7fd9c5347553737af7ca631ff8745f0ede50917a3aa90c76e285d94ffb9496b8",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/stochastic_depth.py": "6e352eab354052edc5a8eeba2a5e4f713312f790295230875d80f2eaf3bc0345",
+    "/mnt/hdd/data/hf/modules/transformers_modules/jinaai/xlm-roberta-flash-implementation/bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3/xlm_padding.py": "df78bb408fb3bbbeb31ea471655b075b8628d0634c7a6416a22950c145ae7d41"
+  },
+  "explanation": "Reported count exactly equals non-scalar tensor elements; complete checkpoint also contains the trained scalar logit_scale parameter. All state keys/shapes and parameters accounted for; no tensor discarded. Hub counting cause unverified.",
+  "forward_calls": 0,
+  "missing_keys": [],
+  "nested_tokenizer_identity": {
+    "backend_sha256": "674dca942ded696896a24c8985270ee6b05b9caad54e841eecdf75f555c8e7d3",
+    "class": "XLMRobertaTokenizerFast",
+    "model_max_length": 8194,
+    "special_tokens_map": {
+      "bos_token": "<s>",
+      "cls_token": "<s>",
+      "eos_token": "</s>",
+      "mask_token": "<mask>",
+      "pad_token": "<pad>",
+      "sep_token": "</s>",
+      "unk_token": "<unk>"
+    },
+    "vocabulary_size": 250002
+  },
+  "parameters": 865278477,
+  "preflight_method_note": "include_buffers=True diagnostic failed on vision linspace.item; use unchanged runtime-compatible default init_empty_weights, no author/model/loading-mode change",
+  "reported_elements": 865278476,
+  "scalar_elements": 1,
+  "scalar_keys": {
+    "logit_scale": 1
+  },
+  "shape_mismatches": {},
+  "state_tensors": 999,
+  "stored_elements": 865278477,
+  "unexpected_keys": [],
+  "verification_mode": "metadata-only full author architecture; meta parameters/CPU nonpersistent buffers matching Transformers4.49 low-memory init; no checkpoint values loaded or forward"
+}

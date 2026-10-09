@@ -1,0 +1,40 @@
+{
+  "encoder_forwards": 0,
+  "processor": {
+    "_processor_class": "JinaCLIPProcessor",
+    "auto_map": {
+      "AutoImageProcessor": "jinaai/jina-clip-implementation--processing_clip.JinaCLIPImageProcessor",
+      "AutoProcessor": "jinaai/jina-clip-implementation--processing_clip.JinaCLIPProcessor"
+    },
+    "fill_color": 0,
+    "image_processor_type": "JinaCLIPImageProcessor",
+    "interpolation": "bicubic",
+    "mean": [
+      0.48145466,
+      0.4578275,
+      0.40821073
+    ],
+    "resize_mode": "shortest",
+    "size": 512,
+    "std": [
+      0.26862954,
+      0.26130258,
+      0.27577711
+    ]
+  },
+  "tokenizer_class": "XLMRobertaTokenizerFast",
+  "versions": {
+    "accelerate": "1.5.2",
+    "einops": "0.8.1",
+    "huggingface_hub": "0.36.2",
+    "numpy": "2.5.1",
+    "pillow": "12.3.0",
+    "safetensors": "0.8.0",
+    "threadpoolctl": "3.7.0",
+    "timm": "1.0.15",
+    "tokenizers": "0.21.4",
+    "torch": "2.11.0+cu128",
+    "torchvision": "0.26.0+cu128",
+    "transformers": "4.49.0"
+  }
+}

@@ -9,13 +9,15 @@ from pathlib import Path
 
 from embedding_diagnostics.jina_protocol import (
     ACCEPTED,
-    ROOT,
     atomic_json,
     digest,
     read,
     validate_inputs,
     verify_hashes,
     versions,
+)
+from embedding_diagnostics.jina_protocol import (
+    REPAIR_ROOT as ROOT,
 )
 
 
@@ -74,6 +76,8 @@ def freeze():
     protected.update(read(ACCEPTED / "cache_binding.json")["files_sha256"])
     paths = subprocess.check_output(["git", "ls-files", "experiments"]).decode().splitlines()
     protected.update({p: digest(p) for p in paths if not p.startswith(str(ROOT) + "/")})
+    failed = Path("experiments/phaseC_paired_jina_replication")
+    protected.update({str(p): digest(p) for p in failed.glob("*/embedding-cache/manifest.json")})
     protected.update({p: digest(p) for p in ("pyproject.toml", "uv.lock")})
     verify_hashes(protected)
     acquisition = read(ROOT / "acquisition.json")
@@ -93,6 +97,7 @@ def freeze():
                 "docs/second-encoder-replication-proposal.md",
                 "docs/second-encoder-replication-plan.md",
                 "docs/second-encoder-source-review.json",
+                "docs/jina-tokenizer-repair-protocol.md",
             ]
         )
         .decode()
@@ -105,6 +110,10 @@ def freeze():
         "checkpoint_inventory.json",
         "isolated_runtime.json",
         "input_manifest.json",
+        "tokenizer_acquisition.json",
+        "resolution_reproduction.json",
+        "resolution_verification.json",
+        "inventory_reconciliation.json",
     ]
     code_hashes = {p: digest(p) for p in code}
     code_hashes.update({str(ROOT / n): digest(ROOT / n) for n in extra})
@@ -112,6 +121,11 @@ def freeze():
         ROOT / "freeze.json",
         {
             "accepted_commit": "ebe17fb",
+            "supersedes_attempt_commit": "56e9765",
+            "supersedes_freeze_commit": "8557b78",
+            "supersedes_freeze_sha256": digest(
+                Path("experiments/phaseC_paired_jina_replication/freeze.json")
+            ),
             "implementation_commit": subprocess.check_output(["git", "rev-parse", "HEAD"])
             .decode()
             .strip(),

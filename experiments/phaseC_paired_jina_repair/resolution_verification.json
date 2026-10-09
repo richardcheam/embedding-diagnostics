@@ -1,0 +1,46 @@
+{
+  "all_5000_nested_original_constructor_vs_prebound_tokenizations_equal": true,
+  "all_5000_original_nested_encode_helper_token_inputs_match_intended_source": true,
+  "all_5000_outer_tokens_equal_accepted_inputs": true,
+  "author_source_sha256": "6506a289df8e24df87fac121f2d45045cf1967db628d1c6eb8e0c3bd72d43851",
+  "binding_class": "explicit XLMRobertaTokenizerFast; original constructor independently chooses same class",
+  "code_patch": "none; original nested tokenizer files restored at its pinned local snapshot",
+  "helper_source_line": 585,
+  "internal_constructor_resolves_without_AutoConfig": true,
+  "nested_helper_default_max_length": 8194,
+  "nested_helper_default_padding": true,
+  "nested_helper_default_truncation": true,
+  "nested_identity": {
+    "backend_sha256": "674dca942ded696896a24c8985270ee6b05b9caad54e841eecdf75f555c8e7d3",
+    "class": "XLMRobertaTokenizerFast",
+    "model_max_length": 8194,
+    "special_tokens_map": {
+      "bos_token": "<s>",
+      "cls_token": "<s>",
+      "eos_token": "</s>",
+      "mask_token": "<mask>",
+      "pad_token": "<pad>",
+      "sep_token": "</s>",
+      "unk_token": "<unk>"
+    },
+    "vocabulary_size": 250002
+  },
+  "nested_outer_token_equality_observed": true,
+  "no_encoder_forward": true,
+  "outer_identity": {
+    "backend_sha256": "674dca942ded696896a24c8985270ee6b05b9caad54e841eecdf75f555c8e7d3",
+    "class": "XLMRobertaTokenizerFast",
+    "model_max_length": 8194,
+    "special_tokens_map": {
+      "bos_token": "<s>",
+      "cls_token": "<s>",
+      "eos_token": "</s>",
+      "mask_token": "<mask>",
+      "pad_token": "<pad>",
+      "sep_token": "</s>",
+      "unk_token": "<unk>"
+    },
+    "vocabulary_size": 250002
+  },
+  "source_snapshot": "/mnt/hdd/data/hf/hub/models--jinaai--jina-embeddings-v3/snapshots/ab036b023d30b4d1138c4c3bfa9f0c445ab455d6"
+}

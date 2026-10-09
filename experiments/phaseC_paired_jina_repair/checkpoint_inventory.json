@@ -1,0 +1,6667 @@
+{
+  "tensor_count": 999,
+  "stored_elements": 865278477,
+  "elements_by_dtype": {
+    "F16": 865278477
+  },
+  "tensors": {
+    "logit_scale": {
+      "shape": [],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.emb_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.emb_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.embeddings.token_type_embeddings.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        1,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.embeddings.token_type_embeddings.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.embeddings.token_type_embeddings.parametrizations.weight.original": {
+      "shape": [
+        1,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.embeddings.word_embeddings.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        250002,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.embeddings.word_embeddings.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.embeddings.word_embeddings.parametrizations.weight.original": {
+      "shape": [
+        250002,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.0.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.1.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.10.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.11.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.12.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.13.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.14.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.15.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.16.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.17.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.18.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.19.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.2.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.20.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.21.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.22.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.23.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.3.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.4.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.5.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.6.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.7.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.8.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mixer.Wqkv.bias": {
+      "shape": [
+        3072
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mixer.Wqkv.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mixer.Wqkv.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        3072,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mixer.Wqkv.parametrizations.weight.original": {
+      "shape": [
+        3072,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mixer.out_proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mixer.out_proj.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mixer.out_proj.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mixer.out_proj.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mlp.fc1.bias": {
+      "shape": [
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mlp.fc1.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mlp.fc1.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        4096,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mlp.fc1.parametrizations.weight.original": {
+      "shape": [
+        4096,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mlp.fc2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mlp.fc2.parametrizations.weight.0.lora_A": {
+      "shape": [
+        1,
+        4,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mlp.fc2.parametrizations.weight.0.lora_B": {
+      "shape": [
+        1,
+        1024,
+        4
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.mlp.fc2.parametrizations.weight.original": {
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "text_model.transformer.roberta.encoder.layers.9.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.0.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.1.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.10.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.11.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.12.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.13.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.14.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.15.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.16.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.17.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.18.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.19.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.2.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.20.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.21.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.22.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.23.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.3.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.4.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.5.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.6.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.7.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.8.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.inner_attn_ln.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.inner_attn_ln.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.k_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.q_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.q_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.v_bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.attn.v_proj.weight": {
+      "shape": [
+        1024,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.mlp.ffn_ln.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.mlp.ffn_ln.weight": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.mlp.w1.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.mlp.w1.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.mlp.w2.bias": {
+      "shape": [
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.mlp.w2.weight": {
+      "shape": [
+        2730,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.mlp.w3.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.mlp.w3.weight": {
+      "shape": [
+        1024,
+        2730
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.norm1.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.norm1.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.norm2.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.blocks.9.norm2.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.cls_token": {
+      "shape": [
+        1,
+        1,
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.norm.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.norm.weight": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.patch_embed.proj.bias": {
+      "shape": [
+        1024
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.patch_embed.proj.weight": {
+      "shape": [
+        1024,
+        3,
+        14,
+        14
+      ],
+      "dtype": "F16"
+    },
+    "vision_model.pos_embed": {
+      "shape": [
+        1,
+        1297,
+        1024
+      ],
+      "dtype": "F16"
+    }
+  },
+  "note": "Stored tensor inventory includes parameters and persistent buffers; actual parameter count verified at model loading."
+}

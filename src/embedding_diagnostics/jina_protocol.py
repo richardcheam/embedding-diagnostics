@@ -12,6 +12,7 @@ from pathlib import Path
 from .embedding_cache import atomic_json as atomic_json
 
 ROOT = Path("experiments/phaseC_paired_jina_replication")
+REPAIR_ROOT = Path("experiments/phaseC_paired_jina_repair")
 ACCEPTED = Path("experiments/phaseC_paired_replication")
 CONDITIONS = ("native_1024", "mrl_256", "mrl_128")
 

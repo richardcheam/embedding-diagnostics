@@ -329,3 +329,24 @@ def test_static_training_figures_preserve_five_seed_means(tmp_path):
     for mark in parser.marks:
         values = data['conditions'][mark['data-training-condition']][mark['data-training-metric']]
         assert float(mark['data-training-value']) == pytest.approx(sum(values)/5)
+
+
+def test_caption_example_matches_recorded_image_and_annotations(tmp_path):
+    """The explanatory photograph and captions must belong to the same study image."""
+    import hashlib
+    from html import escape
+
+    manifest = json.loads((ROOT / 'experiments/phaseC_paired_replication/sample_manifest.json')
+                          .read_text())
+    row = next(r for r in manifest['selected_rows'] if r['image_id'] == 785)
+    module = builder()
+    module.build(ROOT / 'experiments', tmp_path)
+    image = tmp_path / 'assets/images/coco-000000000785.jpg'
+    assert hashlib.sha256(image.read_bytes()).hexdigest() == row['raw_sha256']
+    page = (tmp_path / 'index.html').read_text()
+    for caption in row['captions']:
+        assert f'data-caption-id="{caption["id"]}"' in page
+        assert f'<q>{escape(caption["caption"])}</q>' in page
+    assert 'Nick J Webb' in page
+    assert 'https://creativecommons.org/licenses/by/2.0/' in page
+    assert 'it is not a measured retrieval result' in page

@@ -33,9 +33,9 @@ def figure(title, svg, caption, desc):
 
 
 def rows_plot(title, rows, metric, caption, maximum=100, ticks=(0, 25, 50, 75, 100),
-              logarithmic=False, floor=None, bars=False):
+              logarithmic=False, floor=None, bars=False, compact=False):
     """Labels above each row keep the same composition readable on a phone."""
-    top, gap, left, right = 60, 67, 24, 370
+    top, gap, left, right = 60, (49 if compact else 67), 24, 370
     bottom = top + (len(rows)-1)*gap + 25
     low = ticks[0] if logarithmic else 0
     def scale(v):
@@ -43,13 +43,20 @@ def rows_plot(title, rows, metric, caption, maximum=100, ticks=(0, 25, 50, 75, 1
     parts = []
     for tick in ticks:
         x = scale(10**tick if logarithmic else tick)
-        parts.append(f'<path d="M{x} 45V{bottom}" class="plot-gridline"/>')
+        if compact:
+            for i in range(len(rows)):
+                y = top + i*gap
+                parts.append(f'<path d="M{x} {y-7}V{y+7}" class="plot-gridline"/>')
+        else:
+            parts.append(f'<path d="M{x} 45V{bottom}" class="plot-gridline"/>')
         parts.append(text(x, bottom+26, f'10^{tick}' if logarithmic else tick, 'middle',
                           'plot-tick'))
     description = []
     if floor is not None:
         x = scale(floor)
-        parts.append(f'<path d="M{x} 45V{bottom}" class="plot-floor"/>')
+        for i in range(len(rows)):
+            y = top + i*gap
+            parts.append(f'<path d="M{x} {y-9}V{y+9}" class="plot-floor"/>')
     for i, (record, label, pigment) in enumerate(rows):
         y = top + i*gap
         value, attrs = source(record, metric)
@@ -130,7 +137,7 @@ def compression_plot(data, attribute, endpoint, title):
 
 def coco_intervals(intervals):
     """Display the accepted grouped-bootstrap intervals, without recomputation."""
-    left, right, bottom = 24, 370, 375
+    left, right, bottom = 24, 370, 285
     def x(v):
         return left+(v+5)/7*(right-left)
     parts = []
@@ -147,22 +154,25 @@ def coco_intervals(intervals):
         p = {k: 100*v for k, v in intervals[condition][direction].items()}
         dim = condition.split('_')[1]
         label = f'{dim}d · {"Text → image" if direction == "t2i" else "Image → text"}'
-        y = 86+i*87
-        parts.append(text(left, y-19, label, css='plot-label'))
+        y = 72+i*62
+        parts.append(text(left, y-15, label, css='plot-label'))
         parts.append(f'<g class="paired-ci" data-condition="{condition}" '
                      f'data-direction="{direction}" data-delta="{p["delta"]}" '
                      f'data-lower="{p["lower"]}" data-upper="{p["upper"]}">'
-                     f'<path d="M{x(p["lower"])} {y}H{x(p["upper"])}" '
+                     f'<path d="M{x(p["lower"])} {y}H{x(p["upper"])} '
+                     f'M{x(p["lower"])} {y-4}V{y+4} '
+                     f'M{x(p["upper"])} {y-4}V{y+4}" '
                      'class="paired-ci-line"/>'
                      f'<circle cx="{x(p["delta"])}" cy="{y}" r="5" '
-                     'fill="var(--ink)"/></g>')
+                     f'fill="var(--{"focus" if dim == "256" else "comparison"})"/></g>')
         value = f'{p["delta"]:+.2f} [{p["lower"]:+.2f}, {p["upper"]:+.2f}]'
-        parts.append(text(right, y+27, value, 'end', 'plot-tick'))
+        parts.append(text(right, y+22, value, 'end', 'plot-tick'))
         descriptions.append(f'{label}: {value} percentage points.')
-    return figure('How uncertain are the Hit@10 changes?',
-                  ('0 0 400 425', ''.join(parts)),
+    return figure('Hit@10 change after compression',
+                  ('0 0 400 335', ''.join(parts)),
                   'Compressed minus native, in percentage points. Dots: paired change; '
-                  'lines: conditional 95% bootstrap intervals. Zero is no change.',
+                  'lines: conditional 95% bootstrap intervals. Left of zero means lower Hit@10; '
+                  'right means higher. Zero is the native result.',
                   ' '.join(descriptions))
 
 
@@ -198,13 +208,15 @@ def extension_figures(data, intervals):
              ('c1_rank_truncation_0.99', 'Keep eight directions', 'ink'),
              ('c1_isotropic_noise_0.99', 'Add severe noise', 'issue')]
     rows = [(bdd[c], name, pigment) for c, name, pigment in names]
-    geometry = '<div class="plot-grid two">' + ''.join([
-        rows_plot('RankMe rises under noise', rows, 'geometry.rankme',
+    geometry = '<div class="plot-grid two compact-plots">' + ''.join([
+        rows_plot('Spectrum breadth / RankMe', rows, 'geometry.rankme',
                   'Raw singular-spectrum count. Higher means a broader spectrum, '
-                  'not necessarily more useful information.', 768, (0, 192, 384, 576, 768)),
-        rows_plot('Weather retrieval approaches chance', rows, 'attributes.weather.p10',
+                  'not necessarily more useful information.', 768, (0, 192, 384, 576, 768),
+                  compact=True),
+        rows_plot('Weather matches / P@10', rows, 'attributes.weather.p10',
                   'P@10: fraction of ten neighbours sharing the weather label. '
-                  'The same five conditions, on the same retained sample.',
+                  'For example, 57.86% means about 5.8 weather matches per ten results.',
+                  compact=True,
                   floor=100*sum((p['val']/983)**2 for p in
                                 bdd['c1_pristine']['attributes']['weather']['support'].values()))
     ]) + '</div>'
@@ -238,15 +250,15 @@ def extension_figures(data, intervals):
         ('c3_mean99_ref', 'Common-offset reference', 'ink'),
         ('c3_mean99_fp16_gallery', 'Offset + FP16 gallery', 'issue')]
     precision = [(bdd[c], label, pigment) for c, label, pigment in precision_names]
-    numerics = '<div class="plot-grid two">' + ''.join([
-        rows_plot('How many top-10 sets changed?', precision, 'summary.identity_changed_queries',
+    numerics = '<div class="plot-grid two compact-plots">' + ''.join([
+        rows_plot('Queries with changed neighbours', precision, 'summary.identity_changed_queries',
                   'Out of 983 queries. Native and common-offset rows each use their own '
                   'unperturbed reference. Zero changes are reported explicitly.',
-                  200, (0, 50, 100, 150, 200), bars=True),
-        rows_plot('How large was the score error?', precision, 'summary.max_score_error',
+                  200, (0, 50, 100, 150, 200), bars=True, compact=True),
+        rows_plot('Largest cosine-score error', precision, 'summary.max_score_error',
                   'Largest absolute cosine-score difference from the relevant reference. '
                   'Logarithmic axis; smaller error alone does not guarantee stable neighbours.',
-                  -2, (-16, -12, -8, -4, -2), logarithmic=True)
+                  -2, (-16, -12, -8, -4, -2), logarithmic=True, compact=True)
     ]) + '</div>'
     coco = [(p, 'Native · 768 dimensions' if p['dimension'] == 768
              else f'Learned prefix · {p["dimension"]} dimensions', pigment)

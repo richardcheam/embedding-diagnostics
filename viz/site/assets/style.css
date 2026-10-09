@@ -1776,3 +1776,22 @@ summary::-webkit-details-marker { display:none }
   .instrument-grid h3 { font-size:17px }
   .figure-heading { font-size:10px; flex-wrap:wrap }
 }
+
+/* Compact measured panels use body-scale labels rather than enlarging SVG type. */
+.compact-plots { max-width:840px; gap:28px }
+.compact-plots .research-plot svg { max-width:400px }
+.paired-uncertainty-layout { grid-template-columns:minmax(0,400px) minmax(0,1fr); gap:40px; max-width:900px }
+.caption-source-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); gap:32px; margin:24px 0 }
+.caption-photo img { display:block; width:100%; height:auto; max-width:320px }
+.caption-photo p { font-size:11px; line-height:1.6; color:var(--muted); max-width:48ch }
+.caption-photo a { text-decoration:underline; text-underline-offset:3px }
+.recorded-captions ol { list-style:none; padding:0; margin:14px 0 0 }
+.recorded-captions li { display:grid; grid-template-columns:24px minmax(0,1fr); gap:8px; padding:9px 0; border-top:1px solid var(--line); font-size:14px; line-height:1.55 }
+.recorded-captions li>span { color:var(--finding); font:13px/1.7 ui-monospace,monospace }
+.recorded-captions q { quotes:none }
+.real-caption-demo { grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) }
+@media(max-width:700px) {
+  .paired-uncertainty-layout,.caption-source-grid,.real-caption-demo { grid-template-columns:1fr }
+  .caption-photo img { max-width:360px }
+  .compact-plots { gap:30px }
+}
